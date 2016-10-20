@@ -1,0 +1,96 @@
+{
+  "name": "brigade-matchmaker",
+  "version": "0.9.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/designforsf/brigade-matchmaker.git"
+  },
+  "engines": {
+    "node": ">=4"
+  },
+  "scripts": {
+  },
+  "dependencies": {
+    "async": "^1.5.2",
+    "bcrypt-nodejs": "^0.0.3",
+    "body-parser": "^1.14.2",
+    "broca": "^0.1.1",
+    "browserify": "^13.0.1",
+    "colors": "^1.1.2",
+    "compression": "^1.6.0",
+    "connect-mongo": "^1.1.0",
+    "cookie-parser": "^1.4.1",
+    "dotenv": "^1.2.0",
+    "errorhandler": "^1.4.2",
+    "express": "^4.13.3",
+    "express-flash": "^0.0.2",
+    "express-session": "^1.13.0",
+    "express-validator": "^2.18.0",
+    "faker": "^3.1.0",
+    "gh-ls": "^1.0.0",
+    "github-get": "^0.3.1",
+    "glob": "^7.0.3",
+    "gulp": "^3.9.1",
+    "gulp-nodemon": "^2.1.0",
+    "gulp-sass": "^2.3.1",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-watch": "^4.3.6",
+    "jade": "^1.11.0",
+    "link-header-parser": "0.0.2",
+    "lodash": "^4.0.0",
+    "lusca": "^1.3.0",
+    "markdown-it": "^6.0.5",
+    "markdown-it-named-headers": "0.0.4",
+    "method-override": "^2.3.5",
+    "moment": "^2.11.1",
+    "moment-timezone": "^0.5.3",
+    "mongoose": "^4.3.5",
+    "morgan": "^1.6.1",
+    "node-sass-middleware": "^0.9.7",
+    "node-uuid": "^1.4.7",
+    "node-version-checker": "^1.0.6",
+    "nodemailer": "^2.0.0",
+    "passport": "0.3.2",
+    "passport-github": "^1.0.0",
+    "passport-local": "^1.0.0",
+    "passport-meetup": "^1.0.0",
+    "request": "^2.67.0",
+    "require-dir": "^0.3.0",
+    "selectn": "1.0.9",
+    "serve-favicon": "^2.3.0",
+    "slug": "^0.9.1",
+    "standard": "^6.0.4",
+    "uuid": "^2.0.1",
+    "vinyl-source-stream": "^1.1.0"
+  },
+  "devDependencies": {
+    "careful": "^1.0.2",
+    "chai": "^3.4.1",
+    "cz-conventional-changelog": "^1.1.6",
+    "ghooks": "^1.2.1",
+    "goosestrap": "^1.0.0",
+    "mocha": "^2.3.4",
+    "mongodb": "^2.1.7",
+    "nightwatch": "latest",
+    "nodemon": "^1.9.1",
+    "phantomjs-prebuilt": "2.1.11",
+    "seedling": "0.0.10",
+    "selenium-standalone": "latest",
+    "validate-commit-msg": "^2.6.1"
+  },
+  "standard": {
+    "globals": [
+      "it",
+      "beforeEach",
+      "describe",
+      "afterEach",
+      "after"
+    ],
+    "ignore": [
+      "**/js/lib/"
+    ]
+  },
+  "config": {
+  },
+  "license": "MIT"
+}
