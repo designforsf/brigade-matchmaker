@@ -1,7 +1,25 @@
 extends layout
 
 block content
-  div
-    h1 Hello, World!
+	form#wizardcards
+		fieldset
+			h1 Step 1
+			h2 answer questions below
+			input(type="button", name="next", class="next action-button", value="Next")
+		fieldset
+			h1 Step 2
+			h2 answer questions below
+			input(type="button", name="previous", class="previous action-button", value="Previous")
+			input(type="button", name="next", class="next action-button", value="Next")
+		fieldset
+			h1 Step 3
+			h2 answer questions below
+			input(type="button", name="previous", class="previous action-button", value="Previous")
+			input(type="button", name="next", class="next action-button", value="Next")
+		fieldset
+			h1 Step 4
+			h2 answer questions below
+			input(type="button", name="previous", class="previous action-button", value="Previous")
+			input(type="submit", name="submit", class="submit action-button", value="Submit")
 
 
