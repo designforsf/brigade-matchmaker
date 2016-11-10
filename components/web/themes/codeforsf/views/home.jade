@@ -3,22 +3,32 @@ extends layout
 block content
 	form#wizardcards
 		fieldset
-			h1 Step 1
-			h2 answer questions below
+			h1 Interests
+			div(id="interests")
+				select(class="chosen-select", data-placeholder="Choose your Interests", multiple style="width: 350px", tabindex="1")
+					- var interests = ["Homelessness", "Housing", "Trash"]
+					each interest, i in interests
+						option(value=i) #{interest}
+			br
 			input(type="button", name="next", class="next action-button", value="Next")
 		fieldset
-			h1 Step 2
-			h2 answer questions below
+			h1 Skills
+			div(id="skills")
+				select(class="chosen-select", data-placeholder="Choose your Skills", multiple style="width: 350px", tabindex="1")
+					- var skills = ["HTML", "JavaScript", "SQL"]
+					each skill, j in skills
+						option(value=j) #{skill}
+			br
 			input(type="button", name="previous", class="previous action-button", value="Previous")
 			input(type="button", name="next", class="next action-button", value="Next")
 		fieldset
-			h1 Step 3
-			h2 answer questions below
-			input(type="button", name="previous", class="previous action-button", value="Previous")
-			input(type="button", name="next", class="next action-button", value="Next")
-		fieldset
-			h1 Step 4
-			h2 answer questions below
+			h1 Roles
+			div(id="skills")
+				select(class="chosen-select", data-placeholder="Choose your Roles", multiple style="width: 350px", tabindex="1")
+					- var roles = ["Team Lead", "Development Lead", "Researcher"]
+					each role, k in roles
+						option(value=k) #{role}
+			br			
 			input(type="button", name="previous", class="previous action-button", value="Previous")
 			input(type="submit", name="submit", class="submit action-button", value="Submit")
 
