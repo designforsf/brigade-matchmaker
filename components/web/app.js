@@ -37,6 +37,7 @@ require('./dotenv.js')()
 /**
  * Controllers (route handlers).
  */
+var apiCtrl = require('./controllers/api')
 var homeCtrl = require('./controllers/home')
 var usersCtrl = require('./controllers/user')
 
@@ -132,7 +133,7 @@ app.use(passport.initialize())
 app.use(passport.session())
 app.use(flash())
 app.use(lusca({
-  csrf: true,
+  csrf: false,
   xframe: 'SAMEORIGIN',
   xssProtection: true
 }))
@@ -174,7 +175,11 @@ app.use(function (req, res, next) {
 /**
  * Primary app routes.
  */
+
 app.get('/', homeCtrl.index)
+
+app.post('/api/user/create_and_login', apiCtrl.createUserAndLogin)
+
 app.get('/login', usersCtrl.getLogin)
 app.post('/login', usersCtrl.postLogin)
 app.get('/login/edit',
@@ -244,6 +249,11 @@ app.post('/users/:userId/sync',
 /**
  * OAuth authentication routes. (Sign in)
  */
+
+ // local logins
+
+
+ // github logins
 app.get('/auth/github', passport.authenticate('github', {
   scope: [
     'user',
@@ -256,6 +266,8 @@ app.get('/auth/github/callback', passport.authenticate('github', { failureRedire
   req.user.postAuthLink = req.user.postAuthLink || ''
   res.redirect(req.user.postAuthLink.length ? req.user.postAuthLink : '/')
 })
+
+// meetup logins
 app.get('/auth/meetup', passport.authenticate('meetup', { scope: ['basic', 'rsvp'] }))
 app.get('/auth/meetup/callback', passport.authenticate('meetup', { failureRedirect: '/account' }), function (req, res) {
   res.redirect(req.session.returnTo || '/account')
