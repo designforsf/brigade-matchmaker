@@ -1,8 +1,20 @@
-var current_fs, next_fs, previous_fs; //fieldsets
-var left, opacity, scale; //fieldset properties which we will animate
-var animating; //flag to prevent quick multi-click glitches
+//fieldsets
+var current_fs
+var next_fs
+var previous_fs
+//fieldset properties which we will animate
+var left
+var opacity
+var scale 
+//flag to prevent quick multi-click glitches
+var animating
+// JSON object with user's data 
+var user_data = {}
+user_data.step = 1
 
 $(".next").click(function(){
+	user_data.step += 1
+	console.log("current step: " + user_data.step)
 	if(animating) return false
 	animating = true
 	
@@ -39,6 +51,8 @@ $(".next").click(function(){
 })
 
 $(".previous").click(function(){
+	user_data.step -= 1
+	console.log("current step: " + user_data.step)
 	if(animating) return false
 	animating = true
 	
@@ -74,3 +88,6 @@ $(".previous").click(function(){
 $(".submit").click(function(){
 	return false
 })
+
+$(".chosen-select").chosen()
+$(".chosen-container").css("width", "350px")
