@@ -3,6 +3,19 @@ extends layout
 block content
 	form#wizardcards
 		fieldset
+			h1 Login
+			div(id="login")
+				label(for="username") Username
+				input(type="text", id="username")
+				label(for="user-email") Email
+				input(type="email", id="user-email")
+				label(for="password") Password
+				input(type="password", id=password)
+				label(for="verify-password") Verify password
+				input(type="password", id="verify-password")
+			br
+			input(type="button", name="next", class="next action-button", value="Next")
+		fieldset
 			h1 Interests
 			div(id="interests")
 				select(class="chosen-select", data-placeholder="Choose your Interests", multiple style="width: 350px", tabindex="1")
@@ -10,6 +23,7 @@ block content
 					each interest, i in interests
 						option(value=i) #{interest}
 			br
+			input(type="button", name="previous", class="previous action-button", value="Previous")
 			input(type="button", name="next", class="next action-button", value="Next")
 		fieldset
 			h1 Skills
