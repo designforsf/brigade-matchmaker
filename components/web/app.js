@@ -179,6 +179,8 @@ app.use(function (req, res, next) {
 app.get('/', homeCtrl.index)
 
 app.post('/api/user/create_and_login', apiCtrl.createUserAndLogin)
+app.post('/api/user/login', apiCtrl.userLogin)
+app.get('/api/user/session', apiCtrl.getUserSession)
 
 app.get('/login', usersCtrl.getLogin)
 app.post('/login', usersCtrl.postLogin)
