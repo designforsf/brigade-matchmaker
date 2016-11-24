@@ -35,7 +35,7 @@ module.exports = {
         res.json({ success: true, user: { id: newUser.id } });
 
       } else {
-        console.log(foundUser);
+        //console.log(foundUser);
         res.json({ success: false, error: {message: "User with email " + req.body.email + " already found!"} });
       }
     });
@@ -112,8 +112,6 @@ module.exports = {
    */
   getUserSession: function (req, res, next) {
     console.log('getUserSession');
-
-    console.log(req.session);
 
     if (typeof req.user !== 'undefined') {
       res.json({success: true, user: {
