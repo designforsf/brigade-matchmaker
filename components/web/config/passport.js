@@ -9,12 +9,14 @@ var defaultHeaders = require('../config/defaultGithubAPIHeaders')
 var User = require('../models/Users')
 
 passport.serializeUser(function (user, done) {
-  done(null, user.id)
+  console.log('serializeUser ' + user.id);
+  done(null, user.id);
 })
 
 passport.deserializeUser(function (id, done) {
+  console.log('deserializeUser ' + id);
   User.findById(id, function (err, user) {
-    done(err, user)
+    done(err, user);
   })
 })
 

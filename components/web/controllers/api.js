@@ -13,7 +13,8 @@ module.exports = {
       if (foundUsers.length == 0) {
 
         var newUser = new Users();
-        newUser.email = req.body.email,
+        newUser.username = req.body.username;
+        newUser.email = req.body.email;
         newUser.password = newUser.encryptPassword(req.body.password);
         newUser.profile = {
           name: '',
@@ -97,24 +98,34 @@ module.exports = {
   updateUserPrefs: function (req, res, next) {
     console.log('updateUserPrefs ', req.body);
 
+    if (typeof req.user !== 'undefined') {
+
+    } else {
+      res.json({ success: false });
+      return next();
+    }
+
   },
 
   /**
    * Get /api/user/session
    */
   getUserSession: function (req, res, next) {
-    if (req.user) {
+    console.log('getUserSession');
+
+    console.log(req.session);
+
+    if (typeof req.user !== 'undefined') {
       res.json({success: true, user: {
         id: req.user.id,
         email: req.user.email
-      }})
+      }});
       return next();
     } else {
       res.json({ success: false });
       return next();
     }
+
   },
-
-
 
 };
