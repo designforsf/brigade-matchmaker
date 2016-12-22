@@ -2,6 +2,13 @@ extends layout
 
 block content
 	form#wizardcards
+		ul(id="progressbar")
+			li(class="active") Login
+			li Interests
+			li Skills
+			li Roles
+			li(id="matching_li") Matching
+		br
 		fieldset
 			h1 Login
 			div(id="login")
@@ -45,5 +52,6 @@ block content
 			br			
 			input(type="button", name="previous", class="previous action-button", value="Previous")
 			input(type="submit", name="submit", class="submit action-button", value="Submit")
-
+		fieldset
+			h1 
 
