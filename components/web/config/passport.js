@@ -3,6 +3,7 @@ var passport = require('passport')
 var request = require('request')
 var LocalStrategy = require('passport-local').Strategy
 var GitHubStrategy = require('passport-github').Strategy
+var GoogleStrategy = require('passport-google-oauth20').Strategy
 var MeetupStrategy = require('passport-meetup').Strategy
 var defaultHeaders = require('../config/defaultGithubAPIHeaders')
 
@@ -21,7 +22,132 @@ passport.deserializeUser(function (id, done) {
 })
 
 /**
+ * Sign in with Google
+ * NOTE: use this URL to login: /auth/google
+ * NOTE: having issues with passport-google-oauth20 login:
+          https://github.com/jaredhanson/passport-google-oauth/issues/82
+ * SEE: https://github.com/jaredhanson/passport-google-oauth2
+ */
+passport.use(new GoogleStrategy({
+  clientID: process.env.GOOGLE_ID,
+  clientSecret: process.env.GOOGLE_SECRET,
+  callbackURL: '/auth/google/callback',
+  passReqToCallback: true
+}, function (req, accessToken, refreshToken, profile, done) {
+  var url = 'https://api.github.com/user/emails'
+  var headers = _.cloneDeep(defaultHeaders)
+  headers['Authorization'] += accessToken
+  var options = {
+    url: url,
+    headers: headers
+  }
+
+  //console.log('profile ', profile)
+
+  request(options, function (err, response, body) {
+
+    if (err) console.error(err)
+    if (!err && response.statusCode === 200) {
+      var tokens = response.headers['x-oauth-scopes']
+      profile.emails = JSON.parse(body)
+
+      // user already in session
+      if (req.user) {
+        User.findOne({ github: profile.id }, function (err, existingUser) {
+
+          if (err) console.error(err)
+
+          User.findById(req.user.id, function (err, user) {
+            if (err) console.error(err)
+            user.google = profile.id
+            user.email = profile.emails[0] ? profile.emails[0].value : ''
+            user.username = profile.displayName
+            user.profile.name = profile.displayName
+            user.profile.picture = user.profile.picture || profile._json.image.url
+            user.profile.location = ''
+            user.profile.website = ''
+            User.count({}, function (err, count) {
+              if (err) console.error(err)
+              if (!count) {
+                user.roles = {
+                  read: true,
+                  blog: true,
+                  project: true,
+                  lead: true,
+                  core: true,
+                  coreLead: true,
+                  superAdmin: true
+                }
+              }
+              user.save(function (err) {
+                if (err) console.error(err)
+                req.flash('info', { msg: 'GitHub authorization provided.' })
+                done(err, user)
+              })
+            })
+          })
+        })
+
+      // user not in session
+      } else {
+
+        User.findOne({ github: profile.id }, function (err, existingUser) {
+          if (err) console.error(err)
+
+          if (existingUser) {
+            // think about updating?
+            console.log('no req.user, and user exists')
+            return done(null, existingUser)
+          }
+
+          console.log("no req.user, and user doesn't exist")
+
+          // create this new user
+          var user = new User()
+          user.email = _.find(profile.emails, (email) => {
+            return email.primary
+          }).email
+          user.scopes = tokens
+          if (user.scopes[0].indexOf(',') > -1) {
+            user.scopes = user.scopes[0].split(', ')
+          }
+          user.github = profile.id
+          user.username = profile.username
+          user.tokens.push({ kind: 'github', accessToken: accessToken })
+          user.profile.name = profile.displayName
+          user.profile.picture = profile._json.avatar_url
+          user.profile.location = profile._json.location
+          user.profile.website = profile._json.blog
+          User.count({}, function (err, count) {
+            if (err) console.error(err)
+            if (!count) {
+              user.roles = {
+                read: true,
+                blog: true,
+                project: true,
+                lead: true,
+                core: true,
+                coreLead: true,
+                superAdmin: true
+              }
+              user.teams.core = ['executive']
+              user.teams.projects = ['website']
+            }
+            user.save(function (err) {
+              if (err) console.error(err)
+              done(err, user)
+            })
+          })
+        })
+      }
+    }
+  })
+}))
+
+
+/**
  * Sign in with GitHub.
+ * NOTE: use this URL to login: /auth/github
  */
 passport.use(new GitHubStrategy({
   clientID: process.env.GITHUB_ID,
@@ -37,13 +163,17 @@ passport.use(new GitHubStrategy({
     headers: headers
   }
   request(options, function (err, response, body) {
+
     if (err) console.error(err)
     if (!err && response.statusCode === 200) {
       var tokens = response.headers['x-oauth-scopes']
       profile.emails = JSON.parse(body)
+
+      // user already in session
       if (req.user) {
         User.findOne({ github: profile.id }, function (err, existingUser) {
           if (err) console.error(err)
+
           User.findById(req.user.id, function (err, user) {
             if (err) console.error(err)
             user.github = profile.id
@@ -82,15 +212,21 @@ passport.use(new GitHubStrategy({
             })
           })
         })
+
+      // user not in session
       } else {
+
         User.findOne({ github: profile.id }, function (err, existingUser) {
           if (err) console.error(err)
+
           if (existingUser) {
             // think about updating?
             console.log('no req.user, and user exists')
             return done(null, existingUser)
           }
+
           console.log("no req.user, and user doesn't exist")
+
           // create this new user
           var user = new User()
           user.email = _.find(profile.emails, (email) => {

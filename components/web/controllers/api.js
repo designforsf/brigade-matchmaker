@@ -1,5 +1,6 @@
 var passport = require('passport');
 var Users = require('../models/Users');
+var UserMatchConfigs = require('../models/UserMatchConfigs')
 
 module.exports = {
 
@@ -93,15 +94,35 @@ module.exports = {
   },
 
   /**
-   * Get /api/user/update_prefs
+   * Post /api/user/match_config
    */
-  updateUserPrefs: function (req, res, next) {
-    console.log('updateUserPrefs ', req.body);
 
+  updateUserMatchConfig: function (req, res, next) {
+    console.log('updateUserConfig ', req.body);
+    //console.log(req.user);
     if (typeof req.user !== 'undefined') {
+      upsert_configs = {
+        step: req.body.step,
+      };
 
+      // process the attributes
+      ['interests', 'skills', 'roles'].forEach(function (attrib) {
+        if (req.body[attrib] && req.body[attrib].length > 0) {
+          upsert_configs[attrib] = req.body[attrib].split(',');
+        }
+      });
+      console.log('updateUserConfig post-processed: ', upsert_configs);
+      UserMatchConfigs.findOneAndUpdate({ 'user_id': req.user.id }, upsert_configs, {upsert:true}, function(err, match_configs) {
+        if (err) {
+          res.json({ success: false, error: { message: err } });
+          return next(err)
+        }
+        console.log('match configs ', match_configs);
+        res.json({ success: true, match_configs: match_configs });
+        return next();
+      });
     } else {
-      res.json({ success: false });
+      res.json({ success: false, error: {message: "User in session required."} });
       return next();
     }
 

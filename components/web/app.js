@@ -74,6 +74,7 @@ mongoose.connection.on('error', function (err) {
  */
 var Brigade = require('./models/Brigade')
 var User = require('./models/Users')
+var UserMatchConfig = require('./models/UserMatchConfigs')
 
 /**
  * Express configuration.
@@ -178,10 +179,6 @@ app.use(function (req, res, next) {
 
 app.get('/', homeCtrl.index)
 
-app.post('/api/user/create_and_login', apiCtrl.createUserAndLogin)
-app.post('/api/user/login', apiCtrl.userLogin)
-app.get('/api/user/session', apiCtrl.getUserSession)
-
 app.get('/login', usersCtrl.getLogin)
 app.post('/login', usersCtrl.postLogin)
 app.get('/login/edit',
@@ -193,6 +190,18 @@ app.post('/login/edit',
   passportConf.checkRoles(['core', 'superAdmin']),
   usersCtrl.postLoginEdit)
 app.get('/logout', usersCtrl.getLogout)
+
+
+/**
+ * API routes
+ */
+
+ app.post('/api/user/create_and_login', apiCtrl.createUserAndLogin)
+ app.post('/api/user/login', apiCtrl.userLogin)
+ app.get('/api/user/session', apiCtrl.getUserSession)
+ //app.get('/api/user/match_config', apiCtrl.getUserMatchConfig)
+ app.post('/api/user/match_config', apiCtrl.updateUserMatchConfig)
+
 
 /**
  * Meta Routes
@@ -254,6 +263,18 @@ app.post('/users/:userId/sync',
 
  // local logins
 
+ // google logins
+app.get('/auth/google', passport.authenticate('google', {
+  scope: [
+    'profile'
+  ]
+}))
+app.get('/auth/google/elevate', passportConf.elevateScope)
+app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), function (req, res) {
+  console.log('new google callback!', req.user.postAuthLink)
+  req.user.postAuthLink = req.user.postAuthLink || ''
+  res.redirect(req.user.postAuthLink.length ? req.user.postAuthLink : '/')
+})
 
  // github logins
 app.get('/auth/github', passport.authenticate('github', {

@@ -15,6 +15,7 @@ var userSchema = new mongoose.Schema({
   username: { type: String, unique: true },
   email: {type: String, default: ''},
   password: {type:String, default:''},
+  google: {type: String, default: ''},
   github: {type: String, default: ''},
   tokens: {type: Array, default: []},
   scopes: {type: Array, default: []},

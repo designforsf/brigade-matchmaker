@@ -1,8 +1,7 @@
 var mongoose = require('mongoose');
-var User = mongoose.model('User')
 
 var schema = new mongoose.Schema({
-  step: {type: String, default: null},
+  step: {type: Number, default: null},
   startedAt: {type: Date, default: null},
   updatedAt: {type: Date, default: null},
   endedAt: {type: Date, default: null},
@@ -13,4 +12,4 @@ var schema = new mongoose.Schema({
   initiatedBy: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}
 });
 
-module.exports = mongoose.model('UserMatchSessions', schema);
+module.exports = mongoose.model('UserMatchConfigs', schema);
