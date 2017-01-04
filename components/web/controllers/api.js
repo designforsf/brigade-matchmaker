@@ -111,13 +111,14 @@ module.exports = {
           upsert_configs[attrib] = req.body[attrib].split(',');
         }
       });
-      console.log('updateUserConfig post-processed: ', upsert_configs);
+
+      //console.log('updateUserConfig post-processed: ', upsert_configs);
       UserMatchConfigs.findOneAndUpdate({ 'user_id': req.user.id }, upsert_configs, {upsert:true}, function(err, match_configs) {
         if (err) {
           res.json({ success: false, error: { message: err } });
           return next(err)
         }
-        console.log('match configs ', match_configs);
+        //console.log('match configs ', match_configs);
         res.json({ success: true, match_configs: match_configs });
         return next();
       });
