@@ -4,10 +4,15 @@ pp = pprint.PrettyPrinter();
 
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+
 """
 Created on Wed Oct 12 20:30:54 2016
 
 @author: ryanlim
+
+@usage:
+    python ./match-algo.py javascript,python housing developer,presenter
+
 """
 
 projects_list = [{'id':'ux-research'}, {'id':'data-sciences'}]
