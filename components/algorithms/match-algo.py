@@ -15,7 +15,22 @@ Created on Wed Oct 12 20:30:54 2016
 
 """
 
-projects_list = [{'id':'ux-research'}, {'id':'data-sciences'}]
+projects_list = [
+    {
+        'id':'ux-research',
+        'name':'UX Research',
+        'interests_needed':['all','community-organizer'],
+        'skills_needed':['python','javascript','html'],
+        'roles_needed':['developer','helper']
+    },
+    {
+        'id':'data-sciences',
+        'name':'Data Sciences',
+        'interests_needed':['all'],
+        'skills_needed':['python'],
+        'roles_needed':['developer']
+    }
+]
 
 def matchmaking (skills_list, interests_list, roles_list):
 
@@ -28,24 +43,21 @@ def matchmaking (skills_list, interests_list, roles_list):
     print 'roles='
     pp.pprint(roles_list)
 
-    #declare a list with scores for each project
-    project_scores = []
-
     #iterate over the projects
     for project in projects_list:
 
-        #get the different factors for skills, interests, and roles
-        #skills_factor = project[skills_factor]
-        #interests_factor = project[interests_factor]
-        #roles_factor = project[roles_factor]
-        skills_factor = 1
+        # factors to prioritize skills
+        skills_factor = 2
         interests_factor = 1
         roles_factor = 1
 
-        #declare variables to hold the totals for skills, interests, and roles
-        skills_total = 0
-        interests_total = 0
-        roles_total = 0
+        project['user_score'] = 0
+
+        # in this project hold the totals for this user's
+        #   skills, interests, and roles
+        project['skills_total'] = 0
+        project['interests_total'] = 0
+        project['roles_total'] = 0
 
         '''
         iterate over the skills_list and get the corresponding
@@ -53,8 +65,8 @@ def matchmaking (skills_list, interests_list, roles_list):
         '''
         if len(skills_list) > 0:
             for skill in skills_list:
-                #skills_total += project[skill]
-                skills_total += 1
+                if skill in project['skills_needed']:
+                    project['skills_total'] += 1
 
         '''
         iterate over the interests_list and get the corresponding
@@ -62,8 +74,8 @@ def matchmaking (skills_list, interests_list, roles_list):
         '''
         if len(interests_list) > 0:
             for interest in interests_list:
-                #interests_total += project[interest]
-                interests_total += 1
+                if interest in project['interests_needed']:
+                    project['interests_total'] += 1
 
         '''
         iterate over the roles_list and get the corresponding
@@ -71,25 +83,37 @@ def matchmaking (skills_list, interests_list, roles_list):
         '''
         if len(roles_list) > 0:
             for role in roles_list:
-                #roles_total += project[role]
-                roles_total += 1
+                if role in project['roles_needed']:
+                    project['roles_total'] += 1
 
         #Find the weighted total for the project
+        print
+        print 'User match w/ ' + project['name']
         project_total = 0
-        #project_total += (skills_factor * skills_total)
-        #project_total += (interest_factor * interests_total)
-        #project_total += (roles_factor * roles_total)
+        project_total += (skills_factor * project['skills_total'])
+        print ' skills ' + str(project['skills_total'])
+        project_total += (interests_factor * project['interests_total'])
+        print ' interests ' + str(project['interests_total'])
+        project_total += (roles_factor * project['roles_total'])
+        print ' roles ' + str(project['roles_total'])
 
         #add the weighted total to the project_scores list
-        project_scores.append(project_total)
+        project['user_score'] = project_total
 
     #create dictionary for project - key and project_score - value and set up values
     project_dict = {}
 
-    index = 0
-    while (index < len(projects_list)):
-        #project_dict[project[index]] = project_scores[index]
-        index += 1
+    #sorted_projects = sorted(project_list, key=lambda k: k['user_score'])
+    from operator import itemgetter
+    sorted_projects = sorted(projects_list, key=itemgetter('user_score'))
+
+    print
+    print 'Sorted Output:'
+
+    outputln = ""
+    for project in sorted_projects:
+        seq = (project['id'], project['name'], str(project['user_score']))
+        print ",".join(seq)
 
 
 # if called from command line
