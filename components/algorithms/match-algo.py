@@ -106,7 +106,7 @@ def matchmaking (skills_list, interests_list, roles_list):
 
     #sorted_projects = sorted(project_list, key=lambda k: k['user_score'])
     from operator import itemgetter
-    sorted_projects = sorted(projects_list, key=itemgetter('user_score'))
+    sorted_projects = sorted(projects_list, key=itemgetter('user_score'), reverse=True)
 
     print
     print 'Sorted Output:'
