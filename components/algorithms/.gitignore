@@ -1,3 +1,6 @@
 *.pyc
 *.ipynb
 .python-version
+
+node_modules
+
