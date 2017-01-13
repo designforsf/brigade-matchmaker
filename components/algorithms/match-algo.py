@@ -99,6 +99,7 @@ def matchmaking (skills_list, interests_list, roles_list):
 
         #add the weighted total to the project_scores list
         project['user_score'] = project_total
+        print ' total score = ' + str(project_total)
 
     #create dictionary for project - key and project_score - value and set up values
     project_dict = {}
