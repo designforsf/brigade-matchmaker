@@ -73,6 +73,7 @@ mongoose.connection.on('error', function (err) {
  * Check Model Settings in db
  */
 var Brigade = require('./models/Brigade')
+var Projects = require('./models/Projects')
 var User = require('./models/Users')
 var UserMatchConfig = require('./models/UserMatchConfigs')
 
@@ -303,6 +304,36 @@ app.get('/auth/disconnect/:service', passportConf.isAuthenticated, usersCtrl.dis
 app.use(errorHandler())
 
 /**
+ * Check if projects exist before starting Express server
+ */
+Projects.find({}, function (err, results) {
+  if (err) throw err
+  if (!results.length) {
+    console.log('No projects found!');
+
+    // load projects from seed
+    var defaultProjects = require('./seeds/development/Projects')
+    defaultProjects.forEach(function(project) {
+      console.log('load project id=' + project.id);
+      newProj = new Projects(project);
+
+      // save project
+      newProj.save(function (err) {
+        if (err) throw err;
+      });
+
+    });
+
+  } else {
+    console.log(results.length + ' projects found.')
+
+  }
+});
+/*
+  TODO: use async module to ensure that projects are loaded
+*/
+
+/**
  * Check if brigade exists before starting Express server.
  */
 Brigade.find({slug: process.env.BRIGADE}, function (err, results) {
@@ -323,6 +354,10 @@ Brigade.find({slug: process.env.BRIGADE}, function (err, results) {
     startServer()
   }
 })
+
+/**
+  * Start the Express server.
+  */
 function startServer () {
   app.use(sass({
     src: path.join(__dirname, 'themes/' + brigadeDetails.theme.slug + '/public'),

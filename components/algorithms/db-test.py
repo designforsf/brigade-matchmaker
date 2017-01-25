@@ -22,21 +22,34 @@
 
 '''
 
+import time
 import pymongo
 from pymongo import MongoClient
 
 collection_name = 'brigade-matchmaker'
 
+
+time.sleep(1)
+print
+print "IMPORTANT NOTE: to load projects, first run the web app!"
+time.sleep(3)
+
+print
 print "Connect to " + collection_name
 
 client = MongoClient('localhost', 27017)
 db = client[collection_name]
 
 print
-print 'db.users.count() = ' + str(db.users.count())
+print 'db.projects.count() = ' + str(db.projects.count())
 
 print
-print 'db.users.find() = '
+print 'db.projects.find() = '
 
-for doc in db.users.find({}):
-    print doc
+for project in db.projects.find({}):
+    print project['name']
+    for needType in ["interestsNeeded","skillsNeeded","rolesNeeded"]:
+        print " " + needType + ":"
+        for need in project['matchingConfig'][needType]:
+            print " + " + need
+    print

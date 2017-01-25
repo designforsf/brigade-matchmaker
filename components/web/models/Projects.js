@@ -21,6 +21,12 @@ var projectsSchema = new mongoose.Schema({
   needs: {type: Array, default: []},
   categories: {type: Array, default: []},
 
+  matchingConfig: {
+    interestsNeeded: {type: Array, default: []},
+    skillsNeeded: {type: Array, default: []},
+    rolesNeeded: {type: Array, default: []}
+  },
+
   /* Expanded Open DC civic.json */
 
   // id: {type:String, default:''}, // represented above
@@ -41,3 +47,5 @@ var projectsSchema = new mongoose.Schema({
   videos: {type: Array, default: []},
   published: {type: Boolean, default: true}
 })
+
+module.exports = mongoose.model('Projects', projectsSchema)

@@ -17,6 +17,11 @@ module.exports = [
     'repository': 'https://github.com/codeforexample/Test-Empty-Project',
     'links': [],
     'videos': [],
+    'matchingConfig': {
+      'interestsNeeded': ['all','community-organizer'],
+      'skillsNeeded': ['python','javascript','html'],
+      'rolesNeeded': ['developer','helper']
+    },
     'keywords': [
       faker.company.bsBuzz(),
       faker.company.bsBuzz(),
@@ -77,6 +82,11 @@ module.exports = [
     'repository': 'https://github.com/codeforexample/really-empty-project',
     'links': [],
     'videos': [],
+    'matchingConfig': {
+      'interestsNeeded': ['homelessness'],
+      'skillsNeeded': ['javascript','html'],
+      'rolesNeeded': ['developer']
+    },
     'keywords': [
       faker.company.bsBuzz(),
       faker.company.bsBuzz(),
@@ -141,6 +151,11 @@ module.exports = [
     'repository': 'https://github.com/codeforexample/forked-project-kong',
     'links': [],
     'videos': [],
+    'matchingConfig': {
+      'interestsNeeded': ['infrastructure'],
+      'skillsNeeded': ['mongodb','writing','legal','advocacy'],
+      'rolesNeeded': ['developer','helper']
+    },
     'keywords': [
       faker.company.bsBuzz(),
       faker.company.bsBuzz(),
@@ -206,6 +221,11 @@ module.exports = [
     'repository': 'https://github.com/codeforexample/mirrored-project-hackathon-starter',
     'links': [],
     'videos': [],
+    'matchingConfig': {
+      'interestsNeeded': ['housing'],
+      'skillsNeeded': ['graphic-design','dataviz'],
+      'rolesNeeded': ['developer','leader']
+    },
     'keywords': [
       faker.company.bsBuzz(),
       faker.company.bsBuzz(),
@@ -271,6 +291,11 @@ module.exports = [
     'repository': 'https://github.com/codeforexample/mirrored-project-mirror',
     'links': [],
     'videos': [],
+    'matchingConfig': {
+      'interestsNeeded': ['all'],
+      'skillsNeeded': ['statistics','dataviz'],
+      'rolesNeeded': ['developer','learner']
+    },
     'keywords': [
       faker.company.bsBuzz(),
       faker.company.bsBuzz(),
@@ -335,6 +360,11 @@ module.exports = [
     'repository': 'https://github.com/codeforexample/mirrored-project-mirror',
     'links': [],
     'videos': [],
+    'matchingConfig': {
+      'interestsNeeded': [],
+      'skillsNeeded': ['ruby'],
+      'rolesNeeded': ['developer']
+    },
     'keywords': [
       faker.company.bsBuzz(),
       faker.company.bsBuzz(),
