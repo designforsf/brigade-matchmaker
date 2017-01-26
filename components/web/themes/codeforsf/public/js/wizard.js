@@ -14,17 +14,19 @@ user_data.step = 1
 
 $(document).ready(function () {
   if ($(".alert-info")[0]) {
-    console.log('GITHUB')
-    user_data.step += 1
-    nextStep($("#firstNext"))
+		location.href = '/projects'
   }
 });
 
+$(".git-login").click(function () {
+	location.href = 'auth/github'
+})
+
+$(".matching-hat").click(function () {
+	location.href = '/matching'
+})
+
 $(".next").click(function(){
-  if (user_data.step === 1) {
-    location.href = 'auth/github'
-    return
-  }
   user_data.step += 1
 
 	console.log("current step: " + user_data.step)
@@ -144,69 +146,3 @@ $(".submit").click(function(){
 $(".chosen-select").chosen()
 $(".chosen-container").css("width", "350px")
 
-function nextStep (curr) {
-  console.log("current step: " + user_data.step)
-  if(animating) return false
-  animating = true
-  
-  current_fs = curr.parent()
-  next_fs = curr.parent().next()
-  
-  //activate next step on progressbar using the index of next_fs
-  $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active")
-  
-  //show the next fieldset
-  next_fs.show()
-  //hide the current fieldset with style
-  current_fs.animate({opacity: 0}, {
-    step: function(now, mx) {
-      //as the opacity of current_fs reduces to 0 - stored in "now"
-      //1. scale current_fs down to 80%
-      scale = 1 - (1 - now) * 0.2
-      //2. bring next_fs from the right(50%)
-      left = (now * 50)+"%"
-      //3. increase opacity of next_fs to 1 as it moves in
-      opacity = 1 - now;
-      current_fs.css({
-        'transform': 'scale('+scale+')',
-        'position': 'absolute'
-      })
-      next_fs.css({'left': left, 'opacity': opacity})
-    }, 
-    duration: 800, 
-    complete: function(){
-      current_fs.hide()
-      animating = false
-    },
-  })
-}
-
-
-// URL="http://localhost:5465/api/user/create_and_login"
-// echo "Calling $URL"
-// wget -qO- \
-// --save-cookies cookies-$EPOCH.txt \
-// --keep-session-cookies \
-// --post-data "email=designforsf#$EPOCH@gmail.com&username=designforsf#$EPOCH@gmail.com&password=$EPOCH" \
-// $URL
-
-
-// function send() {
-//         var person = {
-//             name: $("#id-name").val(),
-//             address:$("#id-address").val(),
-//             phone:$("#id-phone").val()
-//         }
-
-//         $('#target').html('sending..');
-
-//         $.ajax({
-//             url: '/test/PersonSubmit',
-//             type: 'post',
-//             dataType: 'json',
-//             success: function (data) {
-//                 $('#target').html(data.msg);
-//             },
-//             data: person
-//         });
-//     }
