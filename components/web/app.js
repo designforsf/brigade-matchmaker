@@ -202,6 +202,7 @@ app.get('/logout', usersCtrl.getLogout)
  app.get('/api/user/session', apiCtrl.getUserSession)
  //app.get('/api/user/match_config', apiCtrl.getUserMatchConfig)
  app.post('/api/user/match_config', apiCtrl.updateUserMatchConfig)
+ app.get('/api/user/matches', apiCtrl.getUserMatches)
 
 
 /**
