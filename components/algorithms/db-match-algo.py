@@ -64,7 +64,8 @@ projects_list = [
 projects_list = []
 projects_count = 0
 for project in db.projects.find({}):
-    print 'load ' + project['name']
+    #print 'load ' + project['name']
+    #print project['_id']
 
     # interests
     project['interests_needed'] = []
@@ -111,8 +112,11 @@ def matchmaking (skills_list, interests_list, roles_list):
         # in this project hold the totals for this user's
         #   skills, interests, and roles
         project['skills_total'] = 0
+        project['skills_matched'] = []
         project['interests_total'] = 0
+        project['interests_matched'] = []
         project['roles_total'] = 0
+        project['roles_matched'] = []
 
         '''
         iterate over the skills_list and get the corresponding
@@ -122,6 +126,7 @@ def matchmaking (skills_list, interests_list, roles_list):
             for skill in skills_list:
                 if skill in project['skills_needed']:
                     project['skills_total'] += 1
+                    project['skills_matched'].append(skill)
 
         '''
         iterate over the interests_list and get the corresponding
@@ -131,6 +136,7 @@ def matchmaking (skills_list, interests_list, roles_list):
             for interest in interests_list:
                 if interest in project['interests_needed']:
                     project['interests_total'] += 1
+                    project['interests_matched'].append(interest)
 
         '''
         iterate over the roles_list and get the corresponding
@@ -140,6 +146,7 @@ def matchmaking (skills_list, interests_list, roles_list):
             for role in roles_list:
                 if role in project['roles_needed']:
                     project['roles_total'] += 1
+                    project['roles_matched'].append(role)
 
         #Find the weighted total for the project
 
@@ -167,12 +174,19 @@ def matchmaking (skills_list, interests_list, roles_list):
     from operator import itemgetter
     sorted_projects = sorted(projects_list, key=itemgetter('user_score'), reverse=True)
 
-    print
-    print 'Sorted Output:'
-
     outputln = ""
     for project in sorted_projects:
-        seq = (project['id'], project['name'], str(project['user_score']))
+        seq = (
+            str(project['_id']),
+            project['name'],
+            str(project['user_score']),
+            'skills',
+            str(project['skills_total']),
+            'interests',
+            str(project['interests_total']),
+            'goals',
+            str(project['roles_total']),
+        )
         print ",".join(seq)
 
 

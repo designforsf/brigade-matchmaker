@@ -18,9 +18,9 @@ module.exports = [
     'links': [],
     'videos': [],
     'matchingConfig': {
-      'interestsNeeded': ['all','community-organizer'],
+      'interestsNeeded': ['all'],
       'skillsNeeded': ['python','javascript','html'],
-      'rolesNeeded': ['developer','helper']
+      'rolesNeeded': ['developer','helper','community-organizer']
     },
     'keywords': [
       faker.company.bsBuzz(),

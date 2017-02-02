@@ -1,6 +1,7 @@
 var passport = require('passport');
 var Users = require('../models/Users');
 var UserMatchConfigs = require('../models/UserMatchConfigs')
+var PyShell = require('python-shell')
 
 module.exports = {
 
@@ -145,6 +146,119 @@ module.exports = {
       res.json({ success: false });
       return next();
     }
+
+  },
+
+  /**
+   * Get /api/user/match
+   * Interacts with python algorithm to produce json list of sorted projects
+
+   * SEE: https://github.com/extrabacon/python-shell
+
+   * TEST:
+        http://localhost:5465/api/user/matches?skills=javascript,python&interests=housing&goals=developer,presenter
+        http://localhost:5465/api/user/matches?skills=data-science&interests=homelessness&goals=developer
+        http://localhost:5465/api/user/matches?skills=ruby&goals=developer,learner
+        http://localhost:5465/api/user/matches?skills=null&goals=leader
+        http://localhost:5465/api/user/matches?skills=javascript
+   */
+  getUserMatches: function (req, res, next) {
+    console.log('getUserMatch');
+
+    // final output
+    var output = {
+      success: undefined,
+      matchedProjects: [] // sorted projects
+    };
+
+    // the structure of the python script output
+    matchFields = [
+      "_id",    // mongo id
+      "id",     // BrigadeHub id
+      "score",  // match score
+      "name0",  // user attr 0 field name
+      "score0", // user attr 0 score
+      "name1",  // user attr 1 field name
+      "score1", // user attr 1 score
+      "name2",  // user attr 2 field name
+      "score2", // user attr 2 score
+    ];
+    matchUserAttrs = ["skills", "interests", "goals"];
+
+    // user input, translated from web params to the python script arguments
+    var pyArgs = [];
+    matchUserAttrs.forEach(function(arg) {
+
+      // clean up the web input
+      var argArr = (typeof req.query[arg] !== 'undefined' ? req.query[arg].split(',') : []);
+
+      // add to the output array the user's entry for that argument
+      output[arg] = argArr;
+
+      // convert back to comma delimited list
+      var argValue = argArr.join(',');
+      if (argValue.length == 0) argValue = 'null'; // TODO: possibly improve this
+      pyArgs.push(argValue);
+
+    });
+
+    //console.log(req);
+    //console.log((typeof req.query.interests !== 'undefined'));
+    //console.log(req.query.goals);
+    //console.log(pyArgs);
+
+    // where is the python script?
+    var pyDirArr = process.cwd().split('/');
+    pyDirArr.pop();
+    pyDirArr.push('algorithms');
+    var pyDir = pyDirArr.join('/');
+    var pyFile = '/db-match-algo.py';
+
+    console.log('run python: ' + pyFile + ' with args=', pyArgs);
+
+    PyShell.run(pyFile, {
+      scriptPath: pyDir,
+      args: pyArgs
+    }, function (err, pyOutput) {
+
+      pyOutput.forEach(function (line, idx){
+        var project = {};
+        var lineArr = line.split(',');
+        //console.log(lineArr);
+
+        //project['_id'] = lineArr[0]; // mongoid not to show in output
+        project['id'] = lineArr[1];
+        project['score'] = parseInt(lineArr[2]);
+
+        // process individual user attributes
+        // NOTE: after general fields, py script outputs
+        //  alternating name + score for each user attribute
+        matchUserAttrs.forEach(function(arg, aidx) {
+          project[arg + 'Score'] = parseInt(lineArr[2 + (aidx*2)]);
+        });
+
+        //console.log(project);
+
+        // push the project into matched projects array
+        output.matchedProjects.push(project);
+
+      })
+
+      // script returned error
+      if (err) {
+        output.success = false;
+        output.error = {message: err};
+        res.json({ success: false });
+        return next();
+
+      } else {
+        output.success = true;
+        res.json(output);
+        return next();
+
+      }
+
+    });
 
   },
 
