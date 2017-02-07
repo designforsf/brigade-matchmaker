@@ -1,6 +1,7 @@
-var passport = require('passport');
-var Users = require('../models/Users');
+var passport = require('passport')
+var Users = require('../models/Users')
 var UserMatchConfigs = require('../models/UserMatchConfigs')
+var Projects = require('../models/Projects')
 var PyShell = require('python-shell')
 
 module.exports = {
@@ -168,7 +169,7 @@ module.exports = {
     // final output
     var output = {
       success: undefined,
-      matchedProjects: [] // sorted projects
+      projects: [] // sorted projects
     };
 
     // the structure of the python script output
@@ -239,8 +240,8 @@ module.exports = {
 
         //console.log(project);
 
-        // push the project into matched projects array
-        output.matchedProjects.push(project);
+        // push the project into the projects array
+        output.projects.push(project);
 
       })
 
@@ -260,6 +261,65 @@ module.exports = {
 
     });
 
-  },
+  }, // END getUserMatches
+
+
+  /**
+   * Get /api/projects
+   * Returns a json list of available projects
+
+   * TEST:
+        http://localhost:5465/api/projects
+   */
+  getProjects: function (req, res, next) {
+    console.log('getProjects');
+
+    // final output
+    var output = {
+      success: undefined,
+      projects: [] // sorted projects
+    };
+
+    Projects.
+      find({
+        status: { $in: ['proposed', 'ideation', 'alpha', 'beta', 'production'] }
+      }).
+      sort({ occupation: -1 }).
+      select({ _id: 1, name: 1, matchingConfig: 1 }).
+      exec(function (err, results) {
+
+        // script returned error
+        if (err) {
+          output.success = false;
+          output.error = {message: err};
+          res.json({ success: false });
+          return next();
+
+        } else {
+          output.success = true;
+          output.projects = results;
+          res.json(output);
+          return next();
+
+        }
+
+      });
+
+    }, // END getProjects
+
+    /**
+     * Get /api/projects
+     * Returns a page rendering the JSON list of projects
+
+     * TEST:
+          http://localhost:5465/test/api/projects
+     */
+
+    testProjects: function (req, res) {
+      res.render(res.locals.brigade.theme.slug + '/views/test_api_projects', {
+        title: 'Test the Projects API',
+        brigade: res.locals.brigade
+      })
+    }, // END testProjects
 
 };

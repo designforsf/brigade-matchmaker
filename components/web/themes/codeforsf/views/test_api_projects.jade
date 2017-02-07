@@ -1,0 +1,46 @@
+
+extends layout
+
+block content
+  div.container
+    div(id="projects-list")
+
+  // NOTE: put the dot after style(). and it is rendered only for client interpretation
+  style(type='text/css').
+    #projects-list .row {
+      width: 75%;
+      padding: 10px;
+    }
+
+block script
+
+  // NOTE: put the dot after style(). and it is rendered only for client interpretation
+  script().
+
+    jQuery(document).ready(function () {
+
+      jQuery.ajax({
+        url: '/api/projects'
+      }).done(function (results) {
+        console.log(results.projects[0]);
+
+        if (typeof results.projects !== 'undefined' && results.projects[0]) {
+          results.projects.forEach(function (proj, idx) {
+            var html = '<div class="row">';
+            html+= '<div class="col-md-3">' + proj._id + '</div>';
+            html+= '<div class="col-md-6">' + proj.name + '</div>';
+            html+= '<div class="col-md-3">';
+              html+= '<a class="btn btn-default" href="#" role="button">Ping</a>';
+              html+= '<a class="btn btn-default" href="#" role="button">Message</a>';
+            html+= '</div>';
+            html+= '</div>';
+            jQuery('#projects-list').append(html);
+
+          })
+        }
+
+      }).fail(function (err) {
+        console.error(err); return;
+      });
+
+    });

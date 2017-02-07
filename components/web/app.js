@@ -203,7 +203,8 @@ app.get('/logout', usersCtrl.getLogout)
  //app.get('/api/user/match_config', apiCtrl.getUserMatchConfig)
  app.post('/api/user/match_config', apiCtrl.updateUserMatchConfig)
  app.get('/api/user/matches', apiCtrl.getUserMatches)
-
+ app.get('/api/projects', apiCtrl.getProjects)
+ app.get('/test/api/projects', apiCtrl.testProjects)
 
 /**
  * Meta Routes
