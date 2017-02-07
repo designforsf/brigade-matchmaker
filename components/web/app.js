@@ -40,6 +40,8 @@ require('./dotenv.js')()
 var apiCtrl = require('./controllers/api')
 var homeCtrl = require('./controllers/home')
 var usersCtrl = require('./controllers/user')
+var projectsCtrl = require('./controllers/projects')
+var matchingCtrl = require('./controllers/matching')
 
 /*
  * Helpers
@@ -179,6 +181,8 @@ app.use(function (req, res, next) {
  */
 
 app.get('/', homeCtrl.index)
+app.get('/projects', projectsCtrl.index)
+app.get('/matching', matchingCtrl.index)
 
 app.get('/login', usersCtrl.getLogin)
 app.post('/login', usersCtrl.postLogin)

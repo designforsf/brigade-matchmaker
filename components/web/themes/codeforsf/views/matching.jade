@@ -1,0 +1,45 @@
+extends layout
+
+block content
+	form#wizardcards
+		ul(id="progressbar")
+			li(class="active") Profile
+			li(id="matching_li") Matching
+			li Matched
+			li Done
+		br
+		fieldset
+			h3 Hello Civic Enthusiast,
+			p Create a simple profile and let us inform you of which project teams mightbest match with you. Your information will not be saved and will only be shared with the project team leads that you choose to message.
+			hr
+			h3 Profile
+			h4 Skills that I want to contribute
+			div(id="skills")
+				select(class="chosen-select", data-placeholder="Select all that apply. * 3 skills max", multiple style="width: 350px", tabindex="1")
+					- var skills = ["HTML", "JavaScript", "SQL"]
+					each skill, j in skills
+						option(value=j) #{skill}
+			br
+			hr(color="#cccccc")
+			h4 Civic issues of interest
+			div(id="interests")
+				select(class="chosen-select", data-placeholder="Select all that apply.  * 3 interests max", multiple style="width: 350px", tabindex="1")
+					- var interests = ["Homelessness", "Housing", "Trash"]
+					each interest, i in interests
+						option(value=i) #{interest}
+			br
+			hr(color="#cccccc")
+			h4 Skills that I want to contribute
+			div(id="skills")
+				select(class="chosen-select", data-placeholder="Choose your Skills", multiple style="width: 350px", tabindex="1")
+					- var skills = ["HTML", "JavaScript", "SQL"]
+					each skill, j in skills
+						option(value=j) #{skill}
+			br
+			input(type="button", name="next", class="next action-button", value="Next")
+		fieldset(name="matching-wait")
+			h1 Matching!
+			input(type="button", name="previous", class="previous action-button", value="Previous")
+			input(type="button", name="next", class="next action-button", value="Next")
+		fieldset
+			h1 Matched			
