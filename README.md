@@ -1,18 +1,24 @@
-# brigade-matchmaker
+# "Matching Hat"
 
-"Matching Hat", a prototype service that matches newly arriving members to the appropriate civic projects.
+A prototype service that matches newly arriving members to the appropriate civic projects.
 
 # Status
 
 This software is actively under development and is not yet ready for release.
 
+---
+
 # Origin
 
-The Matching Hat concept is the result of user experience research conducted at [Code For San Francisco](http://codeforsanfrancisco.org). This included interviews with new members and project leaders, structured brainstorming, and wireframe prototyping. 
+The Matching Hat concept is the result of user experience research conducted at [Code For San Francisco](http://codeforsanfrancisco.org). This research included interviews with new members and project leaders, structured brainstorming, and wireframe prototyping. 
+
+User experience research at Code4SF is run by the [UX Research Group](https://github.com/sfbrigade/research-group).
 
 # Concept
 
 Matching Hat is intended for use by a newly arriving member at a [Code For America "brigade"](http://brigade.codeforamerica.org/brigade/), which is a collecting point for local civic projects. 
+
+## Application Flow
 
 Local civic projects are asked to maintain data about what their volunteer needs are in terms of skills and goals. Other information is also tracked about projects, including what interest category they belong to.
 
@@ -24,9 +30,13 @@ When a new member arrives, he/she is asked to open a URL and begins the matching
 
 A matching algorithm is employed to generate a sorted list of projects. This algorithm uses the interests, skills, and goals entered by the new member to score every project based on keyword matching. 
 
-A list of projects sorted by the matching scores is presented to the new member. There is information describing each project and how it fits what he/she is looking for.
+A list of projects sorted by the matching scores is presented to the new member. There is information describing each project and how it fits what he/she is looking for. Within this list, the new member is then able to select projects that interest them and send messages to project leaders. 
 
-Within this list, the new member is then able to select projects that interest them and send messages to project leaders. 
+## Wireframe Prototype
+
+Check out our [Wireframe Prototype](https://www.justinmind.com/usernote/tests/10742872/22268666/23072489/index.html#/screens/d12245cc-1680-458d-89dd-4f0d7fb22724)... start by clicking on the white "Hack Night Check In" button.
+
+---
 
 # Architectural Overview
 
@@ -42,16 +52,35 @@ Matching Hat is a system consisting of the following parts:
 * Matchmaking function (currently python) aka "the algorithm"
 * Test scripts
 
+## MongoDB Database
 
-## The Web App
+[MongoDB](https://www.mongodb.com/) is used as the back-end database for all user, brigade, and project data.
+
+## Data Models
+
+Data in MongoDB is queried and updated in the webapp using [Mongoose](http://mongoosejs.com/).
+
+## The webapp
+
+The webapp generates the web interface for users, controls how data is updated, and accesses the matchmaking function.
 
 Key dependencies include:
 
-[Express](https://github.com/brigadehub/brigadehub/releases/tag/v1.0.0-alpha.11)
-[Mongoose](https://github.com/brigadehub/brigadehub/releases/tag/v1.0.0-alpha.11)
-[Jade/Pug](https://github.com/brigadehub/brigadehub/releases/tag/v1.0.0-alpha.11)
-[Bootstrap](https://github.com/brigadehub/brigadehub/releases/tag/v1.0.0-alpha.11)
-[jQuery](https://github.com/brigadehub/brigadehub/releases/tag/v1.0.0-alpha.11)
+* [Express](http://expressjs.com/)
+* [Mongoose](http://mongoosejs.com/)
+* [Jade/Pug](https://github.com/brigadehub/brigadehub/releases/tag/v1.0.0-alpha.11)
+* [Bootstrap](https://github.com/brigadehub/brigadehub/releases/tag/v1.0.0-alpha.11)
+* [jQuery](https://github.com/brigadehub/brigadehub/releases/tag/v1.0.0-alpha.11)
+
+## The algorithm
+
+Currently the matching function is written in python. It accepts input representing a user's preferences for skills, interests, and goals. The algorithm outputs a sorted list of projects.
+
+The webapp directly interacts with the algorithm, providing a JSON web API.
+
+The matching function is currently being re-written in javascript.
+
+---
 
 # Installation
 
@@ -164,6 +193,8 @@ node app.js
 ```
 
 This should now allow you to interact with the Matching Hat webapp at [http://localhost:5465](http://localhost:5465).
+
+The matching algorithm can be called at: [http://localhost:5465/api/user/matches](http://localhost:5465/api/user/matches?skills=javascript,python&interests=housing&goals=developer,presenter).
 
 ## Python
 
