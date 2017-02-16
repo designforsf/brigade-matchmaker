@@ -55,7 +55,7 @@ module.exports = {
     req.assert('password', 'Password cannot be blank').notEmpty()
 
     var errors = req.validationErrors()
-
+    
     if (errors) {
       req.flash('errors', errors)
       res.json({ success: false, error: {
