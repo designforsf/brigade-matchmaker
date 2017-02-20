@@ -198,9 +198,29 @@ The matching algorithm can be called at: [http://localhost:5465/api/user/matches
 
 ## Python
 
-Python is included in OSX. However, you will probably need to install pymongo with the pip utility.
+Python is included in OSX, however to install packages you will need pip. The best way to get pip installed on OSX is to use [homebrew](https://brew.sh/).
 
-In the command line terminal:
+First install homebrew (if it has not already been installed). In the command line terminal:
+
+```
+which python
+which pip
+which brew
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+```
+
+Now use homebrew to install python and pip. In the command line terminal:
+
+```
+brew install python
+which python
+which pip
+```
+
+Both python and pip should now be located in /usr/local/bin/.
+
+Now you are ready to install pymongo. In the command line terminal:
 
 ```
 cd brigade-matchmaker/components/algorithms
