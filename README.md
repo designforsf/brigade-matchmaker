@@ -226,7 +226,7 @@ Now you are ready to install pymongo. In the command line terminal:
 cd brigade-matchmaker/components/algorithms
 python --version
 pip --version
-pip install pymongo==3.4.1
+pip install pymongo==3.4
 python match-algo.py javascript housing developer
 ```
 
