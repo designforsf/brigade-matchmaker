@@ -78,6 +78,7 @@ var Brigade = require('./models/Brigade')
 var Projects = require('./models/Projects')
 var User = require('./models/Users')
 var UserMatchConfig = require('./models/UserMatchConfigs')
+var ProjectTaxonomies = require('./models/ProjectTaxonomies')
 
 /**
  * Express configuration.
@@ -181,6 +182,36 @@ app.use(function (req, res, next) {
  */
 
 app.get('/', homeCtrl.index)
+var pt = new ProjectTaxonomies();
+
+app.get('/test/projectList',
+  function (req, res, next) {
+    pt.getSkills(function (err, results) {
+      if (err) throw err
+      res.locals = res.locals || {}
+      res.locals.projectTaxonomySkills = results
+      next()
+    })
+  },
+  function (req, res, next) {
+    pt.getInterests(function (err, results) {
+      if (err) throw err
+      res.locals = res.locals || {}
+      res.locals.projectTaxonomyInterests = results
+      next()
+    })
+  },
+  function (req, res, next) {
+    pt.getGoals(function (err, results) {
+      if (err) throw err
+      res.locals = res.locals || {}
+      res.locals.projectTaxonomyGoals = results
+      next()
+    })
+  },
+  homeCtrl.projectList
+)
+
 app.get('/projects', projectsCtrl.index)
 app.get('/matching', matchingCtrl.index)
 

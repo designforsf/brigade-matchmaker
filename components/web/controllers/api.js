@@ -336,20 +336,26 @@ module.exports = {
      
     getTaxonomySkills: function (req, res, next) {
       var pt = new ProjectTaxonomies();
-      res.json(pt.getSkills());
-      return next();
+      pt.getSkills(function (err, results) {
+        res.json(results);
+        return next();
+      })
     },
     
     getTaxonomyInterests: function (req, res, next) {
       var pt = new ProjectTaxonomies();
-      res.json(pt.getInterests());
-      return next();
+      pt.getInterests(function (err, results) {
+        res.json(results);
+        return next();
+      })
     },
     
     getTaxonomyGoals: function (req, res, next) {
       var pt = new ProjectTaxonomies();
-      res.json(pt.getGoals());
-      return next();
+      pt.getTaxonomies(function (err, results) {
+        res.json(results);
+        return next();
+      })
     }
 
 
