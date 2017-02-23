@@ -2,6 +2,7 @@ var passport = require('passport')
 var Users = require('../models/Users')
 var UserMatchConfigs = require('../models/UserMatchConfigs')
 var Projects = require('../models/Projects')
+var ProjectTaxonomies = require('../models/ProjectTaxonomies')
 var PyShell = require('python-shell')
 
 module.exports = {
@@ -321,5 +322,35 @@ module.exports = {
         brigade: res.locals.brigade
       })
     }, // END testProjects
+
+
+    /**
+     * Get /api/project/taxonomy/skills | interests | goals
+     * Returns a json list of available skills, interests, or goals
+
+     * TEST:
+          http://localhost:5465/api/project/taxonomy/skills
+          http://localhost:5465/api/project/taxonomy/interests
+          http://localhost:5465/api/project/taxonomy/goals
+     */
+     
+    getTaxonomySkills: function (req, res, next) {
+      var pt = new ProjectTaxonomies();
+      res.json(pt.getSkills());
+      return next();
+    },
+    
+    getTaxonomyInterests: function (req, res, next) {
+      var pt = new ProjectTaxonomies();
+      res.json(pt.getInterests());
+      return next();
+    },
+    
+    getTaxonomyGoals: function (req, res, next) {
+      var pt = new ProjectTaxonomies();
+      res.json(pt.getGoals());
+      return next();
+    }
+
 
 };

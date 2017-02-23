@@ -209,6 +209,9 @@ app.get('/logout', usersCtrl.getLogout)
  app.get('/api/user/matches', apiCtrl.getUserMatches)
  app.get('/api/projects', apiCtrl.getProjects)
  app.get('/test/api/projects', apiCtrl.testProjects)
+ app.get('/api/project/taxonomy/skills', apiCtrl.getTaxonomySkills)
+ app.get('/api/project/taxonomy/interests', apiCtrl.getTaxonomyInterests)
+ app.get('/api/project/taxonomy/goals', apiCtrl.getTaxonomyGoals)
 
 /**
  * Meta Routes
