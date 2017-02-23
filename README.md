@@ -101,7 +101,7 @@ In the command line terminal:
 
 ```
 cd <WHERE YOUR CODE SHOULD GO>
-git checkout git@github.com:designforsf/brigade-matchmaker.git
+git clone https://github.com/designforsf/brigade-matchmaker.git
 ```
 
 You will need to get familiar with git and GitHub if you'd like to contribute code changes to the project. To learn more, SEE the [Hello World GitHub Intro](https://guides.github.com/activities/hello-world/) and [GitHub Video Guides](https://www.youtube.com/githubguides).
@@ -123,26 +123,26 @@ git push origin <YOUR GIT USERNAME>
 
 ## MongoDB
 
-If you do not want to just download and install the latest mongodb, for OSX systems there is a way to install it in components/mongo. 
+If you do not want to just download and install the latest mongodb, for OSX systems there is a way to install it in components/mongodb. 
 
 In the command line terminal:
 
 ```
-cd brigade-matchmaker/components/mongo
+cd brigade-matchmaker/components/mongodb
 ./bin/download-mongodb.sh
 ./bin/install-mongodb.sh
 ```
 
 To start mongodb:
 ```
-cd brigade-matchmakercomponents/mongo
+cd brigade-matchmakercomponents/mongodb
 ./bin/start-mongodb.sh
 ```
 
-MongoDB will components/mongo/var for the data, although there is no data yet for Matching Hat. The first time you run the webapp, it will be populated. To query mongodb directly, use a different terminal and type:
+MongoDB will components/mongodb/var for the data, although there is no data yet for Matching Hat. The first time you run the webapp, it will be populated. To query mongodb directly, use a different terminal and type:
 
 ```
-cd brigade-matchmaker/components/mongo
+cd brigade-matchmaker/components/mongodb
 ./bin/mongo-client.sh
 > show dbs;
 ```
