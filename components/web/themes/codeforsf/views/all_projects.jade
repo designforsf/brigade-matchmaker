@@ -1,0 +1,100 @@
+/* use /test/api/projects
+extends layout
+
+block content
+	body
+		//nav
+			//div.container
+				//div.row(height="60px" position="relative").navigation
+					//<a class="navbar-brand brigade-brand" href="/"><img class="brigade-logo" src="http://i.imgur.com/hvFv1ow.png" height="100%" object-fit="contain"></a>
+					//ul.nav.nav-pills.hidden-sm-down.pull-right
+						//li<a class="nav-link" href="/events">Events</a>
+						//li<a class="nav-link" href="/projects">Projects</a>
+						//li<a class="nav-link" href="/blog">Blog</a>
+						//li<a class="nav-link" href="/datascience">Data Science</a>
+						//li<a class="nav-link" href="/contact">Contact</a>
+
+
+		div.welcome-checkedin.container
+			h1 Welcome
+			p
+			p You are now checked-in! Whether you are a coder of non-coder, welcome to Code for SF.
+			br.
+			p Feel free to browse all the projects at Code for SF civic hack night, and message team leads.
+			p
+			p Uncertain about best-fitting project teams? Use "Matching Hat" <img src="wizard's-hat-icon-21138.png" width="30" height="10"> to identify project teams that fit your skills, interests and goals.
+
+			h1.brigadeSF-font-fam.text-center  Projects List
+			div(id="projects-list" class="projects-list")
+
+			<br />
+			div.text-center
+				div.button__horiz-group(role="group" aria-label="...")
+					button(type="button" class="btn btn-warning button__more-margins") Back
+					button(type="button" class="btn btn-info button__more-margins") Home
+					a(href="http://localhost:5465/test/projectlist" class="btn btn-primary button__more-margins") Matching Hat
+/**
+/*  button(type="button" class="btn btn-primary button__more-margins") Matching Hat
+*/
+
+
+
+block script
+
+	// NOTE: put the dot after script(). and the js is rendered only for client interpretation
+	script().
+
+		jQuery(document).ready(function () {
+
+			jQuery.ajax({
+				url: '/api/projects'
+			}).done(function (results) {
+				console.log(results.projects[0]);
+				if (typeof results.projects !== 'undefined' && results.projects[0]) {
+					results.projects.forEach(function (proj, idx) {
+
+						var html = '<div class="row projects-list__row--projects">';
+						html+= '<section class="col-sm-2 col-xs-push-0">';
+						html+= '<span class="row"><img src="http://i.imgur.com/hvFv1ow.png" width="100" height="60" class="img-responsive" alt="team icon"></img></span></section>';
+						html+= '<section class="col-sm-2 col-xs-push-0">';
+						html+= '<span class="row">' + 'Project Leader' + '</span></section>';html+= '<section class="col-sm-4 col-xs-push-0">';
+						html+= '<span class="row">' + proj.name + '</span></section>';
+						html+= '<section class="col-sm-4 col-xs-push-0">';
+						html+= '<span class="row">' + proj.description + ' This project needs a mission statement showing how the team will foster social progress.' + '</span></section></div>';
+
+						var Configs = proj.matchingConfig;
+						html+= '<div class="row projects-list__row--rolesskillsints">';  //Start next row for the same project - configs
+
+						Object.keys(Configs).forEach(key => {
+							html+= '<section class="project-list__row-interests-set col-sm-4 col-xs-push-0">';
+							var str = String(key);
+							html+= '<span class="text-info"><strong> ' + str.substring(0, str.indexOf("Needed")) + '</strong></span></section>';
+
+						})
+					html+= '</div>';
+					var Configs = proj.matchingConfig;
+					html+= '<div class="row projects-list__row--project-needs">';  //Start next row for the same project - configs
+					Object.keys(Configs).forEach(key => {
+						html+= '<section class="section__project-needs col-sm-4 col-xs-push-0">'  //start section
+						for(k = 0; k < proj.matchingConfig[key].length; k++ ) {
+							console.log('Configs are: ' + proj.matchingConfig[key][k])
+							html+= '<div class="project-list__row-cfgs-badges">' + proj.matchingConfig[key][k] + '</div>';
+						}
+						html+= '</section>'; //close the section for this category of matching configs
+
+					})
+					html+= '</div>';
+					html+= '<div "class=row row--separator"><br /></div>';
+					jQuery('#projects-list').append(html);
+
+					})
+					html = '</div>';
+					jQuery('#projects-list').append(html);
+
+				}
+
+			}).fail(function (err) {
+				console.error(err); return;
+			});
+
+		});
