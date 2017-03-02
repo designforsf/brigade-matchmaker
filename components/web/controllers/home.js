@@ -2,9 +2,14 @@ var moment = require('moment');
 require('moment-timezone');
 
 exports.index = function (req, res) {
-  res.render(res.locals.brigade.theme.slug + '/views/home', {
-    view: 'home',
-    title: 'Home',
+/**
+/* changed index view to the checkin form
+/* which requests email address and name rather
+/* than directing use to login with Github
+*/
+  res.render(res.locals.brigade.theme.slug + '/views/account/login', {
+    view: 'checkin',
+    title: 'Checkin',
     brigade: res.locals.brigade,
   });
 }
