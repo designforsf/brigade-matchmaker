@@ -1,0 +1,9 @@
+.button__horiz-group {
+	align-content: center;
+}
+
+.button__more-margins {
+  margin-right: 10px;
+  margin-left: 10px;
+  margin-bottom: 10px;
+}

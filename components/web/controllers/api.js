@@ -56,7 +56,7 @@ module.exports = {
     req.assert('password', 'Password cannot be blank').notEmpty()
 
     var errors = req.validationErrors()
-    
+
     if (errors) {
       req.flash('errors', errors)
       res.json({ success: false, error: {
@@ -317,7 +317,7 @@ module.exports = {
      */
 
     testProjects: function (req, res) {
-      res.render(res.locals.brigade.theme.slug + '/views/test_api_projects', {
+      res.render(res.locals.brigade.theme.slug + '/views/all_projects', {
         title: 'Test the Projects API',
         brigade: res.locals.brigade
       })
@@ -333,7 +333,7 @@ module.exports = {
           http://localhost:5465/api/project/taxonomy/interests
           http://localhost:5465/api/project/taxonomy/goals
      */
-     
+
     getTaxonomySkills: function (req, res, next) {
       var pt = new ProjectTaxonomies();
       pt.getSkills(function (err, results) {
@@ -341,7 +341,7 @@ module.exports = {
         return next();
       })
     },
-    
+
     getTaxonomyInterests: function (req, res, next) {
       var pt = new ProjectTaxonomies();
       pt.getInterests(function (err, results) {
@@ -349,7 +349,7 @@ module.exports = {
         return next();
       })
     },
-    
+
     getTaxonomyGoals: function (req, res, next) {
       var pt = new ProjectTaxonomies();
       pt.getTaxonomies(function (err, results) {

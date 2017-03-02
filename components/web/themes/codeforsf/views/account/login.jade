@@ -1,0 +1,33 @@
+// Check-in form template, leveraging Bootstrap css
+// bound to /login URL in app.js
+// app.get('/login', usersCtrl.getLogin)
+// app.post('/login', usersCtrl.postLogin)
+// app.get('/login/edit',
+
+extends ../layout
+block content
+
+	body
+		nav.navbar.navbar-light.bg-faded.navbar-fixed-top
+
+		div.container.container__login
+			div.row.centered-form
+				div.col-xs-8.col-sm-6.col-md-6.col-sm-offset-2.col-md-offset-4
+					div#nav-below.panel.panel-default
+						div.panel-heading
+							h3.panel-title.text-center Please check in with your email address for Civic Hack Night
+							div.panel-body
+								form.role("form")
+									div.row
+										div.col-xs-6.col-sm-6.col-md-6
+											div.form-group
+												input(type="text" name="first_name" id="first_name" class="form-control input-sm" placeholder="First Name")
+										div.col-xs-6.col-sm-6.col-md-6
+											div.form-group
+												input(type="text" name="last_name" id="last_name" class="form-control input-sm" placeholder="Last Name")
+
+									div.form-group
+										input(type="email" name="email" id="email" class="form-control" placeholder="Email Address")
+										div.text-center
+												a(href="http://localhost:5465/test/api/projects" class="btn btn-primary button__more-margins") Check in
+									//input(type="submit" value="Check in" class="btn btn-info btn-block")
