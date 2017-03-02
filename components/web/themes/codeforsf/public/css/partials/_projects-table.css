@@ -1,0 +1,115 @@
+/**
+/* html and css snippets from http://bootsnipp.com/snippets/featured/registration-form
+/* Bootstrap compatible forms
+*/
+
+#projects-list {
+}
+
+.projects-list {
+	margin-right: auto;
+	margin-left: auto;
+	padding: 1px 16px 1px 16px;
+	border-style: solid;
+	border-color: black;
+	border-width: 1px;
+}
+
+.projects-list__row {
+	font-size: 2rem;
+}
+
+.projects-list__row--projects {
+	background: rgba(255, 255, 200, 0.8);
+	padding-top: 0px;
+	margin-top: 0px;
+
+}
+
+.projects-list__row--rolesskillsints {
+	text-align: left;
+	padding-top: 10px;
+	padding-bottom: 0px;
+	background: rgba(200, 200, 200, 0.8);
+
+}
+
+.projects-list__row--project-needs {
+	text-align: left;
+	padding-top: 2px;
+	background: rgba(200, 200, 200, 0.8);
+
+}
+
+.project-list__row-interests-set {
+	text-align:center;
+}
+
+.project-list__row-cfgs-badges {
+		background-color: white;
+    display: inline-block;
+		font-size: 80%;
+    font-weight: bold;
+    padding: 1px 5px 2px;
+    border-radius: 3px;
+    color: black;
+    margin: 0 0 3px 3px;
+    font-family: "Source Sans Pro", "Helvetica", Arial, sans-serif;
+
+}
+
+/**
+/*  These may be deleted later as no longer needed
+/*
+.container--btm-border {
+	border: none;
+	border-bottom-style: solid;
+	border-color: gray;
+
+}
+
+.welcome-interests {
+	font-size: 1.8rem;
+	margin: 20px auto;
+}
+
+
+.centered-form {
+	margin-top: 60px;
+
+}
+
+.panel--interests {
+	background: rgba(255, 255, 255, 0.8);
+	border-style: groove;
+	border-width: 2px;
+	border-color: black;
+	box-shadow: rgba(0, 0, 0, 0.3) 20px 20px 20px;
+}
+
+.panel-heading {
+	border-style: solid;
+	border-width: 1px;
+	padding: 5px 15px;
+}
+
+.input-selector {
+	display: block;
+	font-size:	2rem;
+	width: 300px;
+	margin-bottom: 20px;
+}
+
+.int-input-lg {
+	font-size: 2rem;
+	margin-bottom: 10px
+}
+
+.int-input-sm {
+	font-size: 1.6rem;
+	font-weight: lighter;
+	font-style: oblique;
+	margin-left: 10px;
+}
+
+*/

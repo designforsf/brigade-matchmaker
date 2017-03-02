@@ -1,0 +1,62 @@
+/**
+/* html and css snippets from http://bootsnipp.com/snippets/featured/registration-form
+/* Bootstrap compatible forms
+*/
+
+.match-cfg-heading {
+	font-size: 1.5rem;
+	font-weight: 400;
+	text-align: center;
+}
+
+/* User's match config items (the search parameters) = mitem */
+.mitem {
+	font-size: 2rem;
+	font-weight: 400;
+	padding: 0 5px;
+	text-align: center;
+}
+
+.welcome-interests {
+	font-size: 1.8rem;
+	margin: 20px auto;
+}
+
+
+.centered-form {
+	margin-top: 60px;
+
+}
+
+.panel--interests {
+	background: rgba(255, 255, 255, 0.8);
+	border-style: groove;
+	border-width: 2px;
+	border-color: black;
+	box-shadow: rgba(0, 0, 0, 0.3) 20px 20px 20px;
+}
+
+.panel-heading {
+	border-style: solid;
+	border-width: 1px;
+	padding: 5px 15px;
+}
+
+.input-selector {
+	display: block;
+	font-size:	2rem;
+	width: 300px;
+	margin-bottom: 20px;
+}
+
+.int-input-lg {
+	font-size: 2rem;
+	margin-bottom: 10px
+}
+
+.int-input-sm {
+	font-size: 1.6rem;
+	font-weight: lighter;
+	font-style: oblique;
+	margin-left: 10px;
+}
