@@ -20,7 +20,7 @@
 }
 
 .projects-list__row--projects {
-	background: rgba(255, 255, 200, 0.8);
+	background: rgba(102, 102, 255, 0.4);
 	padding-top: 0px;
 	margin-top: 0px;
 
@@ -56,6 +56,9 @@
     margin: 0 0 3px 3px;
     font-family: "Source Sans Pro", "Helvetica", Arial, sans-serif;
 
+}
+.project-list__img {
+	max-width: 200%;
 }
 
 /**

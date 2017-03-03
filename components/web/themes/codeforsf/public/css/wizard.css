@@ -4,6 +4,7 @@ input[type=text], label {
 #wizardcards {
 	width: 512px;
 	margin: 50px auto;
+  margin-top: 100px;
 	position: relative;
 }
 
@@ -16,7 +17,7 @@ input[type=text], label {
 	box-sizing: border-box;
 	width: 80%;
 	margin: 0 10%;
-	
+
 	/*stacking fieldsets above each other*/
 	position: relative;
 }
@@ -67,7 +68,7 @@ input[type=text], label {
 
 #progressbar li:first-child:after {
 	/*connector not needed before the first step*/
-	content: none; 
+	content: none;
 }
 
 #progressbar li.active:before,  #progressbar li.active:after{
