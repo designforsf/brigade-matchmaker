@@ -5,9 +5,13 @@
 
 .large-hero {
   display: block;
-  padding-top: 60px;
-	font-size: 2rem;
-  border-bottom: 1px;
-  border-style:solid;
-  border-color: gray;
+  height: auto;
+  padding-top: 20px;
+  margin-bottom: 40px;
+
+  }
+
+.large-hero--font-narrow {
+  font-weight: 300;
+  line-height: 2.8rem;
 }

@@ -15,48 +15,79 @@
 	border-width: 1px;
 }
 
-.projects-list__row {
-	font-size: 2rem;
+.projects-list__row--info {
+	padding-left: 7px;
+}
+
+.projects-list__row--fixed-height {
+	min-height: 100px;
 }
 
 .projects-list__row--projects {
 	background: rgba(102, 102, 255, 0.4);
 	padding-top: 0px;
 	margin-top: 0px;
-
+	height: 100px;
+	overflow: hidden;
 }
 
 .projects-list__row--rolesskillsints {
 	text-align: left;
-	padding-top: 10px;
-	padding-bottom: 0px;
+	padding-left: 27px;
+	padding-top: 5px;
+	padding-bottom: 15px;
 	background: rgba(200, 200, 200, 0.8);
+	height: 45px;
+	overflow: hidden;
+
 
 }
 
 .projects-list__row--project-needs {
 	text-align: left;
-	padding-top: 2px;
+	padding-top: 8px;
+	padding-bottom: 8px;
+	height: 45px;
 	background: rgba(200, 200, 200, 0.8);
 
 }
 
+.projects-list--headings {
+	height: 45px;
+
+}
+
 .project-list__row-interests-set {
-	text-align:center;
+	text-align:left;
+	padding-left: 8px;
 }
 
 .project-list__row-cfgs-badges {
 		background-color: white;
     display: inline-block;
-		font-size: 80%;
+		font-size: 100%;
     font-weight: bold;
     padding: 1px 5px 2px;
     border-radius: 3px;
     color: black;
     margin: 0 0 3px 3px;
     font-family: "Source Sans Pro", "Helvetica", Arial, sans-serif;
-
 }
+
+/* match-config type rolesNeeded will become goalsNeeded
+*/
+
+.project-list__row-rolesNeeded-badge {
+		background-color: rgba(153,51,255,.4);
+}
+.project-list__row-skillsNeeded-badge {
+		background-color: rgba(255,255,0,.6);
+}
+.project-list__row-interestsNeeded-badge {
+		background-color: rgba(0,255,0,.6);
+}
+
+
 .project-list__img {
 	max-width: 200%;
 }

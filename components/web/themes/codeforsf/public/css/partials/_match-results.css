@@ -76,9 +76,3 @@
 .h1--more-margin {
 	margin: 3rem 0;
 }
-
-.h1--icon-before::before {
-    content: url('file../../DesignAssets/signs-lite-blu.png');
-} {
-
-}

@@ -11,8 +11,7 @@ block content
 	body
 	div.container-maxWidth970
 		div.large-hero
-			h3.large-hero--font-narrow You are matched! Explore the details of the project teams, and connect to the teams that you are interested in. When you connect, a message with your profile and email will be sent to the project team lead(s).
-
+			p You are matched! Explore the details of the project teams, and connect to the teams that you are interested in. When you connect, a message with your profile and email will be sent to the project team lead(s).
 
 		h1.h1--more-margin.h1--icon-before.brigadeSF-font-fam  You searched for:
 		div(id="matchingConfigs-list")
@@ -68,15 +67,15 @@ block script
 					html += '</span></section>';
 					html+= '</div>';
 					jQuery('#matchingConfigs-list').append(html);
-
+					//
 					// Now, run through the user matching projects, and output details
 					// in the project list style
 					for (q = 0; q < matchresults.projects.length; q++) {
-
-						//showProjListHeadings();
+						console.log('sending to output (I hope) proj id ', matchresults.projects[q] )
 						listMatchingProjects(matchresults.projects[q]);
 					}
 
+					//listMatchingProjects(matchresults); //Call function now to write out the projects
 				}
 
 				}).fail(function (err) {
@@ -85,24 +84,24 @@ block script
 		})	  //interest/skill/goal selections now output, next come the matching projects
 
 
-		function listMatchingProjects(matchingProject) {
 
+
+		function listMatchingProjects(matchingProject) {
+			console.log('At top of LMP with project ', matchingProject.id);
 			jQuery.ajax({
 				url: '/api/projects'
 			}).done(function (results) {
 				var proj_exists = 'false';
 				if (typeof results.projects !== 'undefined' && results.projects[0]) {
 					results.projects.forEach(function (proj, idx) {
-
+						console.log('inside the output fn() with ', matchingProject.id);
 						if(proj.name === matchingProject.id) { // this is a hit, add details and output
-							showProjListHeadings()
 							outputProjectInfo(proj);
 							proj_exists = 'true';
 						}
 					})
-
+					console.log(matchingProject.id, proj_exists)
 					if (proj_exists === 'false') {
-						showProjListHeadings()
 						outputNotFoundInfo(matchingProject.id);
 
 					}
@@ -122,16 +121,19 @@ block script
 			outputProjectInfo(not_proj);
 		}
 
+
 		function outputProjectInfo(proj) {
 			var html = '';
 			var html = '<div class="row projects-list__row--projects">';
-			html+= '<section  class="projects-list__row--fixed-height col-sm-2 col-xs-push-0">';
-			html+= '<button type="button" class="mail-icon__centered btn btn-primary btn-large" aria-label="Left Align"><span class="glyphicon glyphicon-envelope text-center" aria-hidden="true"></span></button></section>';
-
 			html+= '<section class="col-sm-2 col-xs-push-0">';
-			html+= '<span class="row text-center">' + 'Project Leader' + '</span></section>';
+			html+= '<button type="button" class="btn btn-default" aria-label="Left Align"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></button></section>';
+			// add dummy section since SF logo takes up a lot of width
+			//html+= '<section class="col-sm-2 col-xs-push-0">';
+			//html+= '<span class="row">' + '</span></section>';
+			html+= '<section class="col-sm-2 col-xs-push-0">';
+			html+= '<span class="row">' + 'Project Leader' + '</span></section>';
 			html+= '<section class="col-sm-4 col-xs-push-0">';
-			html+= '<span class="row text-center">' + proj.name + '</span></section>';
+			html+= '<span class="row">' + proj.name + '</span></section>';
 
 			console.log('Now printing row for  ', proj.name);
 
@@ -141,25 +143,22 @@ block script
 
 			var Configs = proj.matchingConfig;
 			html+= '<div class="row projects-list__row--rolesskillsints">';  //Start next row for the same project - configs
-			//
-			//Print out the project needs/interest headings
-			//
-			html+= '<section class="project-list__row-interests-set col-sm-4 col-xs-push-0">';
-			html+= '<span class="row projects-list__row--info text-center"><strong> ' + 'Seeking: ' + '</strong></span></section>';
-			html+= '<section class="project-list__row-interests-set col-sm-4 col-xs-push-0">';
-			html+= '<span class="row projects-list__row--info"><strong> ' + 'Skills Needed: ' + '</strong></span></section>';
-			html+= '<section class="project-list__row-interests-set col-sm-4 col-xs-push-0">';
-			html+= '<span class="row projects-list__row--info"><strong> ' + 'Our Areas of Focus: ' + '</strong></span></section>';
-			html+= '</div>';
 
+			Object.keys(Configs).forEach(key => {
+				html+= '<section class="project-list__row-interests-set col-sm-4 col-xs-push-0">';
+				var str = String(key);
+				html+= '<span class="text-info"><strong> ' + str.substring(0, str.indexOf("Needed")) + '</strong></span></section>';
+
+			})
+			html+= '</div>';
 			var Configs = proj.matchingConfig;
 			html+= '<div class="row projects-list__row--project-needs">';  //Start next row for the same project - configs
 			Object.keys(Configs).forEach(key => {
 				html+= '<section class="section__project-needs col-sm-4 col-xs-push-0">'  //start section
 				for(k = 0; k < proj.matchingConfig[key].length; k++ ) {
-					html+= '<div class="project-list__row-cfgs-badges project-list__row-' + key + '-badge">' + proj.matchingConfig[key][k] + '</div>';
+					console.log('Configs are: ' + proj.matchingConfig[key][k])
+					html+= '<div class="project-list__row-cfgs-badges">' + proj.matchingConfig[key][k] + '</div>';
 				}
-				console.log('Key value is ', key);
 				html+= '</section>'; //close the section for this category of matching configs
 			})
 			html+= '</div>';
@@ -168,23 +167,3 @@ block script
 
 
 		}
-
-		function showProjListHeadings() {
-		console.log('I am in the header print');
-		var html = '';
-		var html = '<div class="row projects-list__row--projects projects-list--headings">';
-			html+= '<section  class="projects-list__row--projects text-center col-sm-2 col-xs-push-0">';
-			html+= '<span class="row projects-list--headings">Contact Team</span></section>';
-
-			html+= '<section class="projects-list__row--projects col-sm-2 col-xs-push-0">';
-			html+= '<span class="row text-center projects-list--headings">Team Leader</span></section>';
-			html+= '<section class="projects-list__row--projects col-sm-4 col-xs-push-0">';
-			html+= '<span class="row projects-list--headings">Project Name</span></section>';
-
-			html+= '<section class="projects-list__row--projects col-sm-4 col-xs-push-0">';
-			html+= '<span class="row projects-list--headings">Project Mission Statement</span></section></div>';
-			html+= '<div> </div';
-
-			jQuery('#projects-list').append(html);
-
-			}
