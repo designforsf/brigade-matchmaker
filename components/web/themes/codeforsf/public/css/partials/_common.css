@@ -3,10 +3,8 @@ body {
   color: #555;
 }
 
-h1 {
-  font-family: 'Source Sans Pro', 'Helvetica', 'Arial', sans-serif;
-  color: #337ab7;
-}
+$mainBlue: #2f5572;
+
 
 img {
     max-width: 200%;

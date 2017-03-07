@@ -1,0 +1,8 @@
+div.send-msg.send-msg__hidden
+  form#contact_form(action = "" method="get")
+    fieldset
+      legend Contact the Team Leader
+      h3 Send a message to the Team Leader
+      textarea#comment(name = "message-to-team")
+      input(type="submit" is="SentMsgToTeam" name="Send message")
+      input(type="submit" id="cancel-message" name="Cancel")

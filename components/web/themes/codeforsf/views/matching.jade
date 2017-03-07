@@ -3,6 +3,7 @@
 /* For testing this is called from http://localhost5465/matching
 /*
 */
+script(src='https://code.jquery.com/jquery-3.1.1.min.js')
 
 
 extends layout
@@ -28,11 +29,9 @@ block content
 				button(type="button" class="btn btn-info") Home
 				button(type="button" class="btn btn-primary") Restart the Matching Hat wizard
 
-		div.modal-email
-			h2 Get in Touch with the Team Leader
+		include partials/_mail_form
 
 block script
-
 	// NOTE: put the dot after script(). and the js is rendered only for client interpretation
 	script().
 
@@ -78,7 +77,6 @@ block script
 					}
 
 				}
-
 				}).fail(function (err) {
 				console.error(err); return;
 			});
@@ -107,11 +105,45 @@ block script
 
 					}
 				}
+				console.log($('.message-team').text())
+				$('.message-team').on('click', function(e) {
+					console.log('The nodename clicked was ', event.target.nodeName)
+					showContactForm(e);
+					//This is now working and hides the button when clicked
+
+				})
+
+				$('#cancelform').on('click mouseover', function(e) {
+					cancelContactForm(e);
+
+				})
+
+
 
 			}).fail(function (err) {
 				console.error(err); return;
 			})
 		}
+
+		function showContactForm(e) {
+			console.log('This is from within the showContactForm fn');
+			prefillContactForm();
+			$( '.send-msg--hidden').removeClass('send-msg--hidden').addClass('send-msg--visible');
+
+			//).removeClass('send-msg--hidden').addClass('send-msg--visible');
+			//This is now working and hides the button when clicked
+
+		}
+
+		function cancelContactForm(e) {
+			console.log('This is from within the cancelContactForm ' + e.type);
+			$( '.send-msg' ).removeClass('send-msg--visible').addClass('send-msg--hidden');
+		}
+
+		function prefillContactForm() {
+			document.getElementById("comment").placeholder = "Send a message and questions to the Team Leader using this email form. \n\n We will not reveal your email address (it will be anonymized), but you will receive a reply directly to the email you checked in with. \n\n Your goals, skills and interests as given to the matching wizard will be appended to your message automatically. \n\n <em>Go ahead and start a conversation about how you can help!</em>"
+		}
+
 
 		function outputNotFoundInfo(projNotFound) {
 			var not_proj = {}
@@ -126,15 +158,12 @@ block script
 			var html = '';
 			var html = '<div class="row projects-list__row--projects">';
 			html+= '<section  class="projects-list__row--fixed-height col-sm-2 col-xs-push-0">';
-			html+= '<button type="button" class="mail-icon__centered btn btn-primary btn-large" aria-label="Left Align"><span class="glyphicon glyphicon-envelope text-center" aria-hidden="true"></span></button></section>';
+			html+= '<button type="button" class="message-team mail-icon mail-icon__centered btn btn-primary btn-large" aria-label="Left Align"><span class="glyphicon glyphicon-envelope text-center" aria-hidden="true"></span></button></section>';
 
 			html+= '<section class="col-sm-2 col-xs-push-0">';
 			html+= '<span class="row text-center">' + 'Project Leader' + '</span></section>';
 			html+= '<section class="col-sm-4 col-xs-push-0">';
 			html+= '<span class="row text-center">' + proj.name + '</span></section>';
-
-			console.log('Now printing row for  ', proj.name);
-
 
 			html+= '<section class="col-sm-4 col-xs-push-0">';
 			html+= '<span class="row">' + proj.description + ' This project needs a mission statement showing how the team will foster social progress.' + '</span></section></div>';
@@ -159,7 +188,6 @@ block script
 				for(k = 0; k < proj.matchingConfig[key].length; k++ ) {
 					html+= '<div class="project-list__row-cfgs-badges project-list__row-' + key + '-badge">' + proj.matchingConfig[key][k] + '</div>';
 				}
-				console.log('Key value is ', key);
 				html+= '</section>'; //close the section for this category of matching configs
 			})
 			html+= '</div>';
@@ -170,7 +198,7 @@ block script
 		}
 
 		function showProjListHeadings() {
-		console.log('I am in the header print');
+
 		var html = '';
 		var html = '<div class="row projects-list__row--projects projects-list--headings">';
 			html+= '<section  class="projects-list__row--projects text-center col-sm-2 col-xs-push-0">';
@@ -188,3 +216,16 @@ block script
 			jQuery('#projects-list').append(html);
 
 			}
+
+			$(document).ready(function(){
+				$("form").submit(function(e){
+					e.preventDefault();
+				  $('#confirm_sent').css("visibility", "visible" );
+					$('#comment').val('').blur(); //erase the input and replace placeholder
+					$( "div.send-msg" ).removeClass('send-msg--visible').addClass('send-msg--hidden');
+					setTimeout(function() {
+						$('#confirm_sent').css("visibility", "hidden" );
+					}, 4000);
+
+				})
+			});
