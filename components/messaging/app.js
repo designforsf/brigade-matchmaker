@@ -1,5 +1,5 @@
 /*
-  Messaging Interface
+  Messaging Component: Web App
 
   key environment variables:
     NODE_ENV

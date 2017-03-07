@@ -17,7 +17,7 @@ module.exports = {
 
   render_index: function (req, res, next) {
 
-    res.write('<html><body><h1>Brigade Matching Hat: Slack Service</h1></body></html>');
+    res.write('<html><body><h1>Brigade Matching Hat: Messaging Service</h1></body></html>');
     next();
 
   },
