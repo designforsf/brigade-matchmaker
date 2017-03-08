@@ -3,10 +3,33 @@
 /* Bootstrap compatible forms
 */
 
-#projects-list {
+#projects-list {}
+.row {
+	padding-top: 10px;
+	padding-bottom: 10px;
 }
 
-.projects-list {
+.projects-list__project-container {
+	font-size: 2.5rem;
+	padding: 0 15px;
+	border-width: 1px;
+	border-style: solid;
+	}
+
+.row--margin-left {
+	margin-left: 15px;
+}
+
+.row__projects-list-box {
+	border-style: solid;
+	color: gray;
+	border-width: 1px;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+.Xprojects-list {
+	border-collapse: collapse;
 	margin-right: auto;
 	margin-left: auto;
 	padding: 1px 16px 1px 16px;
@@ -15,135 +38,52 @@
 	border-width: 1px;
 }
 
-.projects-list__row--info {
-	padding-left: 7px;
+.row__projects-list--info {
+	background: rgba(102, 102, 255, 0.4);
 }
 
-.projects-list__row--fixed-height {
-	min-height: 100px;
+.row__projects-list--cfg {
+	padding-top: 0px;
+	padding-bottom: 0px;
+	background: rgba(55, 102, 255, 0.4);
+}
+
+.capital:first-letter 	{
+	text-transform: uppercase;
+}
+
+.row__projects-list--info-2 {
+	background: rgba(102, 102, 102, 0.4);
+}
+
+.project-thumbnail {
+    width: 100px;
+    height: 100px;
+    display: inline-block;
+    margin-top: 26px;
+    border-radius: .25rem;
+    padding: 0;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-color: #e6e6e6;
+    box-shadow: none;
+    float: left;
+}
+
+.row__projects-list--info-2 .btn {
+	margin-top: 26px;
+	font-size: 2.5rem;
 }
 
 .projects-list__row--projects {
+	border-collapse: collapse;
 	background: rgba(102, 102, 255, 0.4);
 	padding-top: 0px;
 	margin-top: 0px;
-	height: 100px;
+	height: auto;
 	overflow: hidden;
-}
-
-.projects-list__row--rolesskillsints {
-	text-align: left;
-	padding-left: 27px;
-	padding-top: 5px;
-	padding-bottom: 15px;
-	background: rgba(200, 200, 200, 0.8);
-	height: 45px;
-	overflow: hidden;
-
-
-}
-
-.projects-list__row--project-needs {
-	text-align: left;
-	padding-top: 8px;
-	padding-bottom: 8px;
-	height: 45px;
-	background: rgba(200, 200, 200, 0.8);
-
-}
-
-.projects-list--headings {
-	height: 45px;
-
-}
-
-.project-list__row-interests-set {
-	text-align:left;
-	padding-left: 8px;
-}
-
-.project-list__row-cfgs-badges {
-		background-color: white;
-    display: inline-block;
-		font-size: 100%;
-    font-weight: bold;
-    padding: 1px 5px 2px;
-    border-radius: 3px;
-    color: black;
-    margin: 0 0 3px 3px;
-    font-family: "Source Sans Pro", "Helvetica", Arial, sans-serif;
-}
-
-/* match-config type rolesNeeded will become goalsNeeded
-*/
-
-.project-list__row-rolesNeeded-badge {
-		background-color: rgba(153,51,255,.4);
-}
-.project-list__row-skillsNeeded-badge {
-		background-color: rgba(255,255,0,.6);
-}
-.project-list__row-interestsNeeded-badge {
-		background-color: rgba(0,255,0,.6);
-}
-
-
-.project-list__img {
-	max-width: 200%;
-}
-
-/**
-/*  These may be deleted later as no longer needed
-/*
-.container--btm-border {
-	border: none;
-	border-bottom-style: solid;
-	border-color: gray;
-
-}
-
-.welcome-interests {
-	font-size: 1.8rem;
-	margin: 20px auto;
-}
-
-
-.centered-form {
-	margin-top: 60px;
-
-}
-
-.panel--interests {
-	background: rgba(255, 255, 255, 0.8);
-	border-style: groove;
-	border-width: 2px;
-	border-color: black;
-	box-shadow: rgba(0, 0, 0, 0.3) 20px 20px 20px;
-}
-
-.panel-heading {
 	border-style: solid;
+	border-color: black;
 	border-width: 1px;
-	padding: 5px 15px;
 }
-
-.input-selector {
-	display: block;
-	font-size:	2rem;
-	width: 300px;
-	margin-bottom: 20px;
-}
-
-.int-input-lg {
-	font-size: 2rem;
-	margin-bottom: 10px
-}
-
-.int-input-sm {
-	font-size: 1.6rem;
-	font-weight: lighter;
-	font-style: oblique;
-	margin-left: 10px;
-}
-
-*/

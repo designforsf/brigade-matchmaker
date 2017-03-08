@@ -30,7 +30,6 @@ legend {
 
 }
 
-
 #cancelform {
   position: absolute;
   top: 4px;
@@ -47,6 +46,12 @@ legend {
   background-color: #88dbef;
   border-radius: 4px;
 }
+
+.el-cancel:hover {
+  color: #AAA;
+  cursor: pointer;
+}
+
 
 #confirm_sent {
   text-align: left;
@@ -68,7 +73,7 @@ legend {
       width: 400px;
       height: 480px;
       color: black;
-      background-color: #dee6f2;
+      background-color: #efd0c4;
       font-size: 1.8rem;
 }
 

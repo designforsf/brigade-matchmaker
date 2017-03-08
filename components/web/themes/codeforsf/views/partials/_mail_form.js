@@ -1,7 +1,5 @@
 script().
 
-const userEmailAddr = "hidden_email@293840.com";
-var yourFullName = "Jason Ganets";
 
 //var message-btn = document.getElementById("message-team");
 
