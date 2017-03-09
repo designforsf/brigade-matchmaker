@@ -15,6 +15,7 @@ tmp
 
 # API keys and secrets
 .env
+config/*.js
 
 # Dependency directory
 node_modules
@@ -28,11 +29,3 @@ bower_components
 .DS_Store
 Thumbs.db
 coverage
-
-main.css
-main.css.map
-.jshintrc
-.jshintignore
-phantomjsdriver.log
-bundle.js
-
