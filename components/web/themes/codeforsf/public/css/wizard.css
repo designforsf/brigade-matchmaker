@@ -44,7 +44,6 @@ input[type=text], label {
     .move_left {
       transform: translateX(-100px);
       transition-timing-function: ease-out;
-     
     }
 
     .move_right {

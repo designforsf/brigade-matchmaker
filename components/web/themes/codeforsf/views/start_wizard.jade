@@ -4,7 +4,6 @@
 
 
 extends layout
-
 block content
 	div.container.container-maxWidth970
 		form#wizardcards
@@ -14,38 +13,39 @@ block content
 				li(id="matched") Matched
 
 			br
-			form
-				h3 Hello Civic Enthusiast!
-				p Create a simple profile and let us help you decide which project teams are a match for you. Your information will not be saved and will only be shared with the project team leads that you choose to message.
-				hr
-				h3 Profile
-				p
-				div.form-group
-					h4 Skills that I want to contribute
-					div(id="skills")
-						select(class="chosen-select", data-placeholder="Select all that apply. * 3 skills max", multiple style="width: 350px", tabindex="1")
-							- var list = skills
-							each item, j in list
-								option(value= j) #{item.name}
-				br
-				hr(color="#cccccc")
-				h4 Civic issues of interest
-				div.form-group
-					div(id="interests")
-						select(class="chosen-select", data-placeholder="Select all that apply.  * 3 interests max", multiple style="width: 350px", tabindex="1")
-							- var list = interests
-							each item, i in list
-								option(value=i) #{item.name}
-				br
-				hr(color="#cccccc")
-				h4 My goals
-				div.form-group
-					div(id="skills")
-						select(class="chosen-select", data-placeholder="Choose your Goals", multiple style="width: 350px", tabindex="1")
-							- var list = goals
-							each item, j in list
-								option(value=j) #{item.name}
-				br
+			div.interest_profile
+				form
+					h3 Hello Civic Enthusiast!
+					p Create a simple profile and let us help you decide which project teams are a match for you. Your information will not be saved and will only be shared with the project team leads that you choose to message.
+					hr
+					h3 Profile
+					p
+					div.form-group
+						h4 Skills that I want to contribute
+						div(id="skills")
+							select(class="chosen-select", data-placeholder="Select all that apply. * 3 skills max", multiple style="width: 350px", tabindex="1")
+								- var list = skills
+								each item, j in list
+									option(value= j) #{item.name}
+					br
+					hr(color="#cccccc")
+					h4 Civic issues of interest
+					div.form-group
+						div(id="interests")
+							select(class="chosen-select", data-placeholder="Select all that apply.  * 3 interests max", multiple style="width: 350px", tabindex="1")
+								- var list = interests
+								each item, i in list
+									option(value=i) #{item.name}
+					br
+					hr(color="#cccccc")
+					h4 My goals
+					div.form-group
+						div(id="skills")
+							select(class="chosen-select", data-placeholder="Choose your Goals", multiple style="width: 350px", tabindex="1")
+								- var list = goals
+								each item, j in list
+									option(value=j) #{item.name}
+					br
 
 				div.button__horiz-group(role="group" aria-label="...")
 					button(type="button" role="home" class="next btn btn-warning button__more-margins") Home
@@ -54,4 +54,4 @@ block content
 
 					button(type="button" role="start_matching" class="next btn btn-info button__more-margins") Match me!
 
-			
+			div.match_res

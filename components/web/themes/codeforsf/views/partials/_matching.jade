@@ -1,0 +1,54 @@
+div.large-hero
+	h3.large-hero--font-narrow div.large-hero
+		h3.large-hero--font-narrow You are matched! Explore the details of the project teams, and connect to the teams that you are interested in. When you connect, a message with your profile and email will be sent to the project team lead(s).
+
+	h1.h1--more-margin.h1--icon-before.brigadeSF-font-fam  You searched for:
+	div(id="matchingConfigs-list")
+
+
+	h1.h1--more-margin.brigadeSF-font-fam  Your matching projects:
+	container
+		//
+		//matching list will be appended here
+		//
+		div(id="projects-list")
+
+		<br />
+		div.text-center
+			div.btn-group(role="group" aria-label="...")
+				button(type="button" class="btn btn-warning") Back
+				button(type="button" class="btn btn-info") Home
+				button(type="button" class="btn btn-primary") Restart the Matching Hat wizard
+
+		include ./_mail_form
+You are matched! Explore the details of the project teams, and connect to the teams that you are interested in. When you connect, a message with your profile and email will be sent to the project team lead(s).
+
+h1.h1--more-margin.h1--icon-before.brigadeSF-font-fam  You searched for:
+div(id="matchingConfigs-list")
+
+
+h1.h1--more-margin.brigadeSF-font-fam  Your matching projects:
+container
+	div.o.row(width="980px" height="500px")
+		H3 This is within the "o" and "row" div
+
+
+
+
+
+
+	//
+	//matching list will be appended here
+	//
+	div(id="projects-list")
+
+	<br />
+	div.text-center
+		div.btn-group(role="group" aria-label="...")
+			button(type="button" class="btn btn-warning") Back
+			button(type="button" class="btn btn-info") Home
+			button(type="button" class="btn btn-primary") Restart the Matching Hat wizard
+
+	include ./_mail_form
+	script(src='//cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js')
+	script(src='/js/_matching.js')
