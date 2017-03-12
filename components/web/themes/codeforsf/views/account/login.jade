@@ -6,6 +6,8 @@
 
 extends ../layout
 block content
+	script(src='https://code.jquery.com/jquery-3.1.1.min.js')
+	script(src="../js/_checkin.js")
 
 	body
 		//nav.navbar.navbar-light.bg-faded.navbar-fixed-top
@@ -17,17 +19,18 @@ block content
 						div.panel-heading
 							h3.panel-title.text-center Please check in with your email address for Civic Hack Night
 							div.panel-body
-								form.role("form")
+								form#checkin.role("form")
 									div.row
 										div.col-xs-6.col-sm-6.col-md-6
 											div.form-group
-												input(type="text" name="first_name" id="first_name" class="form-control input-sm" placeholder="First Name")
+												input(type="text" name="first_name" id="first_name" class="form-control input-sm" placeholder="First Name" required)
 										div.col-xs-6.col-sm-6.col-md-6
 											div.form-group
-												input(type="text" name="last_name" id="last_name" class="form-control input-sm" placeholder="Last Name")
+												input(type="text" name="last_name" id="last_name" class="form-control input-sm" placeholder="Last Name" required)
 
-									div.form-group.form-group-btm-margin
-										input(type="email" name="email" id="email" class="form-control" placeholder="Email Address")
-										div.text-center
-												a(href="http://localhost:5465/test/api/projects" class="btn btn-primary button__more-margins") Check in
-									//input(type="submit" value="Check in" class="btn btn-info btn-block")
+										div.col-xs-6.col-sm-6.col-md-6
+											div.form-group
+												input(type="email" name="email" id="email" class="form-control form-control--wider" placeholder="Email Address" required)
+
+									div.text-center
+												input(type="submit" action="/login" value="Check in" class="btn btn-info btn-block btn-block__smaller" method="post" )

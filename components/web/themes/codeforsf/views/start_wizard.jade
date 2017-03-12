@@ -6,48 +6,52 @@
 extends layout
 
 block content
-	form#wizardcards
-		ul(id="progressbar")
-			li(class="active") Profile
-			li(id="matching_li") Matching
-			li Matched
-			li Done
-		br
-		fieldset
-			h3 Hello Civic Enthusiast,
-			p Create a simple profile and let us inform you of which project teams mightbest match with you. Your information will not be saved and will only be shared with the project team leads that you choose to message.
-			hr
-			h3 Profile
-			p
-			h4 Skills that I want to contribute
-			div(id="skills")
-				select(class="chosen-select", data-placeholder="Select all that apply. * 3 skills max", multiple style="width: 350px", tabindex="1")
-					- var list = skills
-					each item, j in list
-						option(value= j) #{item.name}
+	div.container.container-maxWidth970
+		form#wizardcards
+			ul(id="progressbar")
+				li(id="start" class="active") Profile
+				li(id="start_matching") ..Working
+				li(id="matched") Matched
+
 			br
-			hr(color="#cccccc")
-			h4 Civic issues of interest
-			div(id="interests")
-				select(class="chosen-select", data-placeholder="Select all that apply.  * 3 interests max", multiple style="width: 350px", tabindex="1")
-					- var list = interests
-					each item, i in list
-						option(value=i) #{item.name}
-			br
-			hr(color="#cccccc")
-			h4 My goals
-			div(id="skills")
-				select(class="chosen-select", data-placeholder="Choose your Goals", multiple style="width: 350px", tabindex="1")
-					- var list = goals
-					each item, j in list
-						option(value=j) #{item.name}
-			br
-			input(type="button", name="next", class="next action-button", value="Next")
-		fieldset(name="matching-wait")
-			h1 Matching!
-			input(type="button", name="previous", class="previous action-button", value="Previous")
-			input(type="button", name="next", class="next action-button", value="Next")
-		fieldset(name="matched")
-			h1 Matched
-			input(type="button", name="previous", class="previous action-button", value="Previous")
-			input(type="button", name="next", class="next action-button", value="Next")
+			form
+				h3 Hello Civic Enthusiast!
+				p Create a simple profile and let us help you decide which project teams are a match for you. Your information will not be saved and will only be shared with the project team leads that you choose to message.
+				hr
+				h3 Profile
+				p
+				div.form-group
+					h4 Skills that I want to contribute
+					div(id="skills")
+						select(class="chosen-select", data-placeholder="Select all that apply. * 3 skills max", multiple style="width: 350px", tabindex="1")
+							- var list = skills
+							each item, j in list
+								option(value= j) #{item.name}
+				br
+				hr(color="#cccccc")
+				h4 Civic issues of interest
+				div.form-group
+					div(id="interests")
+						select(class="chosen-select", data-placeholder="Select all that apply.  * 3 interests max", multiple style="width: 350px", tabindex="1")
+							- var list = interests
+							each item, i in list
+								option(value=i) #{item.name}
+				br
+				hr(color="#cccccc")
+				h4 My goals
+				div.form-group
+					div(id="skills")
+						select(class="chosen-select", data-placeholder="Choose your Goals", multiple style="width: 350px", tabindex="1")
+							- var list = goals
+							each item, j in list
+								option(value=j) #{item.name}
+				br
+
+				div.button__horiz-group(role="group" aria-label="...")
+					button(type="button" role="home" class="next btn btn-warning button__more-margins") Home
+
+					button(type="button" role="in_progress_message" class="next btn btn-success button__more-margins btn--hidden") Hang on a second!
+
+					button(type="button" role="start_matching" class="next btn btn-info button__more-margins") Match me!
+
+			

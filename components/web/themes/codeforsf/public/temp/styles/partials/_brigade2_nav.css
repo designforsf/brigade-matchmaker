@@ -1,0 +1,22 @@
+// body
+.fixed {
+  overflow: hidden;
+}
+
+// Desktop Navigation
+.navbar-nav img {
+  width: 30px;
+  height: 30px;
+  margin: -15px 15px -15px;
+}
+
+.dropdown-menu li.header {
+  font-size: 10px;
+  font-weight: 500;
+  min-height: 0;
+  padding: 8px 10px 3px 10px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: hsl(200, 4%, 73%);
+  background: none;
+}
