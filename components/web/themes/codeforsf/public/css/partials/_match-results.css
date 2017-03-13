@@ -15,9 +15,8 @@
 .mail-icon__centered {
   position: relative;
   top: 50%;
-  left: 35%;
+  left: 0%;
   margin-top: 28px;
-  transform: scale(1.75,1.75);
 }
 
 .match-cfg-heading {

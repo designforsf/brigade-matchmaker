@@ -1,0 +1,22 @@
+// Button HTML (to Trigger Modal)
+html
+	head
+	body
+
+		// Modal HTML
+		#mailModal.modal.fade
+			.modal-dialog
+				.modal-content
+					.modal-header
+						button.close(type='button', data-dismiss='modal', aria-hidden='true') &times;
+						h4.modal-title Contact the Team Leader
+					.modal-body
+						form#contact_form(action='', method='')
+							textarea#comment(name='message-to-team', placeholder='Send a message and questions to the Team Leader using this email form. \
+							We will not reveal your email address (it will be anonymized), but you will receive a reply directly to the email you checked in with. \
+							Your goals, skills and interests as given to the matching wizard will be appended to your message automatically. \
+							<em>Go ahead and start a conversation about how you can help!</em>')
+							div#confirm_sent
+								h4 Your message has been sent to the Team Leader. You will receive a response at the email you used at checkin, although your email address will be anonymized.
+							button.btn.btn-default.button__more-margins(type='button', data-dismiss='modal') Close
+							button.btn.btn-primary.button__more-margins(type='submit') Send Message

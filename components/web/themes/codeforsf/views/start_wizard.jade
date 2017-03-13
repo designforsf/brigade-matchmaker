@@ -47,7 +47,6 @@ block content
 					br
 
 				div.button__horiz-group(role="group" aria-label="...")
-					button(type="button" role="home" class="next btn btn-warning button__more-margins") Home
 
 					button(type="button" role="in_progress_message" class="next btn btn-success button__more-margins btn--hidden") Hang on a second!
 
@@ -70,6 +69,8 @@ block content
 						div(id="matchingConfigs-list")
 
 
+					include partials/_contactTeamForm
+
 					h2.h1--more-margin.brigadeSF-font-fam  Your matching projects:
 					container
 						//
@@ -78,13 +79,9 @@ block content
 						div(id="projects-list")
 
 						<br />
-						div.text-center
-							div.btn-group(role="group" aria-label="...")
-								button(type="button" class="btn btn-warning") Back
-								button(type="button" class="btn btn-info") Home
-								button(type="button" class="btn btn-primary") Restart the Matching Hat wizard
-
-						include partials/_mail_form
+			div.text-center
+				div.btn-group(role="group" aria-label="...")
+					button(type="button" id="backToWizard" class="btn btn-primary button__more-margins btn--hidden") Restart the Matching Hat wizard
 
 block script
 	// NOTE: put the dot after script(). and the js is rendered only for client interpretation
@@ -220,7 +217,7 @@ block script
 			html+= '<section class="col-xs-2 col-xs-push-0"><img class="project-thumbnail" src="' + project_pix[ pix_idx ] + '" alt="Project Image Here" title="Project Image Here"></img></section>';
 			pix_idx++;
 			html+= '<section class="col-xs-4 col-xs-push-0">';
-			html+= '<button title="email the team leader" class="message-team btn btn-primary button__more-margins">Contact this Team</button>';
+			html+= '<a href="#mailModal" class="btn btn-large btn-primary mail-icon__centered" role="button" data-toggle="modal"> Contact Team </a>';
 			html+= '</section>';
 			html+= '<section class="col-xs-6 col-xs-push-0">';
 			html+= '<span class="row text-center">' + 'Project Leader\'s Name' + '</span></section></div>';
@@ -293,7 +290,7 @@ block script
 			//Handle email form submit event. For now,  we just clear any user-entered text from form and display a confirming message.
 			//
 			$(document).ready(function(){
-				$("form").submit(function(e){
+				$("#mailModal").submit(function(e){
 					e.preventDefault();
 					$('#confirm_sent').css("visibility", "visible" );
 					$('#comment').val('').blur(); //erase the input and replace placeholder

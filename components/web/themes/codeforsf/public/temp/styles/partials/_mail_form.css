@@ -14,12 +14,9 @@
   visibility: visible;
 }
 
-fieldset {
+modal-content {
   background-color: gray;
-  width: 480px;
-  padding: 20px;
-  text-align: right;
-}
+  }
 
 
 legend {
@@ -74,12 +71,12 @@ legend {
       width: 400px;
       height: 480px;
       color: black;
-      background-color: #efd0c4;
+      background-color: #FFF;
       font-size: 1.8rem;
 }
 
 #comment:hover {
-  background-color: #f2f5f9;
+  background-color: #FFF;
 }
 
 #comment:focus {

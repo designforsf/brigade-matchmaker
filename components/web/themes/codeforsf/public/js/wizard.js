@@ -14,7 +14,20 @@ $(document).ready(function () {
   	 user_data = "results";
      console.log("current step: " + user_data);
      $("#match_res").removeClass("btn--hidden");
+     $("button#backToWizard").removeClass("btn--hidden");
      $("#wizardcards").addClass("btn--hidden");
+  })
+
+  $("[id='backToWizard']").click(function () {
+  	 user_data = "restartWizard";
+     console.log("current step: " + user_data);
+     $("#match_res").addClass("btn--hidden");
+     $("#backToWizard").addClass("btn--hidden");
+     $("#wizardcards").removeClass("btn--hidden");
+     $("#matchingConfigs-list").children().remove();
+     $("#projects-list").children().remove();
+
+     restartWizard();
 
   })
 
@@ -99,6 +112,19 @@ function setViewMatches () {
   $("[role='see_results']").removeClass("btn--hidden");
 
 }
+
+function restartWizard () {
+  $("li#start_matching").addClass("active");
+  $("li#matched").removeClass("active");
+  $("button#backToWizard").addClass("btn--hidden");
+  $("[role='home']").removeClass("btn--hidden");
+  $("[role='start_matching']").removeClass("btn--hidden");
+  $("[role='see_results']").addClass("btn--hidden");
+
+//shortcut, but need to remove all the html
+}
+
+
 
 $(".chosen-select").chosen()
 $(".chosen-container").css("width", "350px")
