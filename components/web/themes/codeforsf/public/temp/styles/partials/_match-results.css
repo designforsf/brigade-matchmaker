@@ -20,29 +20,43 @@
           transform: scale(1.75,1.75);
 }
 
-
-.match-cfg-heading {
-	font-size: 1.5rem;
+div#matchingConfigs-list {
+  width: 100%;
+  padding-left: 16.667%;
+	font-size: 1rem;
 	font-weight: 400;
 	text-align: center;
 }
 
+.match-cfg-heading {
+  outline-color: red;
+	font-size: 1rem;
+	font-weight: 400;
+	text-align: center;
+}
+.match-cfg-heading + * {
+  clear: both;
+}
+
 .section__matchGoal {
-	background-color: rgba(153,51,255,.4);
+  display: inline-block;
+  height: 2.5rem;
+  overflow:hidden;
+	background-color: rgba(153,51,255,.2);
 }
 
 .section__matchSkill {
-	background-color: rgba(255,255,0,.6);
+	background-color: rgba(255,255,0,.2);
 }
 
 .section__matchInterest {
-	background-color: rgba(0,255,0,.6);
+	background-color: rgba(0,255,0,.2);
 }
 
 /* User's match config items (the search parameters) = mitem */
 .mitem {
-	font-size: 2rem;
-	font-weight: 400;
+	font-size: 1rem;
+	font-weight: 300;
 	padding: 0 5px;
 	text-align: center;
 }

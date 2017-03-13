@@ -15,3 +15,9 @@
   font-weight: 300;
   line-height: 2.8rem;
 }
+
+.large-hero--font-narrow::first-line {
+  margin-bottom: 110%;
+  font-size: 3.8rem;
+  font-weight: 500;
+}

@@ -10,10 +10,9 @@
 }
 
 .projects-list__project-container {
-	font-size: 2.5rem;
-	padding: 0 15px;
-	border-width: 1px;
-	border-style: solid;
+	font-size: 1.75rem;
+	padding: 0 8.333% 0 16.667%;
+
 	}
 
 .row--margin-left {
@@ -39,13 +38,13 @@
 }
 
 .row__projects-list--info {
-	background: rgba(102, 102, 255, 0.4);
+	/*background: rgba(102, 102, 255, 0.4);*/
 }
 
 .row__projects-list--cfg {
 	padding-top: 0px;
 	padding-bottom: 0px;
-	background: rgba(55, 102, 255, 0.4);
+	/*background: rgba(55, 102, 255, 0.4);*/
 }
 
 .capital:first-letter 	{
@@ -53,7 +52,11 @@
 }
 
 .row__projects-list--info-2 {
-	background: rgba(102, 102, 102, 0.4);
+	margin-top: -10px;
+	margin-bottom: -10px;
+	border:	1px 0;
+	border-style: solid;
+	/*background: rgba(102, 102, 102, 0.4);*/
 }
 
 .project-thumbnail {
@@ -73,12 +76,12 @@
 
 .row__projects-list--info-2 .btn {
 	margin-top: 26px;
-	font-size: 2.5rem;
+	font-size: 1.75rem;
 }
 
 .projects-list__row--projects {
 	border-collapse: collapse;
-	background: rgba(102, 102, 255, 0.4);
+/*	background: rgba(102, 102, 255, 0.4); */
 	padding-top: 0px;
 	margin-top: 0px;
 	height: auto;

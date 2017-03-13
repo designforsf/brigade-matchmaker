@@ -6,7 +6,7 @@ $(document).ready(function () {
   	 user_data = "matching";
      console.log("current step: " + user_data);
      initMatchingStep();
-     setTimeout( setViewMatches, 3000);
+     setTimeout( setViewMatches, 2200);
 
   })
 
