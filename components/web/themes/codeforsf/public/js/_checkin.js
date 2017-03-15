@@ -1,29 +1,49 @@
 
 $(function() {
-
+//When doc ready set up event handlers
   $( "#checkin" ).submit(function( event ) {
-    postCheckin( event ) ;
-    event.preventDefault();
+
+    if ( localStorage.getItem("checkedIn") === "true" ) {
+      window.alert("You are already checked in using " + localStorage.getItem("emailAddr") );
+    }
+    else {
+      postCheckin( event ) ;
+      alert("You have checked in!");
+      event.preventDefault(); }
   });
+  $( "#resetLocalStore" ).on( "click", function( event ) {
+    if ( localStorage.getItem("checkedIn") )
+      localStorage.setItem("checkedIn", false);
+    window.alert("You are now reset to not checked in ")
+    });
 })
 
-var checkinData = {}; // global
+var checkedIn = false;
+
 function postCheckin( evt ) {
   //var firstNm = $("#first_name").attr("name");
-  console.log($("#first_name").val() );
-  checkinData = {
+  var checkinData = {
     firstName : $("#first_name").val(),
     lastName : $("#last_name").val(),
     emailAddr : $("#email").val()
   };
-  console.log("Not yet posted with data " + checkinData.emailAddr );
   $.ajax ( {
     type : "POST",
     url : "/login",
     data : checkinData,
-    success : success
+    success : success(checkinData)
   });
 }
-function success( evt ) {
-  console.log("The post succeeded with data " + checkinData.emailAddr );
+
+function success( checkinData, evt ) {
+  checkedIn = "true";
+  //check for local storage and store the user checkin info
+  if (typeof(Storage) !== "undefined") {
+    localStorage.setItem("checkedIn" , "true"); //stored as string
+    localStorage.setItem("emailAddr" , checkinData.emailAddr );
+    localStorage.setItem("firstName" , checkinData.firstName);
+    localStorage.setItem("lastName" , checkinData.lastName);
+} else {
+    window.alert("Sorry! No Web Storage support..");
+  }
 }
