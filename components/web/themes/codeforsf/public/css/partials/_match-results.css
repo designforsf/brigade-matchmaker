@@ -6,6 +6,7 @@
 .h1--icon-before::before {
   content: url('file../../DesignAssets/signs-lite-blu.png');
   margin-right: 1rem;
+  margin-left: -10px;
 }
 
 .mail-icon {
@@ -32,7 +33,7 @@
 
 .section__matchGoal {
   display: inline-block;
-  height: 2.5rem;
+  height: 3.5rem;
   overflow:hidden;
 	background-color: rgba(153,51,255,.2);
 }
@@ -40,14 +41,14 @@
 
 .section__matchSkill {
   display: inline-block;
-  height: 2.5rem;
+  height: 3.5rem;
   overflow:hidden;
   background-color: rgba(255,255,0,.2);
 }
 
 .section__matchInterest {
   display: inline-block;
-  height: 2.5rem;
+  height: 3.5rem;
   overflow:hidden;
   background-color: rgba(0,255,0,.2);
 }
