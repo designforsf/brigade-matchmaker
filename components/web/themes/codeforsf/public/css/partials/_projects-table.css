@@ -98,6 +98,8 @@
 /*	background: rgba(102, 102, 255, 0.4); */
 	padding-top: 0px;
 	margin-top: 0px;
+	padding-left: 8px;
+	padding-right: 8px;
 	height: auto;
 	overflow: hidden;
 	border-style: solid;

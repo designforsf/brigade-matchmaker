@@ -8,7 +8,6 @@ $(function() {
     }
     else {
       postCheckin( event ) ;
-      alert("You have checked in!");
       event.preventDefault(); }
   });
   $( "#resetLocalStore" ).on( "click", function( event ) {
