@@ -30,9 +30,10 @@
   top: -200px;
   left: 20px;
   visibility: hidden;
-  background-color: azure;
+  background-color: #FFF;
   opacity: 80%;
   border-style: solid;
+  border-width: 1px;
   border-radius: 10px;
   width: 450px;
 }
@@ -66,4 +67,16 @@
   font-size: 2rem;
   font-weight: 400;
 
+}
+
+#guideTxt {
+      margin-left: auto;
+      margin-right: auto;
+      width: 400px;
+      height: 200px;
+      color: rgb(85,85,85);
+      background-color: #f1efef;
+      font-size: 18px;
+      font-weight: 200;
+      line-height: 2rem;
 }

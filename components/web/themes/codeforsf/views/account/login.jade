@@ -33,5 +33,6 @@ block content
 												input(type="email" name="email" id="email" class="form-control form-control--wider" placeholder="Email Address" required)
 
 									div.text-center
-												input(type="submit" action="" value="Check in" class="btn btn-info btn-block btn-block__smaller" method="post" )
+												input(action="/test/api/projects" method="GET" type="submit" id="checkin" value = "Submit" class="btn btn-info btn-block btn-block__smaller" )
+												a(type="button" id="ahead" href="/test/api/projects" class="btn btn-primary btn-block btn-block__smaller" disabled) Not checked in
 												input(type="button" id="resetLocalStore" action="" value="reset storage" class="btn btn-info btn-block btn-block__smaller" method="post" )

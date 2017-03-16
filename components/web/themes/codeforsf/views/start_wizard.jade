@@ -172,35 +172,43 @@ block script
 					}
 				}
 
-				// click event listener placed on class "message-team" buttons
+				// click event listener placed on class "#mailModal" buttons
 				//
-				$('.message-team').on('click', function(e) {
-					showContactForm(e);
-				})
+				//$('#mailModal').on('submit', function(e) {
+				//$('#mailModal').modal('show');
+				//	setTimeout( $('#mailModal').modal('hide')
+				//	)
+				//})
 
-				// click event on the contact form "X" element on click
-				// Need to show clickability in cursor
-				//
-				$('#cancelform').on('click', function(e) {
-					cancelContactForm(e);
-				})
+				$("#mailModal").on('hidden.bs.modal', function(e) {
+					$('#confirm_sent').css("visibility", "hidden" ); //hide confirmation
+					$('#comment').text('Go ahead and start a conversation about how you can help!').removeProp('disabled');
+					console.log("Completed the on.hidden tasks");
+				});
+				// click event on the contact form "X" element and Cancel
+				//$('button[data-dismiss="modal"]').on('click', function(e) {
+				//	cancelContactForm(e);
+				//})
 
 			}).fail(function (err) {
 				console.error(err); return;
 			})
 		}
 
-		function showContactForm(e) {
-			prefillContactForm();
-			$( '.send-msg--hidden').removeClass('send-msg--hidden').addClass('send-msg--visible');
-		}
+		//function showContactForm(e) {
+		//	$("#comment").removeProp("disabled").text("Go ahead and start a conversation about how you can help!");
+		//	$('#mailModal').modal('show');
+		//}
 
-		function cancelContactForm(e) {
-			$( '.send-msg' ).removeClass('send-msg--visible').addClass('send-msg--hidden');
-		}
+		//function cancelContactForm(e) {
+		//	$('#mailModal').modal('hide').modal({dimmerSettings: { opacity: 0 }} //).modal('show');
+
+		//	$('#confirm_sent').css("visibility", "hidden" );
+		//	$('#comment').removeProp('disabled');
+		//}
 
 		function prefillContactForm() {
-			document.getElementById("comment").placeholder = "Send a message and questions to the Team Leader using this email form. \n\n We will not reveal your email address (it will be anonymized), but you will receive a reply directly to the email you checked in with. \n\n Your goals, skills and interests as given to the matching wizard will be appended to your message automatically. \n\n <em>Go ahead and start a conversation about how you can help!</em>"
+
 		}
 
 		function outputNotFoundInfo(projNotFound) {
@@ -218,7 +226,7 @@ block script
 			html+= '<section class="col-xs-2 col-xs-push-0"><img class="project-thumbnail" src="' + project_pix[ pix_idx ] + '" alt="Project Image Here" title="Project Image Here"></img></section>';
 			pix_idx++;
 			html+= '<section class="col-xs-4 col-xs-push-0">';
-			html+= '<a href="#mailModal" class="btn btn-large btn-primary mail-icon__centered" role="button" data-toggle="modal"> Contact Team </a>';
+			html+= '<a href="#" class="btn btn-large btn-primary mail-icon__centered" role="button" data-toggle="modal" data-target="#mailModal"> Contact Team </a>';
 			html+= '</section>';
 			html+= '<section class="col-xs-6 col-xs-push-0">';
 			html+= '<span class="row text-center">' + 'Project Leader\'s Name' + '</span></section></div>';
@@ -290,18 +298,12 @@ block script
 
 			//Handle email form submit event. For now,  we just clear any user-entered text from form and display a confirming message.
 			//
-			$(document).ready(function(){
-				$("#mailModal").submit(function(e){
-					e.preventDefault();
+			$("#mailModal").on("shown.bs.modal", function(e) {
+				$("button#sendMsg").click(function(e) {
 					$('#confirm_sent').css("visibility", "visible" );
-					$('#comment').val('').blur(); //erase the input and replace placeholder
-					$( "div.send-msg" ).removeClass('send-msg--visible').addClass('send-msg--hidden');
-					setTimeout(function() {
-						$('#confirm_sent').css("visibility", "hidden" );
-					}, 4000);
-
+					$('textarea[name=message-to-team]').val('Go ahead and start a conversation about how you can help!');
+					$('textarea[name=message-to-team]').prop('disabled', true); //set to readonly
 				})
-
 			});
 
 			function spitOutSkillIntGoalSelectors(matchresults) {
