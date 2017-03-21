@@ -1,5 +1,6 @@
 html
 	head
+	
 	body
 		#mailModal.modal.fade
 			.modal-dialog
@@ -10,7 +11,7 @@ html
 					.modal-body
 						form#contactTeam(action='', method='')
 							textarea#guideTxt(name='guideTxt', placeholder='Send a message and questions to the Team Leader using this email form. \We will not reveal your email address (it will be anonymized), but you will receive a reply directly to the email you checked in with. \Your goals, skills and interests as given to the matching wizard will be appended to your message automatically.')
-							textarea#comment(name='message-to-team', placeholder='Go ahead and start a conversation about how you can help!' autofocus)
+							textarea(name='message-to-team', placeholder='Go ahead and start a conversation about how you can help!' autofocus)
 							div#confirm_sent
 								h4 Your message has been sent to the Team Leader. You will receive a response at the email you used at checkin, although your email address will be anonymized.
 					.modal-footer

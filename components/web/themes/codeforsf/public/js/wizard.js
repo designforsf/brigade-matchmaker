@@ -59,8 +59,8 @@ function initMatchingStep() {
      http://localhost:5465/api/user/matches?skills=javascript
 */
 
-var baseURL = "http://localhost:5465/api/user/matches?"
 function parseSelections() {
+  var baseURL = "http://localhost:5465/api/user/matches?"
   var skills = "skills=", interests = "interests=", goals = "goals=";
   $("div#skills li.search-choice span").each( function (index) {
     if ( !index) // first item needs no comma
