@@ -49,7 +49,7 @@ block content
 
 				div.button__horiz-group(role="group" aria-label="...")
 
-					button(type="button" role="in_progress_message" class="next btn btn-success button__more-margins btn--hidden") Hang on a second!
+					button(type="button" role="in_progress_message" class="next btn btn-warning button__more-margins btn--hidden") Hang on a second!
 
 					button(type="button" role="start_matching" class="next btn btn-info button__more-margins") Match me!
 
@@ -58,18 +58,18 @@ block content
 			div#umtemplate.container-maxWidth970-no-top-pad.row.row--proj-container.btn--hidden
 				section.col-sm-2
 					img.project-thumbnail
-					a(href="#" class="btn btn-large btn-primary mail-icon__centered" role="button" data-toggle="modal" data-target="#mailModal") Contact Team
+					a(href="#" id="teamAddr" class="btn btn-large btn-primary mail-icon__centered" role="button" data-toggle="modal" data-target="#mailModal" info="") Contact Team
 				section.col-sm-10
 					div.row.row--proj-info1
 						section#pName.col-sm-4 Needs Project Name
-						section#pMission.col-sm-8 Project Mission Statement Lorem Ipsum a lot of stuffLorem Ipsum a lot of stuffLorem Ipsum Lorem Ipsum a lot of stuffLorem Ipsum a lot of stuffLorem Ipsum Lorem Ipsum a lot of stuffLorem Ipsum a lot of stuffLorem Ipsum Lorem Ipsum a lot of stuffLorem Ipsum a lot of stuffLorem Ipsum
+						section#pMission.col-sm-8 Project Mission Statement
 						section.col-sm-12
 							br
 					div.row.row--proj-matchConfigs
 						br
-						section#pSkills.col-sm-12 Lorem Ipsum a lot of stuffLorem Ipsum a lot of
-						section#pGoals.col-sm-12 Lorem Ipsum a lot of stuffLorem Ipsum a lot of
-						section#pInterests.col-sm-12 Lorem Ipsum a lot of stuffLorem Ipsum a lot of
+						section#pSkills.col-sm-12 Please contact the Team Leader about skills
+						section#pGoals.col-sm-12 Please contact the Team Leader about goals
+						section#pInterests.col-sm-12 Please contact the Team Leader about areas of focus
 						br
 
 			div#match_res.btn--hidden
@@ -81,10 +81,19 @@ block content
 							h4.large-hero--font-narrow You are matched!<br>Explore the details of the project teams, and connect to the teams that you are interested in. When you connect, a message with your profile and email will be sent to the project team lead(s).
 							br
 							h2.h1--icon-before You searched for:
-						//section.col-sm-2
 
-					container
-						div(id="matchingConfigs-list")
+
+					div.row.matchingConfigs-list
+
+						section.section__matchGoal.col-sm-4
+							h4#searchgoals.config Goals:
+
+						section.section__matchSkill.col-sm-4
+							h4#searchskills.config Skills:
+
+						section.section__matchInterest.col-sm-4
+							h4#searchinterests.config Interests:
+
 
 
 					include partials/_contactTeamForm
