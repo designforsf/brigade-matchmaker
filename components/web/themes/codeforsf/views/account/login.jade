@@ -1,0 +1,38 @@
+// Check-in form template, leveraging Bootstrap css
+// bound to /login URL in app.js
+// app.get('/login', usersCtrl.getLogin)
+// app.post('/login', usersCtrl.postLogin)
+// app.get('/login/edit',
+
+extends ../layout
+block content
+	script(src='https://code.jquery.com/jquery-3.1.1.min.js')
+	script(src="../js/_checkin.js")
+
+	body
+		//nav.navbar.navbar-light.bg-faded.navbar-fixed-top
+
+		div.container.container-maxWidth970
+			div.row.centered-form
+				div.col-xs-8.col-sm-6.col-md-6.col-sm-offset-2.col-md-offset-4
+					div#nav-below.panel.panel-default
+						div.panel-heading
+							h3.panel-title.text-center Please check in with your email address for Civic Hack Night
+							div.panel-body
+								form#checkin.role("form")
+									div.row
+										div.col-xs-6.col-sm-6.col-md-6
+											div.form-group
+												input(type="text" name="first_name" id="first_name" class="form-control input-sm" placeholder="First Name" required)
+										div.col-xs-6.col-sm-6.col-md-6
+											div.form-group
+												input(type="text" name="last_name" id="last_name" class="form-control input-sm" placeholder="Last Name" required)
+
+										div.col-xs-6.col-sm-6.col-md-6
+											div.form-group
+												input(type="email" name="email" id="email" class="form-control form-control--wider" placeholder="Email Address" required)
+
+									div.text-center
+												input(onclick="MH.Checkin.login()" method="GET" type="button" id="checkin" value = "Submit" class="btn btn-info btn-block btn-block__smaller" )
+												a(type="button" id="ahead" href="/test/api/projects" class="btn btn-primary btn-block btn-block__smaller" disabled) Not checked in
+												input(onclick="MH.Checkin.reset()" type="button" id="resetLocalStore" action="" value="reset storage" class="btn btn-info btn-block btn-block__smaller" )

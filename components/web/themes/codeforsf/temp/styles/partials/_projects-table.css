@@ -1,0 +1,92 @@
+/**
+/* html and css snippets from http://bootsnipp.com/snippets/featured/registration-form
+/* Bootstrap compatible forms
+*/
+
+#projects-list {}
+.row {
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.projects-list__project-container {
+	font-size: 1.75rem;
+	padding: 0 8.333% 0 16.667%;
+
+	}
+
+.row--margin-left {
+	margin-left: 15px;
+}
+
+.row__projects-list-box {
+	border-style: solid;
+	color: gray;
+	border-width: 1px;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+.Xprojects-list {
+	border-collapse: collapse;
+	margin-right: auto;
+	margin-left: auto;
+	padding: 1px 16px 1px 16px;
+	border-style: solid;
+	border-color: black;
+	border-width: 1px;
+}
+
+.row__projects-list--info {
+	/*background: rgba(102, 102, 255, 0.4);*/
+}
+
+.row__projects-list--cfg {
+	padding-top: 0px;
+	padding-bottom: 0px;
+	/*background: rgba(55, 102, 255, 0.4);*/
+}
+
+.capital:first-letter 	{
+	text-transform: uppercase;
+}
+
+.row__projects-list--info-2 {
+	margin-top: -10px;
+	margin-bottom: -10px;
+	border:	1px 0;
+	border-style: solid;
+	/*background: rgba(102, 102, 102, 0.4);*/
+}
+
+.project-thumbnail {
+    width: 100px;
+    height: 100px;
+    display: inline-block;
+    margin-top: 26px;
+    border-radius: .25rem;
+    padding: 0;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-color: #e6e6e6;
+    box-shadow: none;
+    float: left;
+}
+
+.row__projects-list--info-2 .btn {
+	margin-top: 26px;
+	font-size: 1.75rem;
+}
+
+.projects-list__row--projects {
+	border-collapse: collapse;
+/*	background: rgba(102, 102, 255, 0.4); */
+	padding-top: 0px;
+	margin-top: 0px;
+	height: auto;
+	overflow: hidden;
+	border-style: solid;
+	border-color: black;
+	border-width: 1px;
+}

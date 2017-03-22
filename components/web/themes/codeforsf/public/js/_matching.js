@@ -1,30 +1,5 @@
-extends layout
-extends start_wizard
-
-block append match_res
-	div.large-hero
-		h3.large-hero--font-narrow You are matched! Explore the details of the project teams, and connect to the teams that you are interested in. When you connect, a message with your profile and email will be sent to the project team lead(s).
-
-	h1.h1--more-margin.h1--icon-before.brigadeSF-font-fam  You searched for:
-	div(id="matchingConfigs-list")
 
 
-	h1.h1--more-margin.brigadeSF-font-fam  Your matching projects:
-	container
-
-		//
-		//matching list will be appended here
-		//
-		div(id="projects-list")
-
-		<br />
-		div.text-center
-			div.btn-group(role="group" aria-label="...")
-				button(type="button" class="btn btn-warning") Back
-				button(type="button" class="btn btn-info") Home
-				button(type="button" class="btn btn-primary") Restart the Matching Hat wizard
-
-		include partials/_mail_form
 
 block script
 	// NOTE: put the dot after script(). and the js is rendered only for client interpretation
@@ -34,7 +9,7 @@ block script
 		var project_pix = ["https://avatars1.githubusercontent.com/u/8534106?v=3&s=200", "https://avatars1.githubusercontent.com/u/8534106?v=3&s=200", "http://i.imgur.com/JUmCJ5L.png", "http://i.imgur.com/KOY0XD0.jpg", "https://avatars1.githubusercontent.com/u/8534106?v=3&s=200",
 		"https://avatars1.githubusercontent.com/u/8534106?v=3&s=200"];
 
-		jQuery(document).ready(function () {   //This is now replaced with a fn call
+		jQuery(document).ready(function () {
 
 			//
 			// The first $.ajax retrieves matchresults, an array of

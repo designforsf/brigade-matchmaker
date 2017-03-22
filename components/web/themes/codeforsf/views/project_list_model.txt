@@ -1,0 +1,23 @@
+Model for the all projects list return data
+
+success : Boolean
+projects : array of objects
+    [...]
+    _id: string id
+    name: string
+    matchingConfig : single Object
+      rolesNeeded : array of strings // I think this now should be called goals
+      skillsNeeded: array of strings
+      interestsNeeded: array of strings
+
+//This model needs to be extended to include:
+  Team Leader
+  Team Leader or Project email address
+  Mission statement/project description
+  Project url (or github?)
+  Project graphic/photo
+
+
+example JSON returned:
+http://localhost:5465/api/projects
+{"success":true,"projects":[{"_id":"58a90d665af2aea721baf2f1","name":"forked-project-kong","matchingConfig":{"rolesNeeded":["developer","helper"],"skillsNeeded":["mongodb","writing","legal","advocacy"],"interestsNeeded":["infrastructure"]}},{"_id":"58a90d665af2aea721baf2f0","name":"really-empty-project","matchingConfig":{"rolesNeeded":["developer"],"skillsNeeded":["javascript","html"],"interestsNeeded":["homelessness"]}},{"_id":"58a90d665af2aea721baf2f4","name":"mirrored-project-mirror","matchingConfig":{"rolesNeeded":["developer"],"skillsNeeded":["ruby"],"interestsNeeded":[]}}]}

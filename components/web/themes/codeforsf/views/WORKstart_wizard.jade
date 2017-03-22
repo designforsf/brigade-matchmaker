@@ -1,30 +1,90 @@
+/**
+/* URL test/projectlist
+*/
+
 extends layout
-extends start_wizard
+block content
+	div.container.container-maxWidth970
+		form#wizardcards
+			ul(id="progressbar")
+				li(id="start" class="active") Profile
+				li(id="start_matching") ..Working
+				li(id="matched") Matched
 
-block append match_res
-	div.large-hero
-		h3.large-hero--font-narrow You are matched! Explore the details of the project teams, and connect to the teams that you are interested in. When you connect, a message with your profile and email will be sent to the project team lead(s).
+			br
+			div.interest_profile
+				form
+					h3 Hello Civic Enthusiast!
+					p Create a simple profile and let us help you decide which project teams are a match for you. Your information will not be saved and will only be shared with the project team leads that you choose to message.
+					hr
+					h3 Profile
+					p
+					div.form-group
+						h4 Skills that I want to contribute
+						div(id="skills")
+							select(class="chosen-select", data-placeholder="Select all that apply. * 3 skills max", multiple style="width: 350px", tabindex="1")
+								- var list = skills
+								each item, j in list
+									option(value= j) #{item.name}
+					br
+					hr(color="#cccccc")
+					h4 Civic issues of interest
+					div.form-group
+						div(id="interests")
+							select(class="chosen-select", data-placeholder="Select all that apply.  * 3 interests max", multiple style="width: 350px", tabindex="1")
+								- var list = interests
+								each item, i in list
+									option(value=i) #{item.name}
+					br
+					hr(color="#cccccc")
+					h4 My goals
+					div.form-group
+						div(id="goals")
+							select(class="chosen-select", data-placeholder="Choose your Goals", multiple style="width: 350px", tabindex="1")
+								- var list = goals
+								each item, j in list
+									option(value=j) #{item.name}
+					br
 
-	h1.h1--more-margin.h1--icon-before.brigadeSF-font-fam  You searched for:
-	div(id="matchingConfigs-list")
+				div.button__horiz-group(role="group" aria-label="...")
+					button(type="button" role="home" class="next btn btn-warning button__more-margins") Home
+
+					button(type="button" role="in_progress_message" class="next btn btn-success button__more-margins btn--hidden") Hang on a second!
+
+					button(type="button" role="start_matching" class="next btn btn-info button__more-margins") Match me!
+
+					button(type="button" role="see_results" class="next btn btn-primary button__more-margins btn--hidden") See results!
+
+			div#match_res.btn--hidden
+				div.container-maxWidth970
+					div.row
+						section.col-sm-2
+							img(src="")
+						section.col-sm-8
+							h4.large-hero--font-narrow You are matched!<br>Explore the details of the project teams, and connect to the teams that you are interested in. When you connect, a message with your profile and email will be sent to the project team lead(s).
+							br
+							h4 You searched for:
+						section.col-sm-2
+
+					container
+						div(id="matchingConfigs-list")
 
 
-	h1.h1--more-margin.brigadeSF-font-fam  Your matching projects:
-	container
+					h4.h1--more-margin.brigadeSF-font-fam  Your matching projects:
+					container
+						//
+						//matching list will be appended here
+						//
+						div(id="projects-list")
 
-		//
-		//matching list will be appended here
-		//
-		div(id="projects-list")
+						<br />
+						div.text-center
+							div.btn-group(role="group" aria-label="...")
+								button(type="button" class="btn btn-warning") Back
+								button(type="button" class="btn btn-info") Home
+								button(type="button" class="btn btn-primary") Restart the Matching Hat wizard
 
-		<br />
-		div.text-center
-			div.btn-group(role="group" aria-label="...")
-				button(type="button" class="btn btn-warning") Back
-				button(type="button" class="btn btn-info") Home
-				button(type="button" class="btn btn-primary") Restart the Matching Hat wizard
-
-		include partials/_mail_form
+						include partials/_mail_form
 
 block script
 	// NOTE: put the dot after script(). and the js is rendered only for client interpretation
@@ -34,7 +94,8 @@ block script
 		var project_pix = ["https://avatars1.githubusercontent.com/u/8534106?v=3&s=200", "https://avatars1.githubusercontent.com/u/8534106?v=3&s=200", "http://i.imgur.com/JUmCJ5L.png", "http://i.imgur.com/KOY0XD0.jpg", "https://avatars1.githubusercontent.com/u/8534106?v=3&s=200",
 		"https://avatars1.githubusercontent.com/u/8534106?v=3&s=200"];
 
-		jQuery(document).ready(function () {   //This is now replaced with a fn call
+		//jQuery(document).ready(function () {
+		function initMatchingSearch(searchStr) {
 
 			//
 			// The first $.ajax retrieves matchresults, an array of
@@ -46,7 +107,7 @@ block script
 			//
 
 			jQuery.ajax({
-				url: '/api/user/matches?skills=javascript,python&interests=housing&goals=developer,presenter'
+				url: searchStr
 			}).done(function (matchresults) {
 				if (typeof matchresults.projects !== 'undefined' && matchresults.projects[0]) {
 					spitOutSkillIntGoalSelectors(matchresults);
@@ -68,10 +129,13 @@ block script
 					}
 
 				}
+				// We have now printed out the new info
+
+
 				}).fail(function (err) {
 				console.error(err); return;
 			});
-		})
+		}
 
 		function listMatchingProjects(matchingProject) {
 
@@ -151,12 +215,12 @@ block script
 
 		function outputProjectInfo(proj) {
 			//
-			html+= '<div class="projects-list__project-container"><div class="row row__projects-list--info-2">';
+			html+= '<div class="projects-list__project-container"><div class="row row__projects-list--info-1">';
 
 			html+= '<section class="col-xs-2 col-xs-push-0"><img class="project-thumbnail" src="' + project_pix[ pix_idx ] + '" alt="Project Image Here" title="Project Image Here"></img></section>';
 			pix_idx++;
 			html+= '<section class="col-xs-4 col-xs-push-0">';
-			html+= '<button title="email the team leader" class="message-team btn btn-primary">Contact this Team</button>';
+			html+= '<button title="email the team leader" class="message-team btn btn-primary button__more-margins">Contact this Team</button>';
 			html+= '</section>';
 			html+= '<section class="col-xs-6 col-xs-push-0">';
 			html+= '<span class="row text-center">' + 'Project Leader\'s Name' + '</span></section></div>';
@@ -176,21 +240,21 @@ block script
 			// Print out the project needs/interest headings
 			//
 			html+= '<section class="section__matchGoal col-xs-4 col-xs-push-0">';
-			html+= '<span class="row text-center"><strong> ' + 'Seeking: ' + '</strong></span></section>';
+			html+= '<span class="text-center"><strong> ' + 'Seeking: ' + '</strong></span></section>';
 			html+= '<section class="section__matchSkill col-xs-4 col-xs-push-0">';
-			html+= '<span class="row text-center"><strong> ' + 'Skills Needed: ' + '</strong></span></section>';
+			html+= '<span class="text-center"><strong> ' + 'Skills Needed: ' + '</strong></span></section>';
 			html+= '<section class="section__matchInterest col-xs-4 col-xs-push-0">';
-			html+= '<span class="row text-center"><strong> ' + 'Our Areas of Focus: ' + '</strong></span></section>';
+			html+= '<span class="text-center"><strong> ' + 'Our Areas of Focus: ' + '</strong></span></section>';
 			html+= '</div>';
 			//
 			// Print out the goals / skills / interests
 			//
 			var Configs = proj.matchingConfig;
-			html+= '<div class="row row__projects-list--cfg">';  //Start next row for the same project - configs
+			html+= '<div class="row row__projects-list--cfg-2">';  //Start next row for the same project - configs
 			var cfgClass = ['section__matchGoal', 'section__matchSkill', 'section__matchInterest'];
 			var i=0;
 			Object.keys(Configs).forEach(key => {
-				html+= '<section class="' + cfgClass[i] + ' col-xs-4 col-xs-push-0">'  //start section
+				html+= '<section class="' + cfgClass[i] + ' col-xs-4 col-xs-push-0">'
 				i++
 				for(k = 0; k < proj.matchingConfig[key].length; k++ ) {
 					html+= '<span class="capital">' + proj.matchingConfig[key][k] + ' ' + '</span>';
@@ -199,7 +263,7 @@ block script
 			})
 			html+= '</div>'; //close project needs
 			html+= '</div>'; //close projects-list__project-container div
-			html+= '<div "class=row row--separator"><br /></div>';
+			html+= '<div "class=row row--separator"><br /><br /><br /></div>';
 			jQuery('#projects-list').append(html);
 
 
@@ -243,28 +307,30 @@ block script
 
 			function spitOutSkillIntGoalSelectors(matchresults) {
 				var html = '<div class="row match-cfg-heading">';
-				html+= '<section class="section__matchGoal col-sm-4 col-xs-push-0"><h3 class="config">Goals</h3></section>';
-				html+= '<section class="section__matchSkill col-sm-4 col-xs-push-0"><h3 class="config">Skills</h3></section>';
-				html+= '<section class="section__matchInterest col-sm-4 col-xs-push-0"><h3 class="config">Interests</h3></section>';
-				//html+= '</div>';
-				//jQuery('#matchingConfigs-list').append(html);
-				//html = '<div class="row mitem">';
-				html+= '<span class="row">'
-				html+= '<section class="section__matchGoal col-sm-4 col-xs-push-0">';
+				html+= '<section class="col-sm-2"></section>';
+				html+= '<section class="section__matchGoal col-sm-3 col-xs-push-0"><h4 class="config">Goals</h3></section>';
+				html+= '<section class="section__matchSkill col-sm-3 col-xs-push-0"><h4 class="config">Skills</h3></section>';
+				html+= '<section class="section__matchInterest col-sm-3 col-xs-push-0"><h4 class="config">Interests</h3></section><section class="col-sm-1"></section><br />';
+				html+= '</div>';
+
+				html+= '<div class="row matchingConfigs-list">'
+
+				html+= '<section class="col-sm-2 col-xs-push-0"></section>';
+				html+= '<section class="section__matchGoal col-sm-3 col-xs-push-0">';
 					for (i = 0; i < matchresults.goals.length; i++ ) {
 						html += '<span class="mitem">' + matchresults.goals[i] + '</span>';
 					}
-					html += '</section>';
-					html+= '<section class="section__matchSkill col-sm-4 col-xs-push-0">';
+					html += '  </section>';
+					html+= '<section class="section__matchSkill col-sm-3 col-xs-push-0">';
 					for (i = 0; i < matchresults.skills.length; i++ ) {
 						html += '<span class="mitem">' + matchresults.skills[i] + '</span>';
 					}
-					html += '</section>';
-					html+= '<section class="section__matchInterest col-sm-4 col-xs-push-0">';
+					html += '  </section>';
+					html+= '<section class="section__matchInterest col-sm-3 col-xs-push-0">';
 					for (i = 0; i < matchresults.interests.length; i++ ) {
 						html += '<span class="mitem">' + matchresults.interests[i] + '</span>';
 					}
-				html += '</span></section>';
+				html += '</section>';
 				html+= '</div>';
 				jQuery('#matchingConfigs-list').append(html);
 

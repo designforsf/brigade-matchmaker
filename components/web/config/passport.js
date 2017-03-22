@@ -296,9 +296,15 @@ passport.use(new MeetupStrategy({
 
 /**
  * Sign in using Email and Password.
+ NOTE: does not care about password in the POST!!
  */
-passport.use(new LocalStrategy({ usernameField: 'email' }, function (email, password, done) {
-  email = email.toLowerCase()
+passport.use(new LocalStrategy({ 
+  usernameField: 'email',
+  passwordField: 'password',
+}, function (email, password, done) {
+  console.log('passport ' + email + ' ' + password)
+  email = email.toLowerCase();
+  
   User.findOne({ email: email }, function (err, user) {
     if (err) console.error(err)
     if (!user) {

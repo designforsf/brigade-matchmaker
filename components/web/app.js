@@ -234,6 +234,7 @@ app.get('/logout', usersCtrl.getLogout)
 
  app.post('/api/user/create_and_login', apiCtrl.createUserAndLogin)
  app.post('/api/user/login', apiCtrl.userLogin)
+ app.post('/api/user/logoff', apiCtrl.userLogoff)
  app.get('/api/user/session', apiCtrl.getUserSession)
  //app.get('/api/user/match_config', apiCtrl.getUserMatchConfig)
  app.post('/api/user/match_config', apiCtrl.updateUserMatchConfig)

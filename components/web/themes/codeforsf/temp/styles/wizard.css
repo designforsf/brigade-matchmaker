@@ -40,15 +40,16 @@ input[type=text], label {
 	width: 20%;
 	float: left;
 	position: relative;
-
-    .move_left {
-      transform: translateX(-100px);
-      transition-timing-function: ease-out;
-    }
-
-    .move_right {
-      transform: translateX(100px);
-    }
+}
+#progressbar li .move_left {
+    -webkit-transform: translateX(-100px);
+            transform: translateX(-100px);
+    -webkit-transition-timing-function: ease-out;
+            transition-timing-function: ease-out;
+}
+#progressbar li .move_right {
+    -webkit-transform: translateX(100px);
+            transform: translateX(100px);
 }
 
 #progressbar li:before {

@@ -1,0 +1,82 @@
+.send-msg {
+  position: fixed;
+  top: 90px;
+  left: 20px;
+  z-index: 5;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.send-msg--hidden {
+  visibility: hidden;
+}
+
+.send-msg--visible {
+  visibility: visible;
+}
+
+.modal-header {
+  background-color: rgba(242, 247, 246,.7);
+  }
+
+.align-right {
+  align-items: right;
+}
+
+
+#confirm_sent {
+  text-align: left;
+  padding: 10px 10px;
+  position:relative;
+  top: -200px;
+  left: 20px;
+  visibility: hidden;
+  background-color: #FFF;
+  opacity: 80%;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 10px;
+  width: 450px;
+}
+
+#comment {
+      margin-left: auto;
+      margin-right: auto;
+      width: 400px;
+      height: 480px;
+      color: black;
+      background-color: #FFF;
+      font-size: 1.8rem;
+}
+
+#comment:hover {
+  background-color: #f2f5f9;
+}
+
+#comment:focus {
+  background-color: #FFF;
+}
+#comment::placeholder {
+  color: black;
+  font-size: 1.8rem;
+  font-weight: 200;
+
+}
+
+#comment::first-line {
+  color: black;
+  font-size: 2rem;
+  font-weight: 400;
+
+}
+
+#guideTxt {
+      margin-left: auto;
+      margin-right: auto;
+      width: 400px;
+      height: 200px;
+      color: rgb(85,85,85);
+      background-color: #f1efef;
+      font-size: 18px;
+      font-weight: 200;
+      line-height: 2rem;
+}

@@ -1,0 +1,22 @@
+.button__horiz-group {
+	align-content: center;
+	font-size: 2rem;
+}
+
+.button__more-margins {
+  margin-right: 10px;
+  margin-left: 10px;
+  margin-top: 25px;
+}
+
+
+.btn--hidden {
+	display: none;
+	visibility: hidden;
+}
+
+
+input[type=submit].btn-block__smaller {
+	text-align: center;
+	width: 25%;
+}

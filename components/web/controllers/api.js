@@ -8,6 +8,15 @@ var PyShell = require('python-shell')
 module.exports = {
 
   /**
+    POST /api/user/logouff
+  */
+  
+  userLogoff: function (req, res, next) {
+    req.session.destroy();
+    res.json({ success: true });
+  },
+
+  /**
    * Get /api/user/create_and_login
    */
   createUserAndLogin: function (req, res, next) {
@@ -17,7 +26,7 @@ module.exports = {
       if (foundUsers.length == 0) {
 
         var newUser = new Users();
-        newUser.username = req.body.username;
+        newUser.username = req.body.email;
         newUser.email = req.body.email;
         newUser.password = newUser.encryptPassword(req.body.password);
         newUser.profile = {
@@ -56,7 +65,7 @@ module.exports = {
     req.assert('password', 'Password cannot be blank').notEmpty()
 
     var errors = req.validationErrors()
-    
+
     if (errors) {
       req.flash('errors', errors)
       res.json({ success: false, error: {
@@ -317,7 +326,7 @@ module.exports = {
      */
 
     testProjects: function (req, res) {
-      res.render(res.locals.brigade.theme.slug + '/views/test_api_projects', {
+      res.render(res.locals.brigade.theme.slug + '/views/all_projects', {
         title: 'Test the Projects API',
         brigade: res.locals.brigade
       })
@@ -333,7 +342,7 @@ module.exports = {
           http://localhost:5465/api/project/taxonomy/interests
           http://localhost:5465/api/project/taxonomy/goals
      */
-     
+
     getTaxonomySkills: function (req, res, next) {
       var pt = new ProjectTaxonomies();
       pt.getSkills(function (err, results) {
@@ -341,7 +350,7 @@ module.exports = {
         return next();
       })
     },
-    
+
     getTaxonomyInterests: function (req, res, next) {
       var pt = new ProjectTaxonomies();
       pt.getInterests(function (err, results) {
@@ -349,7 +358,7 @@ module.exports = {
         return next();
       })
     },
-    
+
     getTaxonomyGoals: function (req, res, next) {
       var pt = new ProjectTaxonomies();
       pt.getTaxonomies(function (err, results) {

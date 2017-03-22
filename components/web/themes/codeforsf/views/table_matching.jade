@@ -1,20 +1,25 @@
+/**
+/* This section is the Wizard selector results and is under construction
+/* For testing this is called from http://localhost5465/matching
+/*
+*/
+script(src='https://code.jquery.com/jquery-3.1.1.min.js')
+
+
 extends layout
-extends start_wizard
 
-block append match_res
-	div.large-hero
-		h3.large-hero--font-narrow You are matched! Explore the details of the project teams, and connect to the teams that you are interested in. When you connect, a message with your profile and email will be sent to the project team lead(s).
-
-	h1.h1--more-margin.h1--icon-before.brigadeSF-font-fam  You searched for:
-	div(id="matchingConfigs-list")
+block content
+	body
+	div.container-maxWidth970
+		div.large-hero
+			h3.large-hero--font-narrow You are matched! Explore the details of the project teams, and connect to the teams that you are interested in. When you connect, a message with your profile and email will be sent to the project team lead(s).
 
 
-	h1.h1--more-margin.brigadeSF-font-fam  Your matching projects:
-	container
+		h1.h1--more-margin.h1--icon-before.brigadeSF-font-fam  You searched for:
+		div(id="matchingConfigs-list")
 
-		//
-		//matching list will be appended here
-		//
+
+		h1.h1--more-margin.brigadeSF-font-fam  Your matching projects:
 		div(id="projects-list")
 
 		<br />
@@ -29,12 +34,8 @@ block append match_res
 block script
 	// NOTE: put the dot after script(). and the js is rendered only for client interpretation
 	script().
-		var html
-		var pix_idx = 0;
-		var project_pix = ["https://avatars1.githubusercontent.com/u/8534106?v=3&s=200", "https://avatars1.githubusercontent.com/u/8534106?v=3&s=200", "http://i.imgur.com/JUmCJ5L.png", "http://i.imgur.com/KOY0XD0.jpg", "https://avatars1.githubusercontent.com/u/8534106?v=3&s=200",
-		"https://avatars1.githubusercontent.com/u/8534106?v=3&s=200"];
 
-		jQuery(document).ready(function () {   //This is now replaced with a fn call
+		jQuery(document).ready(function () {
 
 			//
 			// The first $.ajax retrieves matchresults, an array of
@@ -63,7 +64,6 @@ block script
 					// one API call.
 
 					for (q = 0; q < matchresults.projects.length; q++) {
-						console.log(matchresults.projects[q].id);
 						listMatchingProjects(matchresults.projects[q]);
 					}
 
@@ -87,25 +87,21 @@ block script
 
 			}).done(function (results) {
 				//
-				// This looping should be replaced by having the matching wizard return the necessary // project details in its API
+				// This looping will be eliminated if matching wizard returns the necessary // project details
 				//
 				var proj_exists = 'false';
-				html = '';
 				if (typeof results.projects !== 'undefined' && results.projects[0]) {
 					results.projects.forEach(function (proj, idx) {
 						if(proj.name === matchingProject.id) { // this is a hit, add details and output
-							//showProjListHeadings() //Contact Team, Team Leader, Project Name etc
-
-							console.log('matchingProject.id is ', matchingProject.id, proj.name)
+							showProjListHeadings() //Contact Team, Team Leader, Project Name etc
 							outputProjectInfo(proj);
 							proj_exists = 'true';
 						}
 					})
 
 					if (proj_exists === 'false') {   //This should only occur with test data
-						//showProjListHeadings()
-						console.log('Not found project matchingProject.id is', matchingProject.id);
-						outputNotFoundInfo(matchingProject);
+						showProjListHeadings()
+						outputNotFoundInfo(matchingProject.id);
 
 					}
 				}
@@ -143,62 +139,47 @@ block script
 
 		function outputNotFoundInfo(projNotFound) {
 			var not_proj = {}
-				not_proj.name = projNotFound.id,
+				not_proj.name = "I need a name!",
 				not_proj.description = 'I need a mission statement!';
 				not_proj.matchingConfig = {};
 			outputProjectInfo(not_proj);
 		}
 
 		function outputProjectInfo(proj) {
-			//
-			html+= '<div class="projects-list__project-container"><div class="row row__projects-list--info-2">';
+			var html = '<table class="table table-striped table-bordered table-condensed"><tr>';
+			html+= '<td class="row-projects-list__info">';
+			html+= '<button type="button" class="message-team mail-icon mail-icon__centered btn btn-primary btn-large" aria-label="Left Align"><span class="glyphicon glyphicon-envelope text-center" aria-hidden="true"></span></button></td>';
 
-			html+= '<section class="col-xs-2 col-xs-push-0"><img class="project-thumbnail" src="' + project_pix[ pix_idx ] + '" alt="Project Image Here" title="Project Image Here"></img></section>';
-			pix_idx++;
-			html+= '<section class="col-xs-4 col-xs-push-0">';
-			html+= '<button title="email the team leader" class="message-team btn btn-primary">Contact this Team</button>';
-			html+= '</section>';
-			html+= '<section class="col-xs-6 col-xs-push-0">';
-			html+= '<span class="row text-center">' + 'Project Leader\'s Name' + '</span></section></div>';
-
-			html+= '<div class="row row__projects-list--info-2">';
-			html+= '<section class="col-xs-2 col-xs-push-0"></section>';
-
-			html+= '<section class="col-xs-4 col-xs-push-0">';
-			html+= '<span class="row text-center">' + proj.name + '</span></section>';
-
-			html+= '<section class="col-xs-6 col-xs-push-0">';
-			html+= '<span class="row">' + proj.description + ' This project needs a mission statement showing how the team will foster social progress.' + '</span></section></div>';
+			html+= '<td class="row-projects-list__info">Project Leader</td>';
+			html+= '<td class="row-projects-list__info">' + proj.name + '</td>';
+			html+= '<td class="row-projects-list__info">' + proj.description + ' This project needs a mission statement showing how the team will foster social progress.' + '</td></tr></table>';
 
 			var Configs = proj.matchingConfig;
-			html+= '<div class="row row__projects-list--cfg">';  //Start next row for the same project - configs
+			html+= '<div class="row projects-list__row--project-needs">';  //Start next row for the same project - configs
 			//
 			// Print out the project needs/interest headings
 			//
-			html+= '<section class="section__matchGoal col-xs-4 col-xs-push-0">';
+			html+= '<section class="col-sm-4 col-xs-push-0">';
 			html+= '<span class="row text-center"><strong> ' + 'Seeking: ' + '</strong></span></section>';
-			html+= '<section class="section__matchSkill col-xs-4 col-xs-push-0">';
+			html+= '<section class="col-sm-4 col-xs-push-0">';
 			html+= '<span class="row text-center"><strong> ' + 'Skills Needed: ' + '</strong></span></section>';
-			html+= '<section class="section__matchInterest col-xs-4 col-xs-push-0">';
+			html+= '<section class="col-sm-4 col-xs-push-0">';
 			html+= '<span class="row text-center"><strong> ' + 'Our Areas of Focus: ' + '</strong></span></section>';
 			html+= '</div>';
 			//
 			// Print out the goals / skills / interests
 			//
 			var Configs = proj.matchingConfig;
-			html+= '<div class="row row__projects-list--cfg">';  //Start next row for the same project - configs
-			var cfgClass = ['section__matchGoal', 'section__matchSkill', 'section__matchInterest'];
-			var i=0;
+			html+= '<div class="row projects-list__row--project-needs">';  //Start next row for the same project - configs
 			Object.keys(Configs).forEach(key => {
-				html+= '<section class="' + cfgClass[i] + ' col-xs-4 col-xs-push-0">'  //start section
-				i++
+				html+= '<section class="col-sm-4 col-xs-push-0">'  //start section
 				for(k = 0; k < proj.matchingConfig[key].length; k++ ) {
-					html+= '<span class="capital">' + proj.matchingConfig[key][k] + ' ' + '</span>';
+					html+= '<span>' + proj.matchingConfig[key][k] + '</span>';
 				}
 				html+= '</section>'; //close the section for this category of matching configs
 			})
 			html+= '</div>'; //close project needs
-			html+= '</div>'; //close projects-list__project-container div
+			//html+= '</div>'; //close projects-list__project-container div
 			html+= '<div "class=row row--separator"><br /></div>';
 			jQuery('#projects-list').append(html);
 
@@ -207,30 +188,21 @@ block script
 
 		function showProjListHeadings() {
 
-			html = '';
-			html+= '<div class="row__projects-list-box">'; //contain entire project
-			html += '<div class="row  row__projects-list--info">';
-			html+= '<section  class="text-center col-xs-2 col-xs-push-0">';
-			html+= '<span>Contact</span></section>';
+			var html = '<table class="table table-striped table-bordered table-condensed">'; //bootstrap class
 
-			html+= '<section class="col-xs-3 col-xs-push-0">';
-			html+= '<span class="text-center">Team Leader</span></section>';
-			html+= '<section class="col-xs-3 col-xs-push-0">';
-			html+= '<span class="text-center">Project Name</span></section>';
-
-			html+= '<section class="col-xs-4 col-xs-push-0">';
-			html+= '<span class="text-center">Project Mission Statement</span></section></div>';
-
-			//jQuery('#projects-list').append(html);
-
+			html += '<thead><tr>';
+			html += '<th class=row__projects-list-headings>Contact Team</th>';
+			html += '<th class=row__projects-list-headings>Project Name</th>';
+			html += '<th class=row__projects-list-headings>Team Leader</th>';
+			html += '<th class=row__projects-list-headings>Mission</th>';
+			html += '</tr></thead>';
+			jQuery('#projects-list').append(html);
 			}
 
-			//Handle email form submit event. For now,  we just clear any user-entered text from form and display a confirming message.
-			//
 			$(document).ready(function(){
 				$("form").submit(function(e){
 					e.preventDefault();
-					$('#confirm_sent').css("visibility", "visible" );
+				  $('#confirm_sent').css("visibility", "visible" );
 					$('#comment').val('').blur(); //erase the input and replace placeholder
 					$( "div.send-msg" ).removeClass('send-msg--visible').addClass('send-msg--hidden');
 					setTimeout(function() {

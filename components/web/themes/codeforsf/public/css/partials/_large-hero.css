@@ -1,0 +1,23 @@
+/**
+/* Styling for top of pages, below nav bar and above main content
+/* such as forms and grids
+*/
+
+.large-hero {
+  display: block;
+  height: auto;
+  padding-top: 20px;
+  margin-bottom: 40px;
+
+  }
+
+.large-hero--font-narrow {
+  font-weight: 300;
+  line-height: 2.8rem;
+}
+
+.large-hero--font-narrow::first-line {
+  margin-bottom: 110%;
+  font-size: 3.8rem;
+  font-weight: 500;
+}

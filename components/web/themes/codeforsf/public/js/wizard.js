@@ -1,148 +1,130 @@
-//fieldsets
-var current_fs
-var next_fs
-var previous_fs
-//fieldset properties which we will animate
-var left
-var opacity
-var scale 
-//flag to prevent quick multi-click glitches
-var animating
-// JSON object with user's data 
-var user_data = {}
-user_data.step = 1
-
 $(document).ready(function () {
   if ($(".alert-info")[0]) {
 		location.href = '/projects'
   }
+  $("[role='start_matching']").click(function () {
+  	 user_data = "matching";
+     console.log("current step: " + user_data);
+     initMatchingStep();
+     setTimeout( setViewMatches, 2200);
+
+  })
+
+  $("[role='see_results']").click(function () {
+  	 user_data = "results";
+     console.log("current step: " + user_data);
+     $("#match_res").removeClass("btn--hidden");
+     $("button#backToWizard").removeClass("btn--hidden");
+     $("#wizardcards").addClass("btn--hidden");
+  })
+
+  $("[id='backToWizard']").click(function () {
+  	 user_data = "restartWizard";
+     console.log("current step: " + user_data);
+     $("#match_res").addClass("btn--hidden");
+     $("#backToWizard").addClass("btn--hidden");
+     $("#wizardcards").removeClass("btn--hidden");
+     $("#matchingConfigs-list").children().remove();
+     $("#projects-list").children().remove();
+
+     restartWizard();
+
+  })
+
+  $("[role='home']").click(function(){
+    user_data = "home";
+    location.href = '/test/api/projects'; //go back to home page
+  })
 });
 
-$(".git-login").click(function () {
-	location.href = 'auth/github'
-})
+function initMatchingStep() {
+  $("li#start_matching").addClass("active").addClass("move_left");
+  $("li#start").removeClass("active").addClass("move_right");
+  $("[role='home']").addClass("btn--hidden");
+  $("[role='in_progress_message']").removeClass("btn--hidden");
+  $("[role='start_matching']").addClass("btn--hidden");
+  var searchStr = parseSelections();
+  $("[role='in_progress_message']").attr("value", searchStr); //pass the users search through this button's value attr
+  initMatchingSearch(searchStr); //is this function even in scope??
+  //initMatchingSearch(searchStr);
 
-$(".matching-hat").click(function () {
-	location.href = '/matching'
-})
+}
+/**
+/* from api.js -- test URLs for matching
+/* TEST:
+     http://localhost:5465/api/user/matches?skills=javascript,python&interests=housing&goals=developer,presenter
+     http://localhost:5465/api/user/matches?skills=data-science&interests=homelessness&goals=developer
+     http://localhost:5465/api/user/matches?skills=ruby&goals=developer,learner
+     http://localhost:5465/api/user/matches?skills=null&goals=leader
+     http://localhost:5465/api/user/matches?skills=javascript
+*/
 
-$(".next").click(function(){
-  user_data.step += 1
+var baseURL = "http://localhost:5465/api/user/matches?"
+function parseSelections() {
+  var skills = "skills=", interests = "interests=", goals = "goals=";
+  $("div#skills li.search-choice span").each( function (index) {
+    if ( !index) // first item needs no comma
+      skills+= $(this).text();
+    else
+      skills+= ","+$(this).text();
+    console.log(index + " Skills: " + skills); // spit out each choice
+  });
+  $("div#interests li.search-choice span").each( function (index) {
+    if ( !index) // first item needs no comma
+      interests+= $(this).text();
+    else
+      interests+= ","+$(this).text();
+    console.log(index + " interests: " + interests); // spit out each choice
+  });$("div#goals li.search-choice span").each( function (index) {
+    if ( !index) // first item needs no comma
+      goals+= $(this).text();
+    else
+      goals+= ","+$(this).text();
+    console.log(index + " Goals: " + goals); // spit out each choice
+  });
+  // remove unused elements
+  console.log("Skills length is " + skills.length);
+  console.log("Ints length is " + interests.length);
+  console.log("Goals length is " + goals.length);
+  if (skills.length === 7) {
+    skills = ""; }
+  console.log("!skills is true/false: " + !skills );
+  if (interests.length === 10) {
+    interests = ""; } else if
+      ( skills ) { skills += "&" };
 
-	console.log("current step: " + user_data.step)
-	if(animating) return false
-	animating = true
-	
-	current_fs = $(this).parent()
-	next_fs = $(this).parent().next()
-	
-	//activate next step on progressbar using the index of next_fs
-	$("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active")
-	
-	//show the next fieldset
-	next_fs.show()
-	//hide the current fieldset with style
-	current_fs.animate({opacity: 0}, {
-		step: function(now, mx) {
-			//as the opacity of current_fs reduces to 0 - stored in "now"
-			//1. scale current_fs down to 80%
-			scale = 1 - (1 - now) * 0.2
-			//2. bring next_fs from the right(50%)
-			left = (now * 50)+"%"
-			//3. increase opacity of next_fs to 1 as it moves in
-			opacity = 1 - now;
-			current_fs.css({
-        'transform': 'scale('+scale+')',
-        'position': 'absolute'
-      })
-			next_fs.css({'left': left, 'opacity': opacity})
-		}, 
-		duration: 800, 
-		complete: function(){
-			current_fs.hide()
-			animating = false
-		},
-	})
-})
+  if (goals.length === 6) {
+    goals = ""; } else
+      if ( interests ) { interests += "&" } else
+        if ( skills ) { skills += "&"};
 
-$(".previous").click(function(){
-	if (user_data.step === 5) {
-		user_data.step -= 1
-		$("#matching_li").removeClass("active")
-	}
-	user_data.step -= 1
-	console.log("current step: " + user_data.step)
-	if(animating) return false
-	animating = true
-	
-	current_fs = $(this).parent()
-	previous_fs = $(this).parent().prev()
-	
-	//de-activate current step on progressbar
-	$("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active")
-	
-	//show the previous fieldset
-	previous_fs.show()
-	//hide the current fieldset with style
-	current_fs.animate({opacity: 0}, {
-		step: function(now, mx) {
-			//as the opacity of current_fs reduces to 0 - stored in "now"
-			//1. scale previous_fs from 80% to 100%
-			scale = 0.8 + (1 - now) * 0.2
-			//2. take current_fs to the right(50%) - from 0%
-			left = ((1-now) * 50)+"%"
-			//3. increase opacity of previous_fs to 1 as it moves in
-			opacity = 1 - now
-			current_fs.css({'left': left})
-			previous_fs.css({'transform': 'scale('+scale+')', 'opacity': opacity})
-		}, 
-		duration: 800, 
-		complete: function(){
-			current_fs.hide()
-			animating = false
-		},
-	})
-})
+  var searchStr = baseURL + skills + interests + goals;
+  console.log("Created search URL :" + searchStr);
+  return searchStr;
+}
 
-$(".submit").click(function(){
-	user_data.step += 1
-	console.log("current step: " + user_data.step)
-	if(animating) return false
-	animating = true
-	
-	current_fs = $(this).parent()
-	next_fs = $(this).parent().next()
-	
-	//activate next step on progressbar using the index of next_fs
-	$("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active")
-	
-	//show the next fieldset
-	next_fs.show()
-	//hide the current fieldset with style
-	current_fs.animate({opacity: 0}, {
-		step: function(now, mx) {
-			//as the opacity of current_fs reduces to 0 - stored in "now"
-			//1. scale current_fs down to 80%
-			scale = 1 - (1 - now) * 0.2
-			//2. bring next_fs from the right(50%)
-			left = (now * 50)+"%"
-			//3. increase opacity of next_fs to 1 as it moves in
-			opacity = 1 - now;
-			current_fs.css({
-        'transform': 'scale('+scale+')',
-        'position': 'absolute'
-      })
-			next_fs.css({'left': left, 'opacity': opacity})
-		}, 
-		duration: 800, 
-		complete: function(){
-			current_fs.hide()
-			animating = false
-		},
-	})
-	return false
-})
+function setViewMatches () {
+  $("li#start_matching").removeClass("active");
+  $("li#matched").addClass("active");
+  $("[role='home']").removeClass("btn--hidden");
+  $("[role='in_progress_message']").addClass("btn--hidden");
+  $("[role='start_matching']").addClass("btn--hidden");
+  $("[role='see_results']").removeClass("btn--hidden");
+
+}
+
+function restartWizard () {
+  $("li#start_matching").addClass("active");
+  $("li#matched").removeClass("active");
+  $("button#backToWizard").addClass("btn--hidden");
+  $("[role='home']").removeClass("btn--hidden");
+  $("[role='start_matching']").removeClass("btn--hidden");
+  $("[role='see_results']").addClass("btn--hidden");
+
+//shortcut, but need to remove all the html
+}
+
+
 
 $(".chosen-select").chosen()
 $(".chosen-container").css("width", "350px")
-
