@@ -94,9 +94,17 @@
       success : Checkin.success(checkinData)
     });
     */
+    
+    Checkin.success(checkinData);
+    
   }
 
-   Checkin.success = function success( checkinData, evt ) {
+  /*
+    success
+  */
+
+  Checkin.success = function success(checkinData) {
+    console.log('Checkin.success')
     checkedIn = "true";
     $("a#ahead").attr("href", "/test/api/projects").removeProp("disabled");
     //check for local storage and store the user checkin info
@@ -110,6 +118,7 @@
     }
     
     // forward to the wizard interface
+    console.log('forward to wizard UI')
     window.location="/test/projectlist";
     
   }
