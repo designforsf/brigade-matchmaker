@@ -12,7 +12,6 @@ $(document).ready(function () {
 
   $("[role='see_results']").click(function () {
   	 user_data = "results";
-     console.log("current step: " + user_data);
      $("#match_res").removeClass("btn--hidden");
      $("button#backToWizard").removeClass("btn--hidden");
      $("#wizardcards").addClass("btn--hidden");
@@ -59,36 +58,37 @@ function initMatchingStep() {
      http://localhost:5465/api/user/matches?skills=javascript
 */
 
-var baseURL = "http://localhost:5465/api/user/matches?"
 function parseSelections() {
+  var baseURL = "http://localhost:5465/api/user/matches?"
   var skills = "skills=", interests = "interests=", goals = "goals=";
-  $("div#skills li.search-choice span").each( function (index) {
+  searchSkills = $("div#skills li.search-choice span").each( function (index) {
     if ( !index) // first item needs no comma
       skills+= $(this).text();
     else
       skills+= ","+$(this).text();
-    console.log(index + " Skills: " + skills); // spit out each choice
   });
-  $("div#interests li.search-choice span").each( function (index) {
+  $("#searchskills").text(skills); // output search string for the user
+
+  searchInterests = $("div#interests li.search-choice span").each( function (index) {
     if ( !index) // first item needs no comma
       interests+= $(this).text();
     else
       interests+= ","+$(this).text();
-    console.log(index + " interests: " + interests); // spit out each choice
-  });$("div#goals li.search-choice span").each( function (index) {
+  });
+  $("#searchinterests").text(interests); // output search string for the user
+
+  searchGoals = $("div#goals li.search-choice span").each( function (index) {
     if ( !index) // first item needs no comma
       goals+= $(this).text();
     else
       goals+= ","+$(this).text();
-    console.log(index + " Goals: " + goals); // spit out each choice
   });
+  $("#searchgoals").text(goals); // output search string for the user
+
+
   // remove unused elements
-  console.log("Skills length is " + skills.length);
-  console.log("Ints length is " + interests.length);
-  console.log("Goals length is " + goals.length);
   if (skills.length === 7) {
     skills = ""; }
-  console.log("!skills is true/false: " + !skills );
   if (interests.length === 10) {
     interests = ""; } else if
       ( skills ) { skills += "&" };

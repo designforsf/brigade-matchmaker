@@ -72,20 +72,28 @@
 
   var checkedIn = false;
 
-   Checkin.postCheckin = function postCheckin(  ) {
+  /*
+    post checkin
+  */
+
+  Checkin.postCheckin = function postCheckin(  ) {
     //var firstNm = $("#first_name").attr("name");
     console.log("checking in now");
+    
     var checkinData = {
       firstName : $("#first_name").val(),
       lastName : $("#last_name").val(),
       emailAddr : $("#email").val()
     };
+    
+    /*
     $.ajax ( {
       type : "GET",
       url : "/test/api/projects",
       data : checkinData,
       success : Checkin.success(checkinData)
     });
+    */
   }
 
    Checkin.success = function success( checkinData, evt ) {
@@ -101,6 +109,7 @@
       window.alert("Sorry! No Web Storage support..");
     }
     
+    // forward to the wizard interface
     window.location="/test/projectlist";
     
   }
