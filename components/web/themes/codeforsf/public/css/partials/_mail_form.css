@@ -29,7 +29,6 @@
   position:relative;
   top: -200px;
   left: 20px;
-  visibility: hidden;
   background-color: #FFF;
   opacity: 80%;
   border-style: solid;
@@ -72,11 +71,19 @@
 #guideTxt {
       margin-left: auto;
       margin-right: auto;
+      margin-bottom: 40px;
+      border: none;
       width: 400px;
-      height: 200px;
-      color: rgb(85,85,85);
-      background-color: #f1efef;
-      font-size: 18px;
-      font-weight: 200;
+      height: 250px;
+      font-size: 1.5rem;
       line-height: 2rem;
 }
+
+#userMsg {
+      margin-left: auto;
+      margin-right: auto;
+      width: 400px;
+      height: 400px;
+      font-size: 1.5rem;
+      line-height: 2rem;
+      }

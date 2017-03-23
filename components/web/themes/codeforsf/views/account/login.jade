@@ -7,7 +7,6 @@
 extends ../layout
 block content
 	script(src='https://code.jquery.com/jquery-3.1.1.min.js')
-	script(src="../js/_checkin.js")
 
 	body
 		//nav.navbar.navbar-light.bg-faded.navbar-fixed-top
@@ -19,7 +18,7 @@ block content
 						div.panel-heading
 							h3.panel-title.text-center Please check in with your email address for Civic Hack Night
 							div.panel-body
-								form#checkin.role("form")
+								form#checkin.role(action="/test/projectlist" method="GET")
 									div.row
 										div.col-xs-6.col-sm-6.col-md-6
 											div.form-group
@@ -33,6 +32,4 @@ block content
 												input(type="email" name="email" id="email" class="form-control form-control--wider" placeholder="Email Address" required)
 
 									div.text-center
-												input(onclick="MH.Checkin.login()" method="GET" type="button" id="checkin" value = "Submit" class="btn btn-info btn-block btn-block__smaller" )
-												a(type="button" id="ahead" href="/test/api/projects" class="btn btn-primary btn-block btn-block__smaller" disabled) Not checked in
-												input(onclick="MH.Checkin.reset()" type="button" id="resetLocalStore" action="" value="reset storage" class="btn btn-info btn-block btn-block__smaller" )
+												input(action="/test/projectlist" method="POST" type="submit" id="checkin" value = "Check in" class="btn btn-info btn-block btn-block__smaller" )
