@@ -77,9 +77,6 @@ function Context (attr) {
   // set up email sender
   // ------------------------------------------------------
   self.emailServer = EmailJs.server.connect(self.config.emailjs);
-  self.testSendEmail();
-  
-
   
   
 }
@@ -131,6 +128,38 @@ Context.prototype.testProcessEmails = function () {
     });
       
   });
+}
+
+/* 
+  sendEmail
+  
+  attrs:
+    conversationId
+    email
+      from - array of emails: [{name: '', email: ''}]
+      to - array of emails: [{name: '', email: ''}]
+      subject
+      text
+*/
+
+Context.prototype.sendEmail = function (attr, cb) {
+  var self = this;
+  console.log('Test: send an email to gmail');
+  
+  self.emailServer.send({
+     text:    attr.email.text, 
+     from:    attr.email.from[0].name + ' <' + attr.email.from[0].email + '>', 
+     to:      attr.email.to[0].name + ' <' + attr.email.to[0].email + '>', 
+     subject: attr.email.subject
+  }, function(err, message) { 
+    if (err) {
+      console.error(err);
+      cb(err, {success: false});
+    }
+    console.log('Sent message ', message); 
+    cb(null, {success: true, message: message});
+  });
+
 }
 
 /* 

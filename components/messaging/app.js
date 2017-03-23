@@ -77,7 +77,9 @@ if (app.get('env') == 'development') {
 app.use(express.static(path.join(__dirname, '/public')));
 
 //routes
-app.use('/', require('./express_router.js'));
+var RouterCfg = require('./express_router');
+routerCfg = new RouterCfg({ context: msgService, expressApp: app })
+app.use('/', routerCfg.router);
 
 // start it up
 var server = app.listen(process.env.NODE_PORT || config.web.port, function() {
