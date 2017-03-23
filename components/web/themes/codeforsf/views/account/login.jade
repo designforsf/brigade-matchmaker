@@ -32,4 +32,10 @@ block content
 												input(type="email" name="email" id="email" class="form-control form-control--wider" placeholder="Email Address" required)
 
 									div.text-center
+<<<<<<< HEAD
 												input(action="/test/projectlist" method="POST" type="submit" id="checkin" value = "Check in" class="btn btn-info btn-block btn-block__smaller" )
+=======
+												input(onclick="MH.Checkin.login()" method="GET" type="button" id="checkin" value = "Submit" class="btn btn-info btn-block btn-block__smaller" )
+												a(type="button" id="ahead" href="/test/api/projects" class="btn btn-primary btn-block btn-block__smaller" disabled) Not checked in
+												input(onclick="MH.Checkin.reset()" type="button" id="resetLocalStore" action="" value="reset storage" class="btn btn-info btn-block btn-block__smaller" )
+>>>>>>> 615781e3cac3138afdc2466281b5418caa95f24b

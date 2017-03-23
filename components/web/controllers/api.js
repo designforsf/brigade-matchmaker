@@ -8,6 +8,15 @@ var PyShell = require('python-shell')
 module.exports = {
 
   /**
+    POST /api/user/logouff
+  */
+  
+  userLogoff: function (req, res, next) {
+    req.session.destroy();
+    res.json({ success: true });
+  },
+
+  /**
    * Get /api/user/create_and_login
    */
   createUserAndLogin: function (req, res, next) {
@@ -17,7 +26,7 @@ module.exports = {
       if (foundUsers.length == 0) {
 
         var newUser = new Users();
-        newUser.username = req.body.username;
+        newUser.username = req.body.email;
         newUser.email = req.body.email;
         newUser.password = newUser.encryptPassword(req.body.password);
         newUser.profile = {
