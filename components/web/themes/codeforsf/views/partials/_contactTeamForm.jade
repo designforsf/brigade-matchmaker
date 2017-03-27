@@ -5,10 +5,10 @@ html
 		#mailModal.modal.fade
 			.modal-dialog
 				.modal-content
-					.modal-header
+					.modal-header.form-group-row
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
 						h4.modal-title Contact the Team Leader
-					.modal-body
+					.modal-body.form-group-row
 						form#contactTeam(action='', method='')
 							p To:
 								span#teamLeader
@@ -18,7 +18,7 @@ html
 							textarea#userMsg(name='message-to-team', placeholder='Go ahead and start a conversation about how you can help!' autofocus)
 							div#confirm_sent.btn--hidden
 								h4 Your message has been sent to the Team Leader. You will receive a response at the email you used at checkin, although your email address will be anonymized.
-					.modal-footer
+					.modal-footer.form-group-row
 						button.btn.btn-default.button__more-margins(type='button', data-dismiss='modal' id='modalClose') Close
 						button.btn.btn-primary.button__more-margins(role="button" data-toggle="modal" data-target="#confirmSent" type='button' id='sendMsg') Send Message
 

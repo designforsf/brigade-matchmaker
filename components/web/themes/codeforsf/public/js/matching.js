@@ -4,7 +4,12 @@ function initMatchingSearch(searchStr) {
 	var userMatchProjects = []; //create array of matching project objects
 	userMatchProjects = jQuery.ajax({
 				url: searchStr,
-				success: getAllProjs
+				success: [getAllProjs, function() {  //Use array of fn()s
+				$("#match_res").removeClass("btn--hidden"); //reveal matchng projs
+	      $("button#backToWizard").removeClass("btn--hidden"); //show "Back to Wizard" option
+	      $("#wizardcards").addClass("btn--hidden"); // Hide Wizard progress bar
+				$("[role='in_progress_message']").addClass("btn--hidden");
+				}]
 	}) //function gets passed the data
 }
 

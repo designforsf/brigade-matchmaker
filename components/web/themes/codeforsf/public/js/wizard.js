@@ -6,7 +6,7 @@ $(document).ready(function () {
   	 user_data = "matching";
      console.log("current step: " + user_data);
      initMatchingStep();
-     setTimeout( setViewMatches, 2200);
+     //setTimeout( setViewMatches, 2200);
 
   })
 
@@ -19,11 +19,10 @@ $(document).ready(function () {
 
   $("[id='backToWizard']").click(function () {
   	 user_data = "restartWizard";
-     console.log("current step: " + user_data);
      $("#match_res").addClass("btn--hidden");
      $("#backToWizard").addClass("btn--hidden");
      $("#wizardcards").removeClass("btn--hidden");
-     $("#matchingConfigs-list").children().remove();
+     $("div#pList").children().remove();
      $("#projects-list").children().remove();
 
      restartWizard();
@@ -44,8 +43,7 @@ function initMatchingStep() {
   $("[role='start_matching']").addClass("btn--hidden");
   var searchStr = parseSelections();
   $("[role='in_progress_message']").attr("value", searchStr); //pass the users search through this button's value attr
-  initMatchingSearch(searchStr); //is this function even in scope??
-  //initMatchingSearch(searchStr);
+  initMatchingSearch(searchStr);
 
 }
 /**
@@ -103,21 +101,22 @@ function parseSelections() {
   return searchStr;
 }
 
-function setViewMatches () {
+//setViewMatches deprecated; user does not need to press button "See results"
+/*function setViewMatches () {
   $("li#start_matching").removeClass("active");
   $("li#matched").addClass("active");
-  $("[role='home']").removeClass("btn--hidden");
+  //$("[role='home']").removeClass("btn--hidden"); //"home" removed as option since it is at upper left
   $("[role='in_progress_message']").addClass("btn--hidden");
   $("[role='start_matching']").addClass("btn--hidden");
-  $("[role='see_results']").removeClass("btn--hidden");
+  //$("[role='see_results']").removeClass("btn--hidden");// No longer using button - display will begin as soon as ready
 
-}
+}*/
 
 function restartWizard () {
   $("li#start_matching").addClass("active");
   $("li#matched").removeClass("active");
   $("button#backToWizard").addClass("btn--hidden");
-  $("[role='home']").removeClass("btn--hidden");
+
   $("[role='start_matching']").removeClass("btn--hidden");
   $("[role='see_results']").addClass("btn--hidden");
 
