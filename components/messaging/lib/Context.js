@@ -51,19 +51,19 @@ function Context (attr) {
   
   // set up imap retriever
   // ------------------------------------------------------
+  
   self.imap = new Imap(self.config.imap);
   
   self.imap.once('ready', function() {
-    console.log('imap ready');
-    self.testProcessEmails();
+    console.log('Context: imap is ready');
   });
   
   self.imap.once('error', function(err) {
-    console.log('imap error ', err);
+    console.log('Context: imap error ', err);
   });
 
   self.imap.once('end', function() {
-    console.log('imap Connection ended');
+    console.log('Context: imap Connection ended');
   });
   
   self.imap.connect();
