@@ -1,7 +1,7 @@
 var mongoose = require('mongoose')
 
 var ptSchema = new mongoose.Schema({
-  
+
 });
 
 ptSchema.methods.getSkills = function (cb) {
@@ -11,7 +11,7 @@ ptSchema.methods.getSkills = function (cb) {
     {name: 'uxr', synonyms: ['usability']},
     {name: 'javascript', synonyms: ['js']},
     {name: 'node', synonyms: ['node.js']},
-    {name: 'python', synonyms: ['py']},
+    {name: 'python', synonyms: []},
   ]);
 }
 
@@ -24,14 +24,14 @@ ptSchema.methods.getInterests = function (cb) {
     {name: 'police', synonyms: []},
   ]);
 }
-
+//Added several synonyms for testing
 ptSchema.methods.getGoals = function (cb) {
   return cb(null, [
     {name: 'learn', synonyms: []},
-    {name: 'lead', synonyms: []},
+    {name: 'lead', synonyms: ['direct']},
     {name: 'manage', synonyms: []},
-    {name: 'develop', synonyms: []},
-    {name: 'help', synonyms: []},
+    {name: 'develop', synonyms: ['code']},
+    {name: 'help', synonyms: ['coach']},
     {name: 'initiate', synonyms: []},
   ]);
 }

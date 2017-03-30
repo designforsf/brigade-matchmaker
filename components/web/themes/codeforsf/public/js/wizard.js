@@ -33,6 +33,10 @@ $(document).ready(function () {
     user_data = "home";
     location.href = '/test/api/projects'; //go back to home page
   })
+//handle synonyms in list selections
+  $('#interests select').chosen().change( subPrimaryAndTellUser );
+
+
 });
 
 function initMatchingStep() {
@@ -44,8 +48,14 @@ function initMatchingStep() {
   var searchStr = parseSelections();
   $("[role='in_progress_message']").attr("value", searchStr); //pass the users search through this button's value attr
   initMatchingSearch(searchStr);
-
 }
+
+function subPrimaryAndTellUser() {
+  console.log("Event info is: ", this );
+  console.log("Id of this event element: ", $(this).attr('id') );  // rtns ints
+  console.log('This may be the chosen selector, or an a element: ', $('#interests li.search-choice').last().text() );
+};
+
 /**
 /* from api.js -- test URLs for matching
 /* TEST:
@@ -125,5 +135,5 @@ function restartWizard () {
 
 
 
-$(".chosen-select").chosen()
-$(".chosen-container").css("width", "350px")
+$(".chosen-select").chosen({no_results_text: "Oops, nothing found!"});
+$(".chosen-container").css("width", "350px");
