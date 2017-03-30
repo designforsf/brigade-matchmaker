@@ -246,6 +246,14 @@ app.get('/logout', usersCtrl.getLogout)
  app.get('/api/project/taxonomy/goals', apiCtrl.getTaxonomyGoals)
 
 /**
+* Messaging Routes
+**/
+
+helpers.messagingConfigurator({
+  expressApp: app
+});
+
+/**
  * Meta Routes
  */
 

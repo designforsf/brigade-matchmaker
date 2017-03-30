@@ -29,31 +29,12 @@ var app = express();
 
 
 // set up the environment-based config
-var config;
-try {
-  require.resolve('./config/' + global.process.env.NODE_ENV);
-  config = require('./config/' + global.process.env.NODE_ENV).config;
-
-} catch (e) {
-  console.log('Service will use the default config: config/env.js.default');
-
-  // fall back to the default config
-  try {
-    require.resolve('./config/env.js.default');
-    config = require('./config/env.js.default').config;
-
-  } catch (e) {
-    console.error('Cannot load config/env.js.default');
-    process.exit(e.code);
-  }
-
-}
+var Config = require('./lib/config');
+var config = (new Config({ env: global.process.env.NODE_ENV })).config;
 
 // init the context
-
-// internal dependencies
 var Context = require('./lib/context');
-msgService = new Context({ config: config })
+msgService = new Context({ config: config });
 
 
 // http configurations

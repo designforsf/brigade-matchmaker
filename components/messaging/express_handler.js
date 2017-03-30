@@ -30,7 +30,6 @@ module.exports = {
     console.log('send');
     
     var context = res.locals.msgServiceContext;
-    console.log(res.locals);
     
     // send the email
     context.sendEmail({
