@@ -1,6 +1,6 @@
 
 function initMatchingSearch(searchStr) {
-	//console.log("Retrieve user matching projects");
+	console.log("Retrieve user matching projects");
 	var userMatchProjects = []; //create array of matching project objects
 	userMatchProjects = jQuery.ajax({
 				url: searchStr,
@@ -23,7 +23,7 @@ function getAllProjs(userMatches) {
 }
 
 function processMatches( allProjs, userMatches ) {
-	//console.log("User matches are ", userMatches + " allProjs are ", allProjs );
+	console.log("User matches are ", userMatches + " allProjs are ", allProjs );
 
 	var j = 0;
 	var xProjects = [];
@@ -35,13 +35,13 @@ function processMatches( allProjs, userMatches ) {
 	// Not needed in next version -- api for matches should send back relevant
 	// project data
 
-	//console.log("Re-logging allProjs.projects[0] ", allProjs.projects[0]);
+	console.log("Re-logging allProjs.projects[0] ", allProjs.projects[0]);
 	var allPs = allProjs
 	userMatches.projects.forEach(function(userProject){
 		//iterate through the array of projects
 		for (i = 0; i < allPs.projects.length; i++ ) {
 			if ( allPs.projects[i].name === userProject.id ) {
-				//console.log("True that match! ", userProject.id);
+				console.log("True that match! ", userProject.id);
 				userProject.skills = allPs.projects[i].matchingConfig.skillsNeeded;
 				userProject.interests = allPs.projects[i].matchingConfig.interestsNeeded;
 				userProject.goals = allPs.projects[i].matchingConfig.rolesNeeded;
@@ -71,12 +71,12 @@ function processMatches( allProjs, userMatches ) {
 
 
 function outputMatchingProjects(xProjects, len, userMatches) {
-	//console.log("User matching criteria obj: ", userMatches);
+	console.log("User matching criteria obj: ", userMatches);
 	for (var i = 0; i < len; i++) {
-		//console.log("In oMP with ", xProjects, xProjects[i].image);
+		console.log("In oMP with ", xProjects, xProjects[i].image);
 		$("#umtemplate img").attr("src", xProjects[i].image);
 		var c =	$("#teamAddr").attr("info", xProjects[i].email);
-		//console.log("Contact email obj is: ", c);
+		console.log("Contact email obj is: ", c);
 		$("#pName").text(xProjects[i].name);
 		var shortText = $.trim(xProjects[i].mission).substring(0, 300).split(" ").slice(0, -1).join(" ") + "...";; //cut and add ellipses
 		//code from http://jsfiddle.net/schadeck/GpCZL/
@@ -84,8 +84,8 @@ function outputMatchingProjects(xProjects, len, userMatches) {
 		if (xProjects[i].skillNeeds) { // test on skills for user match
 			$.each(xProjects[i].skillNeeds, function( index, value ) {
 				if ( $.inArray( value, userMatches.skills) > -1 ) {
-					//console.log("User skills are: ", userMatches.skills);
-					//console.log("This project skill is a user match: ", value);
+					console.log("User skills are: ", userMatches.skills);
+					console.log("This project skill is a user match: ", value);
 				}
 			});
 			$("#pSkills").text("Skills sought: " + xProjects[i].skillNeeds )};
@@ -96,30 +96,23 @@ function outputMatchingProjects(xProjects, len, userMatches) {
 		$("div#umtemplate").clone( false ).appendTo("div#pList");
 		$("div#pList div#umtemplate").removeClass("btn--hidden"); // reveal
 		$("div#pList div#umtemplate").removeAttr("id"); // remove id attributes as this div is not a template
-		$("div#pList button").attr("id", xProjects[i].name + i).on('click', function (e) {
-			$('#mailModal').modal('show');
-		}); //give it unique id now & attach listener
-
-
 		$("div#pList #pName").removeAttr("id");
 		$("div#pList #pMission").removeAttr("id");
 		$("div#pList #pGoals").removeAttr("id");
 		$("div#pList #pInterests").removeAttr("id");
 		$("div#pList #pSkills").removeAttr("id");
-		//Team contact button addded, now attach listener
-
 
 	}
 }
 
 function prepMatchCfgs( allProjs ) {
-	//console.log("allProjs is ", allProjs);
+	console.log("allProjs is ", allProjs);
 	return allProjs
 }
 
 function outputUserSearchCriteria(userMatches) {
 
-		//console.log("In oUSC with ", userMatches.skills, userMatches.goals, userMatches.interests);
+		console.log("In oUSC with ", userMatches.skills, userMatches.goals, userMatches.interests);
 
 }
 		//Handle email form submit event. For now,  we just clear any user-entered text from form and display a confirming message.

@@ -26,19 +26,15 @@ block content
 								- var list = skills
 								each item, j in list
 									option(value= j) #{item.name}
-									option(value= j) #{item.synonyms}
-									//added inclusion of synonyms to each list
-
 					br
 					hr(color="#cccccc")
 					h4 Civic issues of interest
 					div.form-group
 						div(id="interests")
-							select(class="chosen-select", id="ints", data-placeholder="Select all that apply.  * 3 interests max", multiple style="width: 350px", tabindex="1")
+							select(class="chosen-select", data-placeholder="Select all that apply.  * 3 interests max", multiple style="width: 350px", tabindex="1")
 								- var list = interests
 								each item, i in list
 									option(value=i) #{item.name}
-									option(value= i+1) #{item.synonyms}
 					br
 					hr(color="#cccccc")
 					h4 My goals
@@ -49,7 +45,6 @@ block content
 								- console.log(goals)
 								each item, j in list
 									option(value=j) #{item.name}
-									option(value= j) #{item.synonyms}
 					br
 
 				div.button__horiz-group(role="group" aria-label="...")
@@ -63,7 +58,7 @@ block content
 			div#umtemplate.container-maxWidth970-no-top-pad.row.row--proj-container.btn--hidden
 				section.col-sm-2
 					img.project-thumbnail
-					button(id="teamAddr" class="btn btn-large btn-primary mail-icon__centered" role="button" data-toggle="" data-target="" info="") Contact Team
+					a(href="#" id="teamAddr" class="btn btn-large btn-primary mail-icon__centered" role="button" data-toggle="modal" data-target="#mailModal" info="") Contact Team
 				section.col-sm-10
 					div.row.row--proj-info1
 						section#pName.col-sm-4 Needs Project Name
