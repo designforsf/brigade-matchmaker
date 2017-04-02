@@ -19,14 +19,19 @@ block content
 					hr
 					h3 Profile
 					p
+					br
+					hr(color="#cccccc")
+					h4 Skills that I want to contribute
 					div.form-group
-						h4 Skills that I want to contribute
 						div(id="skills")
 							select(class="chosen-select", data-placeholder="Select all that apply. * 3 skills max", multiple style="width: 350px", tabindex="1")
 								- var list = skills
 								each item, j in list
-									option(value= j) #{item.name}
-									option(value= j) #{item.synonyms}
+									if item.synonyms != ''
+										option(value= j) #{item.name}, #{item.synonyms}
+									else
+										option(value= j) #{item.name}
+
 									//added inclusion of synonyms to each list
 
 					br
@@ -36,9 +41,11 @@ block content
 						div(id="interests")
 							select(class="chosen-select", id="ints", data-placeholder="Select all that apply.  * 3 interests max", multiple style="width: 350px", tabindex="1")
 								- var list = interests
-								each item, i in list
-									option(value=i) #{item.name}
-									option(value= i+1) #{item.synonyms}
+								each item, j in list
+									if item.synonyms != ''
+										option(value= j) #{item.name}, #{item.synonyms}
+									else
+										option(value= j) #{item.name}
 					br
 					hr(color="#cccccc")
 					h4 My goals
@@ -46,10 +53,11 @@ block content
 						div(id="goals")
 							select(class="chosen-select", data-placeholder="Choose your Goals", multiple style="width: 350px", tabindex="1")
 								- var list = goals
-								- console.log(goals)
 								each item, j in list
-									option(value=j) #{item.name}
-									option(value= j) #{item.synonyms}
+									if item.synonyms != ''
+										option(value= j) #{item.name}, #{item.synonyms}
+									else
+										option(value= j) #{item.name}
 					br
 
 				div.button__horiz-group(role="group" aria-label="...")

@@ -33,7 +33,41 @@ $(document).ready(function () {
     user_data = "home";
     location.href = '/test/api/projects'; //go back to home page
   })
+
+
+  var taxonomies = registerTaxonomies ();
+  console.log('Choices are: ', taxonomies);
+  console.log( 'selected: ', taxonomies[0].setType );
+  //var userSet = registerUserChoices();
+  for (var i = 0; i < taxonomies.length; i++ ) {
+    taxonomies[i].setCount = 0;
+    $(document).on('change', '#'+taxonomies[i].setType, function(evt, params ) {
+      if (params.selected != undefined) {
+        for (var q = 0; q < taxonomies.length; q++ ) {
+          if ( evt.currentTarget.id === taxonomies[q].setType ) {
+            taxonomies[q].setPrimary[params.selected].chosen = true;
+            console.log('selected: ', taxonomies[q].setType + ' ' + taxonomies[q].setPrimary[params.selected].name );
+            taxonomies[q].setCount += 1; // up to 3 allowed
+            if ( taxonomies[q].setCount >= 3 ) {
+              for (var j = 0; j < taxonomies[q].setPrimary.length; j++ ) {
+                if (taxonomies[q].setPrimary[j].chosen) {
+                  console.log('Selected: ', taxonomies[q].setPrimary[j].name); console.log('The select list should now be disabled');
+                }
+              }
+            }
+          }
+        }  // Logic for tracking de-selects must be added below
+      }
+      if (params.deselected != undefined) {
+        console.log('deselected: ' + params.deselected);
+      }
+    })
+  };
+
 });
+
+
+
 
 function initMatchingStep() {
   $("li#start_matching").addClass("active").addClass("move_left");
@@ -101,16 +135,20 @@ function parseSelections() {
   return searchStr;
 }
 
-//setViewMatches deprecated; user does not need to press button "See results"
-/*function setViewMatches () {
-  $("li#start_matching").removeClass("active");
-  $("li#matched").addClass("active");
-  //$("[role='home']").removeClass("btn--hidden"); //"home" removed as option since it is at upper left
-  $("[role='in_progress_message']").addClass("btn--hidden");
-  $("[role='start_matching']").addClass("btn--hidden");
-  //$("[role='see_results']").removeClass("btn--hidden");// No longer using button - display will begin as soon as ready
 
-}*/
+function registerTaxonomies () {
+  var taxonomies = [], taxSet = ['skills', 'interests', 'goals'];
+  var primSyns = [];
+  //build taxonomies from the selectbox html
+  for (i = 0; i < taxSet.length; i++ ) {
+    taxonomies[i] = { setType : taxSet[i], setCount: 0, setPrimary : [ ] };
+    $("div#"+ taxSet[i] + " option").each( function (index) {
+      primSyns = $(this).text().split(',');
+      taxonomies[i].setPrimary.push( { name: primSyns[0], chosen: false } ); //push the primary keyword, no need for the synonymns
+    });
+  }
+  return taxonomies;
+}
 
 function restartWizard () {
   $("li#start_matching").addClass("active");
