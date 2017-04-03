@@ -6,8 +6,6 @@ $(document).ready(function () {
   	 user_data = "matching";
      console.log("current step: " + user_data);
      initMatchingStep();
-     //setTimeout( setViewMatches, 2200);
-
   })
 
   $("[role='see_results']").click(function () {
@@ -24,9 +22,7 @@ $(document).ready(function () {
      $("#wizardcards").removeClass("btn--hidden");
      $("div#pList").children().remove();
      $("#projects-list").children().remove();
-
      restartWizard();
-
   })
 
   $("[role='home']").click(function(){
@@ -34,6 +30,9 @@ $(document).ready(function () {
     location.href = '/test/api/projects'; //go back to home page
   })
 
+  $("#sendMsg").on("click", function() {
+      $("#userMsg").val("");
+    });
 
   var taxonomies = registerTaxonomies ();
   console.log('Choices are: ', taxonomies);

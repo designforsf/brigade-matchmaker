@@ -5,16 +5,22 @@ function initMatchingSearch(searchStr) {
 	userMatchProjects = jQuery.ajax({
 				url: searchStr,
 				success: [getAllProjs, function() {  //Use array of fn()s
-				$("#match_res").removeClass("btn--hidden"); //reveal matchng projs
+				$("#match_res").removeClass("btn--hidden"); //Reveals the matching project section
 	      $("button#backToWizard").removeClass("btn--hidden"); //show "Back to Wizard" option
 	      $("#wizardcards").addClass("btn--hidden"); // Hide Wizard progress bar
 				$("[role='in_progress_message']").addClass("btn--hidden");
 				}]
-	}) //function gets passed the data
+	}) //function getAllProjs gets passed the user matching projects
 }
 
-function getAllProjs(userMatches) {
-	outputUserSearchCriteria( userMatches );
+function getAllProjs(userMatches) {  //Because userMatches needs more project details
+	outputUserSearchCriteria( userMatches ); // Displays the user selection criteria
+	//
+	// Now get all project data --> this should not be necessary in next iteration
+	// Instead the object returned by user selections should contain the short
+	// summary information for the projects; and include direct links to more detailed
+	// view of a single project
+	//
 	$.ajax({
 		url: '/api/projects',
 		success: function(data) {processMatches(data, userMatches)}
@@ -23,8 +29,11 @@ function getAllProjs(userMatches) {
 }
 
 function processMatches( allProjs, userMatches ) {
-	//console.log("User matches are ", userMatches + " allProjs are ", allProjs );
 
+	//For iteration one, use improvised project pix and email addresses, etc.
+	//Subsequent iterations should be able to use better, actual, project information
+	//Once the UX team has settled what should be available for users
+	//
 	var j = 0;
 	var xProjects = [];
 	var project_pix = ["https://avatars1.githubusercontent.com/u/8534106?v=3&s=200", "https://avatars1.githubusercontent.com/u/8534106?v=3&s=200", "http://i.imgur.com/JUmCJ5L.png", "http://i.imgur.com/KOY0XD0.jpg", "https://avatars1.githubusercontent.com/u/8534106?v=3&s=200",
@@ -35,20 +44,34 @@ function processMatches( allProjs, userMatches ) {
 	// Not needed in next version -- api for matches should send back relevant
 	// project data
 
-	//console.log("Re-logging allProjs.projects[0] ", allProjs.projects[0]);
-	var allPs = allProjs
+	var allPs = allProjs  // allProjs is the object of all project info pased into this function from the Ajax call to /api/projects
+
+	//Iterate over the projects returned in the user match object userMatches
+	// to complete the project info object allPs
 	userMatches.projects.forEach(function(userProject){
 		//iterate through the array of projects
 		for (i = 0; i < allPs.projects.length; i++ ) {
 			if ( allPs.projects[i].name === userProject.id ) {
-				//console.log("True that match! ", userProject.id);
+
+				//projects match, we can fill in some missing info -- what
+				// skills / interests / goals are sought by this project
+				// That info is in the matching Config property, which is an array
+
 				userProject.skills = allPs.projects[i].matchingConfig.skillsNeeded;
 				userProject.interests = allPs.projects[i].matchingConfig.interestsNeeded;
 				userProject.goals = allPs.projects[i].matchingConfig.rolesNeeded;
-				break;
+				break; // shortcut out of looping as soon as the project match is found
 			}
-		}
+		}  // Loop ended for finding the skills / interests // goals
 
+		// Now start back at j=0 and iterate through the user projects
+		// to fill in other information:
+		// project name, mission, email address, leader
+		//
+		// In iteration 2 these will be based on UX decisions
+		//
+		// improvised project data for iteration 1:
+		//
 		xProjects[j] = {
 			"name" : userProject.id,
 			"mission" : "Mission to be announced...Umami kinfolk tousled meditation, vice locavore messenger bag irony pinterest pop-up skateboard bespoke. Ethical readymade master cleanse, austin copper mug vegan butcher umami hammock plaid yuccie scenester ennui. Food truck squid bicycle rights, photo booth XOXO semiotics cronut. Distillery kombucha humblebrag jean shorts, vice franzen mixtape williamsburg. Cronut etsy jianbing bicycle rights yr listicle pop-up cray, kitsch brooklyn. ",
@@ -65,18 +88,29 @@ function processMatches( allProjs, userMatches ) {
 	})
 
 	outputMatchingProjects(xProjects, xProjects.length, userMatches);
-	//return xProjects;
-}
-//Get all projects now
 
+}
+
+// outputMatchingProjects iterates over the extended user matching projects object
+// xProjects, an array of Objects
+//
+// It updates a (hidden) template (div#umtemplate) (um = user matching) by
+// filling in id'd template elements with user data.
+// Once filled in, the entire template section is cloned and appended
+// Then the id info is removed (because the template must be the only
+//  html with those id's) and the dev is "unhidden"
+//  This method keeps the html formatting control all in Jade/HTML/CSS
+//  and the code only has to provide the data
+//
+//  For the Contact Team buttons, a new unique ID is added, and a listener is
+//   attached, after the section is cloned.
 
 function outputMatchingProjects(xProjects, len, userMatches) {
-	//console.log("User matching criteria obj: ", userMatches);
 	for (var i = 0; i < len; i++) {
-		//console.log("In oMP with ", xProjects, xProjects[i].image);
 		$("#umtemplate img").attr("src", xProjects[i].image);
-		var c =	$("#teamAddr").attr("info", xProjects[i].email);
-		//console.log("Contact email obj is: ", c);
+		$("#teamAddr").attr("info", xProjects[i].email).attr("data-leader", xProjects[i].leader + i);
+
+
 		$("#pName").text(xProjects[i].name);
 		var shortText = $.trim(xProjects[i].mission).substring(0, 300).split(" ").slice(0, -1).join(" ") + "...";; //cut and add ellipses
 		//code from http://jsfiddle.net/schadeck/GpCZL/
@@ -89,16 +123,21 @@ function outputMatchingProjects(xProjects, len, userMatches) {
 				}
 			});
 			$("#pSkills").text("Skills sought: " + xProjects[i].skillNeeds )};
+
 		if (xProjects[i].goalNeeds) {
 				$("#pGoals").text("Goals sought: " + xProjects[i].goalNeeds)};
 		if (xProjects[i].interestNeeds) {
 				$("#pInterests").text("Focus topics: " + xProjects[i].interestNeeds)};
 		$("div#umtemplate").clone( false ).appendTo("div#pList");
 		$("div#pList div#umtemplate").removeClass("btn--hidden"); // reveal
-		$("div#pList div#umtemplate").removeAttr("id"); // remove id attributes as this div is not a template
-		$("div#pList button").attr("id", xProjects[i].name + i).on('click', function (e) {
-			$('#mailModal').modal('show');
-		}); //give it unique id now & attach listener
+		$("div#pList div#umtemplate").removeAttr("id"); // remove id attributes as this div under #pList is *not* a template
+		//
+		//Now, the id for the newly added (last) Team Contact button is added
+		// The id must be unique so is appended an integer
+		// An event handler is added at the same time, to call
+		// the function that handles the contact form
+		//
+		$("div#pList button:last").attr("id", "email" + i ).on('click', msgToTeam );
 
 
 		$("div#pList #pName").removeAttr("id");
@@ -111,6 +150,21 @@ function outputMatchingProjects(xProjects, len, userMatches) {
 
 	}
 }
+
+function msgToTeam ( e ) {
+	$('#mailModal').modal('show');
+	console.log("The Jquery event data is ", $(e.target).attr("id") );
+	var contactForm = {};
+	var c = $(e.target).attr("id"); // the team button ID
+	contactForm.teamEmail = $("#" + c).attr("info"); // the team email address
+	$("#teamEmail").text(contactForm.teamEmail);
+	//
+	//$("#teamLeader").text( // Will place the leader name in data-leader
+	//
+	contactForm.teamLeader = $("#" + c).attr("data-leader");
+	$("#teamLeader").text(contactForm.teamLeader);
+};
+
 
 function prepMatchCfgs( allProjs ) {
 	//console.log("allProjs is ", allProjs);
