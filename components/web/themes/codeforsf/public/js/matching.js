@@ -225,7 +225,9 @@ function getBookmarkedProjects( e ) {
 		var pName = $(e.target).attr("data-name"); // project name to be saved
 		var bookmarks = {};
     bookmarks.savedProjects = [];
-    bookmarks.savedProjects =  JSON.parse(localStorage.getItem("savedProjects") );
+		if ( localStorage.getItem("savedProjects") ) {
+			bookmarks.savedProjects =  JSON.parse(localStorage.getItem("savedProjects") )};
+
 		if ( bookmarks.savedProjects.indexOf(pName) === -1 ) {
 			console.log("The project needs to be stored: ", pName );
 			bookmarks.savedProjects.push( pName ); // push the new proj to the bookmarks
@@ -233,9 +235,29 @@ function getBookmarkedProjects( e ) {
 			showSavedProjs();
 		}
 		else {
-			console.log("The project being save is already stored: ", pName );
-			$('#savedProjsModal h4').text("Already saved!" + bookmarks.savedProjects);
-		  $('#savedProjsModal').modal('show');
+			showSavedProjs();
 		}
+
 	}
+}
+
+function showSavedProjs () {
+	//
+	// initialize the list in the html
+
+  var bookmarks = {};
+  bookmarks.savedProjects = [];
+	$.each( $('#savedProjsModal span'), function( index, value ) {
+		$(this).text( "  ");
+	});
+	if ( localStorage.getItem("savedProjects") ) {
+		bookmarks.savedProjects =  JSON.parse(localStorage.getItem("savedProjects") );
+		$.each( $('#savedProjsModal span'), function( index, value ) {
+			var x = bookmarks.savedProjects[index];
+			if (x) {
+				$(this).text( " " + x + " ");
+			}
+		})
+	}
+	$('#savedProjsModal').modal('show');
 }

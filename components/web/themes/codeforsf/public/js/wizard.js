@@ -3,7 +3,11 @@ $(document).ready(function () {
 		location.href = '/projects'
   }
   // Make the "You are checked in" item visible (enables logout)
-  $("li.dropdown").removeClass("btn--hidden");
+  if ( localStorage.getItem("checkedIn") === "true" ) {
+    $("li.dropdown").removeClass("btn--hidden");
+  } else {
+    $("li.dropdown").addClass("btn--hidden");
+  }
 
   $("div.dropdown-menu").click(function (e) {
     //

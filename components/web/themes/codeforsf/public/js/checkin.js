@@ -1,5 +1,4 @@
 
-
 /* Matching Hat Client */
 
 (function (MH) {
@@ -15,6 +14,8 @@
     console.log("checkin click");
 
     if ( localStorage.getItem("checkedIn") === "true" ) {
+      $("li.dropdown").removeClass("btn--hidden");
+      // Make the "You are checked in" item visible
       console.log('You are logged in, forwarding to wizard UI')
       //
       // Make the "You are checked in" nav drop down visible
@@ -24,7 +25,6 @@
 
       //window.location.href = "/test/api/projects";
     } else {
-
       //Perform basic input validations
       var x = $("#email").val();
       var atpos = x.indexOf("@");
