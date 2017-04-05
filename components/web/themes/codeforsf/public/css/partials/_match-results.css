@@ -9,8 +9,11 @@
   margin-left: -10px;
 }
 
-.mail-icon {
-
+.saveIt__centered {
+  position: relative;
+  margin-top: 16px;
+  width: 100px;
+  padding: 6px 6px;
 }
 
 .mail-icon__centered {
@@ -48,6 +51,9 @@
   height: 4rem;
   }
 
+.section--remove-left-padding {
+  padding-left: 0;
+}
 /* User's match config items (the search parameters) = mitem */
 .mitem {
   color: black;

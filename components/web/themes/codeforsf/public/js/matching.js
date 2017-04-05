@@ -1,6 +1,7 @@
 
 function initMatchingSearch(searchStr) {
-	//console.log("Retrieve user matching projects");
+	console.log(searchStr);
+
 	var userMatchProjects = []; //create array of matching project objects
 	userMatchProjects = jQuery.ajax({
 				url: searchStr,
@@ -14,18 +15,24 @@ function initMatchingSearch(searchStr) {
 }
 
 function getAllProjs(userMatches) {  //Because userMatches needs more project details
-	outputUserSearchCriteria( userMatches ); // Displays the user selection criteria
 	//
 	// Now get all project data --> this should not be necessary in next iteration
 	// Instead the object returned by user selections should contain the short
 	// summary information for the projects; and include direct links to more detailed
 	// view of a single project
 	//
+
 	$.ajax({
 		url: '/api/projects',
 		success: function(data) {processMatches(data, userMatches)}
 		}).fail(function (err) {
 		console.error(err); return; })
+}
+
+function outputUserSearchCriteria(userMatches) {
+
+		console.log("In oUSC with ", userMatches.skills, userMatches.goals, userMatches.interests);
+
 }
 
 function processMatches( allProjs, userMatches ) {
@@ -118,8 +125,6 @@ function outputMatchingProjects(xProjects, len, userMatches) {
 		if (xProjects[i].skillNeeds) { // test on skills for user match
 			$.each(xProjects[i].skillNeeds, function( index, value ) {
 				if ( $.inArray( value, userMatches.skills) > -1 ) {
-					//console.log("User skills are: ", userMatches.skills);
-					//console.log("This project skill is a user match: ", value);
 				}
 			});
 			$("#pSkills").text("Skills sought: " + xProjects[i].skillNeeds )};
@@ -137,8 +142,8 @@ function outputMatchingProjects(xProjects, len, userMatches) {
 		// An event handler is added at the same time, to call
 		// the function that handles the contact form
 		//
-		$("div#pList button:last").attr("id", "email" + i ).on('click', msgToTeam );
-
+		$("div#pList button#teamAddr").attr("id", "email" + i ).on('click', msgFormToTeam );
+		$("div#pList button#saveIt:last").attr("data-name", xProjects[i].name ).on('click', getBookmarkedProjects );
 
 		$("div#pList #pName").removeAttr("id");
 		$("div#pList #pMission").removeAttr("id");
@@ -151,42 +156,86 @@ function outputMatchingProjects(xProjects, len, userMatches) {
 	}
 }
 
-function msgToTeam ( e ) {
+function msgFormToTeam ( e ) {
 	$('#mailModal').modal('show');
-	console.log("The Jquery event data is ", $(e.target).attr("id") );
-	var contactForm = {};
-	var c = $(e.target).attr("id"); // the team button ID
-	contactForm.teamEmail = $("#" + c).attr("info"); // the team email address
-	$("#teamEmail").text(contactForm.teamEmail);
+	$("#sendMsg").on("click", function() {
+      var msgText = $("#userMsg").val(); //retrieve textarea
+      sendMsg(msgText, contactForm)
+      $("#userMsg").val("");
+    });
+
 	//
-	//$("#teamLeader").text( // Will place the leader name in data-leader
+	//establish the contactForm object holding essential message information
+	//
+	if (!contactForm) {
+		var contactForm = {};
+		contactForm.userEmail = localStorage.getItem("emailAddr");
+		contactForm.userFName = localStorage.getItem("firstName");
+		contactForm.userLName = localStorage.getItem("lastName");
+	}
+
+	//
+	// Always add specific team information
+	//
+
+	var c = $(e.target).attr("id");
+	// ID value of this team's contact button
+	// the "info" attribute stores team email.
+	// Next iteration keep the team info in the global object of matching projects
+	contactForm.teamEmail = $("#" + c).attr("info"); // the team email address
+	$("#teamEmail").text(contactForm.teamEmail); //and show it on the form
+
+	//
+	//Team leaders stored in button attr data-leader
+	//Next iteration will be in the global object of matching project info
 	//
 	contactForm.teamLeader = $("#" + c).attr("data-leader");
-	$("#teamLeader").text(contactForm.teamLeader);
-};
+	$("#teamLeader").text(contactForm.teamLeader);  //display on form
 
 
-function prepMatchCfgs( allProjs ) {
-	//console.log("allProjs is ", allProjs);
-	return allProjs
+	function sendMsg(msgText, contactForm) {
+	  var myURL="http://localhost:5465/messaging/api/send"
+	  var userMsg = {"email":{"to":[{"name": contactForm.teamLeader ,"email": contactForm.teamEmail}],"from":[{"name": contactForm.userFName +' ' + contactForm.userLName,"email":"welcome.sfbrigade+2938@gmail.com"}], "subject": "RE: World", "text":"Hello, from the Team Contact form!"}}
+
+		var JSONstr = JSON.stringify(userMsg);
+		console.log(JSONstr);
+
+		setTimeout(
+		  $.ajax({
+		    url : myURL,
+		    data : userMsg,
+		    type: "POST",
+		    error: function(a,b,c) {
+		      console.log("Error thrown: ", c )
+		    }
+		  }), 2000);
+
+	}
+
 }
 
-function outputUserSearchCriteria(userMatches) {
-
-		//console.log("In oUSC with ", userMatches.skills, userMatches.goals, userMatches.interests);
-
-}
-		//Handle email form submit event. For now,  we just clear any user-entered text from form and display a confirming message.
+function getBookmarkedProjects( e ) {
+	e.stopPropagation();
+	if (typeof(Storage) === "undefined") {
+		console.log("No local storage support")
+	} else {
+		// retrieve full array of bookmarks and check if this one is saved
+		// already. Note that in log, or add it and save the new array.
 		//
-
-/*
-Object
-email
-goalNeeds :Array[2]
-image
-interestNeeds Array[2]
-leader
-mission
-name
-skillNeeds Array[2]
-		*/
+		var pName = $(e.target).attr("data-name"); // project name to be saved
+		var bookmarks = {};
+    bookmarks.savedProjects = [];
+    bookmarks.savedProjects =  JSON.parse(localStorage.getItem("savedProjects") );
+		if ( bookmarks.savedProjects.indexOf(pName) === -1 ) {
+			console.log("The project needs to be stored: ", pName );
+			bookmarks.savedProjects.push( pName ); // push the new proj to the bookmarks
+			localStorage.setItem("savedProjects", JSON.stringify(bookmarks.savedProjects));
+			showSavedProjs();
+		}
+		else {
+			console.log("The project being save is already stored: ", pName );
+			$('#savedProjsModal h4').text("Already saved!" + bookmarks.savedProjects);
+		  $('#savedProjsModal').modal('show');
+		}
+	}
+}

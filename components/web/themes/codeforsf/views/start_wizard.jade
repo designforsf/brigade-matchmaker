@@ -76,14 +76,17 @@ block content
 					div.row.row--proj-info1
 						section#pName.col-sm-4 Needs Project Name
 						section#pMission.col-sm-8 Project Mission Statement
-						section.col-sm-12
-							br
 					div.row.row--proj-matchConfigs
 						br
-						section#pSkills.col-sm-12
-						section#pGoals.col-sm-12
-						section#pInterests.col-sm-12 
+						section.col-sm-4
+							button(id="saveIt" class="btn btn-large btn-success saveIt__centered" role="button" data-leader="" info="") Save it!
+						section.col-sm-8.section--remove-left-padding
+							section#pSkills.col-sm-8 Skills:
+							section#pGoals.col-sm-8	Goal sought:
+							section#pInterests.col-sm-8	Focus areas:
+
 						br
+
 
 			div#match_res.btn--hidden
 				div
@@ -110,6 +113,8 @@ block content
 
 
 					include partials/_contactTeamForm
+					include partials/_savedProjs
+
 					br
 					h2.h1--more-margin  Your matching projects:
 					div#pList.container

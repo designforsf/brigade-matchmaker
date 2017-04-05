@@ -3,7 +3,7 @@
 /* Matching Hat Client */
 
 (function (MH) {
-  
+
   // namespace: token
   var Checkin = (MH.Checkin = {});
 
@@ -15,36 +15,67 @@
     console.log("checkin click");
 
     if ( localStorage.getItem("checkedIn") === "true" ) {
-      window.alert("You are already checked in using " + localStorage.getItem("emailAddr") );
-      
+      console.log('You are logged in, forwarding to wizard UI')
+      //
+      // Make the "You are checked in" nav drop down visible
+      // Proceed to the MH wizard
+      //
+      window.location="/test/projectlist";
+
       //window.location.href = "/test/api/projects";
     } else {
-      
-      // perform the xhr API call
-      jQuery.ajax({
-        type: 'POST',
-        url: '/api/user/create_and_login',
-        data: {
-          email : $("#email").val(),
-          password: ''
-        },
-      }).done(function (results) {
-        console.log('success ', results);
-        Checkin.postCheckin(results) ;
-        
-      }).fail(function (err) {
-        console.error(err);
 
-      });
-      
+      //Perform basic input validations
+      var x = $("#email").val();
+      var atpos = x.indexOf("@");
+      var dotpos = x.lastIndexOf(".");
+      if (atpos<1 || dotpos<atpos+2 || dotpos+2>=x.length) {
+
+        $('#checkinModal strong').text('The email appears invalid. Try again.');
+        $('#checkinModal').modal('show');
+
+      } else {
+        if (! $("#first_name").val() ) {
+          $('#checkinModal strong').text('Please fill in first and last name.');
+          $('#checkinModal').modal('show');
+        } else {
+          if (! $("#last_name").val() ) {
+            $('#checkinModal strong').text('What, are you Cher or Beyonce? Try again.');
+            $('#checkinModal').modal('show');
+          } else {  // Now all inputs pass basic edits
+            postNewCheckin();
+          }
+        }
+      }
     }
-    
   }
-  
+
+  // perform the xhr API call
+  postNewCheckin = function() {
+    jQuery.ajax({
+    type: 'POST',
+    url: '/api/user/create_and_login',
+    data: {
+      email : $("#email").val(),
+      password: ''
+    },
+    }).done(function (results) {
+      console.log('success ', results);
+      Checkin.postCheckin(results) ;
+
+    }).fail(function (err) {
+      console.error(err);
+
+  });
+
+
+
+}
+
   /*
     reset click
   */
-  
+
   Checkin.reset = function(  ) {
 
     // perform the xhr API call
@@ -54,7 +85,7 @@
       data: {},
     }).done(function (results) {
       console.log('logoff ', results);
-      
+
       if ( localStorage.getItem("checkedIn") ) {
         localStorage.setItem("checkedIn", false);
         localStorage.setItem("emailAddr", "");
@@ -62,12 +93,12 @@
         localStorage.setItem("lastName", "");
         console.log("You are now reset to not checked in ")
       }
-      
+
     }).fail(function (err) {
       console.error(err);
 
     });
-    
+
   }
 
   var checkedIn = false;
@@ -79,13 +110,13 @@
   Checkin.postCheckin = function postCheckin(  ) {
     //var firstNm = $("#first_name").attr("name");
     console.log("checking in now");
-    
+
     var checkinData = {
       firstName : $("#first_name").val(),
       lastName : $("#last_name").val(),
       emailAddr : $("#email").val()
     };
-    
+
     /*
     $.ajax ( {
       type : "GET",
@@ -94,9 +125,9 @@
       success : Checkin.success(checkinData)
     });
     */
-    
+
     Checkin.success(checkinData);
-    
+
   }
 
   /*
@@ -116,11 +147,11 @@
     } else {
       window.alert("Sorry! No Web Storage support..");
     }
-    
+
     // forward to the wizard interface
-    console.log('forward to wizard UI')
-    window.location="/test/projectlist";
-    
+    console.log('Test checkin again and then proceed...')
+    Checkin.login();
+
   }
-  
+
   }) (( window.MH=window.MH || {}));
