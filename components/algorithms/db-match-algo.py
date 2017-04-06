@@ -162,10 +162,13 @@ def matchmaking (skills_list, interests_list, roles_list):
         print
         print 'User match w/ ' + project['name']
         print ' skills ' + str(project['skills_total'])
+        pp.pprint(project['skills_matched'])
         print ' interests ' + str(project['interests_total'])
         print ' roles ' + str(project['roles_total'])
         print ' total score = ' + str(project_total)
         """
+        
+        
 
     #create dictionary for project - key and project_score - value and set up values
     project_dict = {}
