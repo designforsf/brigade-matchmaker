@@ -71,21 +71,42 @@ block content
 			div#umtemplate.container-maxWidth970-no-top-pad.row.row--proj-container.btn--hidden
 				section.col-sm-2
 					img.project-thumbnail
-					button(id="teamAddr" class="btn btn-large btn-primary mail-icon__centered" role="button" data-leader="" info="") Contact Team
 				section.col-sm-10
-					div.row.row--proj-info1
-						section#pName.col-sm-4 Needs Project Name
-						section#pMission.col-sm-8 Project Mission Statement
-					div.row.row--proj-matchConfigs
-						br
-						section.col-sm-4
-							button(id="saveIt" class="btn btn-large btn-success saveIt__centered" role="button" data-leader="" info="") Save it!
-						section.col-sm-8.section--remove-left-padding
-							section#pSkills.col-sm-8 Skills:
-							section#pGoals.col-sm-8	Goal sought:
-							section#pInterests.col-sm-8	Focus areas:
+					section#pName.col-sm-12.pName Needs Project Name
+					br
+					br
+					section#pMission.col-sm-12 Project Mission Statement
 
-						br
+				section.col-sm-12
+					button(id="seeMore" class="btn btn-large btn-warning saveIt__centered--no-left" role="button") Show more...
+					button(id="saveIt" class="btn btn-large btn-success saveIt__centered" role="button" data-leader="" info="") Save it!
+
+				div#moreInfo.btn--hidden
+					section.col-sm-12.section--remove-left-padding.skiIntGoa
+						section.col-sm-2.pSkills Skills:
+						section#pS.col-sm-10
+							<button id="pSkills" type="button" class="btn btn-default disabled btn--hidden"></button>
+						section.col-sm-2.pSkills	Goal sought:
+						section#pG.col-sm-10
+							<button id="pGoals" type="button" class="btn btn-default disabled btn--hidden"></button>
+						section.col-sm-2.pSkills	Civic Interest areas:
+						section#pI.col-sm-10
+							<button id="pInterests" type="button" class="btn btn-default disabled btn--hidden"></button>
+					div#moreProjInfo
+						section.col-sm-12
+							h3 Tasks
+								h5 Lorem Ipsum
+						section.col-sm-12
+							h3 Past results
+								h5 Lorem Ipsum
+						section.col-sm-12.section--remove-left-padding.skiIntGoa
+							section.col-sm-2
+								h3 Project Lead
+									img.project-thumbnail
+							section.col-sm-10
+									h4.leader Team Leader Name
+									button(id="teamAddr" class="btn btn-large btn-primary mail-icon__centered" role="button" data-leader="" info="") Contact Team
+							br
 
 
 			div#match_res.btn--hidden

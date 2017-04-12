@@ -122,28 +122,42 @@ function outputMatchingProjects(xProjects, len, userMatches) {
 		var shortText = $.trim(xProjects[i].mission).substring(0, 300).split(" ").slice(0, -1).join(" ") + "...";; //cut and add ellipses
 		//code from http://jsfiddle.net/schadeck/GpCZL/
 		$("#pMission").text(shortText);
-		if (xProjects[i].skillNeeds) { // test on skills for user match
-			$.each(xProjects[i].skillNeeds, function( index, value ) {
-				if ( $.inArray( value, userMatches.skills) > -1 ) {
-				}
-			});
-			$("#pSkills").text("Skills sought: " + xProjects[i].skillNeeds )};
 
-		if (xProjects[i].goalNeeds) {
-				$("#pGoals").text("Goals sought: " + xProjects[i].goalNeeds)};
-		if (xProjects[i].interestNeeds) {
-				$("#pInterests").text("Focus topics: " + xProjects[i].interestNeeds)};
+		//
+		// This section outputs skill/goal/interests that each
+		// project team is seeking.
+		// Refactor the dupe code into function/method
+		if (xProjects[i].skillNeeds !== undefined ) {
+			xProjects[i].skillNeeds.forEach( function (item ) {
+				$('button#pSkills').clone( 'false' ).appendTo( $('section#pS').filter(':last') );
+				$('button#pSkills').filter(':last').removeAttr('id').text( item ).removeClass('btn--hidden');
+			});
+		}
+		if (xProjects[i].goalNeeds !== undefined ) {
+			xProjects[i].goalNeeds.forEach( function (item ) {
+				$('button#pGoals').clone( 'false' ).appendTo( $('section#pG').filter(':last') );
+				$('button#pGoals').filter(':last').removeAttr('id').text( item ).removeClass('btn--hidden');
+			});
+		}
+		if (xProjects[i].interestNeeds !== undefined ) {
+			xProjects[i].interestNeeds.forEach( function (item ) {
+				$('button#pInterests').clone( 'false' ).appendTo( $('section#pI').filter(':last') );
+				$('button#pInterests').filter(':last').removeAttr('id').text( item ).removeClass('btn--hidden');
+			});
+		}
 		$("div#umtemplate").clone( false ).appendTo("div#pList");
 		$("div#pList div#umtemplate").removeClass("btn--hidden"); // reveal
 		$("div#pList div#umtemplate").removeAttr("id"); // remove id attributes as this div under #pList is *not* a template
 		//
-		//Now, the id for the newly added (last) Team Contact button is added
+		//Now, the id for the newly added (last) Team Contact button,
+		// as well as the More.. and Save It buttons are assigned ids.
 		// The id must be unique so is appended an integer
 		// An event handler is added at the same time, to call
-		// the function that handles the contact form
+		// the function that handles the various events
 		//
 		$("div#pList button#teamAddr").attr("id", getUniqueId() ).on('click', msgFormToTeam );
 		$("div#pList button#saveIt").attr("id", getUniqueId() ).attr('data-name', xProjects[i].name).on('click', setBookmarkedProjects );
+		$("div#pList button#seeMore").attr("id", getUniqueId() ).on('click', toggleView);
 
 		$("div#pList #pName").removeAttr("id");
 		$("div#pList #pMission").removeAttr("id");
@@ -298,5 +312,23 @@ function setBookmarkedProjects( e ) {
 	} else {
 		bookmarkProjs.doSave ( $(e.target).attr("data-name") );
 		bookmarkProjs.show();
+	}
+}
+
+function toggleView( e ) {
+	e.stopPropagation();
+	console.log('event received in function is ', e);
+	var moreLess = $( e.target ).parent().next();
+	switch ( $( e.target ).text() ) {
+		case 'Show more...' :
+			$( moreLess ).removeClass('btn--hidden');
+			$( e.target ).text('Show less...');
+			break;
+		case 'Show less...' :
+			$( moreLess ).addClass('btn--hidden');
+			$( e.target ).text('Show more...');
+			break;
+		default :
+			console.log('Show more/less button name is ', $( e.target ).text() );
 	}
 }
