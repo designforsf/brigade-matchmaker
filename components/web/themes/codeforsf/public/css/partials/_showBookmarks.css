@@ -1,9 +1,14 @@
-.span--block {
-  display: block;
-  margin-left: 2rem;
+
+h4.modal-title {
+  margin-bottom: 2rem;
+  color: indigo;
+  font-size: 150%;
+  font-weight: bold;
 }
 
-.modal-title h4 {
+.bookmark {
+  padding-left: 2rem;
+  color: black;
   font-size: 125%;
-  font-weight: bold;
+  font-weight: normal;
 }

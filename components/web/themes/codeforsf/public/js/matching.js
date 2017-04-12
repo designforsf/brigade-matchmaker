@@ -297,7 +297,7 @@ var bookmarkProjs = {
 		this.getSaved();
 		// Erase any previous session usage from the presentation
 		// over-write with space
-		$('#savedProjsModal span').each( function (index) {
+		$('#savedProjsModal p').each( function (index) {
 			$( this ).text( (bookmarkProjs.saved[ index ] === undefined) ? ' ' : bookmarkProjs.saved[ index ] );
 		});
 		$('#savedProjsModal').modal('show');
