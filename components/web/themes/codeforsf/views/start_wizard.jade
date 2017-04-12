@@ -110,11 +110,6 @@ block content
 						section.section__matchInterest.col-sm-4
 							h4#searchinterests.config Interests:
 
-
-
-					include partials/_contactTeamForm
-					include partials/_savedProjs
-
 					br
 					h2.h1--more-margin  Your matching projects:
 					div#pList.container
@@ -126,3 +121,6 @@ block content
 			div.text-center
 				div.btn-group(role="group" aria-label="...")
 					button(type="button" id="backToWizard" class="btn btn-primary button__more-margins btn--hidden") Restart the Matching Hat wizard
+
+			include partials/_contactTeamForm
+			include partials/_savedProjs

@@ -113,7 +113,7 @@ function processMatches( allProjs, userMatches ) {
 //   attached, after the section is cloned.
 
 function outputMatchingProjects(xProjects, len, userMatches) {
-	for (var i = 0; i < len; i++) {
+	for (let i = 0; i < len; i++) {
 		$("#umtemplate img").attr("src", xProjects[i].image);
 		$("#teamAddr").attr("info", xProjects[i].email).attr("data-leader", xProjects[i].leader + i);
 
@@ -142,8 +142,8 @@ function outputMatchingProjects(xProjects, len, userMatches) {
 		// An event handler is added at the same time, to call
 		// the function that handles the contact form
 		//
-		$("div#pList button#teamAddr").attr("id", "email" + i ).on('click', msgFormToTeam );
-		$("div#pList button#saveIt:last").attr("data-name", xProjects[i].name ).on('click', getBookmarkedProjects );
+		$("div#pList button#teamAddr").attr("id", getUniqueId() ).on('click', msgFormToTeam );
+		$("div#pList button#saveIt").attr("id", getUniqueId() ).attr('data-name', xProjects[i].name).on('click', setBookmarkedProjects );
 
 		$("div#pList #pName").removeAttr("id");
 		$("div#pList #pMission").removeAttr("id");
@@ -155,6 +155,17 @@ function outputMatchingProjects(xProjects, len, userMatches) {
 
 	}
 }
+
+// create a function to create unique element IDs using an IIFE and closure
+// to hide state
+
+var getUniqueId = ( function() {
+	var id = 0;
+	var root = "gen-";
+	return (function () {
+			return root + id++;
+	})
+})();
 
 function msgFormToTeam ( e ) {
 	$('#mailModal').modal('show');
@@ -214,50 +225,78 @@ function msgFormToTeam ( e ) {
 
 }
 
-function getBookmarkedProjects( e ) {
-	e.stopPropagation();
-	if (typeof(Storage) === "undefined") {
-		console.log("No local storage support")
-	} else {
-		// retrieve full array of bookmarks and check if this one is saved
-		// already. Note that in log, or add it and save the new array.
-		//
-		var pName = $(e.target).attr("data-name"); // project name to be saved
-		var bookmarks = {};
-    bookmarks.savedProjects = [];
-		if ( localStorage.getItem("savedProjects") ) {
-			bookmarks.savedProjects =  JSON.parse(localStorage.getItem("savedProjects") )};
+var bookmarkProjs = {
 
-		if ( bookmarks.savedProjects.indexOf(pName) === -1 ) {
-			console.log("The project needs to be stored: ", pName );
-			bookmarks.savedProjects.push( pName ); // push the new proj to the bookmarks
-			localStorage.setItem("savedProjects", JSON.stringify(bookmarks.savedProjects));
-			showSavedProjs();
-		}
-		else {
-			showSavedProjs();
-		}
+	retrieved : false,
 
+	// Test for localStorage support
+	canSave : !(typeof(Storage) === 'undefined'),
+
+	saved : [],
+
+	// Test for existence of a bookmark
+	hasSaved : ( localStorage.getItem( 'savedProjects' ) ? true : false),
+
+	// Retrieve saved projects
+	getSaved : function() {
+		if (this.canSave) {
+			if ( localStorage.getItem('savedProjects') ) {
+				this.retrieved = true;
+				return this.saved = JSON.parse(localStorage.getItem("savedProjects"));
+			};
+		};
+	},
+
+	// Push new project name pName onto the bookmarks array, and store
+	doSave : function( pName) {
+		if (this.canSave && !this.retrieved) {
+			this.getSaved;
+			this.saved.push(pName)
+			this.retrieved = true;
+			this.haSaved = true;
+			localStorage.setItem("savedProjects", JSON.stringify(this.saved) );
+
+		} else if (this.canSave) {
+			this.saved.push(pName);
+			this.hasSaved = true;
+			localStorage.setItem("savedProjects", JSON.stringify(this.saved) );
+		}
+	},
+
+	removeSave : function( pName) {
+		if (this.canSave && !this.retrieved) {
+			this.saved = this.getSaved.filter( function ( value) {
+			return value !== pName;
+			})
+			localStorage.setItem("savedProjects", JSON.stringify(this.saved) )
+		} else if (this.canSave) {
+			this.saved = this.saved.filter( function ( value) {
+			return value !== pName;
+			})
+			localStorage.setItem("savedProjects", JSON.stringify(this.saved) )
+		}
+	},
+
+	show : function() {
+
+		// Retrieve bookmarked projects
+		this.getSaved();
+		// Erase any previous session usage from the presentation
+		// over-write with space
+		$('#savedProjsModal span').each( function (index) {
+			$( this ).text( (bookmarkProjs.saved[ index ] === undefined) ? ' ' : bookmarkProjs.saved[ index ] );
+		});
+		$('#savedProjsModal').modal('show');
 	}
 }
 
-function showSavedProjs () {
-	//
-	// initialize the list in the html
 
-  var bookmarks = {};
-  bookmarks.savedProjects = [];
-	$.each( $('#savedProjsModal span'), function( index, value ) {
-		$(this).text( "  ");
-	});
-	if ( localStorage.getItem("savedProjects") ) {
-		bookmarks.savedProjects =  JSON.parse(localStorage.getItem("savedProjects") );
-		$.each( $('#savedProjsModal span'), function( index, value ) {
-			var x = bookmarks.savedProjects[index];
-			if (x) {
-				$(this).text( " " + x + " ");
-			}
-		})
+function setBookmarkedProjects( e ) {
+	e.stopPropagation();
+	if ( !bookmarkProjs.canSave ) {
+		console.log("No local storage support")
+	} else {
+		bookmarkProjs.doSave ( $(e.target).attr("data-name") );
+		bookmarkProjs.show();
 	}
-	$('#savedProjsModal').modal('show');
 }

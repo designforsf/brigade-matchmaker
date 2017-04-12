@@ -1,0 +1,9 @@
+.span--block {
+  display: block;
+  margin-left: 2rem;
+}
+
+.modal-title h4 {
+  font-size: 125%;
+  font-weight: bold;
+}

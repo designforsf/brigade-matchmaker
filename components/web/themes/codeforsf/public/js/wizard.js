@@ -17,7 +17,7 @@ $(document).ready(function () {
     switch( $(e.target).text() ) {
     case "My saved projects":
       console.log("Show save projects now")
-      showSavedProjs(e);
+      bookmarkProjs.show();
       break;
     case "Sign out":
       localStorage.setItem("checkedIn", "false");
@@ -101,7 +101,7 @@ $(document).ready(function () {
   };
 
 });
-
+/*
 function showSavedProjs () {
   var bookmarks = {};
   bookmarks.savedProjects = [];
@@ -110,7 +110,7 @@ function showSavedProjs () {
   $('#savedProjsModal').modal('show');
 
 }
-
+*/
 function initMatchingStep( taxonomies ) {
   $("li#start_matching").addClass("active").addClass("move_left");
   $("li#start").removeClass("active").addClass("move_right");
