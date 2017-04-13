@@ -86,7 +86,9 @@ npm install
 
 ## 3. Link
 
-So you can develop what will be published as node modules
+This is so you can develop what will be published as node modules.
+
+IMPORTANT: make sure to perform these in order, and only one at a time!
 
 ### @theme-public-c4sf 
 ```
@@ -120,7 +122,7 @@ vi .env
 
 ### @mongodb
 
-start this up
+Check that mongodb is running.
 
 ### @brigadehub
 ```

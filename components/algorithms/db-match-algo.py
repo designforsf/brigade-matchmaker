@@ -48,14 +48,14 @@ projects_list = [
         'name':'UX Research',
         'interests_needed':['all','community-organizer'],
         'skills_needed':['python','javascript','html'],
-        'roles_needed':['developer','helper']
+        'goals_needed':['developer','helper']
     },
     {
         'id':'data-sciences',
         'name':'Data Sciences',
         'interests_needed':['all'],
         'skills_needed':['python'],
-        'roles_needed':['developer']
+        'goals_needed':['developer']
     }
 ]
 """
@@ -77,17 +77,17 @@ for project in db.projects.find({}):
     for need in project['matchingConfig']['skillsNeeded']:
         project['skills_needed'].append(need)
 
-    # roles
-    project['roles_needed'] = []
-    for need in project['matchingConfig']['rolesNeeded']:
-        project['roles_needed'].append(need)
+    # goals
+    project['goals_needed'] = []
+    for need in project['matchingConfig']['rolesNeeded']: # TODO: old terminology
+        project['goals_needed'].append(need)
 
     projects_list.append(project)
     projects_count += 1
 
 # END loading projects list
 
-def matchmaking (skills_list, interests_list, roles_list):
+def matchmaking (skills_list, interests_list, goals_list):
 
     """
     print 'matchmaking()'
@@ -95,8 +95,8 @@ def matchmaking (skills_list, interests_list, roles_list):
     pp.pprint(skills_list)
     print 'interests='
     pp.pprint(interests_list)
-    print 'roles='
-    pp.pprint(roles_list)
+    print 'goals='
+    pp.pprint(goals_list)
     """
 
     #iterate over the projects
@@ -105,18 +105,18 @@ def matchmaking (skills_list, interests_list, roles_list):
         # factors to prioritize skills
         skills_factor = 2
         interests_factor = 1
-        roles_factor = 1
+        goals_factor = 1
 
         project['user_score'] = 0
 
         # in this project hold the totals for this user's
-        #   skills, interests, and roles
+        #   skills, interests, and goals
         project['skills_total'] = 0
         project['skills_matched'] = []
         project['interests_total'] = 0
         project['interests_matched'] = []
-        project['roles_total'] = 0
-        project['roles_matched'] = []
+        project['goals_total'] = 0
+        project['goals_matched'] = []
 
         '''
         iterate over the skills_list and get the corresponding
@@ -139,21 +139,21 @@ def matchmaking (skills_list, interests_list, roles_list):
                     project['interests_matched'].append(interest)
 
         '''
-        iterate over the roles_list and get the corresponding
-        values for each role and the total value from the project
+        iterate over the goals_list and get the corresponding
+        values for each goal and the total value from the project
         '''
-        if len(roles_list) > 0:
-            for role in roles_list:
-                if role in project['roles_needed']:
-                    project['roles_total'] += 1
-                    project['roles_matched'].append(role)
+        if len(goals_list) > 0:
+            for goal in goals_list:
+                if goal in project['goals_needed']:
+                    project['goals_total'] += 1
+                    project['goals_matched'].append(goal)
 
         #Find the weighted total for the project
 
         project_total = 0
         project_total += (skills_factor * project['skills_total'])
         project_total += (interests_factor * project['interests_total'])
-        project_total += (roles_factor * project['roles_total'])
+        project_total += (goals_factor * project['goals_total'])
 
         #add the weighted total to the project_scores list
         project['user_score'] = project_total
@@ -164,7 +164,7 @@ def matchmaking (skills_list, interests_list, roles_list):
         print ' skills ' + str(project['skills_total'])
         pp.pprint(project['skills_matched'])
         print ' interests ' + str(project['interests_total'])
-        print ' roles ' + str(project['roles_total'])
+        print ' goals ' + str(project['goals_total'])
         print ' total score = ' + str(project_total)
         """
         
@@ -183,12 +183,18 @@ def matchmaking (skills_list, interests_list, roles_list):
             str(project['_id']),
             project['name'],
             str(project['user_score']),
+            
             'skills',
             str(project['skills_total']),
+            "(" + " ".join(project['skills_matched']) + ")",
+            
             'interests',
             str(project['interests_total']),
+            "(" + " ".join(project['interests_matched']) + ")",
+            
             'goals',
-            str(project['roles_total']),
+            str(project['goals_total']),
+            "(" + " ".join(project['goals_matched']) + ")",
         )
         print ",".join(seq)
 
@@ -203,7 +209,7 @@ if __name__ == "__main__":
     interests = sys.argv[2] if (len(sys.argv) > 2) else ""
     interests_list = interests.split(",")
 
-    roles = sys.argv[3] if (len(sys.argv) > 3) else ""
-    roles_list = roles.split(",")
+    goals = sys.argv[3] if (len(sys.argv) > 3) else ""
+    goals_list = goals.split(",")
 
-    matchmaking (skills_list, interests_list, roles_list)
+    matchmaking (skills_list, interests_list, goals_list)
