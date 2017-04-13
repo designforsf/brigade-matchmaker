@@ -1,7 +1,8 @@
 
 # BrigadeHub Setup
 
-Step-by-step instructions to get BrigadeHub running with the c4sf admin and theme.
+Step-by-step instructions to get BrigadeHub running with the c4sf admin and theme. This is targeting BrigadeHub v0.1.x.
+
 
 SEE: https://github.com/brigadehub/brigadehub
 
@@ -9,14 +10,17 @@ SEE: https://github.com/brigadehub/brigadehub
 ## 0. Prerequisites
 
 Install nvm
+
 Install nodejs v6.9
 
 Install Yarn:
 
+```
 brew update
 brew install yarn
+```
 
-(install mongodb)
+Install mongodb
 
 
 ## 1. Workspace
@@ -24,53 +28,56 @@ brew install yarn
 In your cli, set up separate consoles or screens.
 Prepare nodejs and mongodb.
 
-@brigadehub-public-c4sf 
+### @brigadehub-public-c4sf 
 ```
 nvm use v6.9
 ```
 
-@brigadehub-admin-c4sf
+### @brigadehub-admin-c4sf
 ```
 nvm use v6.9
 ```
 
-@core
+### @core
 ```
 nvm use v6.9
 ```
 
-@brigadehub
+### @brigadehub
 ```
 nvm use v6.9
 ```
 
-@mongodb
-
+### @mongodb
+```
+cd components/mongodb
+./bin/start-mongodb.sh
+```
 
 ## 2. Clone and npm install
 
-@theme-public-c4sf
+### @theme-public-c4sf
 ```
 git clone https://github.com/brigadehub/theme-public-c4sf.git
 cd theme-public-c4sf
 npm install
 ```
 
-@theme-admin-c4sf
+### @theme-admin-c4sf
 ```
 git clone https://github.com/brigadehub/theme-admin-c4sf.git
 cd theme-admin-c4sf
 npm install
 ```
 
-@core
+### @core
 ```
 git clone https://github.com/brigadehub/core.git
 cd core
 npm install
 ```
 
-@brigadehub
+### @brigadehub
 ```
 git clone https://github.com/brigadehub/brigadehub.git
 cd brigadehub
@@ -81,45 +88,47 @@ npm install
 
 So you can develop what will be published as node modules
 
-@theme-public-c4sf 
+### @theme-public-c4sf 
 ```
 npm link
 ```
 
-@theme-admin-c4sf
+### @theme-admin-c4sf
 ```
 npm link
 ```
 
-@core
+### @core
 ```
 make link
 ```
 
-@brigadehub
+### @brigadehub
 ```
 make link
 ```
 
 ## 4. Configure
 
-@brigadehub
+### @brigadehub
 ```
 cp .env.example .env
 vi .env
 ```
 
-## 5. Start
+## 5. Test
 
-@mongodb
+### @mongodb
+
 start this up
 
-@brigadehub
+### @brigadehub
 ```
 make start/develop
 ```
 
-In a browser, open: 
-http://localhost:5465/
+### Done!
+
+In a browser, open: http://localhost:5465/
 
 
