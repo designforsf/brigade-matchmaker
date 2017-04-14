@@ -186,13 +186,20 @@ module.exports = {
     matchFields = [
       "_id",    // mongo id
       "id",     // BrigadeHub id
-      "score",  // match score
-      "name0",  // user attr 0 field name
-      "score0", // user attr 0 score
-      "name1",  // user attr 1 field name
-      "score1", // user attr 1 score
-      "name2",  // user attr 2 field name
-      "score2", // user attr 2 score
+      "score",  // total match score
+      
+      "name0",    // user attr 0 field name
+      "score0",   // user attr 0 score
+      "attrs0",   // user attr 0 matching attrs
+      
+      "name1",    // user attr 1 field name
+      "score1",   // user attr 1 score
+      "attrs1",   // user attr 1 matching attrs
+      
+      "name2",    // user attr 2 field name
+      "score2",   // user attr 2 score
+      "attrs2",   // user attr 2 matching attrs
+      
     ];
     matchUserAttrs = ["skills", "interests", "goals"];
 
@@ -224,7 +231,7 @@ module.exports = {
     pyDirArr.push('algorithms');
     var pyDir = pyDirArr.join('/');
     var pyFile = '/db-match-algo.py';
-
+    
     console.log('run python: ' + pyFile + ' with args=', pyArgs);
 
     PyShell.run(pyFile, {
@@ -243,9 +250,22 @@ module.exports = {
 
         // process individual user attributes
         // NOTE: after general fields, py script outputs
-        //  alternating name + score for each user attribute
+        //  alternating name + score + matched attrs for each user attribute
         matchUserAttrs.forEach(function(arg, aidx) {
-          project[arg + 'Score'] = parseInt(lineArr[2 + (aidx*2)]);
+          project[arg + 'Score'] = parseInt(lineArr[2 + 2 + (aidx*3)]);
+          
+          // set up the matched args array
+          var matchedArgs = lineArr[2 + 3 + (aidx*3)];
+          matchedArgs = matchedArgs.replace(/[()]/g, '');
+          if (matchedArgs.length > 0) {
+            project[arg + 'Matched'] = matchedArgs.split(' ');
+          }  else {
+            project[arg + 'Matched'] = [];
+          }
+          
+          
+          //console.log(project['id'] + ' for ' + arg + ' matched-attrs: ', lineArr[2 + 3 + (aidx*3)]);
+          //console.log(lineArr);
         });
 
         //console.log(project);

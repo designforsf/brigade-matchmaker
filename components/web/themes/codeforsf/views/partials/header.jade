@@ -1,10 +1,8 @@
+
 .container
-    nav.navbar.navbar-light.bg-faded.navbar-fixed-top
-      div(class="row row--nav-padded row--nav-tall row--nav-bold-bg")
-        <a class="navbar-brand brigade-brand" href="/"><img class="brigade-logo" src="http://i.imgur.com/hvFv1ow.png" height="200%" object-fit="contain"></a>
-        ul.nav.nav-pills.hidden-sm-down.pull-right
-          li<a class="nav-link" href="/events">Events</a>
-          li<a class="nav-link" href="/projects">Projects</a>
-          li<a class="nav-link" href="/blog">Blog</a>
-          li<a class="nav-link" href="/datascience">Data Science</a>
-          li<a class="nav-link" href="/contact">Contact</a>
+  nav.navbar.navbar-light.bg-faded.navbar-fixed-top
+    .dropdown.show
+      a#dropdownMenuLink.btn.btn-secondary.dropdown-toggle(href='https://example.com', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+        | Checked in as email
+      .dropdown-menu(aria-labelledby='dropdownMenuLink')
+        a.dropdown-item(href='#') Check out of brigadehub

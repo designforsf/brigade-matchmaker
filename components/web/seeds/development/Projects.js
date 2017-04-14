@@ -2,25 +2,25 @@ var faker = require('faker')
 
 module.exports = [
   {
-    'id': 'Test-Empty-Project',
+    'id': 'Roadmap-to-HTML',
     'brigade': 'codeforexample',
-    'status': 'discovery',
-    'thumbnailUrl': faker.image.city(360, 360, false),
+    'status': 'mvp',
+    'thumbnailUrl': 'https://cloud.githubusercontent.com/assets/451510/23977184/d371c3ba-09a9-11e7-971c-f8dc705f0f5a.png',
     'bannerUrl': faker.image.people(),
     'bornAt': 'Code for Example',
     'geography': faker.address.city(),
     'politicalEntity': '',
-    'name': 'Test-Empty-Project',
-    'description': faker.hacker.phrase(),
+    'name': 'Roadmap to HTML',
+    'description': 'Publishing an essential reentry resource on the web',
     'license': 'MIT',
-    'homepage': 'https://github.com/codeforexample/Test-Empty-Project',
-    'repository': 'https://github.com/codeforexample/Test-Empty-Project',
+    'homepage': 'https://rootandrebound.github.io/roadmap-to-html/',
+    'repository': 'https://github.com/rootandrebound/roadmap-to-html',
     'links': [],
     'videos': [],
     'matchingConfig': {
       'interestsNeeded': ['all'],
-      'skillsNeeded': ['python','javascript','html'],
-      'rolesNeeded': ['developer','helper','community-organizer']
+      'skillsNeeded': ['ms-word','css','html','cms'],
+      'rolesNeeded': ['developer','helper']
     },
     'keywords': [
       faker.company.bsBuzz(),
@@ -67,24 +67,24 @@ module.exports = [
       '\n\n| Table | Info | Goes | Here |\n| --- | --- | --- | --- |\n| foo | bar | lorem | ipsum |'
   },
   {
-    'id': 'really-empty-project',
+    'id': 'ShelterTech',
     'brigade': 'codeforexample',
-    'status': 'beta',
-    'thumbnailUrl': faker.image.city(360, 360, false),
+    'status': 'alpha',
+    'thumbnailUrl': 'https://www.google.com/a/sheltertech.org/images/logo.gif?alpha=1&service=google_default',
     'bannerUrl': faker.image.people(),
     'bornAt': 'Code for Example',
     'geography': faker.address.city(),
     'politicalEntity': '',
-    'name': 'really-empty-project',
-    'description': faker.hacker.phrase(),
+    'name': 'ShelterTech',
+    'description': "We're building a suite of products and services for SF's homeless and underserved communities.",
     'license': 'MIT',
-    'homepage': 'https://github.com/codeforexample/really-empty-project',
-    'repository': 'https://github.com/codeforexample/really-empty-project',
+    'homepage': 'https://sheltertech.org/',
+    'repository': '',
     'links': [],
     'videos': [],
     'matchingConfig': {
       'interestsNeeded': ['homelessness'],
-      'skillsNeeded': ['javascript','html'],
+      'skillsNeeded': ['ios'],
       'rolesNeeded': ['developer']
     },
     'keywords': [
@@ -136,24 +136,24 @@ module.exports = [
       '\n\n| Table | Info | Goes | Here |\n| --- | --- | --- | --- |\n| foo | bar | lorem | ipsum |'
   },
   {
-    'id': 'forked-project-kong',
+    'id': 'California-OpenJustice',
     'brigade': 'codeforexample',
-    'status': 'alpha',
-    'thumbnailUrl': faker.image.city(360, 360, false),
+    'status': 'beta',
+    'thumbnailUrl': 'http://datascience.codeforsanfrancisco.org/wp-content/uploads/2017/03/doj-screenshot.png',
     'bannerUrl': faker.image.people(),
     'bornAt': 'Code for Example',
     'geography': faker.address.city(),
     'politicalEntity': '',
-    'name': 'forked-project-kong',
-    'description': faker.hacker.phrase(),
+    'name': 'California OpenJustice',
+    'description': 'Equity & equality in the CA criminal justice system',
     'license': 'MIT',
     'homepage': 'https://getkong.org/install',
     'repository': 'https://github.com/codeforexample/forked-project-kong',
     'links': [],
     'videos': [],
     'matchingConfig': {
-      'interestsNeeded': ['infrastructure'],
-      'skillsNeeded': ['mongodb','writing','legal','advocacy'],
+      'interestsNeeded': ['criminal-justice'],
+      'skillsNeeded': ['optimization-modeling','predictive-modeling','data-science','statistics'],
       'rolesNeeded': ['developer','helper']
     },
     'keywords': [
@@ -206,25 +206,25 @@ module.exports = [
       '\n\n| Table | Info | Goes | Here |\n| --- | --- | --- | --- |\n| foo | bar | lorem | ipsum |'
   },
   {
-    'id': 'mirrored-project-hackathon-starter',
+    'id': 'Adopt-a-Drain',
     'brigade': 'codeforexample',
     'status': 'live',
-    'thumbnailUrl': faker.image.city(360, 360, false),
+    'thumbnailUrl': 'http://i.imgur.com/JUmCJ5L.png',
     'bannerUrl': faker.image.people(),
     'bornAt': 'Code for Example',
     'geography': faker.address.city(),
     'politicalEntity': '',
-    'name': 'mirrored-project-hackathon-starter',
-    'description': faker.hacker.phrase(),
+    'name': 'Adopt-a-Drain',
+    'description': 'Claim responsibility for cleaning out a storm drain after it rains.',
     'license': 'MIT',
-    'homepage': 'https://github.com/codeforexample/mirrored-project-hackathon-starter',
-    'repository': 'https://github.com/codeforexample/mirrored-project-hackathon-starter',
+    'homepage': 'http://adoptadrain.sfwater.org/',
+    'repository': 'https://github.com/sfbrigade/adopt-a-drain',
     'links': [],
     'videos': [],
     'matchingConfig': {
       'interestsNeeded': ['housing'],
-      'skillsNeeded': ['graphic-design','dataviz'],
-      'rolesNeeded': ['developer','leader']
+      'skillsNeeded': ['ruby-on-rails','ruby','javascript'],
+      'rolesNeeded': ['developer','bug-testing']
     },
     'keywords': [
       faker.company.bsBuzz(),
@@ -276,25 +276,25 @@ module.exports = [
       '\n\n| Table | Info | Goes | Here |\n| --- | --- | --- | --- |\n| foo | bar | lorem | ipsum |'
   },
   {
-    'id': 'mirrored-project-mirror',
+    'id': 'Brigadehub',
     'brigade': 'codeforexample',
     'status': 'mvp',
-    'thumbnailUrl': faker.image.city(360, 360, false),
+    'thumbnailUrl': 'https://cdn.rawgit.com/brigadehub/brigadehub/cc51c9ad/assets/rasterized/logo-square-white-blue.png',
     'bannerUrl': faker.image.people(),
     'bornAt': 'Code for Example',
     'geography': faker.address.city(),
     'politicalEntity': '',
-    'name': 'mirrored-project-mirror',
-    'description': faker.hacker.phrase(),
+    'name': 'Brigadehub',
+    'description': 'Data portal and CMS for brigades',
     'license': 'MIT',
-    'homepage': 'https://github.com/codeforexample/mirrored-project-mirror',
-    'repository': 'https://github.com/codeforexample/mirrored-project-mirror',
+    'homepage': 'https://brigadehub.github.io',
+    'repository': 'https://github.com/brigadehub/brigadehub',
     'links': [],
     'videos': [],
     'matchingConfig': {
-      'interestsNeeded': ['all'],
-      'skillsNeeded': ['statistics','dataviz'],
-      'rolesNeeded': ['developer','learner']
+      'interestsNeeded': ['civic-participation'],
+      'skillsNeeded': ['nodejs','mongodb'],
+      'rolesNeeded': ['developer']
     },
     'keywords': [
       faker.company.bsBuzz(),
@@ -345,25 +345,25 @@ module.exports = [
       faker.lorem.paragraph() +
       '\n\n| Table | Info | Goes | Here |\n| --- | --- | --- | --- |\n| foo | bar | lorem | ipsum |'
   }, {
-    'id': 'mirrored-project-mirror',
+    'id': 'The-Data-Science-Working-Group',
     'brigade': 'codeforexample',
     'status': 'proposed',
-    'thumbnailUrl': faker.image.city(360, 360, false),
+    'thumbnailUrl': 'https://github.com/sfbrigade/data-science-wg/raw/master/datascience-wg_header.jpg  ',
     'bannerUrl': faker.image.people(),
     'bornAt': 'Code for Example',
     'geography': faker.address.city(),
     'politicalEntity': '',
-    'name': 'mirrored-project-mirror',
+    'name': 'The Data Science Working Group',
     'description': faker.hacker.phrase(),
     'license': 'MIT',
-    'homepage': 'https://github.com/codeforexample/mirrored-project-mirror',
+    'homepage': 'http://datascience.codeforsanfrancisco.org/',
     'repository': 'https://github.com/codeforexample/mirrored-project-mirror',
     'links': [],
     'videos': [],
     'matchingConfig': {
       'interestsNeeded': [],
-      'skillsNeeded': ['ruby'],
-      'rolesNeeded': ['developer']
+      'skillsNeeded': ['python','data-science','visualization','machine-learning'],
+      'rolesNeeded': ['developer','learner']
     },
     'keywords': [
       faker.company.bsBuzz(),

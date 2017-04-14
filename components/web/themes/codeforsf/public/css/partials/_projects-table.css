@@ -106,3 +106,12 @@
 	border-color: black;
 	border-width: 1px;
 }
+
+.pName, .pSkills {
+	font-size: 2rem;
+	font-weight: 500;
+}
+
+.skiIntGoa {
+	padding-top: 5px;
+}

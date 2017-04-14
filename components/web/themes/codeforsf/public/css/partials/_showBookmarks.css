@@ -1,0 +1,14 @@
+
+h4.modal-title {
+  margin-bottom: 2rem;
+  color: indigo;
+  font-size: 150%;
+  font-weight: bold;
+}
+
+.bookmark {
+  padding-left: 2rem;
+  color: black;
+  font-size: 125%;
+  font-weight: normal;
+}

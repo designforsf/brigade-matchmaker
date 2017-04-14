@@ -28,11 +28,10 @@ ptSchema.methods.getInterests = function (cb) {
 ptSchema.methods.getGoals = function (cb) {
   return cb(null, [
     {name: 'learn', synonyms: []},
-    {name: 'lead', synonyms: ['direct']},
-    {name: 'manage', synonyms: []},
+    {name: 'lead', synonyms: ['manage']},
     {name: 'develop', synonyms: ['code']},
     {name: 'help', synonyms: ['coach']},
-    {name: 'initiate', synonyms: []},
+    {name: 'initiate', synonyms: ['']},
   ]);
 }
 
