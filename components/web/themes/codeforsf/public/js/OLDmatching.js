@@ -34,7 +34,7 @@ function outputUserSearchCriteria(userMatches) {
 
 }
 
-function processMatches( allPs, userMatches ) {
+function processMatches( allProjs, userMatches ) {
 
 	//For iteration one, use improvised project pix and email addresses, etc.
 	//Subsequent iterations should be able to use better, actual, project information
@@ -42,50 +42,64 @@ function processMatches( allPs, userMatches ) {
 	//
 	// select({ _id, name, matchingConfig (rolesNeeded, skillsNeeded, interestsNeeded)
 	//        description, team (username, avatar), homepage, repository, needs,
-	//				thumbnailUrl, contact (name, email) })
-	//
+	//				thumbnailUrl})
 	//
 
 	var j = 0;
 	var xProjects = [];
-	//var project_email = ["teamA@brigadehub.com", "teamB@brigadehub.com", "teamC@brigadehub.com", "teamD@brigadehub.com", "teamEpix@brigadehub.com", "teamF@brigadehub.com"]
+	var project_pix = ["https://avatars1.githubusercontent.com/u/8534106?v=3&s=200", "https://avatars1.githubusercontent.com/u/8534106?v=3&s=200", "http://i.imgur.com/JUmCJ5L.png", "http://i.imgur.com/KOY0XD0.jpg", "https://avatars1.githubusercontent.com/u/8534106?v=3&s=200",
+	"https://avatars1.githubusercontent.com/u/8534106?v=3&s=200"];
+	var project_email = ["teamA@brigadehub.com", "teamB@brigadehub.com", "teamC@brigadehub.com", "teamD@brigadehub.com", "teamEpix@brigadehub.com", "teamF@brigadehub.com"]
 
 	// Get reference projects.
 	// Not needed in next version -- api for matches should send back relevant
 	// project data
 
-	// var allPs is the object of all project info passed into this function from the Ajax call to /api/projects
+	var allPs = allProjs  // allProjs is the object of all project info pased into this function from the Ajax call to /api/projects
 
 	//Iterate over the projects returned in the user match object userMatches
 	// to complete the project info object allPs
-	userMatches.projects.forEach(function(userProject) {
-		//filter the allPs.projects array for a project name matching the userProject
-		var fullProjInfo = allPs.projects.filter ( function( thisProject, index ) {
-			return ( userProject.id ===  thisProject.name );
-		});
-
-		if ( !fullProjInfo ) {
-			userProject.found = false;
-			outputProject( userProject );
-		}
-
-		if ( fullProjInfo ) {
-			userProject.found = true;
+	userMatches.projects.forEach(function(userProject){
+		//iterate through the array of projects
+		for (i = 0; i < allPs.projects.length; i++ ) {
+			if ( allPs.projects[i].name === userProject.id ) {
 
 				//projects match, we can fill in some missing info -- what
 				// skills / interests / goals are sought by this project
 				// That info is in the matching Config property, which is an array
 
-				userProject.skills = fullProjInfo[0].matchingConfig.skillsNeeded;
-				userProject.interests = fullProjInfo[0].matchingConfig.interestsNeeded;
-				userProject.goals = fullProjInfo[0].matchingConfig.rolesNeeded;
+				userProject.skills = allPs.projects[i].matchingConfig.skillsNeeded;
+				userProject.interests = allPs.projects[i].matchingConfig.interestsNeeded;
+				userProject.goals = allPs.projects[i].matchingConfig.rolesNeeded;
+				break; // shortcut out of looping as soon as the project match is found
+			}
+		}  // Loop ended for finding the skills / interests // goals
 
-				// fullProjInfo[0] is the additional information retrieved for
-				//  the user's matching project
-				outputProject( userProject, fullProjInfo[0] );
-
+		// Now start back at j=0 and iterate through the user projects
+		// to fill in other information:
+		// project name, mission, email address, leader
+		//
+		// In iteration 2 these will be based on UX decisions
+		//
+		// improvised project data for iteration 1:
+		//
+		xProjects[j] = {
+			"name" : userProject.id,
+			"mission" : "Mission to be announced...Umami kinfolk tousled meditation, vice locavore messenger bag irony pinterest pop-up skateboard bespoke. Ethical readymade master cleanse, austin copper mug vegan butcher umami hammock plaid yuccie scenester ennui. Food truck squid bicycle rights, photo booth XOXO semiotics cronut. Distillery kombucha humblebrag jean shorts, vice franzen mixtape williamsburg. Cronut etsy jianbing bicycle rights yr listicle pop-up cray, kitsch brooklyn. ",
+			"image" : project_pix[j],
+			"leader" : "Team leader name",
+			"email" : project_email[j],
+			"skillNeeds" : userProject.skills, //array of strings
+			"goalNeeds" : userProject.goals,
+			"interestNeeds" : userProject.interests
 		}
+
+		j++
+
 	})
+
+	outputMatchingProjects(xProjects, xProjects.length, userMatches);
+
 }
 
 // outputMatchingProjects iterates over the extended user matching projects object
@@ -102,77 +116,38 @@ function processMatches( allPs, userMatches ) {
 //  For the Contact Team buttons, a new unique ID is added, and a listener is
 //   attached, after the section is cloned.
 
-function outputProject(userProject, fullProjInfo ) {
+function outputMatchingProjects(xProjects, len, userMatches) {
+	for (let i = 0; i < len; i++) {
+		$("#umtemplate img").attr("src", xProjects[i].image);
+		$("#teamAddr").attr("info", xProjects[i].email).attr("data-leader", xProjects[i].leader + i);
 
-		$("#umtemplate img").attr("src", fullProjInfo.thumbnailUrl );
-		if ( fullProjInfo.contact.length ) {
-			$("#teamAddr").attr("info", fullProjInfo.contact[0].email).attr("data-leader", fullProjInfo.contact[0].name);
-		} else {
-			$("#teamAddr").attr("info", "").attr("data-leader", "");
-		};
-
-		$("#pName").text( fullProjInfo.name );
-		//
-		// New data model -- description is short enough without truncation.
-		// leave short text for now in case a longer mission stmnt is available later
-		//var shortText = $.trim(fullProjInfo.description).substring(0, 300).split(" ").slice(0, -1).join(" ") + "...";; //cut and add ellipses
+		$("#pName").text(xProjects[i].name);
+		var shortText = $.trim(xProjects[i].mission).substring(0, 300).split(" ").slice(0, -1).join(" ") + "...";; //cut and add ellipses
 		//code from http://jsfiddle.net/schadeck/GpCZL/
-		$("#pMission").text(fullProjInfo.description);
-
+		$("#pMission").text(shortText);
 
 		//
 		// This section outputs skill/goal/interests that each
-		// project team is seeking (userProject.skills).  Ones that match user selections
-		// (userProject.skillsMatched) are highlighted using Bootstrap class btn-success
-		//
-		// Preserve the initial empty content for the skill/interest/goal sections
-		var btnSkills = $('div#umtemplate').find('section#pS').html();
-		var btnGoals = $('div#umtemplate').find('section#pG').html();
-		var btnInterests = $('div#umtemplate').find('section#pI').html();
-		var btnSuccess;
-		if (userProject.skills !== undefined ) {
-			userProject.skills.forEach( function (item, index ) {
-				$('section#pS button').filter(':first').clone( 'false' ).appendTo( $('section#pS').filter(':first') );
-				btnSuccess = "";
-				for ( var x = 0; x < userProject.skillsMatched.length; x++ ) {
-					if ( item === userProject.skillsMatched[x] ) {
-						btnSuccess = "btn-success";
-					};
-				};
-				$('div#umtemplate').find('section#pS button').filter(':last').text( item ).removeClass('btn--hidden').addClass( btnSuccess );
+		// project team is seeking.
+		// Refactor the dupe code into function/method
+		if (xProjects[i].skillNeeds !== undefined ) {
+			xProjects[i].skillNeeds.forEach( function (item ) {
+				$('button#pSkills').clone( 'false' ).appendTo( $('section#pS').filter(':last') );
+				$('button#pSkills').filter(':last').removeAttr('id').text( item ).removeClass('btn--hidden');
 			});
 		}
-		console.log('out of skills: ', userProject.skills);
-
-
-		if (userProject.goals !== undefined ) {
-			userProject.goals.forEach( function (item ) {
-				$('section#pG button').filter(':first').clone( 'false' ).appendTo( $('section#pG').filter(':first') );
-				btnSuccess = "";
-				for ( var x = 0; x < userProject.goalsMatched.length; x++ ) {
-					if ( item === userProject.skillsMatched[x] ) {
-						btnSuccess = "btn-success";
-					};
-				};
-				$('div#umtemplate').find('section#pG button').filter(':last').text( item ).removeClass('btn--hidden').addClass( btnSuccess );
+		if (xProjects[i].goalNeeds !== undefined ) {
+			xProjects[i].goalNeeds.forEach( function (item ) {
+				$('button#pGoals').clone( 'false' ).appendTo( $('section#pG').filter(':last') );
+				$('button#pGoals').filter(':last').removeAttr('id').text( item ).removeClass('btn--hidden');
 			});
 		}
-		console.log('out of goals: ', userProject.Goals);
-
-		if (userProject.interests !== undefined ) {
-			userProject.interests.forEach( function (item ) {
-				$('section#pI button').filter(':first').clone( 'false' ).appendTo( $('section#pI').filter(':first') );
-				btnSuccess = "";
-				for ( var x = 0; x < userProject.interestsMatched.length; x++ ) {
-					if ( item === userProject.interestsMatched[x] ) {
-						btnSuccess = "btn-success";
-					};
-				};
-				$('div#umtemplate').find('section#pI button').filter(':last').text( item ).removeClass('btn--hidden').addClass( btnSuccess );
+		if (xProjects[i].interestNeeds !== undefined ) {
+			xProjects[i].interestNeeds.forEach( function (item ) {
+				$('button#pInterests').clone( 'false' ).appendTo( $('section#pI').filter(':last') );
+				$('button#pInterests').filter(':last').removeAttr('id').text( item ).removeClass('btn--hidden');
 			});
 		}
-		console.log('out of interests: ', userProject.interests);
-
 		$("div#umtemplate").clone( false ).appendTo("div#pList");
 		$("div#pList div#umtemplate").removeClass("btn--hidden"); // reveal
 		$("div#pList div#umtemplate").removeAttr("id"); // remove id attributes as this div under #pList is *not* a template
@@ -184,21 +159,18 @@ function outputProject(userProject, fullProjInfo ) {
 		// the function that handles the various events
 		//
 		$("div#pList button#teamAddr").attr("id", getUniqueId() ).on('click', msgFormToTeam );
-		$("div#pList button#saveIt").attr("id", getUniqueId() ).attr('data-name', fullProjInfo.name).on('click', setBookmarkedProjects );
-		$("div#pList button#seeMore").attr("id", getUniqueId() ).on('click', toggleProjView);
+		$("div#pList button#saveIt").attr("id", getUniqueId() ).attr('data-name', xProjects[i].name).on('click', setBookmarkedProjects );
+		$("div#pList button#seeMore").attr("id", getUniqueId() ).on('click', toggleView);
 
 		$("div#pList #pName").removeAttr("id");
 		$("div#pList #pMission").removeAttr("id");
-		//
-		// Empty out and reset the skill/interest/goal sections
-		$('div#umtemplate').find('section#pS button').remove()
-		$('div#umtemplate').find('section#pG button').remove()
-		$('div#umtemplate').find('section#pI button').remove()
-		$('div#umtemplate').find('section#pS').append( btnSkills );
-		$('div#umtemplate').find('section#pG').append( btnGoals );
-		$('div#umtemplate').find('section#pI').append( btnInterests );
+		$("div#pList #pGoals").removeAttr("id");
+		$("div#pList #pInterests").removeAttr("id");
+		$("div#pList #pSkills").removeAttr("id");
+		//Team contact button addded, now attach listener
 
 
+	}
 }
 
 // create a function to create unique element IDs using an IIFE and closure
@@ -345,7 +317,7 @@ function setBookmarkedProjects( e ) {
 	}
 }
 
-function toggleProjView( e ) {
+function toggleView( e ) {
 	e.stopPropagation();
 	console.log('event received in function is ', e);
 	var moreLess = $( e.target ).parent().next();

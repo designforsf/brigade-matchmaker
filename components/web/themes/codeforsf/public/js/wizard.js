@@ -49,7 +49,9 @@ $(document).ready(function () {
      $("#backToWizard").addClass("btn--hidden");
      $("#wizardcards").removeClass("btn--hidden");
      $("div#pList").children().remove();
-     $("#projects-list").children().remove();
+     //
+     // this id no longer used: all the children are under #pList
+     //$("#projects-list").children().remove();
      restartWizard();
   })
 

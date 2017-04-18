@@ -10,7 +10,7 @@ module.exports = {
   /**
     POST /api/user/logouff
   */
-  
+
   userLogoff: function (req, res, next) {
     req.session.destroy();
     res.json({ success: true });
@@ -187,19 +187,19 @@ module.exports = {
       "_id",    // mongo id
       "id",     // BrigadeHub id
       "score",  // total match score
-      
+
       "name0",    // user attr 0 field name
       "score0",   // user attr 0 score
       "attrs0",   // user attr 0 matching attrs
-      
+
       "name1",    // user attr 1 field name
       "score1",   // user attr 1 score
       "attrs1",   // user attr 1 matching attrs
-      
+
       "name2",    // user attr 2 field name
       "score2",   // user attr 2 score
       "attrs2",   // user attr 2 matching attrs
-      
+
     ];
     matchUserAttrs = ["skills", "interests", "goals"];
 
@@ -231,7 +231,7 @@ module.exports = {
     pyDirArr.push('algorithms');
     var pyDir = pyDirArr.join('/');
     var pyFile = '/db-match-algo.py';
-    
+
     console.log('run python: ' + pyFile + ' with args=', pyArgs);
 
     PyShell.run(pyFile, {
@@ -253,7 +253,7 @@ module.exports = {
         //  alternating name + score + matched attrs for each user attribute
         matchUserAttrs.forEach(function(arg, aidx) {
           project[arg + 'Score'] = parseInt(lineArr[2 + 2 + (aidx*3)]);
-          
+
           // set up the matched args array
           var matchedArgs = lineArr[2 + 3 + (aidx*3)];
           matchedArgs = matchedArgs.replace(/[()]/g, '');
@@ -262,8 +262,8 @@ module.exports = {
           }  else {
             project[arg + 'Matched'] = [];
           }
-          
-          
+
+
           //console.log(project['id'] + ' for ' + arg + ' matched-attrs: ', lineArr[2 + 3 + (aidx*3)]);
           //console.log(lineArr);
         });
@@ -310,12 +310,17 @@ module.exports = {
       projects: [] // sorted projects
     };
 
+//
+// Added mvp and live to the query
     Projects.
       find({
-        status: { $in: ['proposed', 'ideation', 'alpha', 'beta', 'production'] }
+        status: { $in: ['mvp', 'live', 'proposed', 'ideation', 'alpha', 'beta', 'production'] }
       }).
       sort({ occupation: -1 }).
-      select({ _id: 1, name: 1, matchingConfig: 1 }).
+
+      //
+      // Try adding additional data fields to this set: after matchingConfig
+      select({ _id: 1, name: 1, matchingConfig: 1, description: 1, team: 1, homepage: 1, thumbnailUrl: 1, repository: 1, needs: 1, contact: 1}).
       exec(function (err, results) {
 
         // script returned error
