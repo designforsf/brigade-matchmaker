@@ -104,7 +104,15 @@ function processMatches( allPs, userMatches ) {
 
 function outputProject(userProject, fullProjInfo ) {
 
-		$("#umtemplate img").attr("src", fullProjInfo.thumbnailUrl );
+		$("#umtemplate img:first").attr("src", fullProjInfo.thumbnailUrl );
+
+		// Next image is for an avatar of the team leader:
+		$("#umtemplate img:last").attr("src", fullProjInfo.team[0].avatar );
+		$('#umtemplate h4.leader').text( fullProjInfo.team[0].username );
+
+		// Now add info for the Contact Team button.
+		// On the data model -- we need to understand the use of contact[]
+		// vs team[]
 		if ( fullProjInfo.contact.length ) {
 			$("#teamAddr").attr("info", fullProjInfo.contact[0].email).attr("data-leader", fullProjInfo.contact[0].name);
 		} else {
@@ -117,8 +125,8 @@ function outputProject(userProject, fullProjInfo ) {
 		// leave short text for now in case a longer mission stmnt is available later
 		//var shortText = $.trim(fullProjInfo.description).substring(0, 300).split(" ").slice(0, -1).join(" ") + "...";; //cut and add ellipses
 		//code from http://jsfiddle.net/schadeck/GpCZL/
-		$("#pMission").text(fullProjInfo.description);
-
+		$("#pMission").text(fullProjInfo.description );
+		$('button#Repo').attr('onclick','location.href = "' + fullProjInfo.repository +  '";' );
 
 		//
 		// This section outputs skill/goal/interests that each
@@ -126,6 +134,9 @@ function outputProject(userProject, fullProjInfo ) {
 		// (userProject.skillsMatched) are highlighted using Bootstrap class btn-success
 		//
 		// Preserve the initial empty content for the skill/interest/goal sections
+		//
+		// This should be reduced to one function with three inputs...
+
 		var btnSkills = $('div#umtemplate').find('section#pS').html();
 		var btnGoals = $('div#umtemplate').find('section#pG').html();
 		var btnInterests = $('div#umtemplate').find('section#pI').html();
@@ -248,30 +259,28 @@ function msgFormToTeam ( e ) {
 	contactForm.teamLeader = $("#" + c).attr("data-leader");
 	$("#teamLeader").text(contactForm.teamLeader);  //display on form
 
+}
+function sendMsg(msgText, contactForm) {
+  var myURL="http://localhost:5465/messaging/api/send"
+  var userMsg = {"email":{"to":[{"name": contactForm.teamLeader ,"email": contactForm.teamEmail}],"from":[{"name": contactForm.userFName +' ' + contactForm.userLName,"email":"welcome.sfbrigade+2938@gmail.com"}], "subject": "RE: World", "text":"Hello, from the Team Contact form!"}}
 
-	function sendMsg(msgText, contactForm) {
-	  var myURL="http://localhost:5465/messaging/api/send"
-	  var userMsg = {"email":{"to":[{"name": contactForm.teamLeader ,"email": contactForm.teamEmail}],"from":[{"name": contactForm.userFName +' ' + contactForm.userLName,"email":"welcome.sfbrigade+2938@gmail.com"}], "subject": "RE: World", "text":"Hello, from the Team Contact form!"}}
+	var JSONstr = JSON.stringify(userMsg);
+	console.log(JSONstr);
 
-		var JSONstr = JSON.stringify(userMsg);
-		console.log(JSONstr);
+	setTimeout(
+	  $.ajax({
+	    url : myURL,
+	    data : userMsg,
+	    type: "POST",
+	    error: function(a,b,c) {
+	      console.log("Error thrown: ", c )
+	    }
+	  }), 2000);
 
-		setTimeout(
-		  $.ajax({
-		    url : myURL,
-		    data : userMsg,
-		    type: "POST",
-		    error: function(a,b,c) {
-		      console.log("Error thrown: ", c )
-		    }
-		  }), 2000);
-
-	}
 }
 
-var bookmarkProjs = {
 
-	retrieved : false,
+var bookmarkProjs = {
 
 	// Test for localStorage support
 	canSave : !(typeof(Storage) === 'undefined'),
@@ -283,28 +292,29 @@ var bookmarkProjs = {
 
 	// Retrieve saved projects
 	getSaved : function() {
-		if (this.canSave) {
-			if ( localStorage.getItem('savedProjects') ) {
-				this.retrieved = true;
-				return this.saved = JSON.parse(localStorage.getItem("savedProjects"));
-			};
+		if (this.hasSaved) {
+				this.saved = JSON.parse(localStorage.getItem("savedProjects"));
+		} else {
+				this.saved = [];
 		};
 	},
 
-	// Push new project name pName onto the bookmarks array, and store
+	// Push project name pName onto the bookmarks array, (if new)
 	doSave : function( pName) {
-		if (this.canSave && !this.retrieved) {
+		if (this.hasSaved) {
 			this.getSaved;
-			this.saved.push(pName)
-			this.retrieved = true;
-			this.haSaved = true;
-			localStorage.setItem("savedProjects", JSON.stringify(this.saved) );
-
-		} else if (this.canSave) {
+			for (var x = 0; x < this.saved.length; x++ ) {
+				if ( this.saved[x] === pName ) {
+					return;
+				};
+			};
+		}
+			// pName is new, so add to this.saved
+		if (this.canSave) {
 			this.saved.push(pName);
 			this.hasSaved = true;
 			localStorage.setItem("savedProjects", JSON.stringify(this.saved) );
-		}
+		};
 	},
 
 	removeSave : function( pName) {
@@ -328,7 +338,7 @@ var bookmarkProjs = {
 		// Erase any previous session usage from the presentation
 		// over-write with space
 		$('#savedProjsModal p').each( function (index) {
-			$( this ).text( (bookmarkProjs.saved[ index ] === undefined) ? ' ' : bookmarkProjs.saved[ index ] );
+			$( this ).text( (bookmarkProjs.saved[ index ] === undefined) ? ' ' : bookmarkProjs.saved[ index ] ).on('contextmenu', doBookmark	);
 		});
 		$('#savedProjsModal').modal('show');
 	}
@@ -343,6 +353,13 @@ function setBookmarkedProjects( e ) {
 		bookmarkProjs.doSave ( $(e.target).attr("data-name") );
 		bookmarkProjs.show();
 	}
+}
+
+function doBookmark( e ) {
+	e.stopPropagation();
+
+	console.log("Bookmark list click event on: ", $(e.target).text() );
+
 }
 
 function toggleProjView( e ) {
