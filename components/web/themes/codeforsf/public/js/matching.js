@@ -329,7 +329,7 @@ function outputProject(userProject, fullProjInfo ) {
 				$('section#pG button').filter(':first').clone( 'false' ).appendTo( $('section#pG').filter(':first') );
 				btnSuccess = "";
 				for ( var x = 0; x < userProject.goalsMatched.length; x++ ) {
-					if ( item === userProject.skillsMatched[x] ) {
+					if ( item === userProject.goalsMatched[x] ) {
 						btnSuccess = "btn-success";
 					};
 				};

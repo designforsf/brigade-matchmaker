@@ -183,11 +183,11 @@ def matchmaking (skills_list, interests_list, goals_list):
             str(project['_id']),
             project['name'],
             #add more project info
-            project['thumbnailUrl'],
-            project['description'],
+            #project['thumbnailUrl'],
+            #project['description'],
             #project['contact'],  --> requires parsing
-            project['repository'],
-            project['homepage'],
+            #project['repository'],
+            #project['homepage'],
             #project['content'],--> requires parsing
             #project['needs'],--> requires parsing
             #project['team'],--> requires parsing

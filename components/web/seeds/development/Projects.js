@@ -18,9 +18,9 @@ module.exports = [
     'links': [],
     'videos': [],
     'matchingConfig': {
-      'interestsNeeded': ['all'],
-      'skillsNeeded': ['ms-word','css','html','cms'],
-      'rolesNeeded': ['developer','helper']
+      'interestsNeeded': ['all', 'homelessness', 'housing', 'infrastructure'],
+      'skillsNeeded': ['ms-word','css','html','mongo'],
+      'rolesNeeded': ['develop','help', 'initiate']
     },
     'keywords': [
       faker.company.bsBuzz(),
@@ -84,7 +84,7 @@ module.exports = [
     'videos': [],
     'matchingConfig': {
       'interestsNeeded': ['homelessness'],
-      'skillsNeeded': ['ios'],
+      'skillsNeeded': ['ios', 'css', 'html'],
       'rolesNeeded': ['developer']
     },
     'keywords': [
@@ -154,7 +154,7 @@ module.exports = [
     'matchingConfig': {
       'interestsNeeded': ['criminal-justice'],
       'skillsNeeded': ['optimization-modeling','predictive-modeling','data-science','statistics'],
-      'rolesNeeded': ['developer','helper']
+      'rolesNeeded': ['develop','help']
     },
     'keywords': [
       faker.company.bsBuzz(),
@@ -224,7 +224,7 @@ module.exports = [
     'matchingConfig': {
       'interestsNeeded': ['housing'],
       'skillsNeeded': ['ruby-on-rails','ruby','javascript'],
-      'rolesNeeded': ['developer','bug-testing']
+      'rolesNeeded': ['develop','bug-testing']
     },
     'keywords': [
       faker.company.bsBuzz(),
@@ -293,8 +293,8 @@ module.exports = [
     'videos': [],
     'matchingConfig': {
       'interestsNeeded': ['civic-participation'],
-      'skillsNeeded': ['nodejs','mongodb'],
-      'rolesNeeded': ['developer']
+      'skillsNeeded': ['node','mongo'],
+      'rolesNeeded': ['develop']
     },
     'keywords': [
       faker.company.bsBuzz(),
@@ -363,7 +363,7 @@ module.exports = [
     'matchingConfig': {
       'interestsNeeded': [],
       'skillsNeeded': ['python','data-science','visualization','machine-learning'],
-      'rolesNeeded': ['developer','learner']
+      'rolesNeeded': ['develop','learn']
     },
     'keywords': [
       faker.company.bsBuzz(),

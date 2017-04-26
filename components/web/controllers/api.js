@@ -248,12 +248,12 @@ module.exports = {
         //project['_id'] = lineArr[0]; // mongoid not to show in output
         project['id'] = lineArr[1];
         project['score'] = parseInt(lineArr[2]);
-        project['thumbnailUrl'] = lineArr[3];
-        project['description'] = lineArr[4];
+        //project['thumbnailUrl'] = lineArr[3];
+        //project['description'] = lineArr[4];
         //project['contact.name'] = lineArr[5];
         //project['contact.email'] = lineArr[6];
-        project['repository'] = lineArr[5];
-        project['homepage'] = lineArr[6];
+        //project['repository'] = lineArr[5];
+        //project['homepage'] = lineArr[6];
         //project['content'] = lineArr[7];
 
 
@@ -275,7 +275,7 @@ module.exports = {
           }
 
 
-          //console.log(project['id'] + ' for ' + arg + ' matched-attrs: ', lineArr[2 + 3 + (aidx*3)]);
+          console.log(project['id'] + ' for ' + arg + ' matched-attrs: ', lineArr[2 + 3 + (aidx*3)]);
           //console.log(lineArr);
         });
 

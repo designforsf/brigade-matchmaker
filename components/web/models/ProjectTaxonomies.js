@@ -12,6 +12,10 @@ ptSchema.methods.getSkills = function (cb) {
     {name: 'javascript', synonyms: ['js']},
     {name: 'node', synonyms: ['node.js']},
     {name: 'python', synonyms: []},
+    {name: 'ruby', synonyms: []},
+    {name: 'mongo', synonyms: ['mongodb']},
+    {name: 'html', synonyms: []},
+    {name: 'css', synonyms: []},
   ]);
 }
 
@@ -22,6 +26,8 @@ ptSchema.methods.getInterests = function (cb) {
     {name: 'infrastructure', synonyms: []},
     {name: 'fire', synonyms: []},
     {name: 'police', synonyms: []},
+    {name: 'police', synonyms: []},
+    {name: 'criminal-justice', synonyms: []},
   ]);
 }
 //Added several synonyms for testing
