@@ -212,8 +212,11 @@ app.get('/test/projectList',
   homeCtrl.projectList
 )
 
-app.get('/projects', projectsCtrl.index)
-app.get('/matching', matchingCtrl.index)
+/**
+/* PK 4_24 /projects and /matching no longer used
+/* app.get('/projects', projectsCtrl.index)
+/* app.get('/matching', matchingCtrl.index)
+**/
 
 app.get('/login', usersCtrl.getLogin)
 app.post('/login', usersCtrl.postLogin)

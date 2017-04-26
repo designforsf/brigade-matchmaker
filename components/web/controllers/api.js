@@ -239,14 +239,25 @@ module.exports = {
       args: pyArgs
     }, function (err, pyOutput) {
 
+      //console.log('pyOutput is: ', pyOutput);
       pyOutput.forEach(function (line, idx){
         var project = {};
         var lineArr = line.split(',');
-        //console.log(lineArr);
+        console.log(lineArr);
 
         //project['_id'] = lineArr[0]; // mongoid not to show in output
         project['id'] = lineArr[1];
         project['score'] = parseInt(lineArr[2]);
+        project['thumbnailUrl'] = lineArr[3];
+        project['description'] = lineArr[4];
+        //project['contact.name'] = lineArr[5];
+        //project['contact.email'] = lineArr[6];
+        project['repository'] = lineArr[5];
+        project['homepage'] = lineArr[6];
+        //project['content'] = lineArr[7];
+
+
+
 
         // process individual user attributes
         // NOTE: after general fields, py script outputs

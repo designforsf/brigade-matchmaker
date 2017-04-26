@@ -167,8 +167,8 @@ def matchmaking (skills_list, interests_list, goals_list):
         print ' goals ' + str(project['goals_total'])
         print ' total score = ' + str(project_total)
         """
-        
-        
+
+
 
     #create dictionary for project - key and project_score - value and set up values
     project_dict = {}
@@ -182,16 +182,25 @@ def matchmaking (skills_list, interests_list, goals_list):
         seq = (
             str(project['_id']),
             project['name'],
+            #add more project info
+            project['thumbnailUrl'],
+            project['description'],
+            #project['contact'],  --> requires parsing
+            project['repository'],
+            project['homepage'],
+            #project['content'],--> requires parsing
+            #project['needs'],--> requires parsing
+            #project['team'],--> requires parsing
             str(project['user_score']),
-            
+
             'skills',
             str(project['skills_total']),
             "(" + " ".join(project['skills_matched']) + ")",
-            
+
             'interests',
             str(project['interests_total']),
             "(" + " ".join(project['interests_matched']) + ")",
-            
+
             'goals',
             str(project['goals_total']),
             "(" + " ".join(project['goals_matched']) + ")",

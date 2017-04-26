@@ -1,6 +1,189 @@
+$(document).ready(function () {
+  if ($(".alert-info")[0]) {
+		location.href = '/projects'
+  }
+  // Make the "You are checked in" item visible (enables logout)
+  if ( localStorage.getItem("checkedIn") === "true" ) {
+    $("li.dropdown").removeClass("btn--hidden");
+  } else {
+    $("li.dropdown").addClass("btn--hidden");
+  }
+
+  $("div.dropdown-menu").click(function (e) {
+    //
+    // e.target === My saved projects:  display localStorage project namespace
+    // e.target === Sign out:  set localStorage checkedIn to "false" and
+    //    go back to /
+    switch( $(e.target).text() ) {
+    case "My saved projects":
+      bookmarkProjs.show();
+      break;
+    case "Sign out":
+      localStorage.setItem("checkedIn", "false");
+      // Make the "You are checked in" item invisible
+      $("li.dropdown").addClass("btn--hidden");
+      window.location="/";
+      break;
+    default:
+      break;
+   }
+  })
+
+  $("[role='start_matching']").click(function () {
+  	 user_data = "matching";
+     initMatchingStep( taxonomies );
+  })
+
+  $("[role='see_results']").click(function () {
+  	 user_data = "results";
+     $("#match_res").removeClass("btn--hidden");
+     $("button#backToWizard").removeClass("btn--hidden");
+     $("#wizardcards").addClass("btn--hidden");
+  })
+
+  $("[id='backToWizard']").click(function () {
+  	 user_data = "restartWizard";
+     $("#match_res").addClass("btn--hidden");
+     $("#backToWizard").addClass("btn--hidden");
+     $("#wizardcards").removeClass("btn--hidden");
+     $("div#pList").children().remove();
+     //
+     // this id no longer used: all the children are under #pList
+     //$("#projects-list").children().remove();
+     restartWizard();
+  })
+
+  $("[role='home']").click(function(){
+    user_data = "home";
+    location.href = '/test/api/projects'; //go back to home page
+  })
+
+//handle synonyms in list selections
+  var taxonomies = registerTaxonomies();
+  //
+  // taxonomies now holds all the primary keywords
+  // and will track state of chosen/not chosen
+  // in selection boxes/ setCount tracks the number
+  // of chosen keywords per box
+  //
+
+  for (var i = 0; i < taxonomies.length; i++ ) {
+    taxonomies[i].setCount = 0;
+    //
+    //set handlers on each box, using the div ids
+    //
+
+    $(document).on('change', '#'+taxonomies[i].setType, function(evt, params ) {
+      if (params.selected != undefined) {
+        for (var q = 0; q < taxonomies.length; q++ ) {
+          if ( evt.currentTarget.id === taxonomies[q].setType ) {
+            taxonomies[q].setPrimary[params.selected].chosen = true;
+            console.log('selected: ', taxonomies[q].setType + ' ' + taxonomies[q].setPrimary[params.selected].name );
+            taxonomies[q].setCount += 1; // up to 3 allowed
+            }
+          }
+      // Logic for tracking de-selects must be added below
+      }
+      if (params.deselected != undefined) {
+        console.log('deselected: ' + params.deselected);
+        for (var q = 0; q < taxonomies.length; q++ ) {
+          if ( evt.currentTarget.id === taxonomies[q].setType ) {
+            taxonomies[q].setPrimary[params.deselected].chosen = false;
+            console.log('Deselected: ', taxonomies[q].setType + ' ' + taxonomies[q].setPrimary[params.deselected].name );
+            taxonomies[q].setCount -= 1; // up to 3 allowed
+          }
+        }
+      }
+    })
+
+  };
+
+});
+
+
+function initMatchingStep( taxonomies ) {
+  $("li#start_matching").addClass("active").addClass("move_left");
+  $("li#start").removeClass("active").addClass("move_right");
+  $("[role='home']").addClass("btn--hidden");
+  $("[role='in_progress_message']").removeClass("btn--hidden");
+  $("[role='start_matching']").addClass("btn--hidden");
+  var searchStr = parseSelections( taxonomies );
+  $("[role='in_progress_message']").attr("value", searchStr); //pass the users search through this button's value attr
+  initMatchingSearch(searchStr);
+}
+
+function parseSelections(taxonomies) {
+  var baseURL = "http://localhost:5465/api/user/matches?"
+  var skills = "skills=", interests = "interests=", goals = "goals=";
+  var searchSkills, searchInterests, searchGoals = '';
+
+  buildSrchStr = function( x ) {
+    var srchCriteria = [];
+    for (var j = 0; j < x.setPrimary.length; j++ ) {
+      if ( x.setPrimary[j].chosen ) {
+        srchCriteria.push( x.setPrimary[j].name )
+      }
+    } return srchCriteria.toString() ;
+  }
+
+  skills+= buildSrchStr( taxonomies[0] );
+  skills = ( skills === "skills=" ) ? "" : skills + "&";
+  interests+= buildSrchStr( taxonomies[1] );
+  interests = ( interests === "interests=" ) ? "" : interests + "&";
+  goals+= buildSrchStr( taxonomies[2] );
+  goals = ( goals === "goals=" ) ? "" : goals;
+  var searchStr = baseURL+skills+interests+goals;
+  //
+  // Output the user search criteria for the matching project results header
+  //
+  $("#searchskills.config").text("Skills: " + buildSrchStr( taxonomies[0] ));
+  $("#searchinterests.config").text("Interests: " + buildSrchStr( taxonomies[1] ));
+  $("#searchgoals.config").text("Goals: " + buildSrchStr( taxonomies[2] ));
+
+  return searchStr;
+}
+
+
+function registerTaxonomies() {
+  var taxonomies = [], taxSet = ['skills', 'interests', 'goals'];
+  var primSyns = [];
+  //build taxonomies from the selectbox html
+  for (i = 0; i < taxSet.length; i++ ) {
+    taxonomies[i] = { setType : taxSet[i], setCount: 0, setPrimary : [ ] };
+    $("div#"+ taxSet[i] + " option").each( function (index) {
+      primSyns = $(this).text().split(',');
+      //
+      //primSyns array[0] is the "primary" keyword
+      //  followed by other elements which are synonymns
+      //  that are not used for searching. Only push
+      //  the primary onto the taxonomies setPrimary property,
+      //  with initial "chosen" property of false
+      //
+      taxonomies[i].setPrimary.push( { name: primSyns[0], chosen: false } ); //push the primary keyword, no need for the synonymns
+    });
+  }
+  return taxonomies;
+}
+
+function restartWizard () {
+  $("li#start_matching").addClass("active");
+  $("li#matched").removeClass("active");
+  $("button#backToWizard").addClass("btn--hidden");
+
+  $("[role='start_matching']").removeClass("btn--hidden");
+  $("[role='see_results']").addClass("btn--hidden");
+
+//shortcut, but need to remove all the html
+}
+
+
+
+$(".chosen-select").chosen({no_results_text: "Oops, nothing found!"});
+$(".chosen-container").css("width", "350px");
+
+// wizard.js above | matching.js below
 
 function initMatchingSearch(searchStr) {
-	console.log(searchStr);
 	var userMatchProjects = []; //create array of matching project objects
 	userMatchProjects = jQuery.ajax({
 				url: searchStr,
@@ -28,36 +211,22 @@ function getAllProjs(userMatches) {  //Because userMatches needs more project de
 		console.error(err); return; })
 }
 
-function outputUserSearchCriteria(userMatches) {
-
-		console.log("In oUSC with ", userMatches.skills, userMatches.goals, userMatches.interests);
-
-}
-
 function processMatches( allPs, userMatches ) {
 
-	//For iteration one, use improvised project pix and email addresses, etc.
-	//Subsequent iterations should be able to use better, actual, project information
-	//Once the UX team has settled what should be available for users
+	// This is the callback function the Ajaz call to /api/projects
+	//
+	// var allPs is an array of all project objects
 	//
 	// select({ _id, name, matchingConfig (rolesNeeded, skillsNeeded, interestsNeeded)
 	//        description, team (username, avatar), homepage, repository, needs,
 	//				thumbnailUrl, contact (name, email) })
 	//
-	//
 
 	var j = 0;
 	var xProjects = [];
-	//var project_email = ["teamA@brigadehub.com", "teamB@brigadehub.com", "teamC@brigadehub.com", "teamD@brigadehub.com", "teamEpix@brigadehub.com", "teamF@brigadehub.com"]
-
-	// Get reference projects.
-	// Not needed in next version -- api for matches should send back relevant
-	// project data
-
-	// var allPs is the object of all project info passed into this function from the Ajax call to /api/projects
 
 	//Iterate over the projects returned in the user match object userMatches
-	// to complete the project info object allPs
+	// to complete the project info using object allPs
 	userMatches.projects.forEach(function(userProject) {
 		//filter the allPs.projects array for a project name matching the userProject
 		var fullProjInfo = allPs.projects.filter ( function( thisProject, index ) {
@@ -126,7 +295,7 @@ function outputProject(userProject, fullProjInfo ) {
 		//var shortText = $.trim(fullProjInfo.description).substring(0, 300).split(" ").slice(0, -1).join(" ") + "...";; //cut and add ellipses
 		//code from http://jsfiddle.net/schadeck/GpCZL/
 		$("#pMission").text(fullProjInfo.description );
-		$('button#Repo').attr('onclick','location.href = "' + fullProjInfo.repository +  '";' );
+		$("a#Repo").attr("href", fullProjInfo.repository );
 
 		//
 		// This section outputs skill/goal/interests that each
@@ -153,7 +322,6 @@ function outputProject(userProject, fullProjInfo ) {
 				$('div#umtemplate').find('section#pS button').filter(':last').text( item ).removeClass('btn--hidden').addClass( btnSuccess );
 			});
 		}
-		console.log('out of skills: ', userProject.skills);
 
 
 		if (userProject.goals !== undefined ) {
@@ -168,7 +336,6 @@ function outputProject(userProject, fullProjInfo ) {
 				$('div#umtemplate').find('section#pG button').filter(':last').text( item ).removeClass('btn--hidden').addClass( btnSuccess );
 			});
 		}
-		console.log('out of goals: ', userProject.Goals);
 
 		if (userProject.interests !== undefined ) {
 			userProject.interests.forEach( function (item ) {
@@ -182,7 +349,6 @@ function outputProject(userProject, fullProjInfo ) {
 				$('div#umtemplate').find('section#pI button').filter(':last').text( item ).removeClass('btn--hidden').addClass( btnSuccess );
 			});
 		}
-		console.log('out of interests: ', userProject.interests);
 
 		$("div#umtemplate").clone( false ).appendTo("div#pList");
 		$("div#pList div#umtemplate").removeClass("btn--hidden"); // reveal
@@ -195,7 +361,12 @@ function outputProject(userProject, fullProjInfo ) {
 		// the function that handles the various events
 		//
 		$("div#pList button#teamAddr").attr("id", getUniqueId() ).on('click', msgFormToTeam );
-		$("div#pList button#saveIt").attr("id", getUniqueId() ).attr('data-name', fullProjInfo.name).on('click', setBookmarkedProjects );
+    $("div#pList a#Repo").attr("id", getUniqueId() );
+
+		if (bookmarkProjs.isItSaved(fullProjInfo.name))
+			$("div#pList button#saveIt").text('Saved').attr("id", getUniqueId() ).attr('data-name', fullProjInfo.name).on('click', $.proxy( bookmarkProjs.show, bookmarkProjs) );
+		else
+			$("div#pList button#saveIt").text('Save it!').attr("id", getUniqueId() ).attr('data-name', fullProjInfo.name).on('click', $.proxy( bookmarkProjs.doSave, bookmarkProjs, fullProjInfo.name) );
 		$("div#pList button#seeMore").attr("id", getUniqueId() ).on('click', toggleProjView);
 
 		$("div#pList #pName").removeAttr("id");
@@ -292,6 +463,7 @@ var bookmarkProjs = {
 
 	// Retrieve saved projects
 	getSaved : function() {
+		console.log('In getSaved and hasSaved is: ', this.hasSaved );
 		if (this.hasSaved) {
 				this.saved = JSON.parse(localStorage.getItem("savedProjects"));
 		} else {
@@ -300,9 +472,10 @@ var bookmarkProjs = {
 	},
 
 	// Push project name pName onto the bookmarks array, (if new)
-	doSave : function( pName) {
+	doSave : function( pName, e ) {
+		console.log('In doSave and hasSaved is ', this.hasSaved );
 		if (this.hasSaved) {
-			this.getSaved;
+			this.getSaved();
 			for (var x = 0; x < this.saved.length; x++ ) {
 				if ( this.saved[x] === pName ) {
 					return;
@@ -314,20 +487,30 @@ var bookmarkProjs = {
 			this.saved.push(pName);
 			this.hasSaved = true;
 			localStorage.setItem("savedProjects", JSON.stringify(this.saved) );
+			// remove the Save handler and add the Show handler
+			$( e.target ).text('Saved').off('click', bookmarkProjs.doSave ).on('click', $.proxy( bookmarkProjs.show, bookmarkProjs) );
 		};
 	},
 
+	isItSaved : function( pName) {
+		if (this.hasSaved) {
+			this.getSaved();
+			for (var x = 0; x < this.saved.length; x++ ) {
+				if ( this.saved[x] === pName ) {
+					return true;
+				};
+			};
+		}
+		return false;
+	},
+
 	removeSave : function( pName) {
-		if (this.canSave && !this.retrieved) {
-			this.saved = this.getSaved.filter( function ( value) {
+	if (this.canSave) {
+			this.getSaved();
+			var newSaveList = this.saved.filter( function ( value) {
 			return value !== pName;
 			})
-			localStorage.setItem("savedProjects", JSON.stringify(this.saved) )
-		} else if (this.canSave) {
-			this.saved = this.saved.filter( function ( value) {
-			return value !== pName;
-			})
-			localStorage.setItem("savedProjects", JSON.stringify(this.saved) )
+			localStorage.setItem("savedProjects", JSON.stringify(newSaveList) )
 		}
 	},
 
@@ -338,24 +521,13 @@ var bookmarkProjs = {
 		// Erase any previous session usage from the presentation
 		// over-write with space
 		$('#savedProjsModal p').each( function (index) {
-			$( this ).text( (bookmarkProjs.saved[ index ] === undefined) ? ' ' : bookmarkProjs.saved[ index ] ).on('contextmenu', doBookmark	);
+			$( this ).text( (bookmarkProjs.saved[ index ] === undefined) ? ' ' : bookmarkProjs.saved[ index ] ).on('contextmenu', contextmenuBookmark	);
 		});
 		$('#savedProjsModal').modal('show');
 	}
 }
 
-
-function setBookmarkedProjects( e ) {
-	e.stopPropagation();
-	if ( !bookmarkProjs.canSave ) {
-		console.log("No local storage support")
-	} else {
-		bookmarkProjs.doSave ( $(e.target).attr("data-name") );
-		bookmarkProjs.show();
-	}
-}
-
-function doBookmark( e ) {
+function contextmenuBookmark( e ) {
 	e.stopPropagation();
 
 	console.log("Bookmark list click event on: ", $(e.target).text() );
@@ -364,7 +536,6 @@ function doBookmark( e ) {
 
 function toggleProjView( e ) {
 	e.stopPropagation();
-	console.log('event received in function is ', e);
 	var moreLess = $( e.target ).parent().next();
 	switch ( $( e.target ).text() ) {
 		case 'Show more...' :

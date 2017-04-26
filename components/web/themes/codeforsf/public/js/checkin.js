@@ -16,7 +16,7 @@
     if ( localStorage.getItem("checkedIn") === "true" ) {
       $("li.dropdown").removeClass("btn--hidden");
       // Make the "You are checked in" item visible
-      console.log('You are logged in, forwarding to wizard UI')
+      console.log('You are logged in, forwarding to wizard UI');
       //
       // Make the "You are checked in" nav drop down visible
       // Proceed to the MH wizard

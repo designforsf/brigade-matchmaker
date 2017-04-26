@@ -19,22 +19,32 @@ block content
 					hr
 					h3 Profile
 					p
+					br
+					hr(color="#cccccc")
+					h4 Skills that I want to contribute
 					div.form-group
-						h4 Skills that I want to contribute
 						div(id="skills")
 							select(class="chosen-select", data-placeholder="Select all that apply. * 3 skills max", multiple style="width: 350px", tabindex="1")
 								- var list = skills
 								each item, j in list
-									option(value= j) #{item.name}
+									if item.synontms != ''
+											option(value= j) #{item.name}, #{item.synonyms}
+										else
+											option(value= j) #{item.name}
+										//added inclusion of synonyms to each list
+
 					br
 					hr(color="#cccccc")
 					h4 Civic issues of interest
 					div.form-group
 						div(id="interests")
-							select(class="chosen-select", data-placeholder="Select all that apply.  * 3 interests max", multiple style="width: 350px", tabindex="1")
+							select(class="chosen-select", id="ints", data-placeholder="Select all that apply.  * 3 interests max", multiple style="width: 350px", tabindex="1")
 								- var list = interests
-								each item, i in list
-									option(value=i) #{item.name}
+								each item, j in list
+									if item.synonyms != ''
+										option(value= j) #{item.name}, #{item.synonyms}
+									else
+										option(value= j) #{item.name}
 					br
 					hr(color="#cccccc")
 					h4 My goals
@@ -42,9 +52,11 @@ block content
 						div(id="goals")
 							select(class="chosen-select", data-placeholder="Choose your Goals", multiple style="width: 350px", tabindex="1")
 								- var list = goals
-								- console.log(goals)
 								each item, j in list
-									option(value=j) #{item.name}
+									if item.synonyms != ''
+										option(value= j) #{item.name}, #{item.synonyms}
+									else
+										option(value= j) #{item.name}
 					br
 
 				div.button__horiz-group(role="group" aria-label="...")
@@ -58,19 +70,45 @@ block content
 			div#umtemplate.container-maxWidth970-no-top-pad.row.row--proj-container.btn--hidden
 				section.col-sm-2
 					img.project-thumbnail
-					a(href="#" id="teamAddr" class="btn btn-large btn-primary mail-icon__centered" role="button" data-toggle="modal" data-target="#mailModal" info="") Contact Team
 				section.col-sm-10
-					div.row.row--proj-info1
-						section#pName.col-sm-4 Needs Project Name
-						section#pMission.col-sm-8 Project Mission Statement
+					section#pName.col-sm-12.pName Needs Project Name
+					br
+					br
+					section#pMission.col-sm-12 Project Mission Statement
+
+				section.col-sm-12
+					button(id="seeMore" class="btn btn-large btn-warning saveIt__centered--no-left" role="button") Show more...
+					button(id="saveIt" class="btn btn-large btn-success saveIt__centered" role="button" data-leader="" info="") Save it!
+					a(id="Repo" target="_blank" class="btn btn-large btn-info saveIt__centered" role="button" data-leader="" info="") Github Repo
+
+
+				div#moreInfo.btn--hidden
+					section.col-sm-12.section--remove-left-padding.skiIntGoa
+						section.col-sm-2.pSkills Skills:
+						section#pS.col-sm-10
+							<button  type="button" class="btn btn-default disabled btn--hidden"></button>
+						section.col-sm-2.pSkills	Goal sought:
+						section#pG.col-sm-10
+							<button  type="button" class="btn btn-default disabled btn--hidden"></button>
+						section.col-sm-2.pSkills	Civic Interest areas:
+						section#pI.col-sm-10
+							<button  type="button" class="btn btn-default disabled btn--hidden"></button>
+					div#moreProjInfo
 						section.col-sm-12
+							h3 Tasks
+								h5 Lorem Ipsum
+						section.col-sm-12
+							h3 Past results
+								h5 Lorem Ipsum
+						section.col-sm-12.section--remove-left-padding.skiIntGoa
+							section.col-sm-2
+								h3 Project Lead
+									img.project-thumbnail
+							section.col-sm-10
+									h4.leader Team Leader Name
+									button(id="teamAddr" class="btn btn-large btn-primary mail-icon__centered" role="button" data-leader="" info="") Contact Team
 							br
-					div.row.row--proj-matchConfigs
-						br
-						section#pSkills.col-sm-12 Please contact the Team Leader about skills
-						section#pGoals.col-sm-12 Please contact the Team Leader about goals
-						section#pInterests.col-sm-12 Please contact the Team Leader about areas of focus
-						br
+
 
 			div#match_res.btn--hidden
 				div
@@ -94,9 +132,6 @@ block content
 						section.section__matchInterest.col-sm-4
 							h4#searchinterests.config Interests:
 
-
-
-					include partials/_contactTeamForm
 					br
 					h2.h1--more-margin  Your matching projects:
 					div#pList.container
@@ -108,3 +143,6 @@ block content
 			div.text-center
 				div.btn-group(role="group" aria-label="...")
 					button(type="button" id="backToWizard" class="btn btn-primary button__more-margins btn--hidden") Restart the Matching Hat wizard
+
+			include partials/contactTeamForm
+			include partials/savedProjs
