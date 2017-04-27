@@ -15,6 +15,7 @@ module.exports = [
     'license': 'MIT',
     'homepage': 'https://rootandrebound.github.io/roadmap-to-html/',
     'repository': 'https://github.com/rootandrebound/roadmap-to-html',
+    'contact': [{ 'name': 'Zayne Malik', 'email': 'zm@britpop.com'}],
     'links': [],
     'videos': [],
     'matchingConfig': {
@@ -80,6 +81,7 @@ module.exports = [
     'license': 'MIT',
     'homepage': 'https://sheltertech.org/',
     'repository': '',
+    'contact': [{ 'name': 'Zane', 'email': 'z@sheltertech.org'}],
     'links': [],
     'videos': [],
     'matchingConfig': {
@@ -149,6 +151,7 @@ module.exports = [
     'license': 'MIT',
     'homepage': 'https://getkong.org/install',
     'repository': 'https://github.com/codeforexample/forked-project-kong',
+    'contact': [{ 'name': 'Lindsay', 'email': 'linds@caljust.org'}],
     'links': [],
     'videos': [],
     'matchingConfig': {
@@ -219,6 +222,7 @@ module.exports = [
     'license': 'MIT',
     'homepage': 'http://adoptadrain.sfwater.org/',
     'repository': 'https://github.com/sfbrigade/adopt-a-drain',
+    'contact': [{ 'name': 'Solon', 'email': 'sol@uwantdrain.guru'}],
     'links': [],
     'videos': [],
     'matchingConfig': {
@@ -289,6 +293,7 @@ module.exports = [
     'license': 'MIT',
     'homepage': 'https://brigadehub.github.io',
     'repository': 'https://github.com/brigadehub/brigadehub',
+    'contact': [{ 'name': 'Johnson', 'email': 'jns@brigadehub.c0m'}],
     'links': [],
     'videos': [],
     'matchingConfig': {
@@ -358,6 +363,7 @@ module.exports = [
     'license': 'MIT',
     'homepage': 'http://datascience.codeforsanfrancisco.org/',
     'repository': 'https://github.com/codeforexample/mirrored-project-mirror',
+    'contact': [{ 'name': 'Alvin Toffler', 'email': 'at@thefuture.com'}],
     'links': [],
     'videos': [],
     'matchingConfig': {
