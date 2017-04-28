@@ -1,9 +1,10 @@
+#!/bin/bash
 echo 'Setting up for deployment to heroku'
-echo 'Run from app base level, ./brigade-matchaker (local) or /app (heroku)'
-mPath='./components/messaging/config'
-wPath=./components/web
+echo 'Run from web dir'
+mPath='../messaging/config'
+wPath=./
 echo 'swap envs for messaging'
 cp $mPath/heroku.development.js $mPath/development.js
-cp $mPath/heroku.env.default $mPath/env.js.default
+cp $mPath/heroku.env.js.default $mPath/env.js.default
 echo 'swap env for web'
 cp $wPath/heroku.env.example $wPath/.env

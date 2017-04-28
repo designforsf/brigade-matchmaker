@@ -15,11 +15,11 @@ tmp
 
 # API keys and secrets
 HEROKU.env
-config/*.js
+heroku.*
 
 # Dependency directory
-node_modules
-bower_components
+HEROKUnode_modules
+HEROKUbower_components
 
 # Editors
 .idea
@@ -29,3 +29,10 @@ bower_components
 .DS_Store
 Thumbs.db
 coverage
+
+main.css
+main.css.map
+.jshintrc
+.jshintignore
+phantomjsdriver.log
+bundle.js
