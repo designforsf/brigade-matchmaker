@@ -26,6 +26,7 @@ var sass = require('node-sass-middleware')
 var path = require('path')
 var requireDir = require('require-dir')
 var pkg = require('./package.json')
+var router = express.Router()
 require('colors')
 
 /**
@@ -41,7 +42,8 @@ var apiCtrl = require('./controllers/api')
 var homeCtrl = require('./controllers/home')
 var usersCtrl = require('./controllers/user')
 var projectsCtrl = require('./controllers/projects')
-var matchingCtrl = require('./controllers/matching')
+//var envApiCtrl = require('./controllers/apiEnv');
+//var matchingCtrl = require('./controllers/matching')
 
 /*
  * Helpers
@@ -83,7 +85,32 @@ var ProjectTaxonomies = require('./models/ProjectTaxonomies')
 /**
  * Express configuration.
  */
-app.set('port', process.env.PORT || 5465)
+app.set('port', process.env.PORT || 5465);
+
+// REGISTER OUR ROUTES -------------------------------
+app.use('/apiEnv', router);
+
+router.get('/', function(req, res) {
+    if ( process.env.PORT && process.env.DOMAIN )
+      res.json({  "Node_env": process.env.NODE_ENV,
+                "port": process.env.PORT,
+                "domain": process.env.DOMAIN,
+                "result": "success"
+      });
+    else
+      res.json({  "Node_env": process.env.NODE_ENV,
+                "port": "undefined",
+                "domain": "undefined",
+                "result": "failed"
+      });
+});
+
+// more routes for our API will happen here
+
+// REGISTER OUR ROUTES -------------------------------
+// all of our routes will be prefixed with /api
+app.use('/apiEnv', router);
+
 app.set('views', path.join(__dirname, 'themes'))
 app.locals.capitalize = function (value) {
   return value.charAt(0).toUpperCase() + value.slice(1)
@@ -182,6 +209,7 @@ app.use(function (req, res, next) {
  */
 
 app.get('/', homeCtrl.index)
+//app.use('/api', envApiCtrl);
 var pt = new ProjectTaxonomies();
 
 app.get('/test/projectList',

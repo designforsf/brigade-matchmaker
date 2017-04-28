@@ -243,8 +243,7 @@ module.exports = {
       pyOutput.forEach(function (line, idx){
         var project = {};
         var lineArr = line.split(',');
-        console.log(lineArr);
-
+        
         //project['_id'] = lineArr[0]; // mongoid not to show in output
         project['id'] = lineArr[1];
         project['score'] = parseInt(lineArr[2]);

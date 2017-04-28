@@ -9,6 +9,19 @@ $(document).ready(function () {
     $("li.dropdown").addClass("btn--hidden");
   }
 
+  //retrieve the environment settings
+  var envData;
+  (function initEnv() {
+    console.log('Executing initEnv');
+  	//
+  	// retrieve a JSON with server domain and port
+  	$.get({
+  		url: '/apiEnv'
+    }).done( function( envData ) {
+      console.log('Call for apiEnv: ', envData.result + ' ' + envData.Node_env + ' ' + envData.port + ' ' + envData.domain)
+      })
+    }) ();
+
   $("div.dropdown-menu").click(function (e) {
     //
     // e.target === My saved projects:  display localStorage project namespace
@@ -114,7 +127,7 @@ function initMatchingStep( taxonomies ) {
 
 function parseSelections(taxonomies) {
   if ( process.env.DEPLOY === 'heroku' )
-    var baseURL = "https://salty-tor-98010.herokuapp.com/" + process.env.PORT + "/api/user/matches?";
+    var baseURL = "http://localhost:5465/api/user/matches?"
   var skills = "skills=", interests = "interests=", goals = "goals=";
   var searchSkills, searchInterests, searchGoals = '';
 
