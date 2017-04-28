@@ -9,18 +9,6 @@ $(document).ready(function () {
     $("li.dropdown").addClass("btn--hidden");
   }
 
-  //retrieve the environment settings
-  var envData;
-  (function initEnv() {
-    console.log('Executing initEnv');
-  	//
-  	// retrieve a JSON with server domain and port
-  	$.get({
-  		url: '/apiEnv'
-    }).done( function( envData ) {
-      console.log('Call for apiEnv: ', envData.result + ' ' + envData.Node_env + ' ' + envData.port + ' ' + envData.domain)
-      })
-    }) ();
 
   $("div.dropdown-menu").click(function (e) {
     //
@@ -113,6 +101,25 @@ $(document).ready(function () {
 
 });
 
+//retrieve the environment settings
+/**
+var getEnv = function() {
+  console.log('Executing initEnv');
+  //
+  // retrieve a JSON with server domain and port
+  window.envData = $.get({
+    url: '/apiEnv'
+  }).done( function( envData ) {
+    console.log('Call for apiEnv: ', envData.result + ' ' + envData.Node_env + ' ' + envData.port + ' ' + envData.domain);
+    return envData;   // need to debug why not receiving port on heroku
+  });
+};
+//set envData as property of global object, window
+
+getEnv();
+
+// retrieved env settings
+**/
 
 function initMatchingStep( taxonomies ) {
   $("li#start_matching").addClass("active").addClass("move_left");
@@ -126,8 +133,12 @@ function initMatchingStep( taxonomies ) {
 }
 
 function parseSelections(taxonomies) {
-  if ( process.env.DEPLOY === 'heroku' )
-    var baseURL = "http://localhost:5465/api/user/matches?"
+  var baseURL
+  if ( window.location ) {
+    baseURL = window.location.origin + "/api/user/matches?"
+  } else {
+      baseURL = "http://localhost:5465/api/user/matches?"
+  }
   var skills = "skills=", interests = "interests=", goals = "goals=";
   var searchSkills, searchInterests, searchGoals = '';
 
