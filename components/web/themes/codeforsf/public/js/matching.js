@@ -113,7 +113,8 @@ function initMatchingStep( taxonomies ) {
 }
 
 function parseSelections(taxonomies) {
-  var baseURL = "http://localhost:5465/api/user/matches?"
+  if ( process.env.DEPLOY === 'heroku' )
+    var baseURL = "https://salty-tor-98010.herokuapp.com/" + process.env.PORT + "/api/user/matches?";
   var skills = "skills=", interests = "interests=", goals = "goals=";
   var searchSkills, searchInterests, searchGoals = '';
 
