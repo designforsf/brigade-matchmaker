@@ -10,7 +10,7 @@
     "npm": "^4.2.0"
   },
   "scripts": {
-    "start": "NODE_ENV=development node app.js"
+    "start": "NODE_ENV=development node components/web/app.js"
   },
   "dependencies": {
     "async": "^1.5.2",
