@@ -251,11 +251,11 @@ app.get('/logout', usersCtrl.getLogout)
 /**
 * Messaging Routes
 **/
-
+/**
 helpers.messagingConfigurator({
   expressApp: app
 });
-
+**/
 /**
  * Meta Routes
  */

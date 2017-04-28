@@ -15,10 +15,10 @@ tmp
 
 # API keys and secrets
 .env
-config/*.js
+HEROKUconfig/*.js
 
 # Dependency directory
-node_modules
+HEROKUnode_modules
 bower_components
 
 # Editors
@@ -36,4 +36,3 @@ main.css.map
 .jshintignore
 phantomjsdriver.log
 bundle.js
-
