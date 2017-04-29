@@ -220,18 +220,22 @@ module.exports = {
 
     });
 
-    console.log('req.options: ', req.options);
-    console.log((typeof req.query.interests !== 'undefined'));
-    console.log(req.query.goals);
-    console.log(pyArgs);
+    //console.log('req.options: ', req.options);
+    //console.log((typeof req.query.interests !== 'undefined'));
+    //console.log(req.query.goals);
+    //console.log(pyArgs);
 
     // where is the python script?
     var pyDirArr = process.cwd().split('/');
     pyDirArr.pop();
     pyDirArr.push('algorithms');
-    var pyDir = pyDirArr.join('/');
+    //
+    // heroku environemnt only
+    //var pyDir = pyDirArr.join('/');
+    var pyDir = '/app/component/algorithms'
     var pyFile = '/db-match-algo.py';
     //
+    console.log('reqs object is: ', reqs);
     console.log('run python: ' + pyFile + ' with args=', pyArgs);
     console.log('pyDir: ', pyDir);
 
