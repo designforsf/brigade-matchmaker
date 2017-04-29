@@ -235,7 +235,7 @@ module.exports = {
     var pyDir = '/app/component/algorithms'
     var pyFile = '/db-match-algo.py';
     //
-    console.log('req.MongoStore is ', req.MongoStore);
+    console.log('req.MongoStore is ', req);
     console.log('run python: ' + pyFile + ' with args=', pyArgs);
     console.log('pyDir: ', pyDir);
 
