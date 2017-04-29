@@ -1,1 +1,1 @@
-pip install pymongo==3.4
+python-2.7.13
