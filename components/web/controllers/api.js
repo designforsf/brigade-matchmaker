@@ -231,7 +231,7 @@ module.exports = {
     pyDirArr.push('algorithms');
     var pyDir = pyDirArr.join('/');
     var pyFile = '/db-match-algo.py';
-
+    //
     console.log('run python: ' + pyFile + ' with args=', pyArgs);
 
     PyShell.run(pyFile, {
@@ -243,7 +243,7 @@ module.exports = {
       pyOutput.forEach(function (line, idx){
         var project = {};
         var lineArr = line.split(',');
-        
+
         //project['_id'] = lineArr[0]; // mongoid not to show in output
         project['id'] = lineArr[1];
         project['score'] = parseInt(lineArr[2]);
