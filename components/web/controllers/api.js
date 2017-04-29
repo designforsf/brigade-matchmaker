@@ -220,7 +220,7 @@ module.exports = {
 
     });
 
-    console.log(req);
+    console.log('req.options: ', req.options);
     console.log((typeof req.query.interests !== 'undefined'));
     console.log(req.query.goals);
     console.log(pyArgs);
@@ -233,6 +233,8 @@ module.exports = {
     var pyFile = '/db-match-algo.py';
     //
     console.log('run python: ' + pyFile + ' with args=', pyArgs);
+    console.log('pyDir: ', pyDir);
+
 
     PyShell.run(pyFile, {
       scriptPath: pyDir,
