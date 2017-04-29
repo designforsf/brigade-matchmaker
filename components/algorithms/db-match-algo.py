@@ -37,7 +37,7 @@ Install dependencies:
 
 # database configuration
 collection_name = 'brigade-matchmaker'
-client = MongoClient('ds123331.mlab.com', 23331/heroku_f5vtn572)
+client = MongoClient('ds123331.mlab.com:23331', heroku_f5vtn572)
 db = client[collection_name]
 
 """ NOTE: projects_list below is for understanding the data structure
