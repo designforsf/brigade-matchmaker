@@ -232,7 +232,7 @@ module.exports = {
     //
     // heroku environemnt only
     //var pyDir = pyDirArr.join('/');
-    var pyDir = '/app/component/algorithms'
+    var pyDir = '/app/components/algorithms'
     var pyFile = '/db-match-algo.py';
     //
     console.log('req.MongoStore is ', req);
