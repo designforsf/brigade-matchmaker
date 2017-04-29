@@ -26,7 +26,7 @@ import time
 import pymongo
 from pymongo import MongoClient
 
-collection_name = 'brigade-matchmaker'
+collection_name = 'heroku_f5vtn572'
 
 
 time.sleep(1)
@@ -36,12 +36,15 @@ time.sleep(3)
 
 print
 print "Connect to " + collection_name
-'''
-see if the default env variable is used now....
-client = MongoClient('localhost', 27017)
-'''
 
+'''
+mongodb://[username:password@]host1[:port1][,host2[:port2],...[,hostN[:portN]]][/[database][?options]]
+
+client = MongoClient('ds123331.mlab.com', 23331)
+'''
+client = MongoClient('mongodb://heroku_f5vtn572:3v2pc1pn1ulp3j9d34s445r3j6@ds123331.mlab.com:23331/heroku_f5vtn572')
 db = client[collection_name]
+
 
 print
 print 'db.projects.count() = ' + str(db.projects.count())
