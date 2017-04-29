@@ -36,8 +36,11 @@ time.sleep(3)
 
 print
 print "Connect to " + collection_name
-
+'''
+see if the default env variable is used now....
 client = MongoClient('localhost', 27017)
+'''
+
 db = client[collection_name]
 
 print
