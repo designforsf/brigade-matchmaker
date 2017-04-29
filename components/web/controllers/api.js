@@ -220,10 +220,10 @@ module.exports = {
 
     });
 
-    //console.log(req);
-    //console.log((typeof req.query.interests !== 'undefined'));
-    //console.log(req.query.goals);
-    //console.log(pyArgs);
+    console.log(req);
+    console.log((typeof req.query.interests !== 'undefined'));
+    console.log(req.query.goals);
+    console.log(pyArgs);
 
     // where is the python script?
     var pyDirArr = process.cwd().split('/');
