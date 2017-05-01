@@ -8,3 +8,5 @@ cp $mPath/local.development.js $mPath/development.js
 cp $mPath/local.env.js.default $mPath/env.js.default
 echo 'swap env for web'
 cp $wPath/.env.example $wPath/.env
+echo 'swap api heroku for api local (for pyDir)'
+cp $wPath/controllers/apiL.js $wPath/controllers/api.js 
