@@ -398,7 +398,7 @@ function outputProject(userProject, fullProjInfo ) {
     //and move into primary project box
     //$("div#pList button#teamAddr").attr("id", getUniqueId() ).on('click', msgFormToTeam );
 			$("div#pList span#saveIt").attr("id", getUniqueId() ).attr('data-name', fullProjInfo.name).on('click', $.proxy( bookmarkProjs.doSave, bookmarkProjs, fullProjInfo.name) ).next().text('Save it');
-    
+
 		$("div#pList button#seeMore").attr("id", getUniqueId() ).on('click', toggleProjView);
 
 		$("div#pList #pName").removeAttr("id");
@@ -520,7 +520,7 @@ var bookmarkProjs = {
 			this.hasSaved = true;
 			localStorage.setItem("savedProjects", JSON.stringify(this.saved) );
 			// remove the Save handler and add the Show handler
-			$( e.target ).text('Saved').off('click', bookmarkProjs.doSave ).on('click', $.proxy( bookmarkProjs.show, bookmarkProjs) );
+			$( e.target ).off('click', bookmarkProjs.doSave ).on('click', $.proxy( bookmarkProjs.show, bookmarkProjs) ).next().text('Saved');
 		};
 	},
 
