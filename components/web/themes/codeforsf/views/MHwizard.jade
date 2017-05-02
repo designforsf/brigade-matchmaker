@@ -69,29 +69,53 @@ block content
 
 			div#umtemplate.container-maxWidth970-no-top-pad.row.row--proj-container.btn--hidden
 				section.col-sm-2
-					img.project-thumbnail
-				section.col-sm-10
 					section#pName.col-sm-12.pName Needs Project Name
-					br
-					br
-					section#pMission.col-sm-12 Project Mission Statement
+					section.col-sm-12
+						span.project-thumbnail
+							img.project-thumbnail
+						button(id="saveIt" class="btn btn-large btn-success saveIt__centered" role="button" data-leader="" info="") Save it!	
 
-				section.col-sm-12
-					button(id="seeMore" class="btn btn-large btn-warning saveIt__centered--no-left" role="button") Show more...
-					button(id="saveIt" class="btn btn-large btn-success saveIt__centered" role="button" data-leader="" info="") Save it!
-					a(id="Repo" target="_blank" class="btn btn-large btn-info saveIt__centered" role="button" data-leader="" info="") Github Repo
+				section.col-sm-3
+					br
+					span#pMission.pMission.col-sm-12 Project Mission Statement
+				section.col-sm-4
+					section.col-sm-12.section--remove-left-padding.skiIntGoa
+						br
+						section.col-sm-3.pSkills Skills:
+						section#pS.col-sm-9
+							<button  type="button" class="btn btn-default disabled btn-less-padding btn--hidden"></button>
+						br
+						section.col-sm-3.pSkills	Goals:
+						section#pG.col-sm-9
+							<button  type="button" class="btn btn-less-padding btn-default disabled btn--hidden"></button>
+						br
+						section.col-sm-3.pSkills	Interests:
+						section#pI.col-sm-9
+							<button  type="button" class="btn btn-default btn-less-padding disabled btn--hidden"></button>
+				section.col-sm-3
+					section.pInteractions.col-sm-12
+						span.glyphicon.glyphicon-asterisk(aria-hidden=true)
+						span.glyphicon-envelope-text(id=contactMe)  Please contact me
+						br
+						span.glyphicon.glyphicon-envelope(aria-hidden=true)
+						span.glyphicon-envelope-text(id=contactMe)  Email project lead
+
+
+
+
+					//button(id="saveIt" class="btn btn-large btn-success saveIt__centered" role="button" data-leader="" info="") Save it!
 
 
 				div#moreInfo.btn--hidden
 					section.col-sm-12.section--remove-left-padding.skiIntGoa
 						section.col-sm-2.pSkills Skills:
-						section#pS.col-sm-10
+						section#ppS.col-sm-10
 							<button  type="button" class="btn btn-default disabled btn--hidden"></button>
 						section.col-sm-2.pSkills	Goal sought:
-						section#pG.col-sm-10
+						section#ppG.col-sm-10
 							<button  type="button" class="btn btn-default disabled btn--hidden"></button>
 						section.col-sm-2.pSkills	Civic Interest areas:
-						section#pI.col-sm-10
+						section#ppI.col-sm-10
 							<button  type="button" class="btn btn-default disabled btn--hidden"></button>
 					div#moreProjInfo
 						section.col-sm-12

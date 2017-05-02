@@ -73,21 +73,6 @@
 	height: 2rem;
 }
 
-.project-thumbnail {
-    width: 100px;
-    height: 100px;
-    display: inline-block;
-    margin-top: 26px;
-    border-radius: .25rem;
-    padding: 0;
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-color: #e6e6e6;
-    box-shadow: none;
-    float: left;
-}
-
 .row__projects-list--info-2 .btn {
 	margin-top: 26px;
 	font-size: 1.75rem;
@@ -107,11 +92,54 @@
 	border-width: 1px;
 }
 
-.pName, .pSkills {
-	font-size: 2rem;
-	font-weight: 500;
+.pName {
+	text-align: center;
+	margin-top: 18px;
+	font-size: 2.2rem;
+	font-weight: 400;
+}
+
+.pSkills {
+	font-size: 1.8rem;
+	font-weight: 300;
+}
+
+.btn-less-padding {
+	padding-left: 5px;
+	padding-right: 5px;
+	color: #000;
 }
 
 .skiIntGoa {
-	padding-top: 5px;
+	padding-top: 12px;
+}
+
+span.glyphicon-envelope {
+		vertical-align: bottom;
+		margin-top: 10px;
+    font-size: 3.0em;
+		color: white;
+}
+
+.glyphicon-asterisk {
+		vertical-align: bottom;
+		margin-top: 10px;
+		font-size: 3.0em;
+		color: violet;
+}
+
+span.glyphicon-envelope-text {
+		margin-left: 10px;
+    font-size: 1.2em;
+		font-weight: 300;
+}
+
+.pInteractions {
+	padding-top: 25px;
+}
+
+.pMission {
+	margin-top: 1rem;
+	font-size: 1.7rem;
+
 }
