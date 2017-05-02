@@ -37,9 +37,14 @@ $(document).ready(function () {
 
   $("[role='see_results']").click(function () {
   	 user_data = "results";
-     $("#match_res").removeClass("btn--hidden");
-     $("button#backToWizard").removeClass("btn--hidden");
-     $("#wizardcards").addClass("btn--hidden");
+
+     // for V02 the #match_res section is not used, because the
+     // selector elements remain visible with results.
+     // Also the back to wizard button is no longer used at the bottom
+     // of the matching projects list.
+     //$("#match_res").removeClass("btn--hidden");
+     //$("button#backToWizard").removeClass("btn--hidden");
+     //$("#wizardcards").addClass("btn--hidden");
   })
 
   $("[id='backToWizard']").click(function () {
@@ -48,9 +53,7 @@ $(document).ready(function () {
      $("#backToWizard").addClass("btn--hidden");
      $("#wizardcards").removeClass("btn--hidden");
      $("div#pList").children().remove();
-     //
-     // this id no longer used: all the children are under #pList
-     //$("#projects-list").children().remove();
+     $("#projects-list").children().remove();
      restartWizard();
   })
 
@@ -122,11 +125,23 @@ getEnv();
 **/
 
 function initMatchingStep( taxonomies ) {
+/*  V02 hides the progress bar
+
   $("li#start_matching").addClass("active").addClass("move_left");
   $("li#start").removeClass("active").addClass("move_right");
   $("[role='home']").addClass("btn--hidden");
   $("[role='in_progress_message']").removeClass("btn--hidden");
-  $("[role='start_matching']").addClass("btn--hidden");
+*/
+  $("[role='start_matching']").click(function () {
+     //user_data = "restartWizard";
+     $("#match_res").addClass("btn--hidden");
+     $("#backToWizard").addClass("btn--hidden");
+     $("div#pList").children().remove();
+     restartWizard();
+  })
+
+
+
   var searchStr = parseSelections( taxonomies );
   $("[role='in_progress_message']").attr("value", searchStr); //pass the users search through this button's value attr
   initMatchingSearch(searchStr);
@@ -213,10 +228,8 @@ function initMatchingSearch(searchStr) {
 	userMatchProjects = jQuery.ajax({
 				url: searchStr,
 				success: [getAllProjs, function() {  //Use array of fn()s
-				$("#match_res").removeClass("btn--hidden"); //Reveals the matching project section
-	      $("button#backToWizard").removeClass("btn--hidden"); //show "Back to Wizard" option
-	      $("#wizardcards").addClass("btn--hidden"); // Hide Wizard progress bar
-				$("[role='in_progress_message']").addClass("btn--hidden");
+
+        $("#match_res").removeClass("btn--hidden");
 				}]
 	}) //function getAllProjs gets passed the user matching projects
 }

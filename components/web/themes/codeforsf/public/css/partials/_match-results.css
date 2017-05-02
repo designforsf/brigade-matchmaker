@@ -106,7 +106,7 @@
 
 .container-maxWidth970-no-top-pad {
   padding-top: 10px;
-  margin: 10px 10px;
+  margin: 10px 0px;
   border-style: solid;
   border-width: 1px;
   border-color: gray;
@@ -195,4 +195,8 @@ span.project-thumbnail {
 
 .matchingConfigs-list h4 {
   font-size: 2.5rem;
+}
+
+.h4--light {
+  font-weight: 300;
 }

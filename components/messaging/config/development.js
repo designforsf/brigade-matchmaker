@@ -10,6 +10,8 @@
 */
 
 exports.config = {
+/*
+  comment out for heroku
   web: {
     host: 'localhost',
     port: 5475,
@@ -19,6 +21,7 @@ exports.config = {
     port: 27017,
     db: 'brigade-matchmaker'
   },
+*/
   session: {
     secret: 'sfbrigade-matching-hat-messaging',
     key: 'sfbrigade-matching-hat-messaging'
