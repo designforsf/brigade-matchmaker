@@ -2,10 +2,15 @@ input[type=text], label {
     display: block;
 }
 #wizardcards {
-	width: 512px;
-	margin: 50px auto;
+	width: 960px;
+	margin: 20px auto;
 	position: relative;
 }
+
+.section--gutter {
+  margin-left: 0px;
+}
+
 
 #wizardcards fieldset {
 	background: white;
@@ -82,4 +87,23 @@ input[type=text], label {
 #progressbar li.active:before,  #progressbar li.active:after{
 	background: #6699CC;
 	color: #666666;
+}
+
+/*div#skills {
+  display:inline-block;
+  float:left;
+}
+
+div#ints {
+  display:inline-block;
+  float:left;
+}
+
+div#goals {
+  display:inline-block;
+  float:left;
+}*/
+
+.form-group-horiz {
+
 }

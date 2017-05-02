@@ -114,28 +114,40 @@
 	padding-top: 12px;
 }
 
-span.glyphicon-envelope {
-		vertical-align: bottom;
-		margin-top: 10px;
-    font-size: 3.0em;
-		color: white;
+span.glyphicon-send {
+	line-height: inherit;
+	vertical-align: text-bottom;
+		margin-top: px;
+    font-size: 2.2rem;
+		color: black;
+}
+
+span.glyphicon-pushpin {
+	line-height: inherit;
+	vertical-align: text-bottom;
+		margin-top: px;
+    font-size: 2.2rem;
+		color: black;
 }
 
 .glyphicon-asterisk {
-		vertical-align: bottom;
-		margin-top: 10px;
-		font-size: 3.0em;
-		color: violet;
+		line-height: inherit;
+		vertical-align: text-bottom;
+		margin-top: px;
+		font-size: 2.2rem;
+		color: black;
 }
 
 span.glyphicon-envelope-text {
+	line-height: inherit;
 		margin-left: 10px;
-    font-size: 1.2em;
+    font-size: 1.8rem;
 		font-weight: 300;
 }
 
-.pInteractions {
-	padding-top: 25px;
+.pGlyphs {
+	padding-top: 0px;
+	line-height: 250%;
 }
 
 .pMission {

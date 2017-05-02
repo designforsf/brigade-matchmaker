@@ -204,7 +204,7 @@ function restartWizard () {
 
 
 $(".chosen-select").chosen({no_results_text: "Oops, nothing found!"});
-$(".chosen-container").css("width", "350px");
+$(".chosen-container").css("width", "270px");
 
 // wizard.js above | matching.js below
 
@@ -385,13 +385,20 @@ function outputProject(userProject, fullProjInfo ) {
 		// An event handler is added at the same time, to call
 		// the function that handles the various events
 		//
-		$("div#pList button#teamAddr").attr("id", getUniqueId() ).on('click', msgFormToTeam );
+		//for v02 use glyphicons
+    //and move into primary project box
+    //$("div#pList button#teamAddr").attr("id", getUniqueId() ).on('click', msgFormToTeam );
+    $("div#pList span#contactTeam").attr("id", getUniqueId() ).on('click', msgFormToTeam );
     $("div#pList a#Repo").attr("id", getUniqueId() );
 
 		if (bookmarkProjs.isItSaved(fullProjInfo.name))
-			$("div#pList button#saveIt").text('Saved').attr("id", getUniqueId() ).attr('data-name', fullProjInfo.name).on('click', $.proxy( bookmarkProjs.show, bookmarkProjs) );
+			$("div#pList span#saveIt").attr("id", getUniqueId() ).attr('data-name', fullProjInfo.name).on('click', $.proxy( bookmarkProjs.show, bookmarkProjs) ).next().text('Saved')
 		else
-			$("div#pList button#saveIt").text('Save it!').attr("id", getUniqueId() ).attr('data-name', fullProjInfo.name).on('click', $.proxy( bookmarkProjs.doSave, bookmarkProjs, fullProjInfo.name) );
+    //for v02 use glyphicon-pushpin (save it) and glyphicon-saved (saved)
+    //and move into primary project box
+    //$("div#pList button#teamAddr").attr("id", getUniqueId() ).on('click', msgFormToTeam );
+			$("div#pList span#saveIt").attr("id", getUniqueId() ).attr('data-name', fullProjInfo.name).on('click', $.proxy( bookmarkProjs.doSave, bookmarkProjs, fullProjInfo.name) ).next().text('Save it');
+    
 		$("div#pList button#seeMore").attr("id", getUniqueId() ).on('click', toggleProjView);
 
 		$("div#pList #pName").removeAttr("id");

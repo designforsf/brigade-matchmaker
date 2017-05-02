@@ -110,7 +110,8 @@
   border-style: solid;
   border-width: 1px;
   border-color: gray;
-  background-color: #eaeff7;
+  background-color: #a5a3a3;
+  /*background-color: #eaeff7;*/
 }
 
 .row--proj-container div {
