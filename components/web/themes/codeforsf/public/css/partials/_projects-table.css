@@ -4,10 +4,6 @@
 */
 
 #projects-list {}
-.row {
-	padding-top: 0px;
-	padding-bottom: 0px;
-}
 
 .projects-list__project-container {
 	font-size: 1.75rem;
@@ -93,15 +89,16 @@
 }
 
 .pName {
-	text-align: center;
+	text-align: left;
 	margin-top: 0px;
 	font-size: 2.2rem;
 	font-weight: 400;
+	padding-left: 0px;
 }
 
 .pSkills {
-	font-size: 1.8rem;
-	font-weight: 300;
+	font-size: 1.7rem;
+	font-weight: 400;
 }
 
 .btn-less-padding {
@@ -141,13 +138,14 @@ span.glyphicon-pushpin {
 span.glyphicon-envelope-text {
 	line-height: inherit;
 		margin-left: 10px;
-    font-size: 1.8rem;
-		font-weight: 300;
+    font-size: 1.7rem;
+		font-weight: 400;
+		vertical-align: top;
 }
 
 .pGlyphs {
 	padding-top: 0px;
-	line-height: 250%;
+	line-height: 200%;
 }
 
 .pMission {

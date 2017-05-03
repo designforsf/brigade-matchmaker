@@ -44,7 +44,7 @@ module.exports = {
         newUser.save((err) => {
           if (err) console.error(err)
         })
-        req.flash('success', {msg: 'Success! You have created a new user.'})
+        //req.flash('success', {msg: 'Success! You have created a new user.'})
         res.json({ success: true, user: { id: newUser.id } });
 
       } else {
