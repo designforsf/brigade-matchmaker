@@ -7,7 +7,7 @@ exports.index = function (req, res) {
 /* which requests email address and name rather
 /* than directing use to login with Github
 */
-  res.render(res.locals.brigade.theme.slug + '/views/account/home', {
+  res.render(res.locals.brigade.theme.slug + '/views/account/login', {
     view: 'checkin',
     title: 'Checkin',
     brigade: res.locals.brigade,
