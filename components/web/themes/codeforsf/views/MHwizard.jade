@@ -1,6 +1,6 @@
- /**
- /* URL test/projectlist
- */
+/**
+/* URL test/projectlist
+*/
 
 extends layout
 block content
@@ -52,6 +52,13 @@ block content
     div.button__horiz-group(role="group" aria-label="...")
 
       button(type="button" role="start_matching" class="next btn btn-info ") Match me!
+
+    div#pListHeader.container-maxWidth970-no-top-pad.row.row--proj-container.pName
+      section.col-sm-2 Name
+      section.col-sm-3 Mission Statement
+      section.col-sm-4 Matching Points
+      section.col-sm-3 Team Interactions
+
 
 
     div#umtemplate.container-maxWidth970-no-top-pad.row.row--proj-container.btn--hidden
@@ -124,8 +131,7 @@ block content
 
 
     div#match_res.btn--hidden
-      h2.h1--more-margin  Your matching projects:
-      div#pList.container
+      div#pList
         //
         //matching list will be appended here.
         //
