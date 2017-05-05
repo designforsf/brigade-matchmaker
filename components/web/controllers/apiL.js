@@ -235,9 +235,9 @@ module.exports = {
     var pyDir = '../algorithms'
     var pyFile = '/db-match-algo.py';
     //
-    console.log('req.MongoStore is ', req);
-    console.log('run python: ' + pyFile + ' with args=', pyArgs);
-    console.log('pyDir: ', pyDir);
+    //console.log('req.MongoStore is ', req);
+    //console.log('run python: ' + pyFile + ' with args=', pyArgs);
+    //console.log('pyDir: ', pyDir);
 
 
     PyShell.run(pyFile, {
@@ -280,7 +280,7 @@ module.exports = {
           }
 
 
-          console.log(project['id'] + ' for ' + arg + ' matched-attrs: ', lineArr[2 + 3 + (aidx*3)]);
+          //console.log(project['id'] + ' for ' + arg + ' matched-attrs: ', lineArr[2 + 3 + (aidx*3)]);
           //console.log(lineArr);
         });
 
