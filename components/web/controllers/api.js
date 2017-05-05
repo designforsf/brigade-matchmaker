@@ -44,7 +44,7 @@ module.exports = {
         newUser.save((err) => {
           if (err) console.error(err)
         })
-        req.flash('success', {msg: 'Success! You have created a new user.'})
+        //req.flash('success', {msg: 'Success! You have created a new user.'})
         res.json({ success: true, user: { id: newUser.id } });
 
       } else {
@@ -232,12 +232,12 @@ module.exports = {
     //
     // heroku environemnt only
     //var pyDir = pyDirArr.join('/');
-    var pyDir = '/app/components/algorithms'
+    var pyDir = '../algorithms'
     var pyFile = '/db-match-algo.py';
     //
     //console.log('req.MongoStore is ', req);
-    console.log('run python: ' + pyFile + ' with args=', pyArgs);
-    console.log('pyDir: ', pyDir);
+    //console.log('run python: ' + pyFile + ' with args=', pyArgs);
+    //console.log('pyDir: ', pyDir);
 
 
     PyShell.run(pyFile, {
@@ -280,7 +280,7 @@ module.exports = {
           }
 
 
-          console.log(project['id'] + ' for ' + arg + ' matched-attrs: ', lineArr[2 + 3 + (aidx*3)]);
+          //console.log(project['id'] + ' for ' + arg + ' matched-attrs: ', lineArr[2 + 3 + (aidx*3)]);
           //console.log(lineArr);
         });
 
