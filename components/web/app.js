@@ -67,11 +67,36 @@ var app = express()
  */
 mongoose.connect(process.env.MONGODB || process.env.MONGOLAB_URI, function (err) {
   if (err) throw new Error(err)
-})
+});
+mongoose.connection.on('disconnected', function () {
+  console.log('Mongoose disconnected');
+  
+});
 mongoose.connection.on('error', function (err) {
   console.log('There was an error while trying to connect!')
   throw new Error(err)
-})
+});
+var gracefulShutdown = function(msg, callback ) {
+  mongoose.connection.close(function() {
+    console.log('Mongoose disconnected through ' + msg);
+    callback();
+  });
+};
+
+// Listen for SIGINT from app termination
+process.on('SIGINT', function() {
+  gracefulShutdown('app termination', function() {
+    process.exit(0);
+  });
+});
+
+// Listen for SIGTERM from Heroku for app termination
+process.on('SIGTERM', function() {
+  gracefulShutdown('Heroku app shutdown', function() {
+    process.exit(0);
+  });
+});
+
 
 /**
  * Check Model Settings in db
