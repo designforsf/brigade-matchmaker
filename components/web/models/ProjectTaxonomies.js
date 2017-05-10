@@ -4,19 +4,27 @@ var ptSchema = new mongoose.Schema({
 
 });
 
+var pSkills = {
+  mainCat: ['Software Engineering', 'Design', 'Data Science'],
+  subCat: {
+    'Software Engineering': ['FrontEnd', 'BackEnd', 'Database'],
+    Design: ['User Experience', 'Visual Design', 'Des3'],
+    'Data Science': ['Analytics', 'Visualization']
+  },
+  details: {
+    FrontEnd: ['html', 'css', 'Javascript', 'Pug', 'Angular', 'React'],
+    BackEnd: ['Node.js', 'aaa', 'bbb', 'ccc', 'ddd', 'eee'],
+    Database: ['Mongo', 'aaa', 'bbb', 'ccc', 'ddd', 'eee'],
+    'User Experience': ['aaaaaa','bbbbbb','cccccc'],
+    'Visual Design': ['ssssss', 'ffffff','hhhhhh','jjjjjj'],
+    Des3: ['vvvvvv','eeeeee'],
+    Analytics: ['datasci1','datasci2','Python'],
+    Visualization: ['Graphics','Python']
+  }
+};
+
 ptSchema.methods.getSkills = function (cb) {
-  return cb(null, [
-    {name: 'advocacy', synonyms: ['activism']},
-    {name: 'writing', synonyms: ['copy']},
-    {name: 'uxr', synonyms: ['usability']},
-    {name: 'javascript', synonyms: ['js']},
-    {name: 'node', synonyms: ['node.js']},
-    {name: 'python', synonyms: []},
-    {name: 'ruby', synonyms: []},
-    {name: 'mongo', synonyms: ['mongodb']},
-    {name: 'html', synonyms: []},
-    {name: 'css', synonyms: []},
-  ]);
+  return cb(null, pSkills);
 }
 
 ptSchema.methods.getInterests = function (cb) {

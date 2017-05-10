@@ -18,14 +18,14 @@ html
         version: '#{brigade.buildVersion}'
       }
   body(data-view="#{view}")
-    include partials/header
-    include partials/savedProjs
+    include partials/header.jade
+    include partials/savedProjs.jade
 
     .container
-      include partials/flash
+      include partials/flash.jade
       block content
 
-    include partials/footer
+    include partials/footer.jade
 
 
     script(src='//cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js')

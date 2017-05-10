@@ -1,4 +1,4 @@
-extends layout
+extends layout.jade
 block content
   div.container.container-maxWidth970
     form#wizardcards
@@ -8,45 +8,28 @@ block content
           h4.h4--light Create a simple profile and let us help you decide which project teams are a match for you. Your information will not be saved and will only be shared with the project team leads that you choose to message.
           br
           .row.row--proj-container.container--soft-border
-            section.section--gutter.col-sm-4
-              h4 Skills that I want to contribute
+            section.section--gutter.col-sm-3
+              h4 Skills to contribute
+              span#selS2C.glyphicon.glyphicon-collapse-down
+              #s2cButtons.container--soft-border
+
+            section.section--gutter.col-sm-3
+              h4 Skills to learn
+              button#skills2(type="button" role="set_cri_skill2" class="next btn btn-info ") Select
+            section.section--gutter.col-sm-3
+              h4 Interests
+              button#interests(type="button" role="set_cri_ints" class="next btn btn-info ") Select
+            section.section--gutter.col-sm-3
+              h4 Goals at Hack Night
+              button#goals(type="button" role="set_cri_goals" class="next btn btn-info ") Select
+
+
               div.form-group.form-group-horizontal
                 div(id="skills")
-                  select(class="chosen-select", data-placeholder="Select all that apply.", multiple, tabindex="1")
-                    - var list = skills
-                    each item, j in list
-                      if item.synontms != ''
-                          option(value= j) #{item.name}, #{item.synonyms}
-                        else
-                          option(value= j) #{item.name}
-                        //added inclusion of synonyms to each list
 
-            section.section--gutter.col-sm-4
-              h4 Interests
-              div.form-group.form-group-horizontal
-                div(id="interests")
-                  select(class="chosen-select", id="ints", data-placeholder="Select all that apply.", multiple , tabindex="1")
-                    - var list = interests
-                    each item, j in list
-                      if item.synonyms != ''
-                        option(value= j) #{item.name}, #{item.synonyms}
-                      else
-                        option(value= j) #{item.name}
-            section.section--gutter.col-sm-4
-              h4 My goals
-              div.form-group.form-group-horizontal
-                div(id="goals")
-                  select(class="chosen-select", data-placeholder="Select all that apply.", multiple, tabindex="1")
-                    - var list = goals
-                    each item, j in list
-                      if item.synonyms != ''
-                        option(value= j) #{item.name}, #{item.synonyms}
-                      else
-                        option(value= j) #{item.name}
 
 
     div.button__horiz-group(role="group" aria-label="...")
-
       button(type="button" role="start_matching" class="next btn btn-info ") Match me!
 
     div#pListHeader.container-maxWidth970-no-top-pad.row.row--proj-container.pName
@@ -132,5 +115,6 @@ block content
         //matching list will be appended here.
         //
 
-    include partials/contactTeamForm
-    include partials/savedProjs
+    include partials/contactTeamForm.jade
+    include partials/savedProjs.jade
+    include partials/selectForm.jade
