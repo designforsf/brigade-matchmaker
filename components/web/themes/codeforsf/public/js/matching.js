@@ -14,13 +14,12 @@ $(document).ready(function () {
   // on doc ready set an event handler for the submit button; and
   // on submit set a handler on hidden status of the form
 
-  var formIDs = ['#s2cselections'] // , '#s2lselections', '#goalSelections', '#intSelections'];
-  var selectedObj = {};
-  //
-  // Set handlers for clicks to select
-  for (var idx = 0; idx < formIDs.length; idx++ ) {
 
-    $('form' +formIDs[idx]).on('submit', function( event ) {
+  //
+  // Set handlers for clicks to submit
+  for (var idx = 0; idx < userProfile.formIDs.length; idx++ ) {
+
+    $('form#' +userProfile.formIDs[idx]).on('submit', function( event ) {
       event.preventDefault();
       selectedObj = $( this ).serializeArray(); // array of {name= , val=on}
 
@@ -31,7 +30,7 @@ $(document).ready(function () {
         selectedObj[idx].name = names;
         names = [];
         };
-        userProfile.userSkills2C = selectedObj;  // store in the userProfile  
+        userProfile.userSkills2C = selectedObj;  // store in the userProfile
       //
 
       //Now place event handler on completion of modal window hiding - to
@@ -64,8 +63,17 @@ $(document).ready(function () {
    }
  });
 
-  $("span#selS2C").click(function () {
-     initSkill1OntoModal( taxSkills );
+  // Set selection glyph handlers for opening form
+  $("span." + userProfile.formIDs[0]).click(function () {
+     //
+     // if the form has not yet been created, do it now
+     // and set the userProfile flag appropriately
+     if ( !userProfile.selectorFormStats[ userProfile.formIDs[0] ] ) {
+       console.log('Forming the skill1 modal selector form now!');
+       userProfile.doCreateForm( taxSkills, '#forms2cselections' );
+       userProfile.selectorFormStats[ userProfile.formIDs[0] ] = true;
+     };
+     userProfile.doShow('#selectorModal');
   });
 
   $("[role='start_matching']").click(function () {
@@ -156,7 +164,13 @@ var taxSkills = {};  // object of all skills
 }
 */
 
+var selectedObj = {};
+
 var userProfile = {
+
+  formIDs : ['s2cselections', 's2lselections', 'goalSelections', 'intSelections'],
+  //
+  // these help with jQuery selections to load the selection forms
 
   userSkills2L : {}, // skills 2 learn
   userSkills2C : {}, // skills 2 contribute
@@ -165,6 +179,13 @@ var userProfile = {
 
   doShow : function( formID ) {
     $( formID ).modal('show');
+  },
+
+  selectorFormStats : {
+    s2cselections : false,
+    s2lselections : false,
+    goalSelections : false,
+    intSelections : false
   },
 
   doCreateForm : function( taxType, formID ) { //html for modal select forms
@@ -199,11 +220,11 @@ var userProfile = {
           $('section.detailLvl:first').clone(false).appendTo( $('legend#selectorBase div.detailLvl') );
           $('legend#selectorBase section.detailLvl:last').removeClass('btn--hidden');
         })
-        $('Legend:first').clone(false).insertAfter( $('Legend#selectorBase') );
-        $('Legend#selectorBase:last').find('*').removeClass('btn--hidden');
-        $('Legend#selectorBase:last').removeAttr('id');
+        $('legend:first').clone(false).insertBefore( $('div#InsertBefore') );
+        $('legend:last').find('*').removeClass('btn--hidden');
+        $('Legend:last').removeAttr('id').find('*').removeAttr('id');
         $('Legend:first div.detailLvl').find( 'section:not(".btn--hidden")').remove();
-        $( "Legend:nth-of-type(2)" ).find('div.detailLvl:first section:first').remove();
+        $( "Legend:last" ).find('div.detailLvl:first section:first').remove();
       });
     });
   }
@@ -711,57 +732,6 @@ function toggleProjView( e ) {
 	}
 };
 
-function initSkill1OntoModal( taxSkills ) {
-  console.log('Forming the skill1 modal selector form now!');
-  userProfile.doCreateForm( taxSkills, '#forms2cselections' );
-  userProfile.doShow('#selectorModal');
-};
-
-/*
-function initSkill1OntoModal( taxSkills) {
-  console.log('Forming the skill1 modal selector form now!');
-  var selectedFlag;
-  // Iterate across the main category array:
-  //taxSkills.mainCat.forEach(function(mainCat) {
-    //
-    // Output the main and sub-category label/checkbox
-    taxSkills.mainCat.forEach(function(mainCat) {
-      $('legend#selectorBase h4.mainCat:first').text(mainCat); // Main category is just a label
-      //
-      // The sub-category is a checkbox
-      taxSkills.subCat[mainCat].forEach(function(subCat) {
-        $('legend#selectorBase span.subCat:first').text(subCat).prev().attr('name', mainCat + '.' + subCat);
-        //
-        // Output all the taxSkills -- at end, clone and append to the selectForm.jade
-        // taxSkills.selected[ subCat ] will keep a flag for chosen / not chosen
-        taxSkills.details[ subCat ].forEach(function( detail ) {
-          if (!taxSkills.selected) {
-            taxSkills.selected = [];
-            taxSkills.selected[detail] = 0;
-          };
-          $('legend#selectorBase span.detailLvl:first').text(detail).prev().attr('name', mainCat + '.' + subCat + '.' + detail);
-          // check the box is user already selected it in previous form view
-          if ( taxSkills.selected[detail]) {
-            $('legend#selectorBase span.detailLvl:first').prev().attr('checked', true);
-          };
-          //
-          // Begin building up the detail level checkboxes by appending to the model
-          $('section.detailLvl:first').clone(false).appendTo( $('legend#selectorBase div.detailLvl') );
-          $('legend#selectorBase section.detailLvl:last').removeClass('btn--hidden');
-        })
-        $('Legend:first').clone(false).insertAfter( $('Legend#selectorBase') );
-        $('Legend#selectorBase:last').find('*').removeClass('btn--hidden');
-        $('Legend#selectorBase:last').removeAttr('id');
-        --> removes wrong section, because the insertAfter doesnt append, and the newest Legend is not the last!
-        //$('div.detailLvl:last section:first').remove();
-        $('Legend:first div.detailLvl').find( 'section:not(".btn--hidden")').remove();
-        $( "Legend:nth-of-type(2)" ).find('div.detailLvl:first section:first').remove();
-      });
-
-    });
-    $('#selectorModal').modal('show');
-};
-*/
 
 function getUserSelectors(formType) {
 /**
@@ -789,7 +759,7 @@ function outputButtons( jDestination, btnNames ) {
     x = btnNames[idx].name.length - 1;
       // Use a template button at section#pS to model the new button
     newBtn = $('section#pS button').filter(':first').clone('false');
-    $(newBtn).text(btnNames[idx].name[x]).removeClass('btn--hidden').appendTo($('div#s2cButtons'));
+    $(newBtn).text(btnNames[idx].name[x]).removeClass('btn--hidden').appendTo($('div.s2cselections'));
     //
     // Now set a selected flag in the main taxSkills object
   //  for (var jdx = 0 to taxSkills.length)
