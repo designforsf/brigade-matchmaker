@@ -9,38 +9,56 @@ $(document).ready(function () {
     $("li.dropdown").addClass("btn--hidden");
   }
 
-  //$('#selectorModal').on('hidden.bs.modal', $.proxy( outputButtons('jDestination', selS2Cobj), selS2Cobj) );
-  //
-  // on doc ready set an event handler for the submit button; and
-  // on submit set a handler on hidden status of the form
+  // Set selection glyph click handlers for opening form
+  for (var idx = 0; idx < userProfile.formIDs.length; idx++ ) {
 
+    (function() {
+      var myForm = userProfile.formIDs[idx];
+      $("span." + myForm).click(function () {
+         //
+         // if the form has not yet been created, do it now
+         // and set the userProfile flag appropriately
+         if ( !userProfile.selectorFormStats[ myForm ] ) {
+           console.log('Forming the skill1 modal selector form now!');
+           //
+           // We need to specify which taxonomies to use for this form
+           var taxObjToUse = projTax[ userProfile.taxSelectors[ myForm ] ];
+           userProfile.doCreateForm( taxObjToUse, myForm );
+           userProfile.selectorFormStats[ myForm ] = true;
+         };
+         userProfile.doShow('#Modal' + myForm);
+      });
+    })(); //invoke for closure
+  };
 
   //
   // Set handlers for clicks to submit
   for (var idx = 0; idx < userProfile.formIDs.length; idx++ ) {
+    (function() {
+      var myForm = userProfile.formIDs[idx];
+      $('form#' + myForm ).on('submit', function( event ) {
+        event.preventDefault();
+        //
+        // selectedObj is a global
+        selectedObj = $( this ).serializeArray(); // array of {name= , val=on}
 
-    $('form#' +userProfile.formIDs[idx]).on('submit', function( event ) {
-      event.preventDefault();
-      selectedObj = $( this ).serializeArray(); // array of {name= , val=on}
-
-      //Split the name into its three parts (main, subcat and detail)
-      var names = [];
-      for (var idx=0; idx<selectedObj.length; idx++ ) {
-        names = selectedObj[idx].name.split('.');
-        selectedObj[idx].name = names;
-        names = [];
-        };
-        userProfile.userSkills2C = selectedObj;  // store in the userProfile
+        //Split the name into its three parts (main, subcat and detail)
+        var names = [];
+        for (var jdx=0; jdx<selectedObj.length; jdx++ ) {
+          names = selectedObj[jdx].name.split('.');
+          selectedObj[jdx].name = names;
+          names = [];
+          };
+        userProfile[ myForm ] = selectedObj;  // store in the userProfile
       //
-
       //Now place event handler on completion of modal window hiding - to
       // output the "buttons" in the skills to contribute container
-      $('#selectorModal').on('hidden.bs.modal', $.proxy( outputButtons('jDestination', selectedObj), selectedObj) );
-      //
-      //handler is set, now close the selector modal
-      $('#selectorModal').modal('hide');
-    });
-
+        $('#Modal' + myForm).on('hidden.bs.modal', $.proxy( outputButtons(myForm, selectedObj), selectedObj) );
+        //
+        //handler is set, now close the selector modal
+        $('#Modal' + myForm ).modal('hide');
+      });
+    })();  // IIFE creates closure on local myForm
   }
 
   $("div.dropdown-menu").click(function (e) {
@@ -62,19 +80,6 @@ $(document).ready(function () {
       break;
    }
  });
-
-  // Set selection glyph handlers for opening form
-  $("span." + userProfile.formIDs[0]).click(function () {
-     //
-     // if the form has not yet been created, do it now
-     // and set the userProfile flag appropriately
-     if ( !userProfile.selectorFormStats[ userProfile.formIDs[0] ] ) {
-       console.log('Forming the skill1 modal selector form now!');
-       userProfile.doCreateForm( taxSkills, '#forms2cselections' );
-       userProfile.selectorFormStats[ userProfile.formIDs[0] ] = true;
-     };
-     userProfile.doShow('#selectorModal');
-  });
 
   $("[role='start_matching']").click(function () {
   	 user_data = "matching";
@@ -155,7 +160,6 @@ $(document).ready(function () {
 /*
 / Retrieve the skills taxonomy and place in global object taxSkills
 */
-var taxSkills = {};  // object of all skills
 /*
   taxSkills { array of objects
     mainCat : []
@@ -172,10 +176,10 @@ var userProfile = {
   //
   // these help with jQuery selections to load the selection forms
 
-  userSkills2L : {}, // skills 2 learn
-  userSkills2C : {}, // skills 2 contribute
-  userGoals : {},
-  userInterests : {},
+  s2cselections : {}, // skills 2 contribute
+  s2lselections : {}, // skills 2 learn
+  goalSelections : {},
+  intSelections : {},
 
   doShow : function( formID ) {
     $( formID ).modal('show');
@@ -188,17 +192,24 @@ var userProfile = {
     intSelections : false
   },
 
+  taxSelectors : {
+    s2cselections : 'taxSkills',
+    s2lselections : 'taxSkills',
+    goalSelections : 'taxGoals',
+    intSelections : 'taxInts'
+  },
+
   doCreateForm : function( taxType, formID ) { //html for modal select forms
     //
     // taxType: taxSkills, taxGoals, taxInterests
     // formID = the html id property for the relevant modal form
-
+    var myBase = 'legend#Base' + formID; // used for jQuery
     taxType.mainCat.forEach(function(mainCat) {
-      $('legend#selectorBase h4.mainCat:first').text(mainCat); // Main category is just a label
+      $(myBase + ' h4.mainCat:first').text(mainCat); // Main category is just a label
       //
       // The sub-category is a checkbox
       taxType.subCat[mainCat].forEach(function(subCat) {
-        $('legend#selectorBase span.subCat:first').text(subCat).prev().attr('name', mainCat + '.' + subCat);
+        $(myBase + ' span.subCat:first').text(subCat).prev().attr('name', mainCat + '.' + subCat);
         //
         // Initiatlize TaxType.selected if not already set
         // This array tracks user selections
@@ -210,21 +221,21 @@ var userProfile = {
 
           //
           // Output all the taxType -- at end, clone and append to the selectForm.jade
-          $('legend#selectorBase span.detailLvl:first').text(detail).prev().attr('name', mainCat + '.' + subCat + '.' + detail);
+          $(myBase + ' span.detailLvl:first').text(detail).prev().attr('name', mainCat + '.' + subCat + '.' + detail);
           //??? check the box is user already selected it in previous form view
           //if ( taxSkills.selected[detail]) {
           //  $('legend#selectorBase span.detailLvl:first').prev().attr('checked', true);
           //};
           //
           // Begin building up the detail level checkboxes by appending to the model
-          $('section.detailLvl:first').clone(false).appendTo( $('legend#selectorBase div.detailLvl') );
-          $('legend#selectorBase section.detailLvl:last').removeClass('btn--hidden');
+          $(myBase + ' section.detailLvl:first').clone(false).appendTo( $(myBase + ' div.detailLvl') );
+          $(myBase + ' section.detailLvl:last').removeClass('btn--hidden');
         })
-        $('legend:first').clone(false).insertBefore( $('div#InsertBefore') );
-        $('legend:last').find('*').removeClass('btn--hidden');
-        $('Legend:last').removeAttr('id').find('*').removeAttr('id');
-        $('Legend:first div.detailLvl').find( 'section:not(".btn--hidden")').remove();
-        $( "Legend:last" ).find('div.detailLvl:first section:first').remove();
+        $('form#' + formID +  ' legend:first').clone(false).insertBefore( $('div#' + formID + 'InsertBefore') );
+        $('form#' + formID + ' legend:last').find('*').removeClass('btn--hidden');
+        $('form#' + formID + ' legend:last').removeAttr('id').find('*').removeAttr('id');
+        $('form#' + formID +  ' div.detailLvl:first').find( 'section:not(".btn--hidden")').remove();
+        $('form#' + formID +  ' legend:last' ).find('div.detailLvl:first section:first').remove();
       });
     });
   }
@@ -236,38 +247,45 @@ var userProfile = {
 var selectedObj = {}; //global object for skills the user wants to contribute
                     // selectedObj = { name: [mainCat, subCat, details], val: on}
 
-(function getProjectTaxonomies() {
-  projTax = {};
-	projTax.taxSkills = $.ajax({
+var projTax = {  // all taxonomies from across all BrigadeHub projects
+  taxSkills : {},
+  taxGoals : {},
+  taxInts : {}
+};
+
+
+(function getProjectSkills() {
+  $.ajax({
 		url: '/api/project/taxonomy/skills',
     success: function( results ) {
-      taxSkills = results
+      projTax.taxSkills = results
     }
   }).fail(function (err) {
 		console.error(err); return; });
   console.log('Hit the api for skills in matching.js');
-})()
+})();
 
+(function getProjectInterests() {
+  $.ajax({
+		url: '/api/project/taxonomy/interests',
+    success: function( results ) {
+      projTax.taxInts = results;
+    }
+  }).fail(function (err) {
+		console.error(err); return; });
+  console.log('Hit the api for interests in matching.js');
+})();
 
-//retrieve the environment settings
-/**
-var getEnv = function() {
-  console.log('Executing initEnv');
-  //
-  // retrieve a JSON with server domain and port
-  window.envData = $.get({
-    url: '/apiEnv'
-  }).done( function( envData ) {
-    console.log('Call for apiEnv: ', envData.result + ' ' + envData.Node_env + ' ' + envData.port + ' ' + envData.domain);
-    return envData;   // need to debug why not receiving port on heroku
-  });
-};
-//set envData as property of global object, window
-
-getEnv();
-
-// retrieved env settings
-**/
+(function getProjectGoals() {
+  $.ajax({
+		url: '/api/project/taxonomy/goals',
+    success: function( results ) {
+      projTax.taxGoals = results;
+    }
+  }).fail(function (err) {
+		console.error(err); return; });
+  console.log('Hit the api for goals in matching.js');
+})();
 
 function initMatchingStep( taxonomies ) {
 
@@ -298,27 +316,20 @@ function parseSelections(taxonomies) {
 
   buildSrchStr = function( x ) {
     var srchCriteria = [];
-    for (var j = 0; j < x.setPrimary.length; j++ ) {
-      if ( x.setPrimary[j].chosen ) {
-        srchCriteria.push( x.setPrimary[j].name )
+    for (i = 0; i < x.length; i++ ) {
+      srchCriteria.push( x[i].name[2] );
       }
-    } return srchCriteria.toString() ;
+    return srchCriteria.toString() ;
   }
 
-  skills+= buildSrchStr( taxonomies[0] );
+  skills+= buildSrchStr( userProfile.s2cselections );
   skills = ( skills === "skills=" ) ? "" : skills + "&";
-  interests+= buildSrchStr( taxonomies[1] );
+  interests+= buildSrchStr( userProfile.intSelections );
   interests = ( interests === "interests=" ) ? "" : interests + "&";
-  goals+= buildSrchStr( taxonomies[2] );
+  goals+= buildSrchStr( userProfile.goalSelections );
   goals = ( goals === "goals=" ) ? "" : goals;
   var searchStr = baseURL+skills+interests+goals;
-  //
-  // Output the user search criteria for the matching project results header
-  //
-  $("#searchskills.config").text("Skills: " + buildSrchStr( taxonomies[0] ));
-  $("#searchinterests.config").text("Interests: " + buildSrchStr( taxonomies[1] ));
-  $("#searchgoals.config").text("Goals: " + buildSrchStr( taxonomies[2] ));
-
+  console.log('Search string is ', searchStr)
   return searchStr;
 }
 
@@ -755,11 +766,12 @@ function outputButtons( jDestination, btnNames ) {
   //var btns = $('div#umtemplate').find('section#pS').html();
   //var btnSuccess;
   var newBtn;
+  $('div.' + jDestination ).children().remove(); // clear out the div for new selections
   for (var idx=0; idx < btnNames.length; idx++) {
     x = btnNames[idx].name.length - 1;
       // Use a template button at section#pS to model the new button
     newBtn = $('section#pS button').filter(':first').clone('false');
-    $(newBtn).text(btnNames[idx].name[x]).removeClass('btn--hidden').appendTo($('div.s2cselections'));
+    $(newBtn).text(btnNames[idx].name[x]).removeClass('btn--hidden').appendTo($('div.' + jDestination ));
     //
     // Now set a selected flag in the main taxSkills object
   //  for (var jdx = 0 to taxSkills.length)

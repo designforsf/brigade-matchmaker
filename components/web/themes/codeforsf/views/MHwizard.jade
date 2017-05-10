@@ -7,22 +7,23 @@ block content
           h3 Hello Civic Enthusiast!
           h4.h4--light Create a simple profile and let us help you decide which project teams are a match for you. Your information will not be saved and will only be shared with the project team leads that you choose to message.
           br
-          .row.row--proj-container.container--soft-border
+          #userSelects.row.row--proj-container.container--soft-border
             section.section--gutter.col-sm-3
               h4 Skills to contribute
               span.s2cselections.glyphicon.glyphicon-collapse-down
               .s2cselections.container--soft-border
-
             section.section--gutter.col-sm-3
               h4 Skills to learn
-              button#skills2(type="button" role="set_cri_skill2" class="next btn btn-info ") Select
+              span.s2lselections.glyphicon.glyphicon-collapse-down
+              .s2lselections.container--soft-border
             section.section--gutter.col-sm-3
-              h4 Interests
-              button#interests(type="button" role="set_cri_ints" class="next btn btn-info ") Select
+              h4 Civic interests
+              span.intSelections.glyphicon.glyphicon-collapse-down
+              .intSelections.container--soft-border
             section.section--gutter.col-sm-3
-              h4 Goals at Hack Night
-              button#goals(type="button" role="set_cri_goals" class="next btn btn-info ") Select
-
+              h4 Goals
+              span.goalSelections.glyphicon.glyphicon-collapse-down
+              .goalSelections.container--soft-border
 
               div.form-group.form-group-horizontal
                 div(id="skills")

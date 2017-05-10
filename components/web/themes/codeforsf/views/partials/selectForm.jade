@@ -2,7 +2,7 @@ html
   head
 
   body
-    #selectorModal.modal.container.fade
+    #Modals2cselections.modal.container.fade
       .modal-dialog
         .modal-content
           .modal-header
@@ -10,7 +10,7 @@ html
               h4.modal-title Mark all your skills and interests:
                 form#s2cselections
                   fieldset
-                    legend#selectorBase
+                    legend#Bases2cselections
                       #Lvl1Base.row.btn--hidden
                         section.col-sm-3
                           h4.mainCat lvl1
@@ -28,7 +28,109 @@ html
                                 input.form-check-input(type="checkbox" name="" )
                                 span.detailLvl.h5 Skill detail
 
-                    #InsertBefore
+                    #s2cselectionsInsertBefore
+
+                    #submit
+                      .form-group.row
+                        .offset-sm-2.col-sm-10
+                          button.btn.btn-primary(type="submit") Submit
+                          button.btn.btn-primary(type="reset") Clear all
+
+    #Modals2lselections.modal.container.fade
+      .modal-dialog
+        .modal-content
+          .modal-header
+            #selectTemplate
+              h4.modal-title Mark all your skills and interests:
+                form#s2lselections
+                  fieldset
+                    legend#Bases2lselections
+                      #Lvl1Base.row.btn--hidden
+                        section.col-sm-3
+                          h4.mainCat lvl1
+                      #Lvl2Base.row.btn--hidden
+                        section#Lvl2base.col-sm-12
+                          .form-check
+                            label.form-check-label
+                              input.form-check-input(type="checkbox" name="")
+                              span.subCat.h5 lvl2
+                      fieldset
+                        .detailLvl.row
+                          section.detailLvl.col-sm-4.btn--hidden
+                            .form-check
+                              label.form-check-label
+                                input.form-check-input(type="checkbox" name="" )
+                                span.detailLvl.h5 Skill detail
+
+                    #s2lselectionsInsertBefore
+
+                    #submit
+                      .form-group.row
+                        .offset-sm-2.col-sm-10
+                          button.btn.btn-primary(type="submit") Submit
+                          button.btn.btn-primary(type="reset") Clear all
+
+    #ModalgoalSelections.modal.container.fade
+      .modal-dialog
+        .modal-content
+          .modal-header
+            #selectTemplate
+              h4.modal-title Mark all your skills and interests:
+                form#goalSelections
+                  fieldset
+                    legend#BasegoalSelections
+                      #Lvl1Base.row.btn--hidden
+                        section.col-sm-3
+                          h4.mainCat lvl1
+                      #Lvl2Base.row.btn--hidden
+                        section#Lvl2base.col-sm-12
+                          .form-check
+                            label.form-check-label
+                              input.form-check-input(type="checkbox" name="")
+                              span.subCat.h5 lvl2
+                      fieldset
+                        .detailLvl.row
+                          section.detailLvl.col-sm-4.btn--hidden
+                            .form-check
+                              label.form-check-label
+                                input.form-check-input(type="checkbox" name="" )
+                                span.detailLvl.h5 Skill detail
+
+                    #goalSelectionsInsertBefore
+
+                    #submit
+                      .form-group.row
+                        .offset-sm-2.col-sm-10
+                          button.btn.btn-primary(type="submit") Submit
+                          button.btn.btn-primary(type="reset") Clear all
+
+    #ModalintSelections.modal.container.fade
+      .modal-dialog
+        .modal-content
+          .modal-header
+            #selectTemplate
+              h4.modal-title Mark all your skills and interests:
+                form#intSelections
+                  fieldset
+                    legend#BaseintSelections
+                      #Lvl1Base.row.btn--hidden
+                        section.col-sm-3
+                          h4.mainCat lvl1
+                      #Lvl2Base.row.btn--hidden
+                        section#Lvl2base.col-sm-12
+                          .form-check
+                            label.form-check-label
+                              input.form-check-input(type="checkbox" name="")
+                              span.subCat.h5 lvl2
+                      fieldset
+                        .detailLvl.row
+                          section.detailLvl.col-sm-4.btn--hidden
+                            .form-check
+                              label.form-check-label
+                                input.form-check-input(type="checkbox" name="" )
+                                span.detailLvl.h5 Skill detail
+
+                    #intSelectionsInsertBefore
 
                     #submit
                       .form-group.row
