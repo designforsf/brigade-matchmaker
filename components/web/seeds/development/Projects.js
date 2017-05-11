@@ -20,7 +20,7 @@ module.exports = [
     'matchingConfig': {
       'interestsNeeded': ['all'],
       'skillsNeeded': ['ms-word','css','html','cms'],
-      'rolesNeeded': ['developer','helper']
+      'goalsNeeded': ['developer','helper']
     },
     'keywords': [
       faker.company.bsBuzz(),
@@ -84,8 +84,8 @@ module.exports = [
     'videos': [],
     'matchingConfig': {
       'interestsNeeded': ['homelessness'],
-      'skillsNeeded': ['ios'],
-      'rolesNeeded': ['developer']
+      'skillsNeeded': ['client-dev/ios'],
+      'goalsNeeded': ['developer']
     },
     'keywords': [
       faker.company.bsBuzz(),
@@ -153,8 +153,8 @@ module.exports = [
     'videos': [],
     'matchingConfig': {
       'interestsNeeded': ['criminal-justice'],
-      'skillsNeeded': ['optimization-modeling','predictive-modeling','data-science','statistics'],
-      'rolesNeeded': ['developer','helper']
+      'skillsNeeded': ['data-sci/optimization-modeling','data-sci/predictive-modeling','data-sci/statistics'],
+      'goalsNeeded': ['developer','helper']
     },
     'keywords': [
       faker.company.bsBuzz(),
@@ -223,8 +223,8 @@ module.exports = [
     'videos': [],
     'matchingConfig': {
       'interestsNeeded': ['housing'],
-      'skillsNeeded': ['ruby-on-rails','ruby','javascript'],
-      'rolesNeeded': ['developer','bug-testing']
+      'skillsNeeded': ['server-dev/rails','server-dev/ruby','client-dev/javascript'],
+      'goalsNeeded': ['developer','bug-testing']
     },
     'keywords': [
       faker.company.bsBuzz(),
@@ -293,8 +293,8 @@ module.exports = [
     'videos': [],
     'matchingConfig': {
       'interestsNeeded': ['civic-participation'],
-      'skillsNeeded': ['nodejs','mongodb'],
-      'rolesNeeded': ['developer']
+      'skillsNeeded': ['server-dev/nodejs','server-dev/mongodb'],
+      'goalsNeeded': ['developer']
     },
     'keywords': [
       faker.company.bsBuzz(),
@@ -362,8 +362,8 @@ module.exports = [
     'videos': [],
     'matchingConfig': {
       'interestsNeeded': [],
-      'skillsNeeded': ['python','data-science','visualization','machine-learning'],
-      'rolesNeeded': ['developer','learner']
+      'skillsNeeded': ['data-sci','data-sci/python','data-sci/visualization','data-sci/machine-learning'],
+      'goalsNeeded': ['developer','learner']
     },
     'keywords': [
       faker.company.bsBuzz(),
