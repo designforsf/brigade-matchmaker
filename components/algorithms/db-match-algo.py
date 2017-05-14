@@ -79,7 +79,7 @@ for project in db.projects.find({}):
 
     # goals
     project['goals_needed'] = []
-    for need in project['matchingConfig']['rolesNeeded']: # TODO: old terminology
+    for need in project['matchingConfig']['goalsNeeded']:
         project['goals_needed'].append(need)
 
     projects_list.append(project)
