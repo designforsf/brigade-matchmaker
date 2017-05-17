@@ -88,26 +88,3 @@ input[type=text], label {
 	background: #6699CC;
 	color: #666666;
 }
-
-/*div#skills {
-  display:inline-block;
-  float:left;
-}
-
-div#ints {
-  display:inline-block;
-  float:left;
-}
-
-div#goals {
-  display:inline-block;
-  float:left;
-}*/
-
-.form-group-horiz {
-
-}
-
-.glyphicon-collapse-down {
-  font-size: 2rem;
-}

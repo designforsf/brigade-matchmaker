@@ -1,0 +1,26 @@
+span.subCat {
+  font-weight: 500;
+  font-size: 2rem;
+}
+
+h4.mainCat {
+  font-size: 2.2rem;
+  font-weight: 500;
+}
+
+h4.mainCat:nth-of-type(2) {
+  display: none;
+
+}
+
+.btn--margin-right {
+  margin-right: 10px;
+}
+
+.modal-content--wider {
+  width: 690px;
+}
+
+.detail--light {
+  background-color: rgba(215, 217, 221, .45);
+}

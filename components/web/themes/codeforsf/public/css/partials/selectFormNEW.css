@@ -1,0 +1,100 @@
+
+
+#s2cselections {
+  position: relative;
+}
+
+
+.dtlItm {
+  display: inline-flex;
+  line-height: 40px;
+  text-align: center;
+  transition: background-color 0.5s ease;
+  background-color: rgba(225, 224, 181, 0.9);
+  padding: 4px 10px;
+}
+.dtlItm:hover {
+  background-color: olive;
+}
+  font-size: 1.5rem;
+  font-weight: 200;
+  padding: 4px 10px;
+
+}
+
+.itemChosen {
+  color: indigo;
+  font-weight: 650;
+}
+
+.catg {
+  display: inline-block;
+  width: 230px;
+  text-align: right;
+  background-color: silver;
+  transition: background-color 0.5s ease;
+  line-height: 40px;
+  font-size: 1.75rem;
+  font-weight: 300;
+  padding: 4px 10px;
+}
+
+.catg:hover {
+  background-color: aqua;
+}
+
+.selection_bar {
+  display: inline-block;
+  background-color: silver;
+  line-height: 40px;
+  width: 230px;
+  font-size: 1.75rem;
+  font-weight: 300;
+  padding: 4px 10px;
+  margin-right: 3px;
+}
+
+.selection_bar:hover {
+  background-color: rgba(225, 224, 181, 0.9);
+}
+
+.selection_box {
+  display: inline-block;
+  background-color: rgba(229, 230, 230, 0.9);
+  height: 60px;
+  width: 230px;
+  border-style: solid;
+  border-color: black;
+  border-width: 0px;
+  padding: 4px 10px;
+  margin-right: 3px;
+}
+
+.selection_box_active {
+  display: inline-block;
+  background-color: rgba(225, 224, 181, 0.9);
+  height: 60px;
+  width: 230px;
+  border-style: solid;
+  border-color: black;
+  border-width: 0px;
+  padding: 4px 10px;
+  margin-right: 3px;
+}
+
+
+.no-left-margin {
+  margin-left: 0px;
+  padding-left: 0px;
+}
+
+.form-group-horiz {
+
+}
+
+.glyphicon-chevron-down {
+  font-size: 1.8rem;
+  font-weight: 100;
+  top: 3px;
+  margin-left: 5px;
+}

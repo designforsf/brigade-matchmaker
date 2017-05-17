@@ -1,45 +1,91 @@
 $(document).ready(function () {
-  if ($(".alert-info")[0]) {
-		location.href = '/projects'
-  }
   // Make the "You are checked in" item visible (enables logout)
   if ( localStorage.getItem("checkedIn") === "true" ) {
     $("li.dropdown").removeClass("btn--hidden");
   } else {
     $("li.dropdown").addClass("btn--hidden");
-  }
+  };
 
+  // Create the html for the selector taxonomy divs (hidden until
+  // activated by a user click).
+  //
+  // Set selection glyph click handlers, for showing the selector divs
+  //
+  // userProfile.taxType is the main object for selector taxonomy properties
+  // and methods. formIDs array contains the div ids related to
+  // each taxonomy class. The current open div#formIDs[] gets saved in
+  // userProfile.formID also
+
+  var formIDs = ['s2cselections', 's2lselections', 'intSelections', 'goalSelections'];
+  var myForm; // Provides a closure for userProfile.formID when setting click handlers
+              // below.
+
+  /******
+  /*  ??? Clean this up as it is replaced with a function goCreateSelectForms
+  /*      which is invoked only after successful API calls to taxonomies
+
+  if ( true ) {  // do not process the forms until taxonomies are retrieved
+    for (var idx = 0; idx < 2; idx++ ) {
+        // these help with jQuery selections to load the selection forms
+        var taxSelectors = {
+          s2cselections : 'taxSkills',
+          s2lselections : 'taxSkills',
+          intSelections : 'taxInts',
+          goalSelections : 'taxGoals'
+        };
+
+        userProfile.formID = formIDs[idx];
+        var taxObjToUse = projTax[ taxSelectors[ userProfile.formID ] ]; //the respective taxonomy for this form
+        console.log('Forming the taxonomy choices html now!', userProfile.formID);
+        userProfile.doCreateForm( taxObjToUse, userProfile.formID );
+
+        //Set the listener on the selector glyph to show the forms
+        $("div#label" + userProfile.formID ).on('click', function() {
+          userProfile.doShow( event );
+        });
+      };
+  } else {
+    console.log('Could not create selection forms because API calls not completed')
+  };
+****/
+
+  //???The section here below may be obsoleted if no longer using modal window forms
+  //    for the selection options -- as of 5/14
   // Set selection glyph click handlers for opening form
-  for (var idx = 0; idx < userProfile.formIDs.length; idx++ ) {
+  // (selectForm.jade modals for selection choices)
+  //
+  /**
+  for (var idx = 0; idx < formIDs.length; idx++ ) {
 
     (function() {
-      var myForm = userProfile.formIDs[idx];
+      var myForm = formIDs[idx];
       $("span." + myForm).click(function () {
          //
          // if the form has not yet been created, do it now
          // and set the userProfile flag appropriately
          if ( !userProfile.selectorFormStats[ myForm ] ) {
-           console.log('Forming the skill1 modal selector form now!');
+           console.log('Forming the ' + myForm + ' modal selector form now!');
            //
            // We need to specify which taxonomies to use for this form
            var taxObjToUse = projTax[ userProfile.taxSelectors[ myForm ] ];
            userProfile.doCreateForm( taxObjToUse, myForm );
            userProfile.selectorFormStats[ myForm ] = true;
          };
-         userProfile.doShow('#Modal' + myForm);
+         //userProfile.doShow('#Modal' + myForm);
       });
     })(); //invoke for closure
   };
-
+**/
   //
-  // Set handlers for clicks to submit
+  /**
+  Set handlers for clicks to submit--???this was for the checkbox form style
+  and may no longer be pertinent
   for (var idx = 0; idx < userProfile.formIDs.length; idx++ ) {
     (function() {
       var myForm = userProfile.formIDs[idx];
       $('form#' + myForm ).on('submit', function( event ) {
         event.preventDefault();
         //
-        // selectedObj is a global
         selectedObj = $( this ).serializeArray(); // array of {name= , val=on}
 
         //Split the name into its three parts (main, subcat and detail)
@@ -59,7 +105,7 @@ $(document).ready(function () {
         $('#Modal' + myForm ).modal('hide');
       });
     })();  // IIFE creates closure on local myForm
-  }
+  } **/
 
   $("div.dropdown-menu").click(function (e) {
     //
@@ -81,9 +127,12 @@ $(document).ready(function () {
    }
  });
 
+  //
+  // This relates to the "Match Me" button
   $("[role='start_matching']").click(function () {
   	 user_data = "matching";
-     initMatchingStep( taxonomies );
+     initMatchingStep( userProfile.chosen2 );
+     // ??? initMatchingStep( taxonomies );
   });
 
 
@@ -113,6 +162,9 @@ $(document).ready(function () {
     user_data = "home";
     location.href = '/test/api/projects'; //go back to home page
   })
+
+/**** ???  remove as this is now replaced by use of userProfile.chosen2 array
+           for user choices; and projTax, taxType track entire taxonomy
 
 //handle synonyms in list selections
   var taxonomies = registerTaxonomies();
@@ -152,10 +204,9 @@ $(document).ready(function () {
       }
     })
 
-  };
+  }; ***/
 
 });
-
 
 /*
 / Retrieve the skills taxonomy and place in global object taxSkills
@@ -168,84 +219,187 @@ $(document).ready(function () {
 }
 */
 
-var selectedObj = {};
-
 var userProfile = {
 
   formIDs : ['s2cselections', 's2lselections', 'goalSelections', 'intSelections'],
+  formID : '',
+  formActive : '',
+  doShow : function( e) {
+    var label=event.target.id.split('label');
+    if ( this.formActive === label[1] ) {  //trying to close the open form
+      this.doDismiss( this.formActive );
+      return;
+    };
+    if ( this.formActive ) {
+      this.doDismiss( this.formActive )
+    };
+    console.log(' Trying to open form ', label[1]);
+    this.formID = label[1];
+    $('div#' + this.formID ).slideToggle();
+    this.formActive = this.formID;
+    $('div#label' + this.formActive ).addClass('selection_box_active');
+  },
+
+  doDismiss : function( formID ) {
+    this.formID = formID;
+    console.log('Trying to dismiss form ', formID);
+    $('div#' + this.formID ).slideToggle();
+    $('div#label' + this.formActive ).removeClass('selection_box_active');
+    this.formActive = '';
+    // ??? add code to load up the chosenBox items to searchStr
+  },
+
   //
-  // these help with jQuery selections to load the selection forms
+  //tracking array for user selected taxonomies
+  chosen2 : [], //maintained during selection and de-deselection
 
-  s2cselections : {}, // skills 2 contribute
-  s2lselections : {}, // skills 2 learn
-  goalSelections : {},
-  intSelections : {},
+  outputSelection: function( jDestination, mainSubDtl, originID ) {
+    //
+    // jDestination is a jQuery hook to where the button is to be output
+    // mainSubDtl is mainCat.subCat.detail
+    // mainSubDtl will be parsed for display in the selection box
+    // and stored so if user wants to remove the selector, we know
+    // the entire context of choices to udpate.
 
-  doShow : function( formID ) {
-    $( formID ).modal('show');
+    var newBtn = '', displayName = [];
+    //
+    // Use a template button at section#pS to model the new button
+    newBtn = $('section#pS button').filter(':first').clone('false');
+    displayName = mainSubDtl.split('.');
+    displayName[3] = (displayName[2] ? displayName[2] : displayName[1])
+    newBtn = $(newBtn).text(displayName[3]).removeClass('btn--hidden').appendTo($('div#chosen' + jDestination ));
+    $(newBtn).attr( 'name', originID ).attr('id', getUniqueId() ).removeClass('disabled');
+    $(newBtn).attr( 'info', mainSubDtl);
+    console.log('just output one button')
+    $(newBtn).click( function () {
+      userProfile.toggleSelection(this, 'chosenBox');
+    });
   },
 
-  selectorFormStats : {
-    s2cselections : false,
-    s2lselections : false,
-    goalSelections : false,
-    intSelections : false
+  removeSelection(event) {
+    console.log('removing selection');
+    $(event).remove();
   },
 
-  taxSelectors : {
-    s2cselections : 'taxSkills',
-    s2lselections : 'taxSkills',
-    goalSelections : 'taxGoals',
-    intSelections : 'taxInts'
-  },
 
-  doCreateForm : function( taxType, formID ) { //html for modal select forms
+  doCreateForm : function( taxType, formID )  { //html for taxonomy select forms
     //
     // taxType: taxSkills, taxGoals, taxInterests
     // formID = the html id property for the relevant modal form
-    var myBase = 'legend#Base' + formID; // used for jQuery
-    taxType.mainCat.forEach(function(mainCat) {
-      $(myBase + ' h4.mainCat:first').text(mainCat); // Main category is just a label
-      //
-      // The sub-category is a checkbox
-      taxType.subCat[mainCat].forEach(function(subCat) {
-        $(myBase + ' span.subCat:first').text(subCat).prev().attr('name', mainCat + '.' + subCat);
-        //
-        // Initiatlize TaxType.selected if not already set
-        // This array tracks user selections
-        taxType.details[ subCat ].forEach(function( detail ) {
-          if (!taxType.selected) {
-            taxType.selected = [];
-            taxType.selected[detail] = 0;
-          };
+    var myBase = '#' + formID; // used for jQuery
+    var mainSub, mainSubDtl;
+    //
+    //Set the stored data for the form: taxType
+    $(myBase).data('taxType', taxType); //???gives the object not the name
 
+    //Build the selector form
+    taxType.mainCat.forEach(function(mainCat) {
+
+      taxType.subCat[mainCat].forEach(function(subCat) {
+        mainSub = mainCat + '.' + subCat;
+        $(myBase + ' div.model:first').clone().insertBefore(myBase + ' div.nic:first');
+        jItem = $(myBase + ' ' + ' div.model:last').text(mainCat + ' ' + subCat).addClass('catg');
+        $(jItem).data('name', mainSub ); //label category
+        //
+        taxType.details[ subCat ].forEach(function( detail ) {
+          mainSubDtl = mainSub + '.' + detail;
           //
           // Output all the taxType -- at end, clone and append to the selectForm.jade
-          $(myBase + ' span.detailLvl:first').text(detail).prev().attr('name', mainCat + '.' + subCat + '.' + detail);
-          //??? check the box is user already selected it in previous form view
-          //if ( taxSkills.selected[detail]) {
-          //  $('legend#selectorBase span.detailLvl:first').prev().attr('checked', true);
-          //};
-          //
-          // Begin building up the detail level checkboxes by appending to the model
-          $(myBase + ' section.detailLvl:first').clone(false).appendTo( $(myBase + ' div.detailLvl') );
-          $(myBase + ' section.detailLvl:last').removeClass('btn--hidden');
-        })
-        $('form#' + formID +  ' legend:first').clone(false).insertBefore( $('div#' + formID + 'InsertBefore') );
-        $('form#' + formID + ' legend:last').find('*').removeClass('btn--hidden');
-        $('form#' + formID + ' legend:last').removeAttr('id').find('*').removeAttr('id');
-        $('form#' + formID +  ' div.detailLvl:first').find( 'section:not(".btn--hidden")').remove();
-        $('form#' + formID +  ' legend:last' ).find('div.detailLvl:first section:first').remove();
+          $(myBase + ' div.model:first').clone().insertBefore(myBase + ' div.nic:first');
+          jItem = $(myBase + ' div.model:last').text(detail).addClass('dtlItm').data('name', mainSubDtl );
+
+        });
+        jItem = $(myBase + ' div.nic:first');
+        $(jItem).clone().insertAfter($(myBase + ' div.nic:last'));
+        $(myBase + ' div.model:not(:first)').clone(true).insertBefore(myBase + ' div.nic:last');
+        //
+        // New taxonomy selector form now created and Initiatlized showing
+        //  all items not selected (yet!)
+        // Now we clean up the newly created div
+        $(myBase + ' div.nic:first ~ div.model').removeClass('model','btn--hidden');
+        //
+        // And now we remove the original div items except the very first
+        $(myBase + ' div.model:not(:first)').remove(); //clean out model divs
       });
     });
+    //
+    // New taxonomy selector form created. Now attach all the click handlers
+    // Each catg div (main+subcat) and dtlItm (lowest level item) gets a handler
+
+    /***??? Leave for future work to enable selection by subCat
+    $("#s2cselections div.catg").each(function( ) {
+      $(this).attr("id", getUniqueId() );
+      //$(this).click(function() {
+        userProfile.toggleSelection(this, 'selForm');
+      });
+    }); ***/
+
+    $(myBase + ' div.dtlItm').each(function( ) {
+      $(this).attr("id", getUniqueId() );
+      $(this).click(function() {
+        event.stopPropagation();
+        userProfile.toggleSelection(this, 'selForm');
+      });
+    });
+
+  },
+
+  toggleSelection: function( event, whereClicked ) {
+
+    //
+    // whereClicked is either selForm (selecting and removing)  or chosenBox (removing only):
+    var itemAdded = false;
+    mainSubDtl = $(event).data().name; //in form 'main.sub.detail' as a string
+    console.log('Toggle switch clicked at ', mainSubDtl + ' ' + whereClicked );
+    //
+    // invert the selection:
+    // If the item was NOT chosen now it IS
+    // If it was ALREADY chosen, now it is NOT
+    if (whereClicked === 'selForm') {
+
+      // This will cause the item to be hidden from
+      // the selection form, until / unless the user deletes the selection
+      $(event).removeClass('dtlItm');
+
+      // Now set this item to 'selected' (true) in chosen2 array
+      // ??? may still have to include userProfile.formID in the equality test
+      //  if the selection algo will distringuish "to contribute" and "to learn" skills
+      //  For now, the skills are treated as the same, whichever form they are selected
+      //  from.
+      if (!itemAdded) {
+        for (idx=0; idx < userProfile.chosen2.length; idx++ ) {
+          if ( userProfile.chosen2[idx].detail === mainSubDtl ) {
+            userProfile.chosen2[idx].chosen = true;
+            itemAdded = true;
+          };
+        };
+        if (!itemAdded) {
+          userProfile.chosen2.push( { detail: mainSubDtl, type: userProfile.formID, chosen: true }); // Add to selected
+        };
+      }
+      //
+      // Now add this to the chosenBox as a button.
+      // Include the id of the div that is creating this button,
+      // so that this item can be revealed later, if the user removes this
+      // from chosenBox.
+      userProfile.outputSelection(userProfile.formID, mainSubDtl, $(event).attr('id'));
+    };
+
+    if (whereClicked === 'chosenBox') {
+      //Set this item to 'unselected' (false) in chosen2 array
+      for (idx=0; idx < userProfile.chosen2.length; idx++ ) {
+        if ( userProfile.chosen2[idx].detail === $(event).attr('info') ) {
+          userProfile.chosen2[idx].chosen = false;
+        };
+      };
+      //
+      //Now add back the dtlItm class to reveal the respective item in selForm
+      $('div#' + $(event).attr('name') ).addClass('dtlItm');
+      $(event).remove(); // Remove the button from the chosenBox
+    };
   }
 
-}
-
-
-
-var selectedObj = {}; //global object for skills the user wants to contribute
-                    // selectedObj = { name: [mainCat, subCat, details], val: on}
+};
 
 var projTax = {  // all taxonomies from across all BrigadeHub projects
   taxSkills : {},
@@ -253,12 +407,38 @@ var projTax = {  // all taxonomies from across all BrigadeHub projects
   taxInts : {}
 };
 
+var formIDs = ['s2cselections', 's2lselections', 'intSelections', 'goalSelections'];
+var myForm; // Provides a closure for userProfile.formID when setting click handlers
+            // below.
+function goCreateSelectForms( taxObjToUse, idx ) {
+  // these help with jQuery selections to load the selection forms
+  var taxSelectors = {
+    s2cselections : 'taxSkills',
+    s2lselections : 'taxSkills',
+    intSelections : 'taxInts',
+    goalSelections : 'taxGoals'
+  };
+
+  userProfile.formID = formIDs[idx];
+  //var taxObjToUse = projTax[ taxSelectors[ userProfile.formID ] ]; //the respective taxonomy for this form
+  console.log('Forming the taxonomy choices html now!', userProfile.formID);
+  userProfile.doCreateForm( taxObjToUse, userProfile.formID );
+
+  //Set the listener on the selector glyph to show the forms
+  $("div#label" + userProfile.formID ).on('click', function() {
+    userProfile.doShow( event );
+  });
+};
 
 (function getProjectSkills() {
   $.ajax({
 		url: '/api/project/taxonomy/skills',
     success: function( results ) {
-      projTax.taxSkills = results
+      projTax.taxSkills = results;
+      console.log('Retrieved skills from API');
+      goCreateSelectForms( projTax.taxSkills, 0 ); // for Skills to Contribute
+      goCreateSelectForms( projTax.taxSkills, 1 ); // for Skills to Learn
+
     }
   }).fail(function (err) {
 		console.error(err); return; });
@@ -270,6 +450,8 @@ var projTax = {  // all taxonomies from across all BrigadeHub projects
 		url: '/api/project/taxonomy/interests',
     success: function( results ) {
       projTax.taxInts = results;
+      console.log('Retrieved interests from API');
+      goCreateSelectForms( projTax.taxInts, 2 );
     }
   }).fail(function (err) {
 		console.error(err); return; });
@@ -287,6 +469,8 @@ var projTax = {  // all taxonomies from across all BrigadeHub projects
   console.log('Hit the api for goals in matching.js');
 })();
 
+// taxonomies: array of objects [ { detail: main.sub.detail, formID, chosen: boolean}]
+//
 function initMatchingStep( taxonomies ) {
 
   $("[role='start_matching']").click(function () {
@@ -297,14 +481,12 @@ function initMatchingStep( taxonomies ) {
      restartWizard();
   })
 
-
-
-  var searchStr = parseSelections( taxonomies );
+  var searchStr = parseSelections( userProfile.chosen2 );
   $("[role='in_progress_message']").attr("value", searchStr); //pass the users search through this button's value attr
   initMatchingSearch(searchStr);
 }
 
-function parseSelections(taxonomies) {
+function parseSelections( ) {
   var baseURL
   if ( window.location ) {
     baseURL = window.location.origin + "/api/user/matches?"
@@ -314,15 +496,32 @@ function parseSelections(taxonomies) {
   var skills = "skills=", interests = "interests=", goals = "goals=";
   var searchSkills, searchInterests, searchGoals = '';
 
-  buildSrchStr = function( x ) {
+    //formIDs = ['s2cselections', 's2lselections', 'goalSelections', 'intSelections'];
+  function buildSrchStr( catg ) {
     var srchCriteria = [];
-    for (i = 0; i < x.length; i++ ) {
-      srchCriteria.push( x[i].name[2] );
-      }
+    var name = [];
+    for (i = 0; i < userProfile.chosen2.length; i++ ) {
+      if (userProfile.chosen2[i].chosen) {
+        if (userProfile.chosen2[i].type === catg) {
+          name = userProfile.chosen2[i].detail.split('.');
+          srchCriteria.push( name[2] ); // ??? detail still has to be parsed
+        };
+      };
+    };
     return srchCriteria.toString() ;
-  }
+  };
 
-  skills+= buildSrchStr( userProfile.s2cselections );
+  skills+= buildSrchStr( 's2cselections' );
+  skills = ( skills === "skills=" ) ? "" : skills + "&";
+  console.log('Skills search string: ', skills);
+  interests+= buildSrchStr( 'intSelections' , interests);
+  interests = ( interests === "interests=" ) ? "" : interests + "&";
+  console.log('Interests search string: ', interests);
+  var searchStr = baseURL+skills+interests+goals;
+  console.log('Search string is ', searchStr)
+  return searchStr;
+
+/** ??? must still complete when taxonomy settled
   skills = ( skills === "skills=" ) ? "" : skills + "&";
   interests+= buildSrchStr( userProfile.intSelections );
   interests = ( interests === "interests=" ) ? "" : interests + "&";
@@ -331,7 +530,8 @@ function parseSelections(taxonomies) {
   var searchStr = baseURL+skills+interests+goals;
   console.log('Search string is ', searchStr)
   return searchStr;
-}
+***/
+};
 
 
 function registerTaxonomies() {
@@ -741,42 +941,4 @@ function toggleProjView( e ) {
 		default :
 			console.log('Show more/less button name is ', $( e.target ).text() );
 	}
-};
-
-
-function getUserSelectors(formType) {
-/**
-/* Get the user-selected items from the mult-select forms
-/* formType:
-      selS2c - selection of skills to contribute,
-      selS2l - skills to learn
-      selInt - interests
-      selGoals - goals
-*/
-};
-
-
-function outputButtons( jDestination, btnNames ) {
-
-  //
-  // jDestination is a jQuery hook to where the buttons are to be output
-  // btnNames is the array containing the names of the buttons
-  // btnStyles is the array containing classes to attach
-
-  //var btns = $('div#umtemplate').find('section#pS').html();
-  //var btnSuccess;
-  var newBtn;
-  $('div.' + jDestination ).children().remove(); // clear out the div for new selections
-  for (var idx=0; idx < btnNames.length; idx++) {
-    x = btnNames[idx].name.length - 1;
-      // Use a template button at section#pS to model the new button
-    newBtn = $('section#pS button').filter(':first').clone('false');
-    $(newBtn).text(btnNames[idx].name[x]).removeClass('btn--hidden').appendTo($('div.' + jDestination ));
-    //
-    // Now set a selected flag in the main taxSkills object
-  //  for (var jdx = 0 to taxSkills.length)
-
-  };
-
-
 };

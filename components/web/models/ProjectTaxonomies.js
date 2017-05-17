@@ -5,44 +5,34 @@ var ptSchema = new mongoose.Schema({
 });
 
 var pSkills = {
-  mainCat: ['Software Engineering', 'Design', 'Data Science'],
+  mainCat: ['SW'], // only a placeholde in v02 draft taxonomy, which is only two levels
   subCat: {
-    'Software Engineering': ['FrontEnd', 'BackEnd', 'Database'],
-    Design: ['User Experience', 'Visual Design', 'Des3'],
-    'Data Science': ['Analytics', 'Visualization']
+    'SW': ['Frontend dev', 'Backend dev', 'Full-stack dev', 'QA', 'DevOps', 'Mobile dev']
   },
   details: {
-    FrontEnd: ['html', 'css', 'javascript', 'Pug', 'Angular', 'React'],
-    BackEnd: ['node', 'aaa', 'bbb', 'ccc', 'ddd', 'eee'],
-    Database: ['mongo', 'aaa', 'bbb', 'ccc', 'ddd', 'eee'],
-    'User Experience': ['aaaaaa','bbbbbb','cccccc'],
-    'Visual Design': ['ssssss', 'ffffff','hhhhhh','jjjjjj'],
-    Des3: ['vvvvvv','eeeeee'],
-    Analytics: ['datasci1','datasci2','Python'],
-    Visualization: ['Graphics','Python', "visualization"]
+    'Frontend dev': ['html', 'css', 'JavaScript', 'D3', 'React', 'Data visualization', 'Other'],
+    'Backend dev': ['Express', 'node', 'mongo','SQL'],
+    'Data Science': ['Analytics', 'Visualization'],
+    'Full-stack dev': ['Distributed systems'],
+    'QA': ['Automated testing','Manual testing'],
+    'DevOps': ['Amazon web services', 'Azure', 'Google Cloud', 'Cloud services'],
+    'Mobile dev': ['ios', 'Objective-C', 'Swift', 'Android']
   }
 };
 
 ptSchema.methods.getSkills = function (cb) {
   return cb(null, pSkills);
-}
+};
 
 var pInterests = {
-  mainCat: ['Finance and economics', 'Environment', 'Health'],
+  mainCat: [' '],
   subCat: {
-    'Finance and economics': ['economic development', 'Housing'],
-    Environment: ['Climate change', 'Energy'],
-    'Health': ['Mental health', 'Health care system', 'Public health']
+    ' ': ['Economic development', 'Environment', 'Health']
   },
   details: {
-    'Housing': ['housing', 'infrastructure'],
-    'economic development': ['econ1', 'econ2'],
-    'Climate change': ['climate1', 'climate2'],
-    Energy: ['energy1', 'energy2'],
-    'Mental health': ['aaaaaa','bbbbbb','cccccc'],
-    'Visual Design': ['ssssss', 'ffffff','hhhhhh','jjjjjj'],
-    'Health care system': ['vvvvvv','eeeeee'],
-    'Public health': ['datasci1','datasci2','Python']
+    'Economic development': ['Economic development', 'housing', 'infrastructure'],
+    'Environment': ['Climate change', 'Energy'],
+    'Health': ['Mental health', 'Health care system', 'Public health']
   }
 };
 
