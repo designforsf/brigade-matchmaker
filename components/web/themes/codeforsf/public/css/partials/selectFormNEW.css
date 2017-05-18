@@ -4,9 +4,15 @@
   position: relative;
 }
 
+.flexrow {
+  display: inline-flex;
+  flex: 1 1 auto;
+  flex-wrap: nowrap;
+}
 
 .dtlItm {
   display: inline-flex;
+  flex: 1 1 auto;
   line-height: 40px;
   text-align: center;
   transition: background-color 0.5s ease;

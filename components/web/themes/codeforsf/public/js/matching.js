@@ -82,7 +82,7 @@ $(document).ready(function () {
     console.log('Hit the api for goals in matching.js');
   })();
 
-  
+
   $("div.dropdown-menu").click(function (e) {
     //
     // e.target === My saved projects:  display localStorage project namespace
@@ -234,17 +234,21 @@ var userProfile = {
           jItem = $(myBase + ' div.model:last').text(detail).addClass('dtlItm').data('name', mainSubDtl );
 
         });
+        // ??? possible changes to get row separation for flex containers
+        //jItem=$('div#s2cselections div.row:first').clone().appendTo('div#s2cselections')
+
+
         jItem = $(myBase + ' div.nic:first');
-        $(jItem).clone().insertAfter($(myBase + ' div.nic:last'));
-        $(myBase + ' div.model:not(:first)').clone(true).insertBefore(myBase + ' div.nic:last');
+        //$(jItem).clone().insertAfter($(myBase + ' div.nic:last'));
+        $(myBase + ' div.row:first').clone(true).appendTo(myBase);
         //
         // New taxonomy selector form now created and Initiatlized showing
         //  all items not selected (yet!)
         // Now we clean up the newly created div
-        $(myBase + ' div.nic:first ~ div.model').removeClass('model','btn--hidden');
+        $(myBase + ' div.row:last').children('div.model').removeClass('model');
         //
         // And now we remove the original div items except the very first
-        $(myBase + ' div.model:not(:first)').remove(); //clean out model divs
+        $(myBase + ' div.row:first').children('div.model:not(:first)').remove(); //clean out model divs
       });
     });
     //
@@ -786,7 +790,7 @@ function contextmenuBookmark( e ) {
 
 function toggleProjView( e ) {
 	e.stopPropagation();
-	var moreLess = $( e.target ).parent().next();
+	var moreLess = $( e.target ).parent().siblings('#moreInfo');
 	switch ( $( e.target ).text() ) {
 		case 'Show more...' :
 			$( moreLess ).removeClass('btn--hidden');

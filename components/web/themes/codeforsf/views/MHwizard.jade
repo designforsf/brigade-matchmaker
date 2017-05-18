@@ -30,6 +30,7 @@ block content
       section.col-sm-2
         span.project-thumbnail
           img.project-thumbnail
+        button#seeMore.btn.btn-default.btn--aligntext(type='button') Show more...
 
       section.col-sm-3
         span#pMission.pMission.col-sm-12 Project Mission Statement
@@ -101,3 +102,8 @@ block content
 
     include partials/contactTeamForm.jade
     include partials/savedProjs.jade
+
+    script(type='text/javascript').
+      var matchSkills = !{JSON.stringify(skills)};
+      var matchInterests = !{JSON.stringify(interests)};
+      var matchGoals = !{JSON.stringify(goals)};
