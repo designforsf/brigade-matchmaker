@@ -44,7 +44,7 @@ module.exports = {
         newUser.save((err) => {
           if (err) console.error(err)
         })
-        req.flash('success', {msg: 'Success! You have created a new user.'})
+        //req.flash('success', {msg: 'Success! You have created a new user.'})
         res.json({ success: true, user: { id: newUser.id } });
 
       } else {
@@ -402,7 +402,7 @@ module.exports = {
 
     getTaxonomyGoals: function (req, res, next) {
       var pt = new ProjectTaxonomies();
-      pt.getTaxonomies(function (err, results) {
+      pt.getGoals(function (err, results) {
         res.json(results);
         return next();
       })
