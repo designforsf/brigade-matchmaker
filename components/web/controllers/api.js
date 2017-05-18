@@ -167,11 +167,11 @@ module.exports = {
    * SEE: https://github.com/extrabacon/python-shell
 
    * TEST:
-        http://localhost:5465/api/user/matches?skills=javascript,python&interests=housing&goals=developer,presenter
-        http://localhost:5465/api/user/matches?skills=data-science&interests=homelessness&goals=developer
-        http://localhost:5465/api/user/matches?skills=ruby&goals=developer,learner
+        http://localhost:5465/api/user/matches?skills=client-dev/javascript,data-sci/python&interests=housing&goals=developer,presenter
+        http://localhost:5465/api/user/matches?skills=data-sci&interests=homelessness&goals=developer
+        http://localhost:5465/api/user/matches?skills=server-dev/ruby&goals=developer,learner
         http://localhost:5465/api/user/matches?skills=null&goals=leader
-        http://localhost:5465/api/user/matches?skills=javascript
+        http://localhost:5465/api/user/matches?skills=server-dev/nodejs
    */
   getUserMatches: function (req, res, next) {
     console.log('getUserMatch');
@@ -228,16 +228,18 @@ module.exports = {
     // where is the python script?
     var pyDirArr = process.cwd().split('/');
     pyDirArr.pop();
-    pyDirArr.push('algorithms');
+    pyDirArr.push('matching');
     var pyDir = pyDirArr.join('/');
     var pyFile = '/db-match-algo.py';
     
-    console.log('run python: ' + pyFile + ' with args=', pyArgs);
+    //console.log('run python: ' + pyFile + ' with args=', pyArgs);
 
     PyShell.run(pyFile, {
       scriptPath: pyDir,
       args: pyArgs
     }, function (err, pyOutput) {
+      
+      if (err) { console.error(err); }
 
       pyOutput.forEach(function (line, idx){
         var project = {};
@@ -252,6 +254,9 @@ module.exports = {
         // NOTE: after general fields, py script outputs
         //  alternating name + score + matched attrs for each user attribute
         matchUserAttrs.forEach(function(arg, aidx) {
+          //console.log(arg);
+          //console.log(aidx);
+          
           project[arg + 'Score'] = parseInt(lineArr[2 + 2 + (aidx*3)]);
           
           // set up the matched args array
@@ -381,7 +386,7 @@ module.exports = {
 
     getTaxonomyGoals: function (req, res, next) {
       var pt = new ProjectTaxonomies();
-      pt.getTaxonomies(function (err, results) {
+      pt.getGoals(function (err, results) {
         res.json(results);
         return next();
       })

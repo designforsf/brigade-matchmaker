@@ -28,11 +28,11 @@ Install dependencies:
     python -m pip install pymongo
 
 @usage:
-    python ./db-match-algo.py javascript,python housing developer,presenter
-    python ./db-match-algo.py data-science homelessness developer
+    python ./db-match-algo.py client-dev/javascript,data-sci/python housing developer,presenter
+    python ./db-match-algo.py data-sci homelessness developer
     python ./db-match-algo.py ruby null developer,learner
     python ./db-match-algo.py null null leader
-    python ./db-match-algo.py javascript null null
+    python ./db-match-algo.py server-dev/nodejs null null
 """
 
 # database configuration
@@ -46,14 +46,14 @@ projects_list = [
     {
         'id':'ux-research',
         'name':'UX Research',
-        'interests_needed':['all','community-organizer'],
+        'interests':['all','community-organizer'],
         'skills_needed':['python','javascript','html'],
         'goals_needed':['developer','helper']
     },
     {
         'id':'data-sciences',
         'name':'Data Sciences',
-        'interests_needed':['all'],
+        'interests':['all'],
         'skills_needed':['python'],
         'goals_needed':['developer']
     }
@@ -66,11 +66,12 @@ projects_count = 0
 for project in db.projects.find({}):
     #print 'load ' + project['name']
     #print project['_id']
+    #pp.pprint(project['matchingConfig'])
 
     # interests
-    project['interests_needed'] = []
-    for need in project['matchingConfig']['interestsNeeded']:
-        project['interests_needed'].append(need)
+    project['interests'] = []
+    for need in project['matchingConfig']['interests']:
+        project['interests'].append(need)
 
     # skills
     project['skills_needed'] = []
@@ -134,7 +135,7 @@ def matchmaking (skills_list, interests_list, goals_list):
         '''
         if len(interests_list) > 0:
             for interest in interests_list:
-                if interest in project['interests_needed']:
+                if interest in project['interests']:
                     project['interests_total'] += 1
                     project['interests_matched'].append(interest)
 

@@ -364,6 +364,7 @@ Projects.find({}, function (err, results) {
     var defaultProjects = require('./seeds/development/Projects')
     defaultProjects.forEach(function(project) {
       console.log('load project id=' + project.id);
+      console.log('load matching config ', project.matchingConfig);
       newProj = new Projects(project);
 
       // save project

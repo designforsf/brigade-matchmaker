@@ -22,9 +22,10 @@ var projectsSchema = new mongoose.Schema({
   categories: {type: Array, default: []},
 
   matchingConfig: {
-    interestsNeeded: {type: Array, default: []},
-    skillsNeeded: {type: Array, default: []},
-    rolesNeeded: {type: Array, default: []}
+    interests: {type: Array, default: []},
+    skillsNeeded: {type: Array, default: []}, // for members to contribute
+    skillsOffered: {type: Array, default: []}, // for members to learn
+    goalsNeeded: {type: Array, default: []}
   },
 
   /* Expanded Open DC civic.json */

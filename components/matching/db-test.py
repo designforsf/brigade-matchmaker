@@ -48,7 +48,7 @@ print 'db.projects.find() = '
 
 for project in db.projects.find({}):
     print project['name']
-    for needType in ["interestsNeeded","skillsNeeded","rolesNeeded"]:
+    for needType in ["interests","skillsNeeded","skillsOffered","goalsNeeded"]:
         print " " + needType + ":"
         for need in project['matchingConfig'][needType]:
             print " + " + need

@@ -18,8 +18,9 @@ module.exports = [
     'links': [],
     'videos': [],
     'matchingConfig': {
-      'interestsNeeded': ['all'],
-      'skillsNeeded': ['ms-word','css','html','cms'],
+      'interests': ['all'],
+      'skillsNeeded': ['office/ms-word','client-dev/html-css'],
+      'skillsOffered': ['office/cms'],
       'goalsNeeded': ['developer','helper']
     },
     'keywords': [
@@ -83,8 +84,9 @@ module.exports = [
     'links': [],
     'videos': [],
     'matchingConfig': {
-      'interestsNeeded': ['homelessness'],
+      'interests': ['homelessness'],
       'skillsNeeded': ['client-dev/ios'],
+      'skillsOffered': ['client-dev/javascript'],
       'goalsNeeded': ['developer']
     },
     'keywords': [
@@ -152,8 +154,9 @@ module.exports = [
     'links': [],
     'videos': [],
     'matchingConfig': {
-      'interestsNeeded': ['criminal-justice'],
+      'interests': ['criminal-justice'],
       'skillsNeeded': ['data-sci/optimization-modeling','data-sci/predictive-modeling','data-sci/statistics'],
+      'skillsOffered':[],
       'goalsNeeded': ['developer','helper']
     },
     'keywords': [
@@ -222,8 +225,9 @@ module.exports = [
     'links': [],
     'videos': [],
     'matchingConfig': {
-      'interestsNeeded': ['housing'],
+      'interests': ['housing'],
       'skillsNeeded': ['server-dev/rails','server-dev/ruby','client-dev/javascript'],
+      'skillsOffered':['client-dev/html-css'],
       'goalsNeeded': ['developer','bug-testing']
     },
     'keywords': [
@@ -292,8 +296,9 @@ module.exports = [
     'links': [],
     'videos': [],
     'matchingConfig': {
-      'interestsNeeded': ['civic-participation'],
+      'interests': ['civic-participation'],
       'skillsNeeded': ['server-dev/nodejs','server-dev/mongodb'],
+      'skillsOffered': ['office'],
       'goalsNeeded': ['developer']
     },
     'keywords': [
@@ -361,8 +366,9 @@ module.exports = [
     'links': [],
     'videos': [],
     'matchingConfig': {
-      'interestsNeeded': [],
+      'interests': [],
       'skillsNeeded': ['data-sci','data-sci/python','data-sci/visualization','data-sci/machine-learning'],
+      'skillsOffered': ['data-sci'],
       'goalsNeeded': ['developer','learner']
     },
     'keywords': [

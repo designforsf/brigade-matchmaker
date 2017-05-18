@@ -18,9 +18,9 @@ var opts = {
   args: ["javascript,python", "housing", "developer,presenter"]
 };
 
-PyShell.run('match-algo.py', opts, function (err, output) {
+PyShell.run('db-match-algo.py', opts, function (err, output) {
   if (err) throw err;
-  console.log('match-algo.py output: ');
+  console.log('db-match-algo.py output: ');
   output.forEach(function (line, idx){
     console.log(' ' + idx + ' ' + line)
   })

@@ -1,19 +1,5 @@
-# Algorithm
+# Matching Algo Component
 
-## Setup
-1. Install `pyenv`
-1. Configure environment for Python 3.5.2
-1. Activate environment
-1. `pip install --upgrade pip`
-1. `pip install -r requirements.txt`
+## The db-match-algo Script
 
-## Code Structure
-```
-|- notebooks
-|   # Shared jupyter notebooks for example code
-|- schemas
-    # Defined schemas
-```
-
-## Testing
-Run `nosetests`
+This is a python script which accepts input about a user's preferences and returns a list of civic groups sorted by how much each group matches. The db-match-algo script is directly called by the web app when a user searches for civic groups.

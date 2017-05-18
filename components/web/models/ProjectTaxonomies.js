@@ -12,6 +12,13 @@ ptSchema.methods.getSkills = function (cb) {
     {name: 'advocacy', synonyms: ['activism'], parent: 'non-technical'},
     {name: 'writing', synonyms: ['copy'], parent: 'non-technical'},
     
+    {name: 'office', synonyms: ['general'], parent: undefined,
+      title: 'Office'},
+    
+    {name: 'cms', synonyms: ['content-management'], parent: 'office'},
+    {name: 'ms-word', synonyms: ['word'], parent: 'office'},
+    {name: 'ms-excel', synonyms: ['excel'], parent: 'office'},
+    
     {name: 'client-dev', synonyms: ['client'], parent: undefined,
       title: 'Client-Side Development'},
     
