@@ -402,7 +402,7 @@ module.exports = {
 
     getTaxonomyGoals: function (req, res, next) {
       var pt = new ProjectTaxonomies();
-      pt.getGoals(function (err, results) {
+      pt.getTaxonomies(function (err, results) {
         res.json(results);
         return next();
       })
