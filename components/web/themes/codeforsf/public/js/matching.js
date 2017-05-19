@@ -31,6 +31,7 @@ $(document).ready(function () {
      initMatchingStep( selectorsObj.projTax );
   })
 
+/***********??? these parts of the old 'wizard no longer active
   $("[role='see_results']").click(function () {
      user_data = "results";
      $("#match_res").removeClass("btn--hidden");
@@ -54,6 +55,11 @@ $(document).ready(function () {
     user_data = "home";
     location.href = '/test/api/projects'; //go back to home page
   })
+  ********************************/
+
+  /*************************
+  /* Establish the main taxonomy selection
+  /* object and methods...
 
   // Create the html for the selector taxonomy divs (hidden until
   // activated by a user click).
@@ -65,8 +71,11 @@ $(document).ready(function () {
   // each taxonomy class. The current open div#formIDs[] gets saved in
   // userProfile.formID also
 
-  /****************** now the taxonomies arrive as globals during form load
-     matchSkills, matchGoals, matchInterests
+  /******************
+    The taxonomies arrive as globals during form load
+    matchSkills, matchGoals, matchInterests. These then are
+    placed into selectorsObj.projTax (project taxonomies)
+    and used to create the selection forms for the user
   ******************/
 
   var selectorsObj = {
@@ -98,15 +107,18 @@ $(document).ready(function () {
     }
   };
 
-  selectorsObj.goCreateSelectForms( selectorsObj.projTax.taxSkills, 0 ); // for Skills to Contribute
-  selectorsObj.goCreateSelectForms( selectorsObj.projTax.taxSkills, 1 ); // for Skills to Learn
-  selectorsObj.goCreateSelectForms( selectorsObj.projTax.taxInts, 2 ); // for Skills to Learn
+  selectorsObj.goCreateSelectForms( selectorsObj.projTax.taxSkills, 0 ); // for user's skills to Contribute
+  selectorsObj.goCreateSelectForms( selectorsObj.projTax.taxSkills, 1 ); // for skills to Learn
+  selectorsObj.goCreateSelectForms( selectorsObj.projTax.taxInts, 2 ); // for user's interests
 
 /*********** End Doc Ready function*************/
 
 });
 
-
+/*********** Establish the userProfile*************
+/*           properties and methods related to the
+/*           user's ability to see, select and save taxomony choices
+/*/
 
 var userProfile = {
 
@@ -297,17 +309,14 @@ var userProfile = {
 
 };
 
+/******************End of userProfile ****************/
 
 // taxonomies: array of objects [ { detail: main.sub.detail, formID, chosen: boolean}]
 //
 function initMatchingStep( taxonomies ) {
 
   $("[role='start_matching']").click(function () {
-     //user_data = "restartWizard";
-     $("#match_res").addClass("btn--hidden");
-     $("#backToWizard").addClass("btn--hidden");
      $("div#pList").children().remove();
-     restartWizard();
   })
 
   var searchStr = parseSelections( userProfile.chosen2 );
@@ -362,28 +371,6 @@ function parseSelections( ) {
 ***/
 };
 
-/**********??? Obsolete?
-function registerTaxonomies() {
-  var taxonomies = [], taxSet = ['skills', 'interests', 'goals'];
-  var primSyns = [];
-  //build taxonomies from the selectbox html
-  for (i = 0; i < taxSet.length; i++ ) {
-    taxonomies[i] = { setType : taxSet[i], setCount: 0, setPrimary : [ ] };
-    $("div#"+ taxSet[i] + " option").each( function (index) {
-      primSyns = $(this).text().split(',');
-      //
-      //primSyns array[0] is the "primary" keyword
-      //  followed by other elements which are synonymns
-      //  that are not used for searching. Only push
-      //  the primary onto the taxonomies setPrimary property,
-      //  with initial "chosen" property of false
-      //
-      taxonomies[i].setPrimary.push( { name: primSyns[0], chosen: false } ); //push the primary keyword, no need for the synonymns
-    });
-  }
-  return taxonomies;
-}
-***************/
 
 function restartWizard () {
   $("li#start_matching").addClass("active");
@@ -392,8 +379,6 @@ function restartWizard () {
 
   $("[role='start_matching']").removeClass("btn--hidden");
   $("[role='see_results']").addClass("btn--hidden");
-
-//shortcut, but need to remove all the html
 }
 
 
@@ -401,7 +386,8 @@ function restartWizard () {
 // wizard.js above | matching.js below
 
 function initMatchingSearch(searchStr) {
-	var userMatchProjects = []; //create array of matching project objects
+
+  var userMatchProjects = []; //create array of matching project objects
 	userMatchProjects = jQuery.ajax({
 				url: searchStr,
 				success: [getAllProjs, function() {  //Use array of fn()s
@@ -411,6 +397,11 @@ function initMatchingSearch(searchStr) {
 	}) //function getAllProjs gets passed the user matching projects
 }
 
+/******************
+/* ??? getAllProjs won't be needed when the selection algo sends
+/* back project details as part of the API
+/*
+*/
 function getAllProjs(userMatches) {  //Because userMatches needs more project details
 	//
 	// Now get all project data --> this should not be necessary in next iteration
@@ -428,7 +419,7 @@ function getAllProjs(userMatches) {  //Because userMatches needs more project de
 
 function processMatches( allPs, userMatches ) {
 
-	// This is the callback function the Ajaz call to /api/projects
+	// This is the callback function for the Ajax call to /api/projects
 	//
 	// var allPs is an array of all project objects
 	//
@@ -616,6 +607,11 @@ var getUniqueId = ( function() {
 	})
 })();
 
+/*********???
+/* message functions could be placed in a messaging object
+/* as was done with the bookmark properties and methods
+*/
+
 function msgFormToTeam ( e ) {
 	$('#mailModal').modal('show');
 	$("#sendMsg").on("click", function() {
@@ -653,6 +649,7 @@ function msgFormToTeam ( e ) {
 	$("#teamLeader").text(contactForm.teamLeader);  //display on form
 
 }
+
 function sendMsg(msgText, contactForm) {
   var myURL="http://localhost:5465/messaging/api/send"
   var userMsg = {"email":{"to":[{"name": contactForm.teamLeader ,"email": contactForm.teamEmail}],"from":[{"name": contactForm.userFName +' ' + contactForm.userLName,"email":"welcome.sfbrigade+2938@gmail.com"}], "subject": "RE: World", "text":"Hello, from the Team Contact form!"}}
@@ -749,6 +746,7 @@ var bookmarkProjs = {
 	}
 }
 
+/* ??? properly this function belows to bookmarkProjs object*/
 function contextmenuBookmark( e ) {
 	e.stopPropagation();
 
@@ -756,6 +754,9 @@ function contextmenuBookmark( e ) {
 
 }
 
+/*??? This belongs with an object for all the functions related
+/* to creating the project list
+*/
 function toggleProjView( e ) {
 	e.stopPropagation();
 	var moreLess = $( e.target ).parent().siblings('#moreInfo');
