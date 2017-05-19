@@ -1,8 +1,7 @@
 
-
-
 .containerSelList {
   width: 725px;
+  line-height: 40px;
   margin-left: initial;
   margin-top: 20px;
 
@@ -17,7 +16,7 @@
 .dtlItm {
   display: inline-flex;
   flex: 1 1 auto;
-  line-height: 40px;
+  line-height: inherit;
   text-align: center;
   transition: background-color 0.5s ease;
   background-color: rgba(225, 224, 181, 0.9);
@@ -39,10 +38,10 @@
   text-align: right;
   background-color: silver;
   transition: background-color 0.5s ease;
-  line-height: 40px;
-  font-size: 1.75rem;
-  font-weight: 300;
-  padding: 4px 10px;
+  line-height: inherit;
+  font-size: 20px;
+  font-weight: 500;
+  padding: 2px 8px 6px 0px;
 }
 
 .catg:hover {
