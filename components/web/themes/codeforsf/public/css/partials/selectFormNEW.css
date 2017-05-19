@@ -1,7 +1,11 @@
 
 
-#s2cselections {
-  position: relative;
+
+.containerSelList {
+  width: 725px;
+  margin-left: initial;
+  margin-top: 20px;
+
 }
 
 .flexrow {
@@ -22,11 +26,7 @@
 .dtlItm:hover {
   background-color: olive;
 }
-  font-size: 1.5rem;
-  font-weight: 200;
-  padding: 4px 10px;
 
-}
 
 .itemChosen {
   color: indigo;
@@ -63,6 +63,11 @@
 .selection_bar:hover {
   background-color: rgba(225, 224, 181, 0.9);
 }
+
+.selection_bar_active {
+  background-color: rgba(225, 224, 181, 0.9);
+}
+
 
 .selection_box {
   display: inline-block;

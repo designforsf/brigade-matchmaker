@@ -4,6 +4,7 @@ var ptSchema = new mongoose.Schema({
 
 });
 
+/******************  ??? may no longer be used
 var pSkills = {
   mainCat: ['SW'], // only a placeholde in v02 draft taxonomy, which is only two levels
   subCat: {
@@ -19,20 +20,30 @@ var pSkills = {
     'Mobile dev': ['ios', 'Objective-C', 'Swift', 'Android']
   }
 };
+********************/
+
+var pSkills = {
+  mainCat: [''], // only a placeholde in v02 draft taxonomy, which is only two levels
+  subCat: {
+    '': ['Skills, roles:']
+  },
+  details: {
+    'Skills, roles:': ['Frontend dev', 'html','Backend dev', 'Full-stack','QA','DevOps','Mobile dev','UX/UX Design','User researcher','Marketing','Data Scientist', 'General', 'Product management', 'Project/Operations management']
+  }
+};
+
 
 ptSchema.methods.getSkills = function (cb) {
   return cb(null, pSkills);
 };
 
 var pInterests = {
-  mainCat: [' '],
+  mainCat: [''],
   subCat: {
-    ' ': ['Economic development', 'Environment', 'Health']
+    '': ['Civic Interests:']
   },
   details: {
-    'Economic development': ['Economic development', 'housing', 'infrastructure'],
-    'Environment': ['Climate change', 'Energy'],
-    'Health': ['Mental health', 'Health care system', 'Public health']
+    'Civic Interests:': ['Finance', 'Economics', 'Environment','Health', 'Education', 'Social Issues','Urban planning','Govt & politics','Crime and safety','Labor issues']
   }
 };
 

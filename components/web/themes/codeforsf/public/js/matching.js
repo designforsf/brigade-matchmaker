@@ -6,83 +6,6 @@ $(document).ready(function () {
     $("li.dropdown").addClass("btn--hidden");
   };
 
-  // Create the html for the selector taxonomy divs (hidden until
-  // activated by a user click).
-  //
-  // Set selection glyph click handlers, for showing the selector divs
-  //
-  // userProfile.taxType is the main object for selector taxonomy properties
-  // and methods. formIDs array contains the div ids related to
-  // each taxonomy class. The current open div#formIDs[] gets saved in
-  // userProfile.formID also
-
-  var formIDs = ['s2cselections', 's2lselections', 'intSelections', 'goalSelections'];
-  var myForm;
-  var projTax = {  // all taxonomies from across all BrigadeHub projects
-    taxSkills : {},
-    taxGoals : {},
-    taxInts : {}
-  };
-  function goCreateSelectForms( taxObjToUse, idx ) {
-    // these help with jQuery selections to load the selection forms
-    var taxSelectors = {
-      s2cselections : 'taxSkills',
-      s2lselections : 'taxSkills',
-      intSelections : 'taxInts',
-      goalSelections : 'taxGoals'
-    };
-
-    userProfile.formID = formIDs[idx];
-    //var taxObjToUse = projTax[ taxSelectors[ userProfile.formID ] ]; //the respective taxonomy for this form
-    console.log('Forming the taxonomy choices html now!', userProfile.formID);
-    userProfile.doCreateForm( taxObjToUse, userProfile.formID );
-
-    //Set the listener on the selector glyph to show the forms
-    $("div#label" + userProfile.formID ).on('click', function() {
-      userProfile.doShow( event );
-    });
-  };
-
-  (function getProjectSkills() {
-    $.ajax({
-  		url: '/api/project/taxonomy/skills',
-      success: function( results ) {
-        projTax.taxSkills = results;
-        console.log('Retrieved skills from API');
-        goCreateSelectForms( projTax.taxSkills, 0 ); // for Skills to Contribute
-        goCreateSelectForms( projTax.taxSkills, 1 ); // for Skills to Learn
-
-      }
-    }).fail(function (err) {
-  		console.error(err); return; });
-    console.log('Hit the api for skills in matching.js');
-  })();
-
-  (function getProjectInterests() {
-    $.ajax({
-  		url: '/api/project/taxonomy/interests',
-      success: function( results ) {
-        projTax.taxInts = results;
-        console.log('Retrieved interests from API');
-        goCreateSelectForms( projTax.taxInts, 2 );
-      }
-    }).fail(function (err) {
-  		console.error(err); return; });
-    console.log('Hit the api for interests in matching.js');
-  })();
-
-  (function getProjectGoals() {
-    $.ajax({
-  		url: '/api/project/taxonomy/goals',
-      success: function( results ) {
-        projTax.taxGoals = results;
-      }
-    }).fail(function (err) {
-  		console.error(err); return; });
-    console.log('Hit the api for goals in matching.js');
-  })();
-
-
   $("div.dropdown-menu").click(function (e) {
     //
     // e.target === My saved projects:  display localStorage project namespace
@@ -100,28 +23,30 @@ $(document).ready(function () {
       break;
     default:
       break;
-   }
- });
-
-  //
-  // This relates to the "Match Me" button
-  $("[role='start_matching']").click(function () {
-  	 user_data = "matching";
-     initMatchingStep( userProfile.chosen2 );
+    }
   });
 
+  $("[role='start_matching']").click(function () {
+     user_data = "matching";
+     initMatchingStep( selectorsObj.projTax );
+  })
 
   $("[role='see_results']").click(function () {
-  	 user_data = "results";
+     user_data = "results";
+     $("#match_res").removeClass("btn--hidden");
+     $("button#backToWizard").removeClass("btn--hidden");
+     $("#wizardcards").addClass("btn--hidden");
   })
 
   $("[id='backToWizard']").click(function () {
-  	 user_data = "restartWizard";
+     user_data = "restartWizard";
      $("#match_res").addClass("btn--hidden");
      $("#backToWizard").addClass("btn--hidden");
      $("#wizardcards").removeClass("btn--hidden");
      $("div#pList").children().remove();
-     $("#projects-list").children().remove();
+     //
+     // this id no longer used: all the children are under #pList
+     //$("#projects-list").children().remove();
      restartWizard();
   })
 
@@ -130,23 +55,61 @@ $(document).ready(function () {
     location.href = '/test/api/projects'; //go back to home page
   })
 
+  // Create the html for the selector taxonomy divs (hidden until
+  // activated by a user click).
+  //
+  // Set selection glyph click handlers, for showing the selector divs
+  //
+  // userProfile.taxType is the main object for selector taxonomy properties
+  // and methods. selectorsObj.formIDs array contains the div ids related to
+  // each taxonomy class. The current open div#formIDs[] gets saved in
+  // userProfile.formID also
+
+  /****************** now the taxonomies arrive as globals during form load
+     matchSkills, matchGoals, matchInterests
+  ******************/
+
+  var selectorsObj = {
+    formIDs : ['s2cselections', 's2lselections', 'intSelections', 'goalSelections'],
+    myForm : '',
+    projTax : {  // all taxonomies from across all BrigadeHub projects
+      taxSkills : matchSkills,
+      taxGoals : matchGoals,
+      taxInts : matchInterests
+    },
+    goCreateSelectForms : function( taxObjToUse, idx ) {
+    // these help with jQuery selections to load the selection forms
+      var taxSelectors = {
+        s2cselections : 'taxSkills',
+        s2lselections : 'taxSkills',
+        intSelections : 'taxInts',
+        goalSelections : 'taxGoals'
+      };
+
+      userProfile.formID = this.formIDs[idx];
+      //var taxObjToUse = this.projTax[ taxSelectors[ userProfile.formID ] ]; //the respective taxonomy for this form
+      console.log('Forming the taxonomy choices html now!', userProfile.formID);
+      userProfile.doCreateForm( taxObjToUse, userProfile.formID );
+
+      //Set the listener on the selector glyph to show the forms
+      $("div#label" + userProfile.formID ).on('click', function() {
+        userProfile.doShow( event );
+      });
+    }
+  };
+
+  selectorsObj.goCreateSelectForms( selectorsObj.projTax.taxSkills, 0 ); // for Skills to Contribute
+  selectorsObj.goCreateSelectForms( selectorsObj.projTax.taxSkills, 1 ); // for Skills to Learn
+  selectorsObj.goCreateSelectForms( selectorsObj.projTax.taxInts, 2 ); // for Skills to Learn
+
+/*********** End Doc Ready function*************/
 
 });
 
-/*
-/ Retrieve the skills taxonomy and place in global object taxSkills
-*/
-/*
-  taxSkills { array of objects
-    mainCat : []
-    subcat : {mainCat: [] }
-    details : {subCat: [] }
-}
-*/
+
 
 var userProfile = {
 
-  formIDs : ['s2cselections', 's2lselections', 'goalSelections', 'intSelections'],
   formID : '',
   formActive : '',
   doShow : function( e) {
@@ -162,14 +125,14 @@ var userProfile = {
     this.formID = label[1];
     $('div#' + this.formID ).slideToggle();
     this.formActive = this.formID;
-    $('div#label' + this.formActive ).addClass('selection_box_active');
+    $('div#label' + this.formActive ).addClass('selection_bar_active');
   },
 
   doDismiss : function( formID ) {
     this.formID = formID;
     console.log('Trying to dismiss form ', formID);
     $('div#' + this.formID ).slideToggle();
-    $('div#label' + this.formActive ).removeClass('selection_box_active');
+    $('div#label' + this.formActive ).removeClass('selection_bar_active');
     this.formActive = '';
     // ??? add code to load up the chosenBox items to searchStr
   },
@@ -285,6 +248,8 @@ var userProfile = {
     // If the item was NOT chosen now it IS
     // If it was ALREADY chosen, now it is NOT
     if (whereClicked === 'selForm') {
+      var audioAdd = document.getElementById("audioAdd");
+         audioAdd.play();
 
       // This will cause the item to be hidden from
       // the selection form, until / unless the user deletes the selection
@@ -315,6 +280,8 @@ var userProfile = {
     };
 
     if (whereClicked === 'chosenBox') {
+      var audioAdd = document.getElementById("audioRem");
+         audioRem.play();
       //Set this item to 'unselected' (false) in chosen2 array
       for (idx=0; idx < userProfile.chosen2.length; idx++ ) {
         if ( userProfile.chosen2[idx].detail === $(event).attr('info') ) {
@@ -358,7 +325,7 @@ function parseSelections( ) {
   var skills = "skills=", interests = "interests=", goals = "goals=";
   var searchSkills, searchInterests, searchGoals = '';
 
-    //formIDs = ['s2cselections', 's2lselections', 'goalSelections', 'intSelections'];
+    //selectorsObj.formIDs = ['s2cselections', 's2lselections', 'goalSelections', 'intSelections'];
   function buildSrchStr( catg ) {
     var srchCriteria = [];
     var name = [];
@@ -395,7 +362,7 @@ function parseSelections( ) {
 ***/
 };
 
-
+/**********??? Obsolete?
 function registerTaxonomies() {
   var taxonomies = [], taxSet = ['skills', 'interests', 'goals'];
   var primSyns = [];
@@ -416,6 +383,7 @@ function registerTaxonomies() {
   }
   return taxonomies;
 }
+***************/
 
 function restartWizard () {
   $("li#start_matching").addClass("active");
