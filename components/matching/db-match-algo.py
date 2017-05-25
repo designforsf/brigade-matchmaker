@@ -28,11 +28,11 @@ Install dependencies:
     python -m pip install pymongo
 
 @usage:
-    python ./db-match-algo.py client-dev/javascript,data-sci/python housing developer,presenter
-    python ./db-match-algo.py data-sci homelessness developer
-    python ./db-match-algo.py ruby null developer,learner
-    python ./db-match-algo.py null null leader
-    python ./db-match-algo.py server-dev/nodejs null null
+    python ./db-match-algo.py client-dev/javascript,data-sci/python null housing developer,presenter
+    python ./db-match-algo.py data-sci null homelessness developer
+    python ./db-match-algo.py ruby null null developer,learner
+    python ./db-match-algo.py null null null leader
+    python ./db-match-algo.py null client-dev/javascript null null
 """
 
 # database configuration
@@ -112,7 +112,12 @@ for project in db.projects.find({}):
     for need in project['matchingConfig']['interests']:
         project['interests'].append(need)
 
-    # skills
+    # skills offered
+    project['skills_offered'] = []
+    for offering in project['matchingConfig']['skillsOffered']:
+        project['skills_offered'].append(offering)
+
+    # skills needed
     project['skills_needed'] = []
     for need in project['matchingConfig']['skillsNeeded']:
         project['skills_needed'].append(need)
@@ -127,12 +132,14 @@ for project in db.projects.find({}):
 
 # END loading projects list
 
-def matchmaking (skills_list, interests_list, goals_list):
+def matchmaking (skills_list, skills_offered_list, interests_list, goals_list):
 
     """
     print 'matchmaking()'
     print 'skills='
     pp.pprint(skills_list)
+    print 'skills_offered='
+    pp.pprint(skills_offered_list)
     print 'interests='
     pp.pprint(interests_list)
     print 'goals='
@@ -144,6 +151,7 @@ def matchmaking (skills_list, interests_list, goals_list):
 
         # factors to prioritize skills
         skills_factor = 2
+        skills_offered_factor = 2
         interests_factor = 1
         goals_factor = 1
 
@@ -153,6 +161,8 @@ def matchmaking (skills_list, interests_list, goals_list):
         #   skills, interests, and goals
         project['skills_total'] = 0
         project['skills_matched'] = []
+        project['skills_offered_total'] = 0
+        project['skills_offered_matched'] = []
         project['interests_total'] = 0
         project['interests_matched'] = []
         project['goals_total'] = 0
@@ -167,6 +177,16 @@ def matchmaking (skills_list, interests_list, goals_list):
                 if skill in project['skills_needed']:
                     project['skills_total'] += 1
                     project['skills_matched'].append(skill)
+
+        '''
+        iterate over the skills_offered_list and get the corresponding
+        values for each skill offered and the total value from the project
+        '''
+        if len(skills_offered_list) > 0:
+            for offering in skills_offered_list:
+                if offering in project['skills_offered']:
+                    project['skills_offered_total'] += 1
+                    project['skills_offered_matched'].append(offering)
 
         '''
         iterate over the interests_list and get the corresponding
@@ -192,6 +212,7 @@ def matchmaking (skills_list, interests_list, goals_list):
 
         project_total = 0
         project_total += (skills_factor * project['skills_total'])
+        project_total += (skills_offered_factor * project['skills_offered_total'])
         project_total += (interests_factor * project['interests_total'])
         project_total += (goals_factor * project['goals_total'])
 
@@ -203,6 +224,8 @@ def matchmaking (skills_list, interests_list, goals_list):
         print 'User match w/ ' + project['name']
         print ' skills ' + str(project['skills_total'])
         pp.pprint(project['skills_matched'])
+        print ' skills offered ' + str(project['skills_offered_total'])
+        pp.pprint(project['skills_offered_matched'])
         print ' interests ' + str(project['interests_total'])
         print ' goals ' + str(project['goals_total'])
         print ' total score = ' + str(project_total)
@@ -227,7 +250,11 @@ def matchmaking (skills_list, interests_list, goals_list):
             'skills',
             str(project['skills_total']),
             "(" + " ".join(project['skills_matched']) + ")",
-            
+
+            'skillsOffered',
+            str(project['skills_offered_total']),
+            "(" + " ".join(project['skills_offered_matched']) + ")",
+ 
             'interests',
             str(project['interests_total']),
             "(" + " ".join(project['interests_matched']) + ")",
@@ -243,13 +270,16 @@ def matchmaking (skills_list, interests_list, goals_list):
 
 if __name__ == "__main__":
 
-    skills = sys.argv[1] if (len(sys.argv) > 1) else ""
+    skills = sys.argv[1] if (len(sys.argv) > 1 and sys.argv[1] != 'null') else ""
     skills_list = skills.split(",")
 
-    interests = sys.argv[2] if (len(sys.argv) > 2) else ""
+    skills_offered = sys.argv[2] if (len(sys.argv) > 2 and sys.argv[2] != 'null') else ""
+    skills_offered_list = skills_offered.split(",")
+
+    interests = sys.argv[3] if (len(sys.argv) > 3 and sys.argv[3] != 'null') else ""
     interests_list = interests.split(",")
 
-    goals = sys.argv[3] if (len(sys.argv) > 3) else ""
+    goals = sys.argv[4] if (len(sys.argv) > 4 and sys.argv[4] != 'null') else ""
     goals_list = goals.split(",")
 
-    matchmaking (skills_list, interests_list, goals_list)
+    matchmaking (skills_list, skills_offered_list, interests_list, goals_list)

@@ -172,6 +172,7 @@ module.exports = {
         http://localhost:5465/api/user/matches?skills=server-dev/ruby&goals=developer,learner
         http://localhost:5465/api/user/matches?skills=null&goals=leader
         http://localhost:5465/api/user/matches?skills=server-dev/nodejs
+        http://localhost:5465/api/user/matches?learnSkills=client-dev/javascript
    */
   getUserMatches: function (req, res, next) {
     console.log('getUserMatch');
@@ -200,9 +201,13 @@ module.exports = {
       "score2",   // user attr 2 score
       "attrs2",   // user attr 2 matching attrs
       
+      "name3",    // user attr 3 field name
+      "score3",   // user attr 3 score
+      "attrs3",   // user attr 3 matching attrs
+      
     ];
-    matchUserAttrs = ["skills", "interests", "goals"];
-
+    matchUserAttrs = ["skills", "learnSkills", "interests", "goals"];
+    
     // user input, translated from web params to the python script arguments
     var pyArgs = [];
     matchUserAttrs.forEach(function(arg) {
