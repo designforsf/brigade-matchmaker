@@ -352,6 +352,39 @@ app.get('/auth/disconnect/:service', passportConf.isAuthenticated, usersCtrl.dis
  */
 app.use(errorHandler())
 
+
+/**
+ * Check if project taxonomies exist before starting Express server
+ */
+ProjectTaxonomies.find({}, function (err, results) {
+  if (err) throw err
+  if (!results.length) {
+    //console.log('No project taxonomies found!');
+
+    // load the seed class
+    var defaultPTAttributes = require('./seeds/development/ProjectTaxonomies');
+    
+    // ProjectTaxonomies is different from the other seeds: 
+    //    this class exports a function!
+    
+    defaultPTAttributes(function (err, attributes) {
+      
+      // insert all attributes of all taxonomies... all at once
+      ProjectTaxonomies.collection.insert(attributes, function (err, output) {
+        if (err) throw err;
+        //console.log(output);
+        console.log('Inserted ' + output.insertedCount + ' attributes from the ProjectTaxonomies');
+      });
+    
+    });
+
+  } else {
+    console.log(results.length + ' attributes found for ProjectTaxonomies.')
+
+  }
+});
+
+
 /**
  * Check if projects exist before starting Express server
  */
@@ -366,7 +399,7 @@ Projects.find({}, function (err, results) {
       console.log('load project id=' + project.id);
       console.log('load matching config ', project.matchingConfig);
       newProj = new Projects(project);
-
+      
       // save project
       newProj.save(function (err) {
         if (err) throw err;

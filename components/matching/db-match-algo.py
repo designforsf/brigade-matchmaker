@@ -40,8 +40,47 @@ collection_name = 'brigade-matchmaker'
 client = MongoClient('localhost', 27017)
 db = client[collection_name]
 
+
+# load the taxonomies and attributes from the database
+
+""" NOTE: taxn_attributes below describes the data structure used in 
+      breaking down the hierarchy of attributes submitted by users
+
+taxn_attributes = {
+    'skills': [
+      {name: 'server-dev', parent: 'skills', synonyms: ['back-end']},
+      {name: 'nodejs', parent: 'server-dev', synonyms: ['node']},
+      {name: 'python', parent: 'server-dev', synonyms: ['django']},
+    ],
+    'interests': [
+    ],
+    'goals': [
+    ]
+}
+
+"""
+
+taxonomies = []
+taxn_attributes = {}
+taxn_name = ""
+
+for attribute in db.projecttaxonomies.find({}):
+    #pp.pprint(need)
+    if attribute['parent'] == None:
+      #print "taxonomy=" + attribute['name']
+      taxonomies.append(attribute)
+      taxn_name=attribute['name']
+      taxn_attributes[taxn_name] = []
+    else:
+     #print " attribute=" + attribute['name']
+     taxn_attributes[taxn_name].append(attribute)
+
+
+
+
 """ NOTE: projects_list below is for understanding the data structure
             used in the algo (soon to reflect what is in the database)
+
 projects_list = [
     {
         'id':'ux-research',

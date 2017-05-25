@@ -1,25 +1,50 @@
 var mongoose = require('mongoose')
 
 var ptSchema = new mongoose.Schema({
-
+  name: {type: String, default: ''},
+  title: {type: String, default: ''},
+  parent: {type: String, default: ''},
+  className: {type: String, default: ''},
+  synonyms: {type: Array, default: []}
 });
+
+
+/*
+  top-level taxonomies
+*/
+
+ptSchema.methods.getTaxonomies = function (cb) {
+  return cb(null, [
+    {name: 'skills', synonyms: [], parent: undefined,
+      title: 'Skills', className: 'Skills'},
+    {name: 'interests', synonyms: [], parent: undefined,
+      title: 'Civic Interests', className: 'Interests'},
+    {name: 'goals', synonyms: [], parent: undefined,
+      title: 'Volunteering Goals', className: 'Goals'},
+  ]);
+}
+
+
+/*
+  skills taxonomy
+*/
 
 ptSchema.methods.getSkills = function (cb) {
   return cb(null, [
-    {name: 'non-technical', synonyms: ['general'], parent: undefined,
+    {name: 'non-technical', synonyms: ['general'], parent: 'skills',
       title: 'Non-Technical Skills'},
     
     {name: 'advocacy', synonyms: ['activism'], parent: 'non-technical'},
     {name: 'writing', synonyms: ['copy'], parent: 'non-technical'},
     
-    {name: 'office', synonyms: ['general'], parent: undefined,
+    {name: 'office', synonyms: ['general'], parent: 'skills',
       title: 'Office'},
     
     {name: 'cms', synonyms: ['content-management'], parent: 'office'},
     {name: 'ms-word', synonyms: ['word'], parent: 'office'},
     {name: 'ms-excel', synonyms: ['excel'], parent: 'office'},
     
-    {name: 'client-dev', synonyms: ['client'], parent: undefined,
+    {name: 'client-dev', synonyms: ['client'], parent: 'skills',
       title: 'Client-Side Development'},
     
     {name: 'android', synonyms: [], parent: 'client-dev'},
@@ -28,7 +53,7 @@ ptSchema.methods.getSkills = function (cb) {
     {name: 'javascript', synonyms: ['js'], parent: 'client-dev'},
     {name: 'uxr', synonyms: ['usability'], parent: 'client-dev'},
   
-    {name: 'server-dev', synonyms: ['server','back-end'], parent: undefined,
+    {name: 'server-dev', synonyms: ['server','back-end'], parent: 'skills',
       title: 'Server-Side Dev'},
   
     {name: 'mongodb', synonyms: ['mongo'], parent: 'server-dev'},
@@ -38,7 +63,7 @@ ptSchema.methods.getSkills = function (cb) {
     {name: 'rails', synonyms: ['ruby-on-rails'], parent: 'server-dev'},
     {name: 'ruby', synonyms: [], parent: 'server-dev'},
 
-    {name: 'data-sci', synonyms: ['data-science'], parent: undefined,
+    {name: 'data-sci', synonyms: ['data-science'], parent: 'skills',
       title: 'Data Sciences'},
 
     {name: 'machine-learning', synonyms: [], parent: 'data-sci'},
@@ -51,24 +76,34 @@ ptSchema.methods.getSkills = function (cb) {
   ]);
 }
 
+
+/*
+  skills taxonomy
+*/
+
 ptSchema.methods.getInterests = function (cb) {
   return cb(null, [
-    {name: 'homelessness', synonyms: []},
-    {name: 'housing', synonyms: []},
-    {name: 'infrastructure', synonyms: []},
-    {name: 'fire', synonyms: []},
-    {name: 'police', synonyms: []},
+    {name: 'homelessness', synonyms: [], parent: 'interests'},
+    {name: 'housing', synonyms: [], parent: 'interests'},
+    {name: 'infrastructure', synonyms: [], parent: 'interests'},
+    {name: 'fire', synonyms: [], parent: 'interests'},
+    {name: 'police', synonyms: [], parent: 'interests'},
   ]);
 }
 
+
+/*
+  skills taxonomy
+*/
+
 ptSchema.methods.getGoals = function (cb) {
   return cb(null, [
-    {name: 'learn', synonyms: []},
-    {name: 'lead', synonyms: ['manage']},
-    {name: 'develop', synonyms: ['code']},
-    {name: 'help', synonyms: ['assist']},
-    {name: 'initiate', synonyms: ['pitch']},
-    {name: 'network', synonyms: ['']},
+    {name: 'learn', synonyms: [], parent: 'goals'},
+    {name: 'lead', synonyms: ['manage'], parent: 'goals'},
+    {name: 'develop', synonyms: ['code'], parent: 'goals'},
+    {name: 'help', synonyms: ['assist'], parent: 'goals'},
+    {name: 'initiate', synonyms: ['pitch'], parent: 'goals'},
+    {name: 'network', synonyms: [''], parent: 'goals'},
   ]);
 }
 
