@@ -26,12 +26,22 @@
   background-color: olive;
 }
 
+.selectedItm {
+  display: inline-flex;
+  flex: 1 1 auto;
+  line-height: inherit;
+  text-align: center;
+  transition: background-color 0.5s ease;
+  background-color: rgba(229, 230, 230, 0.9);
+  padding: 4px 10px 4px 10px;
+}
 
+/* May be deprecated now, in favor of .selectedItm styling
 .itemChosen {
   color: indigo;
   font-weight: 650;
 }
-
+*/
 .catg {
   display: inline-block;
   width: 230px;
@@ -66,7 +76,6 @@
 .selection_bar_active {
   background-color: rgba(225, 224, 181, 0.9);
 }
-
 
 .selection_box {
   display: inline-block;

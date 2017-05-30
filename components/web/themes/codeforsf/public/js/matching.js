@@ -31,51 +31,21 @@ $(document).ready(function () {
      initMatchingStep( selectorsObj.projTax );
   })
 
-/***********??? these parts of the old 'wizard no longer active
-  $("[role='see_results']").click(function () {
-     user_data = "results";
-     $("#match_res").removeClass("btn--hidden");
-     $("button#backToWizard").removeClass("btn--hidden");
-     $("#wizardcards").addClass("btn--hidden");
-  })
-
-  $("[id='backToWizard']").click(function () {
-     user_data = "restartWizard";
-     $("#match_res").addClass("btn--hidden");
-     $("#backToWizard").addClass("btn--hidden");
-     $("#wizardcards").removeClass("btn--hidden");
-     $("div#pList").children().remove();
-     //
-     // this id no longer used: all the children are under #pList
-     //$("#projects-list").children().remove();
-     restartWizard();
-  })
-
-  $("[role='home']").click(function(){
-    user_data = "home";
-    location.href = '/test/api/projects'; //go back to home page
-  })
-  ********************************/
-
   /*************************
   /* Establish the main taxonomy selection
   /* object and methods...
+  /* Create the html for the selector taxonomy divs (hidden until
+  /* activated by a user click).
+  /*
+  /* Set selection glyph click handlers, for showing the selector divs
 
-  // Create the html for the selector taxonomy divs (hidden until
-  // activated by a user click).
-  //
-  // Set selection glyph click handlers, for showing the selector divs
-  //
-  // userProfile.taxType is the main object for selector taxonomy properties
-  // and methods. selectorsObj.formIDs array contains the div ids related to
-  // each taxonomy class. The current open div#formIDs[] gets saved in
-  // userProfile.formID also
 
   /******************
     The taxonomies arrive as globals during form load
     matchSkills, matchGoals, matchInterests. These then are
     placed into selectorsObj.projTax (project taxonomies)
-    and used to create the selection forms for the user
+    and used to create the selection form html through method
+    selectorsObj.goCreateSelectForms
   ******************/
 
   var selectorsObj = {
@@ -125,7 +95,7 @@ var userProfile = {
   formID : '',
   formActive : '',
   doShow : function( e) {
-    var label=event.target.id.split('label');
+    var label=event.currentTarget.id.split('label');
     if ( this.formActive === label[1] ) {  //trying to close the open form
       this.doDismiss( this.formActive );
       return;
@@ -165,9 +135,10 @@ var userProfile = {
     //
     // Use a template button at section#pS to model the new button
     newBtn = $('section#pS button').filter(':first').clone('false');
+    removeGlyph = ' <span class="glyphicon  glyphicon-remove"></span>';
     displayName = mainSubDtl.split('.');
     displayName[3] = (displayName[2] ? displayName[2] : displayName[1])
-    newBtn = $(newBtn).text(displayName[3]).removeClass('btn--hidden').appendTo($('div#chosen' + jDestination ));
+    newBtn = $(newBtn).text(displayName[3]).removeClass('btn--hidden').html(displayName[3] + removeGlyph).appendTo($('div#chosen' + jDestination ));
     $(newBtn).attr( 'name', originID ).attr('id', getUniqueId() ).removeClass('disabled');
     $(newBtn).attr( 'info', mainSubDtl);
     console.log('just output one button')
@@ -252,7 +223,7 @@ var userProfile = {
 
     //
     // whereClicked is either selForm (selecting and removing)  or chosenBox (removing only):
-    var itemAdded = false;
+    var itemInChosen2 = false;
     mainSubDtl = $(event).data().name; //in form 'main.sub.detail' as a string
     console.log('Toggle switch clicked at ', mainSubDtl + ' ' + whereClicked );
     //
@@ -263,23 +234,24 @@ var userProfile = {
       var audioAdd = document.getElementById("audioAdd");
          audioAdd.play();
 
-      // This will cause the item to be hidden from
-      // the selection form, until / unless the user deletes the selection
-      $(event).removeClass('dtlItm');
+      // 5-29  Instead of hiding the selected item, dim it gray, and remove the
+      // event handler
+      $(event).removeClass('dtlItm').addClass('selectedItm').off();
 
       // Now set this item to 'selected' (true) in chosen2 array
       // ??? may still have to include userProfile.formID in the equality test
-      //  if the selection algo will distringuish "to contribute" and "to learn" skills
+      //  if the selection algo will distinguish "to contribute" and "to learn" skills
       //  For now, the skills are treated as the same, whichever form they are selected
       //  from.
-      if (!itemAdded) {
-        for (idx=0; idx < userProfile.chosen2.length; idx++ ) {
-          if ( userProfile.chosen2[idx].detail === mainSubDtl ) {
+      if (!itemInChosen2) {
+        for (idx=0; (idx < userProfile.chosen2.length) && ( !itemInChosen2 ); idx++ ) {
+          if ( userProfile.chosen2[idx].detail === mainSubDtl
+            && userProfile.chosen2[idx].type === userProfile.formActive) {
             userProfile.chosen2[idx].chosen = true;
-            itemAdded = true;
+            itemInChosen2 = true;
           };
         };
-        if (!itemAdded) {
+        if (!itemInChosen2) {
           userProfile.chosen2.push( { detail: mainSubDtl, type: userProfile.formID, chosen: true }); // Add to selected
         };
       }
@@ -302,7 +274,10 @@ var userProfile = {
       };
       //
       //Now add back the dtlItm class to reveal the respective item in selForm
-      $('div#' + $(event).attr('name') ).addClass('dtlItm');
+      $('div#' + $(event).attr('name') ).removeClass('selectedItm').addClass('dtlItm').click(function(e) {
+        e.stopPropagation();
+        userProfile.toggleSelection(this, 'selForm');
+      });
       $(event).remove(); // Remove the button from the chosenBox
     };
   }
@@ -331,7 +306,7 @@ function parseSelections( ) {
   } else {
       baseURL = "http://localhost:5465/api/user/matches?"
   }
-  var skills = "skills=", interests = "interests=", goals = "goals=";
+  var skills2c = "skills=", skills2l = "skills=", interests = "interests=", goals = "goals=";
   var searchSkills, searchInterests, searchGoals = '';
 
     //selectorsObj.formIDs = ['s2cselections', 's2lselections', 'goalSelections', 'intSelections'];
@@ -349,26 +324,19 @@ function parseSelections( ) {
     return srchCriteria.toString() ;
   };
 
-  skills+= buildSrchStr( 's2cselections' );
-  skills = ( skills === "skills=" ) ? "" : skills + "&";
-  console.log('Skills search string: ', skills);
+  skills2c += buildSrchStr( 's2cselections' );
+  skills2c = ( skills2c === "skills=" ) ? "" : skills2c + "&";
+  console.log('Skills2c search string: ', skills2c);
+  skills2l += buildSrchStr( 's2lselections' );
+  skills2l = ( skills2l === "skills=" ) ? "" : skills2l + "&";
+  console.log('Skills2l search string: ', skills2l);
   interests+= buildSrchStr( 'intSelections' , interests);
   interests = ( interests === "interests=" ) ? "" : interests + "&";
   console.log('Interests search string: ', interests);
-  var searchStr = baseURL+skills+interests+goals;
+  var searchStr = baseURL+skills2c+interests+goals;
   console.log('Search string is ', searchStr)
   return searchStr;
 
-/** ??? must still complete when taxonomy settled
-  skills = ( skills === "skills=" ) ? "" : skills + "&";
-  interests+= buildSrchStr( userProfile.intSelections );
-  interests = ( interests === "interests=" ) ? "" : interests + "&";
-  goals+= buildSrchStr( userProfile.goalSelections );
-  goals = ( goals === "goals=" ) ? "" : goals;
-  var searchStr = baseURL+skills+interests+goals;
-  console.log('Search string is ', searchStr)
-  return searchStr;
-***/
 };
 
 
