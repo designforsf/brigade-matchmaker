@@ -131,14 +131,17 @@ var userProfile = {
     // and stored so if user wants to remove the selector, we know
     // the entire context of choices to udpate.
 
-    var newBtn = '', displayName = [];
+    var newBtn = '', displayName = [], displayCatg;
     //
     // Use a template button at section#pS to model the new button
     newBtn = $('section#pS button').filter(':first').clone('false');
     removeGlyph = ' <span class="glyphicon  glyphicon-remove"></span>';
     displayName = mainSubDtl.split('.');
     displayName[3] = (displayName[2] ? displayName[2] : displayName[1])
-    newBtn = $(newBtn).text(displayName[3]).removeClass('btn--hidden').html(displayName[3] + removeGlyph).appendTo($('div#chosen' + jDestination ));
+
+    displayCatg = catgAbbrev( displayName[1] ); //e.g. QA = QA. Front-end dev = F d.
+
+    newBtn = $(newBtn).removeClass('btn--hidden').html(displayCatg + displayName[3] + removeGlyph).appendTo($('div#chosen' + jDestination ));
     $(newBtn).attr( 'name', originID ).attr('id', getUniqueId() ).removeClass('disabled');
     $(newBtn).attr( 'info', mainSubDtl);
     console.log('just output one button')
@@ -740,4 +743,17 @@ function toggleProjView( e ) {
 		default :
 			console.log('Show more/less button name is ', $( e.target ).text() );
 	}
+};
+
+function catgAbbrev( chosenCatg ) {
+  var catgSplit = chosenCatg.split(' '); // split it on any space
+  var abbrev = '';
+  if (catgSplit[1]) {
+    var abbrev = catgSplit[0][0] + '.' + catgSplit[1][0] + '.  ';
+    // e.g. Frontend dev becomes F d.
+  } else {
+    abbrev = catgSplit[0][0] + catgSplit[0][1] +'  ';
+    //e.g. QA becomes QA.
+  };
+  return abbrev;
 };
