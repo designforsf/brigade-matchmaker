@@ -36,3 +36,9 @@ main.css.map
 .jshintignore
 phantomjsdriver.log
 bundle.js
+
+config/*.js
+npm-debug.log
+node_modules
+
+
