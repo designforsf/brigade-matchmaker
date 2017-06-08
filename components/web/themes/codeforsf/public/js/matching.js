@@ -28,7 +28,14 @@ $(document).ready(function () {
 
   $("[role='start_matching']").click(function () {
      user_data = "matching";
-     initMatchingStep( selectorsObj.projTax );
+     if ( isMatchActive() ) {
+       if (userProfile.formActive) {
+         userProfile.doDismiss(userProfile.formActive);
+       };
+       initMatchingStep( selectorsObj.projTax );
+     } else {
+       $('#selectOrSearch').text('Please select');
+     };
   })
 
   /*************************
@@ -56,6 +63,7 @@ $(document).ready(function () {
       taxGoals : matchGoals,
       taxInts : matchInterests
     },
+
     goCreateSelectForms : function( taxObjToUse, idx ) {
     // these help with jQuery selections to load the selection forms
       var taxSelectors = {
@@ -73,6 +81,9 @@ $(document).ready(function () {
       //Set the listener on the selector glyph to show the forms
       $("div#label" + userProfile.formID ).on('click', function() {
         userProfile.doShow( event );
+        $("#match_res").addClass("btn--hidden"); //??? this is duplicate code
+        $("#pListHeader").addClass("btn--hidden"); // to be refactored
+
       });
     }
   };
@@ -98,6 +109,7 @@ var userProfile = {
     var label=event.currentTarget.id.split('label');
     if ( this.formActive === label[1] ) {  //trying to close the open form
       this.doDismiss( this.formActive );
+      //??? set glyph back to down arrow
       return;
     };
     if ( this.formActive ) {
@@ -107,14 +119,24 @@ var userProfile = {
     this.formID = label[1];
     $('div#' + this.formID ).slideToggle();
     this.formActive = this.formID;
-    $('div#label' + this.formActive ).addClass('selection_bar_active');
+    jItem = $('div#label' + this.formActive ).addClass('selection_bar_active');
+    $('#userSelects').find('span').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+    $(jItem).find('span').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+    //$(event.target).removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
   },
 
   doDismiss : function( formID ) {
     this.formID = formID;
     console.log('Trying to dismiss form ', formID);
     $('div#' + this.formID ).slideToggle();
-    $('div#label' + this.formActive ).removeClass('selection_bar_active');
+    jItem = $('div#label' + this.formActive ).removeClass('selection_bar_active');
+    $(jItem).find('span').addClass('glyphicon-chevron-down').removeClass('glyphicon-chevron-up');
+    //$(event.target).children('span').addClass('glyphicon-chevron-down').removeClass('glyphicon-chevron-up');
+    if ( isMatchActive() ) {
+      // activate the Search Projects button from the Please Select
+      $('#selectOrSearch').text('Search Projects').removeClass('disabled')
+    }
+
     this.formActive = '';
     // ??? add code to load up the chosenBox items to searchStr
   },
@@ -139,7 +161,7 @@ var userProfile = {
     displayName = mainSubDtl.split('.');
     displayName[3] = (displayName[2] ? displayName[2] : displayName[1])
 
-    displayCatg = catgAbbrev( displayName[1] ); //e.g. QA = QA. Front-end dev = F d.
+    displayCatg = catgAbbrev( displayName[0] ); //e.g. QA = QA. Front-end dev = F d.
 
     newBtn = $(newBtn).removeClass('btn--hidden').html(displayCatg + displayName[3] + removeGlyph).appendTo($('div#chosen' + jDestination ));
     $(newBtn).attr( 'name', originID ).attr('id', getUniqueId() ).removeClass('disabled');
@@ -155,7 +177,7 @@ var userProfile = {
     $(event).remove();
   },
 
-
+/********* Horizontal choices layout -- deprecated
   doCreateForm : function( taxType, formID )  { //html for taxonomy select forms
     //
     // taxType: taxSkills, taxGoals, taxInterests
@@ -211,6 +233,108 @@ var userProfile = {
         userProfile.toggleSelection(this, 'selForm');
       });
     }); ***/
+/*********** This is still part of the deprecated
+    $(myBase + ' div.dtlItm').each(function( ) {
+      $(this).attr("id", getUniqueId() );
+      $(this).click(function() {
+        event.stopPropagation();
+        userProfile.toggleSelection(this, 'selForm');
+      });
+    });
+
+  },
+***********/
+
+  doCreateForm : function( taxType, formID )  { //html for taxonomy select forms
+    //
+    // taxType: taxSkills, taxGoals, taxInterests
+    // formID = the html id property for the relevant modal form
+    var myBase = '#' + formID; // used for jQuery
+    var mainSub, mainSubDtl;
+    /******Algo to balance the column lengths*********
+    Option#1 (Try this first)
+    Count all the mainSubDtl across all mainSub categories
+    Then divide by numSelectorCols, rounding up, to get the number of
+    mainSubDtls (max) to output per column.
+
+    Keep count of mainSubDtls as they are output and break for new
+    column when maxSelectorCols is exceeded.
+
+    Option#2 Does not break a category across columns
+    so it is slightly messier on the bottom of the table
+
+    Order the mainSub in descending order of mainSubDtl count
+    Then output each mainSub going from L-->R first;
+    Then reverse and go back R-->L;
+    This makes the columns of the selection grid as balanced
+    looking as possible without breaking mainSubs across columns.
+    ***********/
+    var choiceCount = 0;
+    var choiceColumn, oldChoiceColumn;
+    var uncheckedGlyph = ' <span class="glyphicon  glyphicon-unchecked"></span>';
+    taxType.mainCat.forEach(function(mainCat) {
+      taxType.subCat[mainCat].forEach(function(subCat) {
+        choiceCount++;
+        taxType.details[ subCat ].forEach(function( detail ) {
+          choiceCount++;
+          console.log('Counting: ' + choiceCount + ' ' + mainCat + subCat + detail );
+        });
+      });
+    });
+    if (choiceCount < 12 ) {
+      detailLimit = 12;
+    } else {
+      var detailLimit = Math.ceil( choiceCount / 4 ) -1;
+    };
+    choiceCount = 0; //reset to use for presentation of the taxomony choices
+    //Set the stored data for the form: taxType
+    $(myBase).data('taxType', taxType);
+
+    //Build the selector form
+    taxType.mainCat.forEach(function(mainCat) {
+      taxType.subCat[mainCat].forEach(function(subCat) {
+        mainSub = mainCat + subCat;
+        choiceCount++;
+        choiceColumn = Math.ceil( choiceCount / detailLimit ); // should give a value 1-4 integer
+        oldChoiceColumn = choiceColumn;
+        var jItem = $(myBase + ' div.model'+ choiceColumn + ':first' ).clone().insertBefore(myBase + ' div.nic' + choiceColumn + ':last');
+        $(jItem).text(mainCat + ' ' + subCat).addClass('catg').removeClass('btn--hidden');
+        $(jItem).data('name', mainSub ); //label category
+        //
+        taxType.details[ subCat ].forEach(function( detail ) {
+          choiceCount++;
+          choiceColumn = Math.ceil( choiceCount / detailLimit ); // should give a value 1-4 integer
+          //
+          // If choiceColumn now > old choiceColumn, output the mainSub again as a column header
+          if ( choiceColumn > oldChoiceColumn ) {
+            oldChoiceColumn = choiceColumn;
+            choiceCount++;
+            var jItem = $(myBase + ' div.model'+ choiceColumn + ':first' ).clone().insertBefore(myBase + ' div.nic' + choiceColumn + ':last');
+            $(jItem).text(mainCat + ' ' + subCat).addClass('catg').removeClass('btn--hidden');
+            $(jItem).data('name', mainSub ); //label category
+          }
+
+          mainSubDtl = mainSub + '.' + detail;
+          //
+          // Output all the taxType details now, under its category header
+          jItem = $(myBase + ' div.model' + choiceColumn + ':first').clone().insertBefore(myBase + ' div.nic'+ choiceColumn + ':last');
+//          $(jItem).text(detail).addClass('dtlItm').removeClass('btn--hidden').data('name', mainSubDtl );
+          jItem = $(jItem).addClass('dtlItm').removeClass('btn--hidden').data('name', mainSubDtl );
+          $(jItem).html(uncheckedGlyph + detail)
+        });
+      });
+    });
+    //
+    // New taxonomy selector form created. Now attach all the click handlers
+    // Each catg div (main+subcat) and dtlItm (lowest level item) gets a handler
+
+    /***??? Leave for future work to enable selection by subCat
+    $("#s2cselections div.catg").each(function( ) {
+      $(this).attr("id", getUniqueId() );
+      //$(this).click(function() {
+        userProfile.toggleSelection(this, 'selForm');
+      });
+    }); ***/
 
     $(myBase + ' div.dtlItm').each(function( ) {
       $(this).attr("id", getUniqueId() );
@@ -222,11 +346,13 @@ var userProfile = {
 
   },
 
+
   toggleSelection: function( event, whereClicked ) {
 
     //
     // whereClicked is either selForm (selecting and removing)  or chosenBox (removing only):
     var itemInChosen2 = false;
+    var jItem;
     mainSubDtl = $(event).data().name; //in form 'main.sub.detail' as a string
     console.log('Toggle switch clicked at ', mainSubDtl + ' ' + whereClicked );
     //
@@ -237,9 +363,10 @@ var userProfile = {
       var audioAdd = document.getElementById("audioAdd");
          audioAdd.play();
 
-      // 5-29  Instead of hiding the selected item, dim it gray, and remove the
-      // event handler
+      // Dim the selected item gray, remove the
+      // event handler, add a checkmark
       $(event).removeClass('dtlItm').addClass('selectedItm').off();
+      $(event).children().removeClass('glyphicon-unchecked').addClass('glyphicon-check');
 
       // Now set this item to 'selected' (true) in chosen2 array
       // ??? may still have to include userProfile.formID in the equality test
@@ -277,10 +404,13 @@ var userProfile = {
       };
       //
       //Now add back the dtlItm class to reveal the respective item in selForm
-      $('div#' + $(event).attr('name') ).removeClass('selectedItm').addClass('dtlItm').click(function(e) {
+      jItem = $('div#' + $(event).attr('name') ).removeClass('selectedItm').addClass('dtlItm').click(function(e) {
+        $(this).children('span').removeClass('glyphicon-check').addClass('glyphicon-unchecked');
         e.stopPropagation();
+
         userProfile.toggleSelection(this, 'selForm');
       });
+      jItem = $(jItem).children('span').removeClass('glyphicon-check').addClass('glyphicon-unchecked')
       $(event).remove(); // Remove the button from the chosenBox
     };
   }
@@ -320,7 +450,7 @@ function parseSelections( ) {
       if (userProfile.chosen2[i].chosen) {
         if (userProfile.chosen2[i].type === catg) {
           name = userProfile.chosen2[i].detail.split('.');
-          srchCriteria.push( name[2] ); // ??? detail still has to be parsed
+          srchCriteria.push( name[1] ); // ??? detail still has to be parsed
         };
       };
     };
@@ -364,6 +494,7 @@ function initMatchingSearch(searchStr) {
 				success: [getAllProjs, function() {  //Use array of fn()s
 
         $("#match_res").removeClass("btn--hidden");
+        $("#pListHeader").removeClass("btn--hidden");
 				}]
 	}) //function getAllProjs gets passed the user matching projects
 }
@@ -756,4 +887,13 @@ function catgAbbrev( chosenCatg ) {
     //e.g. QA becomes QA.
   };
   return abbrev;
+};
+
+
+function isMatchActive( ) {
+  for (var i=0; i<userProfile.chosen2.length; i++) {
+    if (userProfile.chosen2[i].chosen) {
+      return true;
+    }
+  } return false;
 };

@@ -4,6 +4,10 @@ block content
     form#wizardcards
       div.interest_profile
         form
+          div.button__horiz-group(role="group" aria-label="...")
+            button(id="selectOrSearch" type="button" role="start_matching" class="next btn btn-md disabled") Please select
+
+
           h3 Hello Civic Enthusiast!
           h4.h4--light Create a simple profile and let us help you decide which project teams are a match for you. Your information will not be saved and will only be shared with the project team leads that you choose to message.
           br
@@ -11,12 +15,7 @@ block content
           div.form-group.form-group-horizontal
             div(id="skills")
 
-
-
-    div.button__horiz-group(role="group" aria-label="...")
-      button(type="button" role="start_matching" class="next btn btn-info ") Match me!
-
-    div#pListHeader.container-maxWidth970-no-top-pad.row.row--proj-container.pName
+    div#pListHeader.container-maxWidth970-no-top-pad.row.row--proj-container.pName.btn--hidden
       section.col-sm-2 Name
       section.col-sm-3 Mission Statement
       section.col-sm-4 Matching Points
