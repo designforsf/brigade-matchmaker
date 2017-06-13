@@ -42,7 +42,6 @@ var apiCtrl = require('./controllers/api')
 var homeCtrl = require('./controllers/home')
 var usersCtrl = require('./controllers/user')
 var projectsCtrl = require('./controllers/projects')
-//var envApiCtrl = require('./controllers/apiEnv');
 //var matchingCtrl = require('./controllers/matching')
 
 /*
@@ -70,7 +69,7 @@ mongoose.connect(process.env.MONGODB || process.env.MONGOLAB_URI, function (err)
 });
 mongoose.connection.on('disconnected', function () {
   console.log('Mongoose disconnected');
-  
+
 });
 mongoose.connection.on('error', function (err) {
   console.log('There was an error while trying to connect!')
@@ -110,32 +109,7 @@ var ProjectTaxonomies = require('./models/ProjectTaxonomies')
 /**
  * Express configuration.
  */
-app.set('port', process.env.PORT || 5465);
-
-// REGISTER OUR ROUTES -------------------------------
-app.use('/apiEnv', router);
-
-router.get('/', function(req, res) {
-    if ( process.env.PORT && process.env.DOMAIN )
-      res.json({  "Node_env": process.env.NODE_ENV,
-                "port": process.env.PORT,
-                "domain": process.env.DOMAIN,
-                "result": "success"
-      });
-    else
-      res.json({  "Node_env": process.env.NODE_ENV,
-                "port": "undefined",
-                "domain": "undefined",
-                "result": "failed"
-      });
-});
-
-// more routes for our API will happen here
-
-// REGISTER OUR ROUTES -------------------------------
-// all of our routes will be prefixed with /api
-app.use('/apiEnv', router);
-
+app.set('port', process.env.PORT || 5465)
 app.set('views', path.join(__dirname, 'themes'))
 app.locals.capitalize = function (value) {
   return value.charAt(0).toUpperCase() + value.slice(1)
@@ -160,7 +134,8 @@ app.use(session({
   saveUninitialized: true,
   secret: process.env.SESSION_SECRET,
   store: new MongoStore({
-    url: process.env.MONGODB || process.env.MONGOLAB_URI,
+    url: 'mongodb://localhost:27017',
+    //url: process.env.MONGODB || process.env.MONGOLAB_URI,
     autoReconnect: true
   })
 }))
@@ -234,7 +209,6 @@ app.use(function (req, res, next) {
  */
 
 app.get('/', homeCtrl.index)
-//app.use('/api', envApiCtrl);
 var pt = new ProjectTaxonomies();
 
 app.get('/test/projectList',
@@ -304,11 +278,13 @@ app.get('/logout', usersCtrl.getLogout)
 /**
 * Messaging Routes
 **/
+
 /**
 helpers.messagingConfigurator({
   expressApp: app
 });
 **/
+
 /**
  * Meta Routes
  */
@@ -409,6 +385,38 @@ app.get('/auth/disconnect/:service', passportConf.isAuthenticated, usersCtrl.dis
 app.use(errorHandler())
 
 /**
+ * Check if project taxonomies exist before starting Express server
+ */
+ProjectTaxonomies.find({}, function (err, results) {
+  if (err) throw err
+  if (!results.length) {
+    //console.log('No project taxonomies found!');
+
+    // load the seed class
+    var defaultPTAttributes = require('./seeds/development/ProjectTaxonomies');
+
+    // ProjectTaxonomies is different from the other seeds:
+    //    this class exports a function!
+
+    defaultPTAttributes(function (err, attributes) {
+
+      // insert all attributes of all taxonomies... all at once
+      ProjectTaxonomies.collection.insert(attributes, function (err, output) {
+        if (err) throw err;
+        //console.log(output);
+        console.log('Inserted ' + output.insertedCount + ' attributes from the ProjectTaxonomies');
+      });
+
+    });
+
+  } else {
+    console.log(results.length + ' attributes found for ProjectTaxonomies.')
+
+  }
+});
+
+
+/**
  * Check if projects exist before starting Express server
  */
 Projects.find({}, function (err, results) {
@@ -420,6 +428,7 @@ Projects.find({}, function (err, results) {
     var defaultProjects = require('./seeds/development/Projects')
     defaultProjects.forEach(function(project) {
       console.log('load project id=' + project.id);
+      console.log('load matching config ', project.matchingConfig);
       newProj = new Projects(project);
 
       // save project

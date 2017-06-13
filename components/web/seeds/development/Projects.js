@@ -15,13 +15,13 @@ module.exports = [
     'license': 'MIT',
     'homepage': 'https://rootandrebound.github.io/roadmap-to-html/',
     'repository': 'https://github.com/rootandrebound/roadmap-to-html',
-    'contact': [{ 'name': 'Zayne Malik', 'email': 'zm@britpop.com'}],
     'links': [],
     'videos': [],
     'matchingConfig': {
-      'interestsNeeded': ['all', 'homelessness', 'housing', 'infrastructure'],
-      'skillsNeeded': ['ms-word','css','html','mongo'],
-      'rolesNeeded': ['develop','help', 'initiate']
+      'interests': ['all'],
+      'skillsNeeded': ['office/ms-word','client-dev/html-css'],
+      'skillsOffered': ['office/cms'],
+      'goalsNeeded': ['developer','helper']
     },
     'keywords': [
       faker.company.bsBuzz(),
@@ -81,13 +81,13 @@ module.exports = [
     'license': 'MIT',
     'homepage': 'https://sheltertech.org/',
     'repository': '',
-    'contact': [{ 'name': 'Zane', 'email': 'z@sheltertech.org'}],
     'links': [],
     'videos': [],
     'matchingConfig': {
-      'interestsNeeded': ['homelessness'],
-      'skillsNeeded': ['ios', 'css', 'html'],
-      'rolesNeeded': ['developer']
+      'interests': ['homelessness'],
+      'skillsNeeded': ['client-dev/ios'],
+      'skillsOffered': ['client-dev/javascript'],
+      'goalsNeeded': ['developer']
     },
     'keywords': [
       faker.company.bsBuzz(),
@@ -151,13 +151,13 @@ module.exports = [
     'license': 'MIT',
     'homepage': 'https://getkong.org/install',
     'repository': 'https://github.com/codeforexample/forked-project-kong',
-    'contact': [{ 'name': 'Lindsay', 'email': 'linds@caljust.org'}],
     'links': [],
     'videos': [],
     'matchingConfig': {
-      'interestsNeeded': ['criminal-justice'],
-      'skillsNeeded': ['optimization-modeling','predictive-modeling','data-science','statistics'],
-      'rolesNeeded': ['develop','help']
+      'interests': ['criminal-justice'],
+      'skillsNeeded': ['data-sci/optimization-modeling','data-sci/predictive-modeling','data-sci/statistics'],
+      'skillsOffered':[],
+      'goalsNeeded': ['developer','helper']
     },
     'keywords': [
       faker.company.bsBuzz(),
@@ -222,13 +222,13 @@ module.exports = [
     'license': 'MIT',
     'homepage': 'http://adoptadrain.sfwater.org/',
     'repository': 'https://github.com/sfbrigade/adopt-a-drain',
-    'contact': [{ 'name': 'Solon', 'email': 'sol@uwantdrain.guru'}],
     'links': [],
     'videos': [],
     'matchingConfig': {
-      'interestsNeeded': ['housing'],
-      'skillsNeeded': ['ruby-on-rails','ruby','javascript'],
-      'rolesNeeded': ['develop','bug-testing']
+      'interests': ['housing'],
+      'skillsNeeded': ['server-dev/rails','server-dev/ruby','client-dev/javascript'],
+      'skillsOffered':['client-dev/html-css'],
+      'goalsNeeded': ['developer','bug-testing']
     },
     'keywords': [
       faker.company.bsBuzz(),
@@ -293,13 +293,13 @@ module.exports = [
     'license': 'MIT',
     'homepage': 'https://brigadehub.github.io',
     'repository': 'https://github.com/brigadehub/brigadehub',
-    'contact': [{ 'name': 'Johnson', 'email': 'jns@brigadehub.c0m'}],
     'links': [],
     'videos': [],
     'matchingConfig': {
-      'interestsNeeded': ['civic-participation'],
-      'skillsNeeded': ['node','mongo'],
-      'rolesNeeded': ['develop']
+      'interests': ['civic-participation'],
+      'skillsNeeded': ['server-dev/nodejs','server-dev/mongodb'],
+      'skillsOffered': ['office'],
+      'goalsNeeded': ['developer']
     },
     'keywords': [
       faker.company.bsBuzz(),
@@ -363,13 +363,13 @@ module.exports = [
     'license': 'MIT',
     'homepage': 'http://datascience.codeforsanfrancisco.org/',
     'repository': 'https://github.com/codeforexample/mirrored-project-mirror',
-    'contact': [{ 'name': 'Alvin Toffler', 'email': 'at@thefuture.com'}],
     'links': [],
     'videos': [],
     'matchingConfig': {
-      'interestsNeeded': [],
-      'skillsNeeded': ['python','data-science','visualization','machine-learning'],
-      'rolesNeeded': ['develop','learn']
+      'interests': [],
+      'skillsNeeded': ['data-sci','data-sci/python','data-sci/visualization','data-sci/machine-learning'],
+      'skillsOffered': ['data-sci'],
+      'goalsNeeded': ['developer','learner']
     },
     'keywords': [
       faker.company.bsBuzz(),

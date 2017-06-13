@@ -23,14 +23,12 @@
   node module dependencies
 */
 
-/*
-Deactivate for demo on heroku
 var Imap = require('imap')
     MailParser = require('mailparser').MailParser
     EmailJs = require('emailjs/email')
     inspect = require('util').inspect
 ;
-*/
+
 
 /*
   constructor
@@ -45,7 +43,6 @@ function Context (attr) {
     config
       web
       mongodb
-
   */
 
   self.config = attr.config;

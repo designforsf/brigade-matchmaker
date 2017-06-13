@@ -167,11 +167,12 @@ module.exports = {
    * SEE: https://github.com/extrabacon/python-shell
 
    * TEST:
-        http://localhost:5465/api/user/matches?skills=javascript,python&interests=housing&goals=developer,presenter
-        http://localhost:5465/api/user/matches?skills=data-science&interests=homelessness&goals=developer
-        http://localhost:5465/api/user/matches?skills=ruby&goals=developer,learner
+        http://localhost:5465/api/user/matches?skills=client-dev/javascript,data-sci/python&interests=housing&goals=developer,presenter
+        http://localhost:5465/api/user/matches?skills=data-sci&interests=homelessness&goals=developer
+        http://localhost:5465/api/user/matches?skills=server-dev/ruby&goals=developer,learner
         http://localhost:5465/api/user/matches?skills=null&goals=leader
-        http://localhost:5465/api/user/matches?skills=javascript
+        http://localhost:5465/api/user/matches?skills=server-dev/nodejs
+        http://localhost:5465/api/user/matches?learnSkills=client-dev/javascript
    */
   getUserMatches: function (req, res, next) {
     console.log('getUserMatch');
@@ -200,8 +201,12 @@ module.exports = {
       "score2",   // user attr 2 score
       "attrs2",   // user attr 2 matching attrs
 
+      "name3",    // user attr 3 field name
+      "score3",   // user attr 3 score
+      "attrs3",   // user attr 3 matching attrs
+
     ];
-    matchUserAttrs = ["skills", "interests", "goals"];
+    matchUserAttrs = ["skills", "learnSkills", "interests", "goals"];
 
     // user input, translated from web params to the python script arguments
     var pyArgs = [];
@@ -228,22 +233,23 @@ module.exports = {
     // where is the python script?
     var pyDirArr = process.cwd().split('/');
     pyDirArr.pop();
-    pyDirArr.push('algorithms');
+    pyDirArr.push('matching');
     //
     // heroku environemnt only
     //var pyDir = pyDirArr.join('/');
-    var pyDir = '/app/components/algorithms'
+    var pyDir = '../matching'
     var pyFile = '/db-match-algo.py';
     //
     //console.log('req.MongoStore is ', req);
     //console.log('run python: ' + pyFile + ' with args=', pyArgs);
     //console.log('pyDir: ', pyDir);
-    //
 
     PyShell.run(pyFile, {
       scriptPath: pyDir,
       args: pyArgs
     }, function (err, pyOutput) {
+
+      if (err) { console.error(err); }
 
       //console.log('pyOutput is: ', pyOutput);
       pyOutput.forEach(function (line, idx){
@@ -253,16 +259,6 @@ module.exports = {
         //project['_id'] = lineArr[0]; // mongoid not to show in output
         project['id'] = lineArr[1];
         project['score'] = parseInt(lineArr[2]);
-        //project['thumbnailUrl'] = lineArr[3];
-        //project['description'] = lineArr[4];
-        //project['contact.name'] = lineArr[5];
-        //project['contact.email'] = lineArr[6];
-        //project['repository'] = lineArr[5];
-        //project['homepage'] = lineArr[6];
-        //project['content'] = lineArr[7];
-
-
-
 
         // process individual user attributes
         // NOTE: after general fields, py script outputs
