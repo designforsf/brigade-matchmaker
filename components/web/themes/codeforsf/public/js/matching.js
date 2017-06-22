@@ -54,23 +54,24 @@ $(document).ready(function () {
     and used to create the selection form html through method
     selectorsObj.goCreateSelectForms
   ******************/
-
+  
   var selectorsObj = {
     formIDs : ['s2cselections', 's2lselections', 'intSelections', 'goalSelections'],
     myForm : '',
     projTax : {  // all taxonomies from across all BrigadeHub projects
-      taxSkills : matchSkills,
-      taxGoals : matchGoals,
-      taxInts : matchInterests
+      skills : projTaxSkills,
+      goals : projTaxGoals,
+      interests : projTaxInterests
     },
 
     goCreateSelectForms : function( taxObjToUse, idx ) {
+      
     // these help with jQuery selections to load the selection forms
       var taxSelectors = {
-        s2cselections : 'taxSkills',
-        s2lselections : 'taxSkills',
-        intSelections : 'taxInts',
-        goalSelections : 'taxGoals'
+        s2cselections : 'skills',
+        s2lselections : 'skills',
+        intSelections : 'interests',
+        goalSelections : 'goals'
       };
 
       userProfile.formID = this.formIDs[idx];
@@ -88,9 +89,9 @@ $(document).ready(function () {
     }
   };
 
-  selectorsObj.goCreateSelectForms( selectorsObj.projTax.taxSkills, 0 ); // for user's skills to Contribute
-  selectorsObj.goCreateSelectForms( selectorsObj.projTax.taxSkills, 1 ); // for skills to Learn
-  selectorsObj.goCreateSelectForms( selectorsObj.projTax.taxInts, 2 ); // for user's interests
+  selectorsObj.goCreateSelectForms( selectorsObj.projTax.skills, 0 ); // for user's skills to Contribute
+  selectorsObj.goCreateSelectForms( selectorsObj.projTax.skills, 1 ); // for skills to Learn
+  selectorsObj.goCreateSelectForms( selectorsObj.projTax.interests, 2 ); // for user's interests
 
 /*********** End Doc Ready function*************/
 
@@ -178,29 +179,29 @@ var userProfile = {
   },
 
 /********* Horizontal choices layout -- deprecated
-  doCreateForm : function( taxType, formID )  { //html for taxonomy select forms
+  doCreateForm : function( taxObj, formID )  { //html for taxonomy select forms
     //
-    // taxType: taxSkills, taxGoals, taxInterests
+    // taxObj: taxSkills, taxGoals, taxInterests
     // formID = the html id property for the relevant modal form
     var myBase = '#' + formID; // used for jQuery
     var mainSub, mainSubDtl;
     //
-    //Set the stored data for the form: taxType
-    $(myBase).data('taxType', taxType); //???gives the object not the name
+    //Set the stored data for the form: taxObj
+    $(myBase).data('taxObj', taxObj); //???gives the object not the name
 
     //Build the selector form
-    taxType.mainCat.forEach(function(mainCat) {
+    taxObj.mainCat.forEach(function(mainCat) {
 
-      taxType.subCat[mainCat].forEach(function(subCat) {
+      taxObj.subCat[mainCat].forEach(function(subCat) {
         mainSub = mainCat + '.' + subCat;
         $(myBase + ' div.model:first').clone().insertBefore(myBase + ' div.nic:first');
         jItem = $(myBase + ' ' + ' div.model:last').text(mainCat + ' ' + subCat).addClass('catg');
         $(jItem).data('name', mainSub ); //label category
         //
-        taxType.details[ subCat ].forEach(function( detail ) {
+        taxObj.details[ subCat ].forEach(function( detail ) {
           mainSubDtl = mainSub + '.' + detail;
           //
-          // Output all the taxType -- at end, clone and append to the selectForm.jade
+          // Output all the taxObj -- at end, clone and append to the selectForm.jade
           $(myBase + ' div.model:first').clone().insertBefore(myBase + ' div.nic:first');
           jItem = $(myBase + ' div.model:last').text(detail).addClass('dtlItm').data('name', mainSubDtl );
 
@@ -245,12 +246,15 @@ var userProfile = {
   },
 ***********/
 
-  doCreateForm : function( taxType, formID )  { //html for taxonomy select forms
-    //
-    // taxType: taxSkills, taxGoals, taxInterests
+  doCreateForm : function( taxObj, formID )  { //html for taxonomy select forms
+    
+    //console.log('doCreateForm ', taxObj);
+    
+    // taxObj: taxSkills, taxGoals, taxInterests
     // formID = the html id property for the relevant modal form
     var myBase = '#' + formID; // used for jQuery
     var mainSub, mainSubDtl;
+    
     /******Algo to balance the column lengths*********
     Option#1 (Try this first)
     Count all the mainSubDtl across all mainSub categories
@@ -269,61 +273,100 @@ var userProfile = {
     This makes the columns of the selection grid as balanced
     looking as possible without breaking mainSubs across columns.
     ***********/
-    var choiceCount = 0;
+
     var choiceColumn, oldChoiceColumn;
+    var mainCat, subCat;
     var uncheckedGlyph = ' <span class="glyphicon  glyphicon-unchecked"></span>';
-    taxType.mainCat.forEach(function(mainCat) {
-      taxType.subCat[mainCat].forEach(function(subCat) {
-        choiceCount++;
-        taxType.details[ subCat ].forEach(function( detail ) {
-          choiceCount++;
-          console.log('Counting: ' + choiceCount + ' ' + mainCat + subCat + detail );
-        });
-      });
-    });
+    
+    var taxName, taxAttr;
+    for (var choiceCount=0; choiceCount < taxObj.length; choiceCount++) {
+      taxAttr = taxObj[choiceCount];
+      
+      // root attribute (the name of this taxonomy)
+      if (typeof taxAttr.parent === 'undefined') { 
+        taxName=taxAttr.name;
+        continue; 
+      }
+      
+      if (taxAttr.parent == taxName) {  // main category
+        mainCat = taxAttr.name;
+      } else {                          // sub category
+        subCat = taxAttr.name;
+      }
+      
+      console.log('Counting: ' + choiceCount + ' ' + mainCat + ' ' + subCat );
+      
+    } // END loop over taxonomy attributes
+    
+    
     if (choiceCount < 12 ) {
       detailLimit = 12;
     } else {
       var detailLimit = Math.ceil( choiceCount / 4 ) -1;
     };
+    
+    mainCat=undefined;
+    subCat=undefined;
     choiceCount = 0; //reset to use for presentation of the taxomony choices
-    //Set the stored data for the form: taxType
-    $(myBase).data('taxType', taxType);
+    //Set the stored data for the form: taxObj
+    $(myBase).data('taxObj', taxObj);
 
     //Build the selector form
-    taxType.mainCat.forEach(function(mainCat) {
-      taxType.subCat[mainCat].forEach(function(subCat) {
+    for (var choiceCount=0; choiceCount < taxObj.length; choiceCount++) {
+      taxAttr = taxObj[choiceCount];
+      
+      // root attribute (the name of this taxonomy)
+      if (typeof taxAttr.parent === 'undefined') { 
+        taxName=taxAttr.name;
+        continue; 
+      }
+      
+      // main category
+      if (taxAttr.parent == taxName) {  
+        mainCat = taxAttr.name;
+      
+
         mainSub = mainCat + subCat;
-        choiceCount++;
+
         choiceColumn = Math.ceil( choiceCount / detailLimit ); // should give a value 1-4 integer
         oldChoiceColumn = choiceColumn;
         var jItem = $(myBase + ' div.model'+ choiceColumn + ':first' ).clone().insertBefore(myBase + ' div.nic' + choiceColumn + ':last');
         $(jItem).text(mainCat + ' ' + subCat).addClass('catg').removeClass('btn--hidden');
         $(jItem).data('name', mainSub ); //label category
+      
+      
+      // END main category
+      
+      // sub category
+      } else {                          
+        subCat = taxAttr.name;
+        
+        choiceColumn = Math.ceil( choiceCount / detailLimit ); // should give a value 1-4 integer
         //
-        taxType.details[ subCat ].forEach(function( detail ) {
+        // If choiceColumn now > old choiceColumn, output the mainSub again as a column header
+        if ( choiceColumn > oldChoiceColumn ) {
+          oldChoiceColumn = choiceColumn;
           choiceCount++;
-          choiceColumn = Math.ceil( choiceCount / detailLimit ); // should give a value 1-4 integer
-          //
-          // If choiceColumn now > old choiceColumn, output the mainSub again as a column header
-          if ( choiceColumn > oldChoiceColumn ) {
-            oldChoiceColumn = choiceColumn;
-            choiceCount++;
-            var jItem = $(myBase + ' div.model'+ choiceColumn + ':first' ).clone().insertBefore(myBase + ' div.nic' + choiceColumn + ':last');
-            $(jItem).text(mainCat + ' ' + subCat).addClass('catg').removeClass('btn--hidden');
-            $(jItem).data('name', mainSub ); //label category
-          }
+          var jItem = $(myBase + ' div.model'+ choiceColumn + ':first' ).clone().insertBefore(myBase + ' div.nic' + choiceColumn + ':last');
+          $(jItem).text(mainCat + ' ' + subCat).addClass('catg').removeClass('btn--hidden');
+          $(jItem).data('name', mainSub ); //label category
+        }
 
-          mainSubDtl = mainSub + '.' + detail;
-          //
-          // Output all the taxType details now, under its category header
-          jItem = $(myBase + ' div.model' + choiceColumn + ':first').clone().insertBefore(myBase + ' div.nic'+ choiceColumn + ':last');
+        mainSubDtl = mainCat + '.' + subCat;
+        //
+        // Output all the taxObj details now, under its category header
+        jItem = $(myBase + ' div.model' + choiceColumn + ':first').clone().insertBefore(myBase + ' div.nic'+ choiceColumn + ':last');
 //          $(jItem).text(detail).addClass('dtlItm').removeClass('btn--hidden').data('name', mainSubDtl );
-          jItem = $(jItem).addClass('dtlItm').removeClass('btn--hidden').data('name', mainSubDtl );
-          $(jItem).html(uncheckedGlyph + detail)
-        });
-      });
-    });
+        jItem = $(jItem).addClass('dtlItm').removeClass('btn--hidden').data('name', mainSubDtl );
+        $(jItem).html(uncheckedGlyph + taxAttr.name)
+        
+        
+      } // END sub category
+    
+    }    
+
+    
+    
     //
     // New taxonomy selector form created. Now attach all the click handlers
     // Each catg div (main+subcat) and dtlItm (lowest level item) gets a handler

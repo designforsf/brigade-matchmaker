@@ -1,5 +1,7 @@
-/* use /test/api/projects
-extends layout
+// URL: /test/api/projects
+
+extends ../layout
+
 block content
 	div.container.container-maxWidth970
 		//nav
@@ -15,9 +17,10 @@ block content
 
 
 		div.container-maxWidth970.btn-hidden
-			h4.large-hero--font-narrow Used only for testing - lists projects in db<br>This view is no longer part of the user flow. After checkin users go straight to the matching wizard.
+			h4.large-hero--font-narrow UI test - lists projects in db
+			p This view is no longer part of the user flow. After checkin users go straight to the matching wizard.
 
-			<br />
+			br
 			div.text-center
 				div.button__horiz-group(role="group" aria-label="...")
 					a(href="http://localhost:5465/test/projectlist" class="btn btn-primary button__more-margins") Matching Hat
@@ -26,7 +29,7 @@ block content
 			h1.brigadeSF-font-fam.text-center  Projects List
 			div(id="projects-list" class="projects-list")
 
-			<br />
+			br
 			div.text-center
 				div.button__horiz-group(role="group" aria-label="...")
 					a(href="http://localhost:5465/test/projectlist" class="btn btn-primary button__more-margins") Matching Hat

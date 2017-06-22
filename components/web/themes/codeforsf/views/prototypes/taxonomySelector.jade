@@ -27,9 +27,14 @@ block script
     var renderAttributes = function (attrName) {
     
       // simpler, non-recursive approach
+      var taxName;
       for (var i=0; i < taxonomy.skillsNeeded.length; i++) {
         attrib = taxonomy[attrName][i];
         
+        if (typeof attrib.parent === 'undefined') { 
+          taxName=attrib.name;
+          continue; 
+        }
         
         if (attrib.parent == "skills") {
           jQuery('#skillsContainer').append('<div><h3>' + attrib.title + '</h3></div>');

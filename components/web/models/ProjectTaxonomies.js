@@ -31,6 +31,10 @@ ptSchema.methods.getTaxonomies = function (cb) {
 
 ptSchema.methods.getSkills = function (cb) {
   return cb(null, [
+    
+    {name: 'skills', synonyms: [], parent: undefined,
+      title: 'Skills'},
+    
     {name: 'non-technical', synonyms: ['general'], parent: 'skills',
       title: 'Non-Technical Skills'},
 
@@ -83,6 +87,10 @@ ptSchema.methods.getSkills = function (cb) {
 
 ptSchema.methods.getInterests = function (cb) {
   return cb(null, [
+    
+    {name: 'interests', synonyms: [], parent: undefined,
+      title: 'Interests'},
+    
     {name: 'homelessness', synonyms: [], parent: 'interests'},
     {name: 'housing', synonyms: [], parent: 'interests'},
     {name: 'infrastructure', synonyms: [], parent: 'interests'},
@@ -98,6 +106,10 @@ ptSchema.methods.getInterests = function (cb) {
 
 ptSchema.methods.getGoals = function (cb) {
   return cb(null, [
+    
+    {name: 'goals', synonyms: [], parent: undefined,
+      title: 'Goals'},
+    
     {name: 'learn', synonyms: [], parent: 'goals'},
     {name: 'lead', synonyms: ['manage'], parent: 'goals'},
     {name: 'develop', synonyms: ['code'], parent: 'goals'},
