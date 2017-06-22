@@ -363,11 +363,22 @@ module.exports = {
      */
 
     testProjects: function (req, res) {
-      res.render(res.locals.brigade.theme.slug + '/views/all_projects', {
-        title: 'Test the Projects API',
+      res.render(res.locals.brigade.theme.slug + '/views/prototypes/projects', {
+        title: 'Test Projects API & UI',
         brigade: res.locals.brigade
       })
     }, // END testProjects
+
+    testTaxonomySelector: function (req, res) {
+      
+      res.render(res.locals.brigade.theme.slug + '/views/prototypes/taxonomySelector', {
+        title: 'Test Taxonomy data & UI',
+        brigade: res.locals.brigade,
+        skills: res.locals.projectTaxonomySkills,
+        interests: res.locals.projectTaxonomyInterests,
+        goals: res.locals.projectTaxonomyGoals,
+      })
+    }, // END testTaxonomySelector
 
 
     /**

@@ -270,11 +270,38 @@ app.get('/logout', usersCtrl.getLogout)
  app.post('/api/user/match_config', apiCtrl.updateUserMatchConfig)
  app.get('/api/user/matches', apiCtrl.getUserMatches)
  app.get('/api/projects', apiCtrl.getProjects)
- app.get('/test/api/projects', apiCtrl.testProjects)
  app.get('/api/project/taxonomy/skills', apiCtrl.getTaxonomySkills)
  app.get('/api/project/taxonomy/interests', apiCtrl.getTaxonomyInterests)
  app.get('/api/project/taxonomy/goals', apiCtrl.getTaxonomyGoals)
-
+ 
+ app.get('/test/api/projects', apiCtrl.testProjects)
+ app.get('/test/api/taxonomy-selector', 
+   function (req, res, next) {
+     pt.getSkills(function (err, results) {
+       if (err) throw err
+       res.locals = res.locals || {}
+       res.locals.projectTaxonomySkills = results
+       next()
+     })
+   },
+   function (req, res, next) {
+     pt.getInterests(function (err, results) {
+       if (err) throw err
+       res.locals = res.locals || {}
+       res.locals.projectTaxonomyInterests = results
+       next()
+     })
+   },
+   function (req, res, next) {
+     pt.getGoals(function (err, results) {
+       if (err) throw err
+       res.locals = res.locals || {}
+       res.locals.projectTaxonomyGoals = results
+       next()
+     })
+   },
+   apiCtrl.testTaxonomySelector)
+ 
 /**
 * Messaging Routes
 **/
