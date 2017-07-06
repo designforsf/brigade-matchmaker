@@ -174,6 +174,29 @@ nvm use v6.9.5
 npm install
 ```
 
+## Admin application configuration
+
+The admin tools are built using [KeystoneJS 4](http://keystonejs.com).  
+
+To set the admin tools up, in the command line terminal:
+
+```
+nvm use v6.9.5
+npm install --save keystone@next
+npm install -g yo
+npm install -g generator-keystone
+
+cd brigade-matchmaker/components/admin
+npm install
+```
+
+To run the admin tools, first make sure that mongodb is running. Then, in the command line terminal:
+
+```
+cd brigade-matchmaker/components/admin
+node keystone
+```
+
 ## Web application configuration
 
 Once Node.js and the dependencies are installed, the webapp is very close to being runnable. What it needs first is the .env comfiguration file.
