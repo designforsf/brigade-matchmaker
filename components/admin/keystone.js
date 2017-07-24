@@ -30,11 +30,10 @@ keystone.set('locals', {
 keystone.set('routes', require('./routes'));
 
 keystone.set('nav', {
+	brigadeProjects: 'brigade-projects',
 	posts: ['posts', 'post-categories'],
 	enquiries: 'enquiries',
 	ys: 'ys',
 });
-
-
 
 keystone.start();
