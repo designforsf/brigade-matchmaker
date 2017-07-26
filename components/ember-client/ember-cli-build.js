@@ -8,7 +8,10 @@ module.exports = function(defaults) {
     'ember-bootstrap': {
       'bootstrapVersion': 3,
       'importBootstrapFont': true,
-      'importBootstrapCSS': true
+      'importBootstrapCSS': false
+    },
+    fingerprint: {
+      enabled: true
     }
   });
 
