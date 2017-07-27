@@ -315,6 +315,10 @@ module.exports = {
    */
   getProjects: function (req, res, next) {
     console.log('getProjects');
+    
+    // for the emberjs client
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
     // final output
     var output = {
@@ -339,15 +343,26 @@ module.exports = {
         if (err) {
           output.success = false;
           output.error = {message: err};
-          res.json({ success: false });
-          return next();
-
-        } else {
-          output.success = true;
-          output.projects = results;
+          output.data = {};
           res.json(output);
           return next();
 
+        } else {
+          
+          var outputData = [];
+          results.forEach(function(result) {
+            outputData.push({
+              type: "project",
+              id: result._id,
+              attributes: result
+            });
+            
+          });
+          
+          //output.success = true;
+          res.json({ data: outputData });
+          return next();
+          
         }
 
       });
