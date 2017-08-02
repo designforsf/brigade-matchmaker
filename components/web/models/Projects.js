@@ -27,6 +27,18 @@ var projectsSchema = new mongoose.Schema({
     skillsOffered: {type: Array, default: []}, // for members to learn
     goalsNeeded: {type: Array, default: []}
   },
+  
+  matchingDescr: {
+    thumbnailUrl: {type: String, default: ''},
+    summary: {type: String, default: ''},
+    contact: {type: String, default: ''},
+    contactRole: {type: String, default: ''},
+    contactThumbnailUrl: {type: String, default: ''},
+    tasks: {type: Array, default: []},
+    progress: {type: Array, default: []},
+    repository: {type: String, default: ''},
+    link: {type: String, default: ''},
+  },
 
   /* Expanded Open DC civic.json */
 

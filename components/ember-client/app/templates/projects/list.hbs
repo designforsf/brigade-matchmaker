@@ -1,0 +1,26 @@
+{{outlet}}
+
+{{#each model as |project|}}
+  <hr/>
+
+  <div class="row">
+    <div class="col-md-1"></div>
+    
+    <div class="col-md-4" style="display: inline-block; vertical-align:top;">
+      <strong>{{project.name}}</strong>
+      <br/>ID: {{project.id}}
+    </div>
+    
+    <div class="col-md-4" style="display: inline-block; vertical-align:top;">
+      {{project.description}}
+    </div>
+    
+    <div class="col-md-2 pull-right" style="display: inline-block; vertical-align:top;">
+      <a href="">Edit Project</a>
+    </div>
+    
+    <div class="col-md-1"></div>
+    
+  </div>
+  
+{{/each}}
