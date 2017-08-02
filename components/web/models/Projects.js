@@ -31,7 +31,8 @@ var projectsSchema = new mongoose.Schema({
   matchingDescr: {
     thumbnailUrl: {type: String, default: ''},
     summary: {type: String, default: ''},
-    contact: {type: String, default: ''},
+    contactName: {type: String, default: ''},
+    contactEmail: {type: String, default: ''},
     contactRole: {type: String, default: ''},
     contactThumbnailUrl: {type: String, default: ''},
     tasks: {type: Array, default: []},

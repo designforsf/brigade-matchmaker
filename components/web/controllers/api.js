@@ -305,10 +305,65 @@ module.exports = {
 
   }, // END getUserMatches
 
+  /**
+   * Get /api/project
+   * Returns a json obj of a project
+   * Conforms to JSON-API
+
+   * TEST:
+        http://localhost:5465/api/project/<MONGO_ID>
+   */
+   
+  getProject: function (req, res, next) {
+    console.log('getProject ' + req.params.id);
+    
+    // for the emberjs client
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    
+    Projects.
+      find({
+        _id: req.params.id
+      }).
+      select({ _id: 1, name: 1, matchingConfig: 1, description: 1, team: 1, homepage: 1, thumbnailUrl: 1, repository: 1, needs: 1, contact: 1}).
+      exec(function (err, results) {
+        
+        // script returned error
+        if (err) {
+          output.success = false;
+          output.error = {message: err};
+          output.data = {};
+          res.json(output);
+          return next();
+
+        } else {
+          
+          var outputData = [];
+          results.forEach(function(result) {
+            result.id = result['_id'];
+            
+            outputData.push({
+              type: "project",
+              id: result._id,
+              attributes: result
+            });
+            
+          });
+          
+          //output.success = true;
+          res.json({ data: outputData[0] });
+          return next();
+          
+        }
+        
+      }); // END model query
+      
+  }, // END getProject
 
   /**
    * Get /api/projects
    * Returns a json list of available projects
+   * Conforms to JSON-API
 
    * TEST:
         http://localhost:5465/api/projects
@@ -351,6 +406,8 @@ module.exports = {
           
           var outputData = [];
           results.forEach(function(result) {
+            result.id = result['_id'];
+            
             outputData.push({
               type: "project",
               id: result._id,
@@ -367,7 +424,8 @@ module.exports = {
 
       });
 
-    }, // END getProjects
+    }, // END getProject\
+
 
     /**
      * Get /api/projects
