@@ -1,8 +1,8 @@
 #!/bin/bash
 echo 'Setting up for deployment to heroku'
-echo 'Run from web dir'
-mPath='../messaging/config'
-wPath=./
+echo 'Run from components/web/scripts dir'
+mPath='../../messaging/config'
+wPath='../'
 echo 'swap envs for messaging'
 cp $mPath/heroku.development.js $mPath/development.js
 cp $mPath/heroku.env.js.default $mPath/env.js.default
