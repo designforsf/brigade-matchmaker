@@ -8,17 +8,22 @@ var PyShell = require('python-shell')
 module.exports = {
 
   /**
+   * userLogoff
+   * ------------------------------------------------------
     POST /api/user/logouff
   */
-
+  
   userLogoff: function (req, res, next) {
     req.session.destroy();
     res.json({ success: true });
   },
 
   /**
+   * createUserAndLogin
+   * ------------------------------------------------------     
    * Get /api/user/create_and_login
    */
+   
   createUserAndLogin: function (req, res, next) {
     console.log('createUserAndLogin ', req.body);
     Users.find({email: req.body.email}, function (err, foundUsers) {
@@ -56,8 +61,11 @@ module.exports = {
   },
 
   /**
+   * userLogin
+   * ------------------------------------------------------
    * Get /api/user/login
    */
+   
   userLogin: function (req, res, next) {
     console.log('userLogin ', req.body);
 
@@ -106,6 +114,8 @@ module.exports = {
   },
 
   /**
+   * updateUserMatchConfig
+   * ------------------------------------------------------
    * Post /api/user/match_config
    */
 
@@ -123,7 +133,7 @@ module.exports = {
           upsert_configs[attrib] = req.body[attrib].split(',');
         }
       });
-
+      
       //console.log('updateUserConfig post-processed: ', upsert_configs);
       UserMatchConfigs.findOneAndUpdate({ 'user_id': req.user.id }, upsert_configs, {upsert:true}, function(err, match_configs) {
         if (err) {
@@ -134,16 +144,20 @@ module.exports = {
         res.json({ success: true, match_configs: match_configs });
         return next();
       });
+      
     } else {
       res.json({ success: false, error: {message: "User in session required."} });
       return next();
     }
-
+    
   },
 
   /**
+   * getUserSession
+   * ------------------------------------------------------
    * Get /api/user/session
    */
+   
   getUserSession: function (req, res, next) {
     console.log('getUserSession');
 
@@ -161,6 +175,8 @@ module.exports = {
   },
 
   /**
+   * getUserMatches
+   * ------------------------------------------------------
    * Get /api/user/match
    * Interacts with python algorithm to produce json list of sorted projects
 
@@ -174,6 +190,7 @@ module.exports = {
         http://localhost:5465/api/user/matches?skills=server-dev/nodejs
         http://localhost:5465/api/user/matches?learnSkills=client-dev/javascript
    */
+   
   getUserMatches: function (req, res, next) {
     console.log('getUserMatch');
 
@@ -306,6 +323,8 @@ module.exports = {
   }, // END getUserMatches
 
   /**
+    * getProject
+    * ------------------------------------------------------
    * Get /api/project
    * Returns a json obj of a project
    * Conforms to JSON-API
@@ -361,6 +380,102 @@ module.exports = {
   }, // END getProject
 
   /**
+   * createProject
+   * ------------------------------------------------------
+   * POST /api/projects
+   * Creates a project
+   * Conforms to JSON-API
+   */
+
+    createProject: function (req, res, next) {
+      console.log('createProjects');
+
+      // for the emberjs client
+      res.header("Access-Control-Allow-Origin", "*");
+      res.header("Access-Control-Allow-Headers", "X-Requested-With");
+
+      var newProject = {
+        name: req.body.name
+      };
+      
+      Projects(newProject).create(function (err) {
+        if (err) {
+          return next(err);
+        } else {
+          res.json({ success: true, project: project });
+          return next();
+        }
+      })
+    
+    },
+
+  /**
+   * updateProject
+   * ------------------------------------------------------
+   * POST /api/projects/<MONGO_ID>
+   * Updates a project
+   * Conforms to JSON-API
+   
+   JSON posted:
+   
+     {
+       "data": {
+         "type": "photos",
+         "id": "550e8400-e29b-41d4-a716-446655440000",
+         "attributes": {
+           "title": "Ember Hamster",
+           "src": "http://example.com/images/productivity.png"
+         }
+       }
+     }
+   
+   
+   */
+
+    updateProject: function (req, res, next) {
+      console.log('updateProjects');
+      jsonAPIData = req.body.data;
+      
+      Projects.findOneAndUpdate({ '_id': req.params.id }, 
+        {
+          '$set': {
+            name: jsonAPIData.attributes.name
+          },
+        }, 
+        {upsert: false, new: true}, 
+        function(err, project) {
+          
+          if (err || !project) {
+            console.error(err);
+            res.json({
+              "errors": [
+                {
+                  "status": "400",
+                  "source": { "pointer": "/data/attributes" },
+                  "title":  "Data Update Error",
+                  "detail": err
+                }
+              ]
+            });
+            return next(err)
+          }
+          
+          res.json({ 
+            data: {
+              type: "projects",
+              id: project['_id'],
+              attributes: project
+            }
+          });
+          return next();
+        
+      });
+    
+    },
+
+  /**
+   * getProjects
+   * ------------------------------------------------------
    * Get /api/projects
    * Returns a json list of available projects
    * Conforms to JSON-API
@@ -368,6 +483,7 @@ module.exports = {
    * TEST:
         http://localhost:5465/api/projects
    */
+   
   getProjects: function (req, res, next) {
     console.log('getProjects');
     
@@ -426,8 +542,9 @@ module.exports = {
 
     }, // END getProject\
 
-
     /**
+     * testProjects
+     * ------------------------------------------------------
      * Get /api/projects
      * Returns a page rendering the JSON list of projects
 
@@ -455,6 +572,10 @@ module.exports = {
 
 
     /**
+     * getTaxonomySkills
+     * getTaxonomyInterests
+     * getTaxonomyGoals
+     * ------------------------------------------------------
      * Get /api/project/taxonomy/skills | interests | goals
      * Returns a json list of available skills, interests, or goals
 
@@ -487,6 +608,5 @@ module.exports = {
         return next();
       })
     }
-
 
 };

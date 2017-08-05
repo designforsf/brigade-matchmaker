@@ -109,6 +109,26 @@ var ProjectTaxonomies = require('./models/ProjectTaxonomies')
 /**
  * Express configuration.
  */
+ 
+ // allow cross-domain calls for API calls
+ var allowCrossDomain = function(req, res, next) {
+   console.log('allowCrossDomain');
+   
+   res.header('Access-Control-Allow-Origin', '*');
+   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS,PATCH');
+   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+
+   // intercept OPTIONS method
+   if ('OPTIONS' == req.method) {
+     res.send(200);
+   }
+   else {
+     next();
+   }
+ };
+ app.use(allowCrossDomain);
+ 
+ 
 app.set('port', process.env.PORT || 5465)
 app.set('views', path.join(__dirname, 'themes'))
 app.locals.capitalize = function (value) {
@@ -124,7 +144,9 @@ app.set('view engine', 'jade')
 app.use(compress())
 
 app.use(logger('dev'))
-app.use(bodyParser.json())
+//app.use(bodyParser.json())
+//app.use(bodyParser.json({ type: 'application/json' }));
+app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(expressValidator())
 app.use(methodOverride())
@@ -270,7 +292,10 @@ app.get('/logout', usersCtrl.getLogout)
  app.post('/api/user/match_config', apiCtrl.updateUserMatchConfig)
  app.get('/api/user/matches', apiCtrl.getUserMatches)
  app.get('/api/projects', apiCtrl.getProjects)
+ app.post('/api/project', apiCtrl.createProject)
  app.get('/api/projects/:id', apiCtrl.getProject)
+ app.patch('/api/projects/:id', apiCtrl.updateProject)
+ app.post('/api/projects/:id', apiCtrl.updateProject)
  app.get('/api/project/taxonomy/skills', apiCtrl.getTaxonomySkills)
  app.get('/api/project/taxonomy/interests', apiCtrl.getTaxonomyInterests)
  app.get('/api/project/taxonomy/goals', apiCtrl.getTaxonomyGoals)

@@ -5,7 +5,4 @@ export default Ember.Route.extend({
     let project = this.get('store').findRecord('project', args.id); 
     return project;
   },
-  renderTemplate: function() {
-    this.render('projects/new')         
-  }
 });
