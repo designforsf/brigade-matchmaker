@@ -23,6 +23,9 @@ module.exports = [
       'skillsOffered': ['office/cms'],
       'goalsNeeded': ['developer','helper']
     },
+    'matchingDescr': {
+      'summary':'Publishing an essential reentry resource on the web for governmental use.'
+    },
     'keywords': [
       faker.company.bsBuzz(),
       faker.company.bsBuzz(),

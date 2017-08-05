@@ -344,7 +344,18 @@ module.exports = {
       find({
         _id: req.params.id
       }).
-      select({ _id: 1, name: 1, matchingConfig: 1, description: 1, team: 1, homepage: 1, thumbnailUrl: 1, repository: 1, needs: 1, contact: 1}).
+      select({ 
+        _id: 1, 
+        name: 1, 
+        matchingConfig: 1, matchingDescr: 1,
+        description: 1, 
+        team: 1, 
+        homepage: 1, 
+        thumbnailUrl: 1, 
+        repository: 1, 
+        needs: 1, 
+        contact: 1
+      }).
       exec(function (err, results) {
         
         // script returned error
@@ -359,12 +370,20 @@ module.exports = {
           
           var outputData = [];
           results.forEach(function(result) {
-            result.id = result['_id'];
+            var project = result.toObject();
+            
+            // re-name fields for EmberJS/JSON-API conformance
+            project['matching-descr'] = project.matchingDescr;
+            if (typeof project['matching-descr'] === 'undefined') { 
+              project['matching-descr'] = {};
+            }
+            delete project.matchingDescr;
+            project.id = project['_id'];
             
             outputData.push({
               type: "project",
               id: result._id,
-              attributes: result
+              attributes: project
             });
             
           });
@@ -436,11 +455,16 @@ module.exports = {
       console.log('updateProjects');
       jsonAPIData = req.body.data;
       
+      var updatedData = {
+        name: jsonAPIData.attributes.name,
+        'matchingDescr.summary': jsonAPIData.attributes['matching-descr'].summary
+      };
+      
+      console.log(updatedData);
+      
       Projects.findOneAndUpdate({ '_id': req.params.id }, 
         {
-          '$set': {
-            name: jsonAPIData.attributes.name
-          },
+          '$set': updatedData,
         }, 
         {upsert: false, new: true}, 
         function(err, project) {
@@ -507,7 +531,18 @@ module.exports = {
 
       //
       // Try adding additional data fields to this set: after matchingConfig
-      select({ _id: 1, name: 1, matchingConfig: 1, description: 1, team: 1, homepage: 1, thumbnailUrl: 1, repository: 1, needs: 1, contact: 1}).
+      select({ 
+        _id: 1, 
+        name: 1, 
+        matchingConfig: 1, matchingDescr: 1, 
+        description: 1, 
+        team: 1, 
+        homepage: 1, 
+        thumbnailUrl: 1, 
+        repository: 1, 
+        needs: 1, 
+        contact: 1
+      }).
       exec(function (err, results) {
 
         // script returned error
