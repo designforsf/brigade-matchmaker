@@ -1,9 +1,5 @@
 {{yield}}
 {{outlet}}
-
-<form {{action 'saveProject' on="submit"}}>
-{{input type="hidden" value=project.id}}
-
   
 <div class="row">
   <div class="col-md-3">
@@ -30,59 +26,178 @@
 </div>
 
 <div class="row">
-  <div class="col-md-3"></div>
+  <div class="col-md-2"></div>
   
-  <div class="col-md-6">
+  <div class="col-md-8">
     
-    <div class="panel panel-default">
+    <div class="panel panel-default" style="background-color:#eee;">
       <div class="panel-body">
         
-        {{#if params.updated}}
-        <div class="alert alert-success alert-dismissible" role="alert">
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <strong>Record Updated</strong>
-        </div>
-        {{/if}}
-  
-        <div class="form-group">
-          <label for="contactName">Project Name</label>
-          {{input type="text" value=project.name class="form-control" placeholder="Project Name" }}
-        </div>
-      
-        <div class="form-group">
-          <label for="contactName">Contact Name</label>
-          <input type="text" class="form-control" placeholder="Contact Name">
-        </div>
+        <form class="form-horizontal" {{action 'saveProject' on="submit"}}>
+        {{input type="hidden" value=project.id}}
         
-        <div class="form-group">
-          <label for="contactEmail">Contact Email Address</label>
-          <input type="email" class="form-control" placeholder="Contact Email">
-        </div>
+          {{#if params.updated}}
+          <div class="alert alert-success alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>Record Updated</strong>
+          </div>
+          {{/if}}
+    
+          <div class="form-group">
+            <label for="contactName" class="col-md-3 control-label">Project Name</label>
+            <div class="col-md-9">
+              {{input 
+                type="text" 
+                value=project.name 
+                class="form-control"
+              }}
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="summary" class="col-md-3 control-label">Summary</label>
+            <div class="col-md-9">
+              {{textarea 
+                value=project.matching-descr.summary 
+                rows=3
+                class="form-control" 
+              }}
+              <span id="helpBlock" class="help-block">Short, descriptive sentence.</span>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="contactName" class="col-md-3 control-label">Contact Name</label>
+            <div class="col-md-9">
+              {{input 
+                type="text"
+                value=project.matching-descr.contactName 
+                class="form-control" 
+              }}
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="contactEmail" class="col-md-3 control-label">Contact Email</label>
+            <div class="col-md-9">
+              {{input 
+                type="text"
+                value=project.matching-descr.contactEmail
+                class="form-control" 
+              }}
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="contactRole" class="col-md-3 control-label">Contact Role</label>
+            <div class="col-md-9">
+              {{input 
+                type="text"
+                value=project.matching-descr.contactRole
+                class="form-control" 
+              }}
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="contactThumbnailUrl" class="col-md-3 control-label">Contact Image</label>
+            <div class="col-md-9">
+              {{input 
+                type="text"
+                value=project.matching-descr.contactThumbnailUrl
+                class="form-control" 
+              }}
+              
+              {{#if project.matching-descr.contactThumbnailUrl}}
 
-        <div class="form-group">
-          <label for="summary">Summary (Short Sentence)</label>
-          {{textarea value=project.matching-descr.summary 
-            rows=3
-            class="form-control" 
-            placeholder="A very, very short summary" }}
-        </div>
-        
-        <div class="row" style="padding:10px;">
-          <div class="col-md-9">
+                <figure style="padding-top:10px;">
+                  <div style="height:100px; width:100px; overflow:hidden;">
+                    <img class="img-responsive" src="{{project.matching-descr.contactThumbnailUrl}}"/>
+                  </div>
+                </figure>
+
+              {{else}}
+                <span id="helpBlock" class="help-block">
+                  URL, e.g. a GitHub profile image.
+                </span>
+              {{/if}}
+              
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="repository" class="col-md-3 control-label">Repository</label>
+            <div class="col-md-9">
+              {{input 
+                type="text"
+                value=project.matching-descr.repository
+                class="form-control" 
+              }}
+              <span id="helpBlock" class="help-block">
+                URL, e.g. a GitHub repo page.
+              </span>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="link" class="col-md-3 control-label">Website</label>
+            <div class="col-md-9">
+              {{input 
+                type="text"
+                value=project.matching-descr.link
+                class="form-control" 
+              }}
+              <span id="helpBlock" class="help-block">
+                Project URL or documentation page.
+              </span>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="tasks" class="col-md-3 control-label">Tasks</label>
+            <div class="col-md-9">
+              {{textarea 
+                value=project.matching-descr.tasks 
+                rows=4
+                class="form-control" 
+              }}
+              <span id="helpBlock" class="help-block">
+                Comma-delimited list. Describe what you're working on to a new member.
+              </span>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="progress" class="col-md-3 control-label">Progress</label>
+            <div class="col-md-9">
+              {{textarea 
+                value=project.matching-descr.progress
+                rows=4
+                class="form-control" 
+              }}
+              <span id="helpBlock" class="help-block">
+                Comma-delimited list. Describe what you've recently complete to a new member.
+              </span>
+            </div>
+          </div>
+          
+          <div class="row" style="padding:10px;">
+            <div class="col-md-9">
+              
+            </div>
             
+            <div class="col-md-3">
+            
+              {{#if project}}
+              <button type="submit" class="btn btn-default pull-right">Update</button>
+              {{else}}
+              <button type="submit" class="btn btn-default pull-right">Create</button>
+              {{/if}}
+            
+            </div>
           </div>
-          
-          <div class="col-md-3">
-          
-            {{#if project}}
-            <button type="submit" class="btn btn-default pull-right">Update</button>
-            {{else}}
-            <button type="submit" class="btn btn-default pull-right">Create</button>
-            {{/if}}
-          
-          </div>
-        </div>
         
+        </form>
         
       </div>
       
@@ -90,8 +205,6 @@
   
   </div>
   
-  <div class="col-md-3"></div>
+  <div class="col-md-2"></div>
   
 </div>
-
-</form>

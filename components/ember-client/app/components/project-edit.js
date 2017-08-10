@@ -2,9 +2,18 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   store: Ember.inject.service(),
+  
+  init() {
+    this._super(...arguments);
+    this.errors = [];
+    Ember.Logger.log('init project-edit');
+  },
+  
   actions: {
+      
     queryParams: ['updated'],
     updated: false,
+    
     saveProject() {
       //alert(this.get("project.name"));
       //alert(this.get("project.id"));
