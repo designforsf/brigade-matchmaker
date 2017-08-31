@@ -194,10 +194,10 @@ module.exports = {
   getUserMatches: function (req, res, next) {
     console.log('getUserMatch');
 
-    // final output
+    // final output in JSON-API
+    // SEE: http://jsonapi.org/examples/
     var output = {
-      success: undefined,
-      projects: [] // sorted projects
+      data: [] // sorted projects
     };
 
     // the structure of the python script output
@@ -231,9 +231,6 @@ module.exports = {
 
       // clean up the web input
       var argArr = (typeof req.query[arg] !== 'undefined' ? req.query[arg].split(',') : []);
-
-      // add to the output array the user's entry for that argument
-      output[arg] = argArr;
 
       // convert back to comma delimited list
       var argValue = argArr.join(',');
@@ -270,37 +267,41 @@ module.exports = {
 
       //console.log('pyOutput is: ', pyOutput);
       pyOutput.forEach(function (line, idx){
-        var project = {};
         var lineArr = line.split(',');
 
-        //project['_id'] = lineArr[0]; // mongoid not to show in output
-        project['id'] = lineArr[1];
-        project['score'] = parseInt(lineArr[2]);
+        // JSON-API resource object
+        // SEE: http://jsonapi.org/format/#document-resource-objects
+        var resourceObj = {
+          type: "projectMatch",
+          id: lineArr[0],
+          attributes: {} // where the project match data goes
+        };
+        
+        resourceObj.attributes['name'] = lineArr[1];
+        resourceObj.attributes['score'] = parseInt(lineArr[2]);
 
         // process individual user attributes
         // NOTE: after general fields, py script outputs
         //  alternating name + score + matched attrs for each user attribute
         matchUserAttrs.forEach(function(arg, aidx) {
-          project[arg + 'Score'] = parseInt(lineArr[2 + 2 + (aidx*3)]);
+          resourceObj.attributes[arg + 'Score'] = parseInt(lineArr[2 + 2 + (aidx*3)]);
 
           // set up the matched args array
           var matchedArgs = lineArr[2 + 3 + (aidx*3)];
           matchedArgs = matchedArgs.replace(/[()]/g, '');
           if (matchedArgs.length > 0) {
-            project[arg + 'Matched'] = matchedArgs.split(' ');
+            resourceObj.attributes[arg + 'Matched'] = matchedArgs.split(' ');
           }  else {
-            project[arg + 'Matched'] = [];
+            resourceObj.attributes[arg + 'Matched'] = [];
           }
 
 
-          //console.log(project['id'] + ' for ' + arg + ' matched-attrs: ', lineArr[2 + 3 + (aidx*3)]);
           //console.log(lineArr);
+
+          // push the resurce object into the output data
+          output.data.push(resourceObj);
+
         });
-
-        //console.log(project);
-
-        // push the project into the projects array
-        output.projects.push(project);
 
       })
 

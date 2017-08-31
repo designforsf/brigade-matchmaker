@@ -276,7 +276,7 @@ var userProfile = {
 
     var choiceColumn, oldChoiceColumn;
     var mainCat, subCat;
-    var uncheckedGlyph = ' <span class="glyphicon  glyphicon-unchecked"></span>';
+    var uncheckedGlyph = ' <span class="glyphicon  glyphicon-unchecked" style="padding:5px;"></span>';
     
     var taxName, taxAttr;
     for (var choiceCount=0; choiceCount < taxObj.length; choiceCount++) {
@@ -396,8 +396,8 @@ var userProfile = {
     // whereClicked is either selForm (selecting and removing)  or chosenBox (removing only):
     var itemInChosen2 = false;
     var jItem;
-    mainSubDtl = $(event).data().name; //in form 'main.sub.detail' as a string
-    console.log('Toggle switch clicked at ', mainSubDtl + ' ' + whereClicked );
+    mainSubDtl = $(event).data(); //in form 'main.sub.detail' as a string
+    console.log('Toggle switch clicked at ' + mainSubDtl + ' ' + whereClicked );
     //
     // invert the selection:
     // If the item was NOT chosen now it IS
@@ -578,11 +578,14 @@ function processMatches( allPs, userMatches ) {
 
 	//Iterate over the projects returned in the user match object userMatches
 	// to complete the project info using object allPs
-	userMatches.projects.forEach(function(userProject) {
+	userMatches.data.forEach(function(userProject) {
 		//filter the allPs.projects array for a project name matching the userProject
-		var fullProjInfo = allPs.projects.filter ( function( thisProject, index ) {
-			return ( userProject.id ===  thisProject.name );
+		var fullProjInfo = allPs.data.filter ( function( thisProject, index ) {
+      console.log(userProject.id + ' ' + thisProject.id)
+			return ( userProject.id ===  thisProject.id );
 		});
+
+    console.log('full proj info ', fullProjInfo);
 
 		if ( !fullProjInfo ) {
 			userProject.found = false;
@@ -591,14 +594,16 @@ function processMatches( allPs, userMatches ) {
 
 		if ( fullProjInfo ) {
 			userProject.found = true;
+      var project = fullProjInfo[0].attributes;
+      console.log('project ', project);
 
 				//projects match, we can fill in some missing info -- what
 				// skills / interests / goals are sought by this project
 				// That info is in the matching Config property, which is an array
 
-				userProject.skills = fullProjInfo[0].matchingConfig.skillsNeeded;
-				userProject.interests = fullProjInfo[0].matchingConfig.interestsNeeded;
-				userProject.goals = fullProjInfo[0].matchingConfig.rolesNeeded;
+				userProject.attributes.skills = project.matchingConfig.skillsNeeded;
+				userProject.attributes.interests = project.matchingConfig.interestsNeeded;
+				userProject.attributes.goals = project.matchingConfig.rolesNeeded;
 
 				// fullProjInfo[0] is the additional information retrieved for
 				//  the user's matching project
@@ -624,34 +629,39 @@ function processMatches( allPs, userMatches ) {
 
 function outputProject(userProject, fullProjInfo ) {
 
-		$("#umtemplate img:first").attr("src", fullProjInfo.thumbnailUrl );
+    projectMatch = userProject.attributes;
+    project = fullProjInfo.attributes;
+
+    console.log('output project ', fullProjInfo);
+
+		$("#umtemplate img:first").attr("src", project.thumbnailUrl );
 
 		// Next image is for an avatar of the team leader:
-		$("#umtemplate img:last").attr("src", fullProjInfo.team[0].avatar );
-		$('#umtemplate h4.leader').text( fullProjInfo.team[0].username );
+		$("#umtemplate img:last").attr("src", project.team[0].avatar );
+		$('#umtemplate h4.leader').text( project.team[0].username );
 
 		// Now add info for the Contact Team button.
 		// On the data model -- we need to understand the use of contact[]
 		// vs team[]
-		if ( fullProjInfo.contact.length ) {
-			$("#teamAddr").attr("info", fullProjInfo.contact[0].email).attr("data-leader", fullProjInfo.contact[0].name);
+		if ( project.contactName && project.contactEmail ) {
+			$("#teamAddr").attr("info", project.contactEmail).attr("data-leader", fullProjInfo.contactName);
 		} else {
 			$("#teamAddr").attr("info", "").attr("data-leader", "");
 		};
 
-		$("#pName").text( fullProjInfo.name );
+		$("#pName").text( project.name );
 		//
 		// New data model -- description is short enough without truncation.
 		// leave short text for now in case a longer mission stmnt is available later
 		//var shortText = $.trim(fullProjInfo.description).substring(0, 300).split(" ").slice(0, -1).join(" ") + "...";; //cut and add ellipses
 		//code from http://jsfiddle.net/schadeck/GpCZL/
-		$("#pMission").text(fullProjInfo.description );
-		$("a#Repo").attr("href", fullProjInfo.repository );
+		$("#pMission").text(project.description );
+		$("a#Repo").attr("href", project.repository );
 
 		//
 		// This section outputs skill/goal/interests that each
-		// project team is seeking (userProject.skills).  Ones that match user selections
-		// (userProject.skillsMatched) are highlighted using Bootstrap class btn-success
+		// project team is seeking (projectMatch.skills).  Ones that match user selections
+		// (projectMatch.skillsMatched) are highlighted using Bootstrap class btn-success
 		//
 		// Preserve the initial empty content for the skill/interest/goal sections
 		//
@@ -661,12 +671,12 @@ function outputProject(userProject, fullProjInfo ) {
 		var btnGoals = $('div#umtemplate').find('section#pG').html();
 		var btnInterests = $('div#umtemplate').find('section#pI').html();
 		var btnSuccess;
-		if (userProject.skills !== undefined ) {
-			userProject.skills.forEach( function (item, index ) {
+		if (projectMatch.skills !== undefined ) {
+			projectMatch.skills.forEach( function (item, index ) {
 				$('section#pS button').filter(':first').clone( 'false' ).appendTo( $('section#pS').filter(':first') );
 				btnSuccess = "";
-				for ( var x = 0; x < userProject.skillsMatched.length; x++ ) {
-					if ( item === userProject.skillsMatched[x] ) {
+				for ( var x = 0; x < projectMatch.skillsMatched.length; x++ ) {
+					if ( item === projectMatch.skillsMatched[x] ) {
 						btnSuccess = "btn-success";
 					};
 				};
@@ -675,12 +685,12 @@ function outputProject(userProject, fullProjInfo ) {
 		}
 
 
-		if (userProject.goals !== undefined ) {
-			userProject.goals.forEach( function (item ) {
+		if (projectMatch.goals !== undefined ) {
+			projectMatch.goals.forEach( function (item ) {
 				$('section#pG button').filter(':first').clone( 'false' ).appendTo( $('section#pG').filter(':first') );
 				btnSuccess = "";
-				for ( var x = 0; x < userProject.goalsMatched.length; x++ ) {
-					if ( item === userProject.goalsMatched[x] ) {
+				for ( var x = 0; x < projectMatch.goalsMatched.length; x++ ) {
+					if ( item === projectMatch.goalsMatched[x] ) {
 						btnSuccess = "btn-success";
 					};
 				};
@@ -688,12 +698,12 @@ function outputProject(userProject, fullProjInfo ) {
 			});
 		}
 
-		if (userProject.interests !== undefined ) {
-			userProject.interests.forEach( function (item ) {
+		if (projectMatch.interests !== undefined ) {
+			projectMatch.interests.forEach( function (item ) {
 				$('section#pI button').filter(':first').clone( 'false' ).appendTo( $('section#pI').filter(':first') );
 				btnSuccess = "";
-				for ( var x = 0; x < userProject.interestsMatched.length; x++ ) {
-					if ( item === userProject.interestsMatched[x] ) {
+				for ( var x = 0; x < projectMatch.interestsMatched.length; x++ ) {
+					if ( item === projectMatch.interestsMatched[x] ) {
 						btnSuccess = "btn-success";
 					};
 				};

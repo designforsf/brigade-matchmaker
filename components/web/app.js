@@ -230,10 +230,10 @@ app.use(function (req, res, next) {
  * Primary app routes.
  */
 
-app.get('/', homeCtrl.index)
+app.get('/login-old', homeCtrl.index)
 var pt = new ProjectTaxonomies();
 
-app.get('/test/projectList',
+app.get('/',
   function (req, res, next) {
     pt.getSkills(function (err, results) {
       if (err) throw err
