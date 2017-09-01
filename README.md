@@ -69,10 +69,10 @@ Project Match is a system consisting of the following parts:
 * **Database** - MongoDB
 * **Data Models** - Mongoose
 * **New Member Front-End** and **JSON API** -  Node.js / Express / Pug / jQuery
-* **Matching algorithm** - python
-* **Messaging service** - Node.js / Express
+* **Matching Algorithm** - python
+* **Messaging Service** - Node.js / Express
 * **Project Content Management** - EmberJS / Bootstrap
-* **Test scripts** - bash and wget
+* **Test Scripts** - bash and wget
 
 ## Database
 
@@ -86,7 +86,7 @@ Defines users, projects, and project taxonomy. Data in MongoDB is queried and up
 
 The webapp generates the web interface for users, controls how data is updated, and accesses the matchmaking function.
 
-### Origins
+### Origins of the Front-End
 
 The Project Match new member front-end is based on the alpha version of [BrigadeHub](https://github.com/brigadehub/brigadehub/releases/tag/v1.0.0-alpha.11) (before many improvements were made). 
 
@@ -106,11 +106,23 @@ Currently the matching function is written in python. It accepts input represent
 
 The New Member Front-End directly interacts with the algorithm, providing a JSON web API.
 
+## Messaging Service
+
+The Front-End sends emails from new members to project leads via an API hosted by the Messaging Service. This component is Node.js and securely interacts with a GMail account.
+
+## Project Content Management
+
+This component enables project leads to update project-related data, including the skills needed, learning opportunities, and civic interests. This component is rendered by EmberJS and interacts with the JSON API.
+
+## Test Scripts
+
+These are rudimentary bash scripts which use wget in order to perform basic tasks step-by-step.
+
 ---
 
 # Installation
 
-Installing Project Match requires the following installations and configurations:
+Installing the core Project Match components requires the following installations and configurations:
 
 * Project files on GitHub
 * MongoDB
