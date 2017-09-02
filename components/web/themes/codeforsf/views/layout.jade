@@ -18,11 +18,15 @@ html
         version: '#{brigade.buildVersion}'
       }
   body(data-view="#{view}")
+
     include partials/header.jade
+
     include partials/savedProjs.jade
 
     .container
+      
       include partials/flash.jade
+
       block content
 
     include partials/footer.jade

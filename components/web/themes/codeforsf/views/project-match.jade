@@ -1,13 +1,21 @@
 extends layout.jade
 block content
+
+  div.collapse.in#landing-intro
+
+    div.jumbotron
+      h1 Project Match
+      p
+        | Fill out your skills, what you want to learn, and interests.
+      p
+        | Project Match will connect you to civic projects.
+
+
   div.container.container-maxWidth970
+
     form#wizardcards
       div.interest_profile
         form
-
-          h3 Hello Civic Enthusiast!
-          h4.h4--light Create a simple profile and let us help you decide which project teams are a match for you. Your information will not be saved and will only be shared with the project team leads that you choose to message.
-          br
           include partials/flexSelect
           div.form-group.form-group-horizontal
 

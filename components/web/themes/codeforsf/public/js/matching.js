@@ -81,6 +81,13 @@ $(document).ready(function () {
 
       //Set the listener on the selector glyph to show the forms
       $("div#label" + userProfile.formID ).on('click', function() {
+
+        // show top nav
+        $('#top-nav').collapse("show")
+        
+        // hide the landing page intro
+        $('#landing-intro').collapse("hide");
+
         userProfile.doShow( event );
         $("#match_res").addClass("btn--hidden"); //??? this is duplicate code
         $("#pListHeader").addClass("btn--hidden"); // to be refactored
