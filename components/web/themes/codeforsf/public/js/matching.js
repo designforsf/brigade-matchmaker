@@ -396,7 +396,7 @@ var userProfile = {
     // whereClicked is either selForm (selecting and removing)  or chosenBox (removing only):
     var itemInChosen2 = false;
     var jItem;
-    mainSubDtl = $(event).data(); //in form 'main.sub.detail' as a string
+    mainSubDtl = $(event).data().name; //in form 'main.sub.detail' as a string
     console.log('Toggle switch clicked at ' + mainSubDtl + ' ' + whereClicked );
     //
     // invert the selection:
@@ -434,6 +434,7 @@ var userProfile = {
       // so that this item can be revealed later, if the user removes this
       // from chosenBox.
       userProfile.outputSelection(userProfile.formID, mainSubDtl, $(event).attr('id'));
+
     };
 
     if (whereClicked === 'chosenBox') {
