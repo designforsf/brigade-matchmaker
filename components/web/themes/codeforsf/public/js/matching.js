@@ -1,3 +1,37 @@
+
+(function (projectMatch) {
+
+  projectMatch.uiActivateLanding = function () {
+
+      // show top nav
+      $('#top-nav').collapse("hide")
+      
+      // hide the landing page intro
+      $('#landing-intro').collapse("show");
+
+  };
+
+  projectMatch.uiActivateNavigation = function () {
+
+      // show top nav
+      $('#top-nav').collapse("show")
+      
+      // hide the landing page intro
+      $('#landing-intro').collapse("hide");
+
+  };
+
+}) (( window.ProjectMatch=window.ProjectMatch || {}));
+
+/*
+
+  NOTE: below will be incorporated into an anonymous self-executing function
+  
+  http://markdalgleish.com/2011/03/self-executing-anonymous-functions/
+
+*/
+
+
 $(document).ready(function () {
   // Make the "You are checked in" item visible (enables logout)
   if ( localStorage.getItem("checkedIn") === "true" ) {
@@ -56,6 +90,7 @@ $(document).ready(function () {
   ******************/
   
   var selectorsObj = {
+
     formIDs : ['s2cselections', 's2lselections', 'intSelections', 'goalSelections'],
     myForm : '',
     projTax : {  // all taxonomies from across all BrigadeHub projects
@@ -82,11 +117,7 @@ $(document).ready(function () {
       //Set the listener on the selector glyph to show the forms
       $("div#label" + userProfile.formID ).on('click', function() {
 
-        // show top nav
-        $('#top-nav').collapse("show")
-        
-        // hide the landing page intro
-        $('#landing-intro').collapse("hide");
+        ProjectMatch.uiActivateNavigation();
 
         userProfile.doShow( event );
         $("#match_res").addClass("btn--hidden"); //??? this is duplicate code
@@ -283,8 +314,10 @@ var userProfile = {
 
     var choiceColumn, oldChoiceColumn;
     var mainCat, subCat;
-    var uncheckedGlyph = ' <span class="glyphicon  glyphicon-unchecked" style="padding:5px;"></span>';
-    
+    //var uncheckedGlyph = ' <span class="glyphicon  glyphicon-unchecked" style="padding:5px;"></span>';
+    var uncheckedGlyph = ' <span style="padding:5px;"></span>';
+
+
     var taxName, taxAttr;
     for (var choiceCount=0; choiceCount < taxObj.length; choiceCount++) {
       taxAttr = taxObj[choiceCount];
@@ -365,7 +398,8 @@ var userProfile = {
         jItem = $(myBase + ' div.model' + choiceColumn + ':first').clone().insertBefore(myBase + ' div.nic'+ choiceColumn + ':last');
 //          $(jItem).text(detail).addClass('dtlItm').removeClass('btn--hidden').data('name', mainSubDtl );
         jItem = $(jItem).addClass('dtlItm').removeClass('btn--hidden').data('name', mainSubDtl );
-        $(jItem).html(uncheckedGlyph + taxAttr.name)
+        //$(jItem).html(uncheckedGlyph + taxAttr.name)
+        $(jItem).html(taxAttr.name)
         
         
       } // END sub category
