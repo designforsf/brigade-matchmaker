@@ -25,7 +25,7 @@
 
 /*
 
-  NOTE: below will be incorporated into an anonymous self-executing function
+  NOTE: below will be incorporated into the above anonymous self-executing function
   
   http://markdalgleish.com/2011/03/self-executing-anonymous-functions/
 
@@ -351,6 +351,9 @@ var userProfile = {
     //Set the stored data for the form: taxObj
     $(myBase).data('taxObj', taxObj);
 
+    //console.log(' taxObj.length=' + taxObj.length);
+    //console.log(taxObj);
+
     //Build the selector form
     for (var choiceCount=0; choiceCount < taxObj.length; choiceCount++) {
       taxAttr = taxObj[choiceCount];
@@ -364,16 +367,15 @@ var userProfile = {
       // main category
       if (taxAttr.parent == taxName) {  
         mainCat = taxAttr.name;
-      
-
         mainSub = mainCat + subCat;
+        //console.log(' process maincat ' + mainSub);
 
         choiceColumn = Math.ceil( choiceCount / detailLimit ); // should give a value 1-4 integer
         oldChoiceColumn = choiceColumn;
         var jItem = $(myBase + ' div.model'+ choiceColumn + ':first' ).clone().insertBefore(myBase + ' div.nic' + choiceColumn + ':last');
         $(jItem).text(mainCat + ' ' + subCat).addClass('catg').removeClass('btn--hidden');
         $(jItem).data('name', mainSub ); //label category
-      
+
       
       // END main category
       
@@ -383,23 +385,36 @@ var userProfile = {
         
         choiceColumn = Math.ceil( choiceCount / detailLimit ); // should give a value 1-4 integer
         //
-        // If choiceColumn now > old choiceColumn, output the mainSub again as a column header
+
+
+        /* If choiceColumn now > old choiceColumn, output the mainSub again as a column header
+        // NOTE: removed because:
+        //         1. it is not working properly
+        //     and 2. the design is moving toward masonry-style layout
         if ( choiceColumn > oldChoiceColumn ) {
           oldChoiceColumn = choiceColumn;
           choiceCount++;
           var jItem = $(myBase + ' div.model'+ choiceColumn + ':first' ).clone().insertBefore(myBase + ' div.nic' + choiceColumn + ':last');
           $(jItem).text(mainCat + ' ' + subCat).addClass('catg').removeClass('btn--hidden');
           $(jItem).data('name', mainSub ); //label category
+          //$(jItem).html('hello');
+          console.log(jItem);
+          console.log('condition to set jItem=' + jItem + ' name to mainSub ' + mainSub);
         }
+        */
+        
 
         mainSubDtl = mainCat + '.' + subCat;
+
+        //console.log(' process subcat ' + mainSubDtl);
+
         //
         // Output all the taxObj details now, under its category header
         jItem = $(myBase + ' div.model' + choiceColumn + ':first').clone().insertBefore(myBase + ' div.nic'+ choiceColumn + ':last');
 //          $(jItem).text(detail).addClass('dtlItm').removeClass('btn--hidden').data('name', mainSubDtl );
         jItem = $(jItem).addClass('dtlItm').removeClass('btn--hidden').data('name', mainSubDtl );
         //$(jItem).html(uncheckedGlyph + taxAttr.name)
-        $(jItem).html(taxAttr.name)
+        $(jItem).html(taxAttr.name);
         
         
       } // END sub category
