@@ -10,22 +10,26 @@ body {
 
 .container {
   background: #EEE;
-  width: 550px;
+  width: 650px;
   margin-bottom: 20px;
   position: relative;
+  padding: 10px;
 }
 
 .item {
-  width:  180px;
-  height: 90px;
+  width:  200px;
   float: left;
   border: 1px solid;
   background: #09F;
+  border-radius: 10px;
+  margin: 3px;
+  padding: 10px;
 }
 
 .item.w2 { width: 240px; }
 .item.w3 { width: 360px; }
 
+.item.h1 { height: 90px; }
 .item.h2 { height:  100px; }
 .item.h3 { height:  140px; }
 .item.h4 { height:  180px; }
