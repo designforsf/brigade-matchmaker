@@ -10,139 +10,20 @@
   <script src="./js/jquery-3.1.1/jquery-3.1.1.js"></script>
   <script src="./js/handlebars-4.0.10/handlebars-v4.0.10.js"></script>
   <script src="./js/masonry-4.2.0/masonry.pkgd.js"></script>
+  <script src="./js/project-match/taxonomy-selector.js"></script>
+  <script src="./js/project-match/taxonomy-model.js"></script>
 
 </head>
 
 <body>
 
-  <h2>Horizontal order - with data</h2>
-  <div id="taxonomy-selector-container">
-  </div>
-
-  <h2>Horizontal order</h2>
-  <div id="horizontal-order" class="container">
-    <div class="item h3">1</div>
-    <div class="item h2">2</div>
-    <div class="item h1">3</div>
-    <div class="item h1">4</div>
-    <div class="item h3">5</div>
-    <div class="item h2">6</div>
-    <div class="item h1">7</div>
-    <div class="item h1">8</div>
-    <div class="item h1">9</div>
-  </div>
-
-  <h2>Basic layout top left</h2>
-  <div id="basic-layout-top-left" class="container basic-layout">
-    <div class="item h1">1</div>
-    <div class="item h4">2</div>
-    <div class="item h3">3</div>
-    <div class="item h3">4</div>
-    <div class="item h1">5</div>
-    <div class="item h2">6</div>
-    <div class="item h3">7</div>
-    <div class="item h1">8</div>
-    <div class="item h1">9</div>
-  </div>
-
-
-  <!-- handlebars template -->
-  <script id="horiz-msnry-template" type="text/x-handlebars-template">
-    <div id="taxonomy-selector" class="container">
-      {{#each itemsBySection}}
-
-          <div class="item">
-            <strong>{{title}}</strong>
-
-            {{#each items}}
-              <p>{{name}}</p>
-            {{/each}}
-
-          </div>
-
-
-
-
-      {{/each}}
-    </div>
-
-
-  </script>
+  <h2>Skills</h2>
+  <div id="taxonomy-selector-container"></div>
 
   <script>
-    var basicMsnry = new Masonry( '#basic-layout-top-left', {
+    ProjectMatch.TaxonomyModel.getSkills(function (taxonomy) {
+      ProjectMatch.TaxonomySelector.render(taxonomy);
     });
-
-    var horizMsnry = new Masonry( '#horizontal-order', {
-      horizontalOrder: true
-    });
-
-    var horizMsnryHbr = $("#horiz-msnry-template").html();
-
-    /*
-      render taxonomy
-    */
-
-    var renderTaxonomy = function (taxonomy) {
-      console.log(taxonomy);
-
-      // render the taxonomy into something more easily used by handlebars
-      itemsBySection = {};
-      var taxonomySet, currSection;
-      taxonomy.forEach(function (item) {
-        
-        // the root item
-        if (!item.parent) {
-          taxonomySet = item.name
-        } 
-
-        // item section
-        if (item.parent == taxonomySet && item.title) {
-          //console.log('section ' + item.name + ' - ' + item.title);
-          currSection = item.name;
-          itemsBySection[item.name] = {
-            name: item.name,
-            title: item.title,
-            parent: item.parent,
-            items: []
-          };
-          //console.log(itemsBySection[item.name]);
-        }
-
-        // item (has parent, parent is current section)
-        if (item.parent && item.parent == currSection) {
-          //console.log('item parent=' + item.parent);
-          //console.log(' > ' + item.name);
-          itemsBySection[item.parent].items.push(item);
-        }
-
-      });
-
-      // handlebars rendering
-      var template = Handlebars.compile(horizMsnryHbr);
-
-      var context = {
-        taxonomy: taxonomy,
-        itemsBySection: itemsBySection,
-      };
-
-      var renderedHtml = template(context);
-      $('#taxonomy-selector-container').html(renderedHtml);
-      //console.log(renderedHtml);
-
-      // masonryize it
-      var msnry = new Masonry( '#taxonomy-selector', {
-        horizontalOrder: true,
-        itemSelector: '.item'
-      });
-
-    }
-
-    jQuery.ajax({
-        url: 'http://localhost:5465/api/project/taxonomy/skills',
-        success: renderTaxonomy
-    })
-
   </script>
 
 </body>
