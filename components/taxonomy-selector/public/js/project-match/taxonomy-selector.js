@@ -12,7 +12,7 @@
   */
 
   ProjectMatch.TaxonomySelector.render = function (taxonomy) {
-    console.log(taxonomy);
+    //console.log(taxonomy);
 
     // handlebars template
     var hbrTemplate = ProjectMatch.TaxonomySelector.template;
@@ -61,11 +61,29 @@
     $('#taxonomy-selector-container').html(renderedHtml);
     //console.log(renderedHtml);
 
-    // masonryize it
+    // masonry
+    // SEE: https://masonry.desandro.com
+
+    // configure masonry obj
     var msnry = new Masonry( '#taxonomy-selector', {
+      initLayout: false, // delays the layout so that events can be defined
       horizontalOrder: true,
       itemSelector: '.item'
     });
+
+    // define masonry events
+    msnry.on( 'layoutComplete',
+      function( laidOutItems ) {
+        laidOutItems.forEach(function (item) {
+          console.log( 'Masonry item ', item);
+        });
+        
+      }
+    );
+
+    // init masonry layout
+    msnry.layout();
+
 
   };
 
