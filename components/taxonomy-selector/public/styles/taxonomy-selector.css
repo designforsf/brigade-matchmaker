@@ -8,6 +8,25 @@ body {
   font-family: sans-serif;
 }
 
+.nav-close {
+  font-size: 28px;
+  font-weight: bold;
+  line-height: 18px;
+  color: #000000;
+  text-shadow: 0 1px 0 #ffffff;
+  opacity: 0.2;
+  filter: alpha(opacity=20);
+  text-decoration: none;
+}
+
+.nav-close:hover {
+  color: #000000;
+  text-decoration: none;
+  opacity: 0.4;
+  filter: alpha(opacity=40);
+  cursor: pointer;
+}
+
 .container {
   background: #EEE;
   width: 650px;
@@ -129,3 +148,24 @@ body {
 
 #pixel-rounding .item { width: 28.667%; }
 #pixel-rounding .gutter-sizer { width: 7%; }
+
+.taxonomy-selector-container {
+  padding:25px;
+}
+
+#taxonomy-selection-scratchpad {
+  visibility: hidden;
+  overflow: hidden;
+  z-index:1000;
+}
+
+.taxonomy-selection-container {
+
+}
+
+#taxonomy-selection-skills-container, 
+#taxonomy-selection-learnSkills-container, 
+#taxonomy-selection-interests-container {
+
+}
+

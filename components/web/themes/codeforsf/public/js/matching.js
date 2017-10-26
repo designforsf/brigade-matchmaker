@@ -91,7 +91,7 @@ $(document).ready(function () {
   
   var selectorsObj = {
 
-    formIDs : ['s2cselections', 's2lselections', 'intSelections', 'goalSelections'],
+    formIDs : ['contributeSkillsSelections', 'learnSkillsSelections', 'interestsSelections', 'goalSelections'],
     myForm : '',
     projTax : {  // all taxonomies from across all BrigadeHub projects
       skills : projTaxSkills,
@@ -103,9 +103,9 @@ $(document).ready(function () {
       
     // these help with jQuery selections to load the selection forms
       var taxSelectors = {
-        s2cselections : 'skills',
-        s2lselections : 'skills',
-        intSelections : 'interests',
+        contributeSkillsSelections : 'skills',
+        learnSkillsSelections : 'skills',
+        interestsSelections : 'interests',
         goalSelections : 'goals'
       };
 
@@ -245,7 +245,7 @@ var userProfile = {
 
         });
         // ??? possible changes to get row separation for flex containers
-        //jItem=$('div#s2cselections div.row:first').clone().appendTo('div#s2cselections')
+        //jItem=$('div#contributeSkillsSelections div.row:first').clone().appendTo('div#contributeSkillsSelections')
 
 
         jItem = $(myBase + ' div.nic:first');
@@ -266,7 +266,7 @@ var userProfile = {
     // Each catg div (main+subcat) and dtlItm (lowest level item) gets a handler
 
     /***??? Leave for future work to enable selection by subCat
-    $("#s2cselections div.catg").each(function( ) {
+    $("#contributeSkillsSelections div.catg").each(function( ) {
       $(this).attr("id", getUniqueId() );
       //$(this).click(function() {
         userProfile.toggleSelection(this, 'selForm');
@@ -428,7 +428,7 @@ var userProfile = {
     // Each catg div (main+subcat) and dtlItm (lowest level item) gets a handler
 
     /***??? Leave for future work to enable selection by subCat
-    $("#s2cselections div.catg").each(function( ) {
+    $("#contributeSkillsSelections div.catg").each(function( ) {
       $(this).attr("id", getUniqueId() );
       //$(this).click(function() {
         userProfile.toggleSelection(this, 'selForm');
@@ -542,7 +542,7 @@ function parseSelections( ) {
   var skills2c = "skills=", skills2l = "skills=", interests = "interests=", goals = "goals=";
   var searchSkills, searchInterests, searchGoals = '';
 
-    //selectorsObj.formIDs = ['s2cselections', 's2lselections', 'goalSelections', 'intSelections'];
+    //selectorsObj.formIDs = ['contributeSkillsSelections', 'learnSkillsSelections', 'goalSelections', 'interestsSelections'];
   function buildSrchStr( catg ) {
     var srchCriteria = [];
     var name = [];
@@ -557,13 +557,13 @@ function parseSelections( ) {
     return srchCriteria.toString() ;
   };
 
-  skills2c += buildSrchStr( 's2cselections' );
+  skills2c += buildSrchStr( 'contributeSkillsSelections' );
   skills2c = ( skills2c === "skills=" ) ? "" : skills2c + "&";
   console.log('Skills2c search string: ', skills2c);
-  skills2l += buildSrchStr( 's2lselections' );
+  skills2l += buildSrchStr( 'learnSkillsSelections' );
   skills2l = ( skills2l === "skills=" ) ? "" : skills2l + "&";
   console.log('Skills2l search string: ', skills2l);
-  interests+= buildSrchStr( 'intSelections' , interests);
+  interests+= buildSrchStr( 'interestsSelections' , interests);
   interests = ( interests === "interests=" ) ? "" : interests + "&";
   console.log('Interests search string: ', interests);
   var searchStr = baseURL+skills2c+interests+goals;
