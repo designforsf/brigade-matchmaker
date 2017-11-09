@@ -312,8 +312,10 @@
       {{#each itemsBySection}}
 
           <div class="item">
-            <strong>{{title}}</strong>
-
+            <p>
+              <strong>{{title}}</strong>
+            </p>
+            
             {{#each items}}
               <p><a onClick="ProjectMatch.TaxonomySelector.selectItem('{{../../taxonomyName}}', '{{../name}}','{{name}}'); return undefined;">{{name}}</a></p>
             {{/each}}

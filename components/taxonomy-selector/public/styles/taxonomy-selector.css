@@ -12,6 +12,12 @@ a:hover {
   cursor: pointer;
 }
 
+.item p a {
+  padding:0px 0px 5px 0px;
+  color: #333;
+  text-decoration: underline;
+}
+
 .nav-close {
   font-size: 28px;
   font-weight: bold;
