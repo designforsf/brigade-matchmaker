@@ -91,7 +91,11 @@ $(document).ready(function () {
   
   var selectorsObj = {
 
-    formIDs : ['contributeSkillsSelections', 'learnSkillsSelections', 'interestsSelections', 'goalSelections'],
+    formIDs : [
+      'contributeSkillsSelections', 
+      'learnSkillsSelections', 
+      'interestsSelections', 
+      'goalSelections'],
     myForm : '',
     projTax : {  // all taxonomies from across all BrigadeHub projects
       skills : projTaxSkills,
@@ -414,7 +418,7 @@ var userProfile = {
 //          $(jItem).text(detail).addClass('dtlItm').removeClass('btn--hidden').data('name', mainSubDtl );
         jItem = $(jItem).addClass('dtlItm').removeClass('btn--hidden').data('name', mainSubDtl );
         //$(jItem).html(uncheckedGlyph + taxAttr.name)
-        $(jItem).html(taxAttr.name);
+        $(jItem).html(taxAttr.name + 'x');
         
         
       } // END sub category

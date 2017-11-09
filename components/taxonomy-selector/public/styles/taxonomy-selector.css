@@ -8,6 +8,10 @@ body {
   font-family: sans-serif;
 }
 
+a:hover {
+  cursor: pointer;
+}
+
 .nav-close {
   font-size: 28px;
   font-weight: bold;
@@ -163,9 +167,30 @@ body {
 
 }
 
+.taxonomy-selected-container {
+
+}
+
+.taxonomy-selected-parent {
+  padding:3px;
+  margin:5px;
+  background-color:#ccc;
+}
+
+.taxonomy-selected-item {
+  padding:3px;
+  margin:0px;
+}
+
 #taxonomy-selection-skills-container, 
 #taxonomy-selection-learnSkills-container, 
 #taxonomy-selection-interests-container {
+
+}
+
+#taxonomy-selected-skills-container, 
+#taxonomy-selected-learnSkills-container, 
+#taxonomy-selected-interests-container {
 
 }
 

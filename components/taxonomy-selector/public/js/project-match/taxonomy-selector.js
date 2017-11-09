@@ -1,17 +1,43 @@
 (function (PM) {
 
 
-	PM.TaxonomySelector = {};
-
+	ProjectMatch.TaxonomySelector = {};
+  var self = ProjectMatch.TaxonomySelector;
+  
   /*
     
     useful data
 
   */
 
-  PM.TaxonomySelector.taxonomies = ["skills","learnSkills","interests"];
-  PM.TaxonomySelector.selectedTaxonomy = undefined;
+  self.taxonomies = [
+    "skills",
+    "learnSkills",
+    "interests"
+  ];
+  self.selectedTaxonomy = undefined;
+  self.selectedItemsData = {};
+  /* NOTE: this is for rendering selected items
+    EXAMPLE selectedItemsData:
+    {
+      skills: {
+        itemsBySection: {
+          name: name,
+          title: title,
+          items: [
+            {name: name}
+          ]
+        }
+      }
 
+    }
+  */
+  self.taxonomies.forEach(function (taxonomyName) {
+    self.selectedItemsData[taxonomyName] = {
+      name: taxonomyName,
+      itemsBySection: {}
+    };
+  });
 
   /*
     init
@@ -22,20 +48,21 @@
   */
 
 
-  ProjectMatch.TaxonomySelector.init = function (attr) {
+  self.init = function (attr) {
 
     // wait until page loads
     jQuery(document).ready(function () {
 
-      // load the UI click handlers
-      PM.TaxonomySelector.taxonomies.forEach(function (selectedTaxonomy) {
+      // loop over taxonomies
+      // then load the UI click handlers
+      self.taxonomies.forEach(function (selectedTaxonomy) {
 
-        //console.log('Load onClick for ' + 'taxonomy-selector-' + displayName + '-container');
+        //console.log('Load onClick for ' + 'taxonomy-selector-' + taxonomyName + '-container');
         jQuery('#taxonomy-selector-' + selectedTaxonomy + '-container').click(function() {
           console.log('Click ' + 'taxonomy-selector-' + selectedTaxonomy + '-container');
           
-          var prevTaxonomy = PM.TaxonomySelector.selectedTaxonomy;
-          PM.TaxonomySelector.selectedTaxonomy = selectedTaxonomy;
+          var prevTaxonomy = self.selectedTaxonomy;
+          self.selectedTaxonomy = selectedTaxonomy;
 
           /* 
             NOTE: issues with masonry required the use of scratchpads
@@ -56,8 +83,8 @@
 
       // load the selection containers
       ProjectMatch.TaxonomyModel.getSkills(function (taxonomy) {
-        ProjectMatch.TaxonomySelector.renderSelection(taxonomy, 'skills');
-        ProjectMatch.TaxonomySelector.renderSelection(taxonomy, 'learnSkills');
+        self.renderSelection(taxonomy, 'skills');
+        self.renderSelection(taxonomy, 'learnSkills');
       });
 
     });
@@ -74,11 +101,9 @@
     
   */
 
-  ProjectMatch.TaxonomySelector.renderSelection = function (taxonomy, displayName) {
+  self.renderSelection = function (taxonomy, taxonomyName) {
     //console.log(taxonomy);
-
-    // handlebars template for "taxonomy selection"
-    var hbrTemplate = ProjectMatch.TaxonomySelector.templates.selection;
+    var hbrTemplate = self.templates.selection;
 
     // render the taxonomy into something more easily used by handlebars
     itemsBySection = {};
@@ -112,20 +137,24 @@
 
     });
 
+
     // handlebars rendering
+    // ----------------------------------------------------
     var template = Handlebars.compile(hbrTemplate);
 
     var context = {
       taxonomy: taxonomy,
-      
+      taxonomyName: taxonomyName,
       itemsBySection: itemsBySection,
     };
 
     var renderedHtml = template(context);
-    $('#taxonomy-selection-' + displayName).html(renderedHtml);
+    $('#taxonomy-selection-' + taxonomyName).html(renderedHtml);
     //console.log(renderedHtml);
 
+
     // masonry
+    // ----------------------------------------------------
     // SEE: https://masonry.desandro.com
 
     // configure masonry obj
@@ -139,7 +168,7 @@
     msnry.on( 'layoutComplete',
       function( laidOutItems ) {
         laidOutItems.forEach(function (item) {
-          console.log( 'Masonry item ', item);
+          //console.log( 'Masonry item ', item);
         });
         
       }
@@ -152,6 +181,78 @@
   };
 
   /*
+    select item
+  
+    Indicates that the user has made a selection from the taxonomy
+    
+  */
+
+  self.selectItem = function (taxonomyName, parentItemName, itemName) {
+    console.log('selectItem ' + taxonomyName + ': ' + parentItemName + '/' + itemName);
+    //self.selectedItemsData[taxonomyName];
+
+
+  /* example selectedItemsData
+    {
+      skills: {
+        itemsBySection: {
+          name: name,
+          title: title,
+          items: [
+            {name: name}
+          ]
+        }
+      }
+
+    }
+  */
+
+
+    var data = self.selectedItemsData[taxonomyName];
+
+    // new parent: create the parent section 
+    if (!data['itemsBySection'][parentItemName]) {
+      console.log('ADD section')
+      data['itemsBySection'][parentItemName] = {
+        name: parentItemName,
+        items: []
+      }
+    }
+
+    // new item
+    if (data['itemsBySection'][parentItemName]['items'].indexOf(itemName)) {
+      console.log('ADD item');
+      data['itemsBySection'][parentItemName]['items'].push({
+        'name': itemName
+      });
+    } else {
+
+    }
+
+    //console.log(data);
+
+
+    self.renderSelected();
+
+  } // END self.selectItem
+
+  /*
+    unselect item
+  
+    Indicates that the user has removed a selection from the taxonomy
+    
+  */
+
+  self.unselectItem = function (taxonomyName, parentItemName, itemName) {
+    console.log('unselectItem ' + taxonomyName + '/' + parentItemName + '/' + itemName);
+    
+    self.renderSelected();
+
+  } // END self.unselectItem
+
+
+
+  /*
     render selected
 
     function must be called with a taxonomy array and a taxonomy name
@@ -159,7 +260,23 @@
 
   */
 
-  ProjectMatch.TaxonomySelector.renderSelected = function () {
+  self.renderSelected = function (selectedTaxonomy) {
+    var hbrTemplate = self.templates.selected;
+    var template = Handlebars.compile(hbrTemplate);
+    selectedTaxonomy = selectedTaxonomy || self.selectedTaxonomy;
+    //console.log('renderSelected ' + selectedTaxonomy);
+
+    var context = {
+      taxonomy: selectedTaxonomy,
+      itemsBySection: self.selectedItemsData[selectedTaxonomy]['itemsBySection'],
+    };
+
+    //console.log(self.selectedItems);
+    console.log(context);
+
+    var renderedHtml = template(context);
+    console.log(renderedHtml);
+    $('#taxonomy-selected-' + selectedTaxonomy).html(renderedHtml);
 
   }
 
@@ -167,21 +284,30 @@
     handlebars templates
   */
 
-  ProjectMatch.TaxonomySelector.templates = {
-    selected: `<div id="taxonomy-selection" class="container">
+  self.templates = {
+
+    // for those taxonomy items that are selected
+    selected: `<div id="taxonomy-selected">
       {{#each itemsBySection}}
 
-          <div class="item">
-            <strong>{{title}}</strong>
+          <div class="taxonomy-selected-parent">
+            <strong>{{name}}</strong>
 
             {{#each items}}
-              <p>{{name}}</p>
+              <div class="row">
+                <div class="col-md-10 taxonomy-selected-item">&nbsp;{{name}}</div>
+                <div>
+                  <a class="col-md-2 nav-close pull-right" href="javascript:">&times;</a>
+                </div>
+              </div>
             {{/each}}
 
           </div>
 
       {{/each}}
     </div>`,
+
+    // full selection of available items within a taxonomy
     selection: `<div id="taxonomy-selection" class="container">
       {{#each itemsBySection}}
 
@@ -189,7 +315,7 @@
             <strong>{{title}}</strong>
 
             {{#each items}}
-              <p>{{name}}</p>
+              <p><a onClick="ProjectMatch.TaxonomySelector.selectItem('{{../../taxonomyName}}', '{{../name}}','{{name}}'); return undefined;">{{name}}</a></p>
             {{/each}}
 
           </div>

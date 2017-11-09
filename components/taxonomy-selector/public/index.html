@@ -74,35 +74,53 @@
   </div>
 
 
-  <div class="container" id="taxonomy-selected-container">
+  <div class="container" id="taxonomy-selector-container">
+
+    <div class="row" id="taxonomy-selected-display">
+      <div class="col-md-4" id="taxonomy-selected-skills-container">
+        <h3>What I can contribute</h3>
+        <div class="well" id="taxonomy-selected-skills">&nbsp;</div>
+      </div>
+      <div class="col-md-4" id="taxonomy-selected-learnSkills-container">
+        <h3>What I'd like to learn</h3>
+        <div class="well" id="taxonomy-selected-learnSkills">&nbsp;</div>
+      </div>
+      <div class="col-md-4" id="taxonomy-selected-interests-container">
+        <h3>My interests</h3>
+        <div class="well" id="taxonomy-selected-interests">&nbsp;</div>
+      </div>
+    </div>
 
     <div class="row">
 
       <div class="col-md-4" 
         class="taxonomy-selector-container" 
         id="taxonomy-selector-skills-container">
-          Skills to contribute
+          <a>Choose skills to contribute</a>
           <span class="contributeSkillsSelections glyphicon glyphicon-chevron-down" style="padding:5px;"></span>
       </div>
 
       <div class="col-md-4" 
         class="taxonomy-selector-container" 
         id="taxonomy-selector-learnSkills-container">
-          Skills to learn
+          <a>Choose skills to learn</a>
           <span class="contributeSkillsSelections glyphicon glyphicon-chevron-down" style="padding:5px;"></span>
       </div>
 
       <div class="col-md-4" 
         class="taxonomy-selector-container" 
         id="taxonomy-selector-interests-container">
-          Civic interests
+          <a>Choose civic interests</a>
           <span class="contributeSkillsSelections glyphicon glyphicon-chevron-down" style="padding:5px;"></span>
       </div>
 
     </div>
+
+    <div id="taxonomy-selection-display"></div>
+
   </div>
 
-  <div id="taxonomy-selection-display"></div>
+  
 
   <div id="taxonomy-selection-scratchpad">
     <div class="taxonomy-selection-container" id="taxonomy-selection-skills-container">

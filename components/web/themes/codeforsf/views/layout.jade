@@ -8,7 +8,6 @@ html
     title #{title} - #{brigade.name}
     link(href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,400italic,700italic,300,300italic', rel='stylesheet,' type='text/css')
     link(rel='stylesheet', href='/vendor/bootstrap-3.3.7/css/bootstrap.css')
-    //link(rel='stylesheet', href='//cdnjs.cloudflare.com/ajax/libs/chosen/1.6.2/chosen.min.css')
     link(rel='stylesheet', href='/vendor/chosen-js-1.6.2/chosen.css')
     link(rel='stylesheet', href='/css/styles.css')
     link(rel='stylesheet', href='/css/wizard.css')
@@ -32,8 +31,8 @@ html
     include partials/footer.jade
 
 
-    script(src='//cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js')
-    script(src='/js/chosen-1.6.2/chosen.jquery.js')
+    script(src='/js/lib/jquery-3.1.1.min.js')
+    script(src='/vendor/chosen-js=1.6.2/chosen.jquery.js')
     script(src='/vendor/bootstrap-3.3.7/js/bootstrap.js')
     script(src='/js/matching.js')
     script(src='/js/checkin.js')
