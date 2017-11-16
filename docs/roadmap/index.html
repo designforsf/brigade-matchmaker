@@ -42,9 +42,9 @@
 					<h2>What this talk will cover</h2>
 
 					<ul>
-						<li>In Place Now</li>
-						<li>The "MVP"</li>
-						<li>In Active Development</li>
+						<li>Infrastructure In Place</li>
+						<li>Road Map</li>
+						<li>Minimum Viable Product</li>
 						<li>What Lies Ahead</li>
 					</ul>
 
@@ -53,55 +53,78 @@
 
 
 				<section>
-					<h2>In Place Now</h2>
+					<h2>Infrastructure In Place</h2>
 					<hr/>
 
 					<ol>
-						<li class="fragment">Developer Infrastructure</li>
-						<li class="fragment">Application Foundation</li>
-						<li class="fragment">Matching Foundation</li>
-						<li class="fragment">Technical Prototyping</li>
+						<li class="fragment">
+							<strong>Developer</strong>
+							<br/>
+							How to organize our work
+						</li>
+						<li class="fragment">
+							<strong>Application</strong>
+							<br/>
+							How to run and maintain the Project Match service
+						</li>
+						<li class="fragment">
+							<strong>Matching</strong>
+							<br/>
+							How to match new members to projects
+						</li>
+						<li class="fragment">
+							<strong>Technical Prototyping</strong>
+							<br/>
+							How to choose the right technical solutions
+						</li>
 					</ol>
 
 				</section>
 
 
 				<section>
-					<h2>In Place Now</h2>
-					<h3>1. Developer Infrastructure</h3>
+					<h2>Infrastructure In Place</h2>
+					<h3>1. Developer</h3>
 					<hr/>
 
 					<ul>
 						<li class="fragment">
 							GitHub code repository
 							<br/>
-							<a href="https://github.com/designforsf/brigade-matchmaker" target="_new">https://github.com/designforsf/brigade-matchmaker</a>
+							<a href="https://github.com/designforsf/brigade-matchmaker" target="_new">github.com/designforsf/brigade-matchmaker</a>
 						</li>
 						<li class="fragment">Developer onboarding process</li>
 						<li class="fragment">Detailed installaton instructions</li>
+						<li class="fragment">Project management</a>
+							<br/>
+							<a href="https://github.com/designforsf/brigade-matchmaker/projects" target="_new">github.com/designforsf/brigade-matchmaker/projects</a></li>
 					</ul>
 
 				</section>
 
 
 				<section>
-					<h2>In Place Now</h2>
-					<h3>2. Application Foundation</h3>
+					<h2>Infrastructure In Place</h2>
+					<h3>2. Application</h3>
 					<hr/>
 
 					<ul>
 						<li class="fragment">
-							MongoDB database<br/>
+							<strong>MongoDB database</strong>
+							<br/>
 							(easy installation, JSON data)
 						</li>
 						<li class="fragment">
-							Data models for Brigade, Users, Projects
-						</li>
-						<li class="fragment">Standard NodeJS web application
-							<br/>Able to log in via Google, Github
+							<strong>Data definition / entities</strong>
+							<br/>
+							(Brigade, Users, Projects, ProjectMatchConfigs)
 						</li>
 						<li class="fragment">
-							REST API: URLs that return data
+							<strong>Node.js web application</strong>
+							<br/>(based on Brigade Hub / current web site)
+						</li>
+						<li class="fragment">
+							<strong>REST API: URLs that return data</strong>
 							<br/><a href="http://localhost:5465/api/user/matches?learnSkills=client-dev/javascript" target="_new">/api/user/matches?learnSkills=client-dev/javascript</a>
 						</li>
 					</ul>
@@ -109,25 +132,26 @@
 				</section>
 
 				<section>
-					<h2>In Place Now</h2>
-					<h3>3. Matching Foundation</h3>
+					<h2>Infrastructure In Place</h2>
+					<h3>3. Matching</h3>
 					<hr/>
 
 					<ul>
 						<li class="fragment">
-							<strong>Taxonomy</strong>
-								<br/>
-							(simple data structure for manual entry)
+							<strong>Project Participation Taxonomy</strong>
+							<ul>
+								<li class="fragment">Data structure</li>
+								<li class="fragment">Preliminary content</li>
+							</ul>
 						</li>
 						<li class="fragment">
 							<strong>Matching Algorithm</strong>
 							<ul>
-								<li class="fragment">Python</li>
 								<li class="fragment">Uses the taxonomy</li>
 								<li class="fragment">Accepts inputs from "new member"</li>
 								<li class="fragment">Easily tested</li>
 								<li class="fragment">
-									Accessible from the REST API
+									Accessible from the REST API:
 									<br/><a href="http://localhost:5465/api/user/matches?learnSkills=client-dev/javascript" target="_new">/api/user/matches?learnSkills=client-dev/javascript</a>
 									<br/>
 								</li>
@@ -139,27 +163,27 @@
 				</section>
 
 				<section>
-					<h2>In Place Now</h2>
+					<h2>Infrastructure In Place</h2>
 					<h3>4. Technical Prototyping</h3>
 					<hr/>
 
 					<ul>
 						<li class="fragment">
-							<strong>UI Proto</strong>
+							<strong>UI Tests</strong>
 							<ul>
-								<li>Taxonomy selector</li>
-								<li>Project list</li>
+								<li>Taxonomy Selector</li>
+								<li>Project List</li>
 							</ul>
 						</li>
 						<li class="fragment">
-							<strong>Messaging Component Proto</strong>
+							<strong>Messaging Component Tests</strong>
 							<ul>
-							<li>Interaction via email</li>
-							<li>Interaction via slackbot &#10004</li>
+							<li>Interaction via Email</li>
+							<li>Interaction via Slackbot &#10004</li>
 							</ul>
 						</li>
 						<li class="fragment">
-							<strong>Project Admin Proto</strong>
+							<strong>Project Admin Tests</strong>
 							<ul>
 								<li>Using "KeystonsJS"</li>
 								<li>Using "EmberJS" &#10004</li>
@@ -171,7 +195,36 @@
 
 
 				<section>
-					<h2>MVPM</h2>
+					<h2>Road Map</h2>
+					<h3>Phases of Development</h3>
+					<hr/>
+
+					<ul>
+						<li class="fragment">
+							<strong>Phase I: MVP</strong>
+							<br/>
+							Basic matching service for new members and project leads
+						</li>
+						<li class="fragment">
+							<strong>Phase II</strong>
+							<br/>
+							Connecting and integrating Project Match with Code for SF
+						</li>
+						<li class="fragment">
+							<strong>Phase III</strong>
+							<br/>
+							Expanding the interaction between new members and projects
+						</li>
+					</ul>
+
+					<hr/>
+
+					<span class="fragment">&#10048; Some things will be done manually &#10048;</span>
+
+				</section>
+
+				<section>
+					<h2>Phase I: MVP<span class="fragment">M</span></h2>
 					<h3 class="fragment">Minimum Viable Project Match</h3>
 					<hr/>
 
@@ -189,7 +242,7 @@
 				</section>
 
 				<section>
-					<h2>MVPM</h2>
+					<h2>Phase I: MVPM</h2>
 					<h3>In Active Development:</h3>
 					<hr/>
 
@@ -205,7 +258,7 @@
 							(Paul)
 						</li>
 						<li class="fragment">
-							<strong>Taxonomy Completion</strong>
+							<strong>Taxonomy Data</strong>
 							<br/>
 							(Steven)
 						</li>
@@ -215,52 +268,43 @@
 
 
 				<section>
-					<h2>MVPM</h2>
+					<h2>Phase I: MVPM</h2>
 					<h3>To Go Active Soon:</h3>
 					<hr/>
 
 					<ul>
+						<li class="fragment">Notifications / Status Bar</li>
 						<li class="fragment">Project Leads Admin / CMS</li>
 						<li class="fragment">Live Service + Memorable URL</li>
 					</ul>
-
-					<hr/>
-
-					<span class="fragment">&#10048; We will recruit for EmberJS devs &#10048;</span>
 
 				</section>
 			
 
 				<section>
-					<h2>What Lies Ahead</h2>
-					<h3>Sooner</h3>
+					<h2>Phase II</h2>
+					<h4>Connecting and integrating Project Match with Code for SF</h4>
 					<hr/>
 
-					<ul>
+					<ul class="fragment">
 						<li>New C4SF Home Page</li>
 						<li>Taxonomy Management in Admin</li>
+						<li>Search within Taxonomy Selector</li>
 						<li>CAT Users in Admin</li>
-						<li>Notifications</li>
 						<li>Project List Filters</li>
-						<li>Status Bar</li>
 					</ul>
-
-					<hr/>
-
-					<span class="fragment">&#10048; We will recruit for EmberJS devs &#10048;</span>
 
 				</section>
 
 				<section>
-					<h2>What Lies Ahead</h2>
-					<h3>Later</h3>
+					<h2>Phase III</h2>
+					<h4>Expanding the interaction between new members and projects</h4>
 					<hr/>
 
-					<ul>
-						<li>Contact Me</li>
-						<li>Candidate List</li>
+					<ul class="fragment">
 						<li>Bookmarks</li>
-						<li>Search within Taxonomy Selector</li>
+						<li>Candidate List</li>
+						<li>Contact Me</li>
 						<li>Email + Slackbot Messaging</li>
 						<li>Messaging to Leads from CAT</li>
 						<li>Messaging History</li>
