@@ -1,0 +1,168 @@
+.boldTitle {
+    font-weight: bold;
+    color: black;
+}
+
+.center-cropped {
+    width: 200px;
+    height: 200px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    margin-bottom: 1em;
+}
+
+.projectHeader {
+    display: flex;
+    justify-content: space-between;
+}
+
+.projectHeader__section {
+    display: flex;
+    align-items: center;
+
+}
+
+.b {
+    display: inline-block;
+    padding: .5em .5em;
+    font-size: 75%;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
+.badge-civic {
+    color: #000000;
+    border: 1px solid #004969;
+}
+.badge-learn {
+    color: #000000;
+    border: 1px solid #399FD3;
+
+}
+.badge-contribute {
+    color: #000000;
+    border: 1px solid #CF173F;
+    border-radius: .2em;
+}
+
+.badge-civic-selected {
+    color: #fff;
+    background-color: #004969;
+    border-radius: .2em;
+}
+.badge-learn-selected {
+    color: #fff;
+    background-color: #399FD3;
+    border-radius: .2em;
+}
+.badge-contribute-selected {
+    color: #fff;
+    background-color: #CF173F;
+    border-radius: .2em;
+}
+
+/* Set the image to fill its parent and make transparent */
+.center-cropped img {
+    min-height: 100%;
+    min-width: 100%;
+    /* IE 8 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    /* IE 5-7 */
+    filter: alpha(opacity=0);
+    /* modern browsers */
+    opacity: 0;
+    margin-right: 10px;
+}
+
+.matchingClass {
+    margin: .5em;
+}
+
+.projDesc {
+    border-right-style: solid;
+    border-right-width: .01em;
+    margin-bottom: 1em;
+    border-right-color: lightgray;
+}
+
+.rowUnderline{
+    border-bottom: solid dimgray .02em;
+    margin-bottom: 1em;
+}
+
+.projName {
+    color: #628DA1;
+    padding: .1em;
+    font-size: 1.5em;
+}
+
+
+.rowBorder {
+    border-bottom-color: lightgray;
+    border-bottom-style: solid;
+    border-bottom-width: .01em;
+}
+
+.skills {
+    min-width: 100%;
+}
+
+.thumbnail {
+    margin-right: .5em;
+}
+
+.viewBtn:hover {
+    background-color: #47ADDB;
+    color: white;
+
+}
+
+html,body,ul
+{
+    height: 100%;
+}
+ul
+{
+    display: table;
+    table-layout: fixed;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 0;
+}
+
+li
+{
+    text-align: center;
+    display: table-row;
+}
+span
+{
+    display: table-cell;
+    vertical-align: top;
+}
+
+.heading-info {
+    font-size: .8em;
+    font-weight: 600;
+    color: #034C6B;
+    float: right;
+}
+
+.project-info {
+    align-self: flex-end;
+    text-align: right;
+}
+
+.project-list {
+    padding: 0;
+}
+
+.flex-container {
+    display: flex;
+}

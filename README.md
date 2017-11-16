@@ -1,38 +1,60 @@
-# "Matching Hat"
+# "Project Match"
 
 A prototype service that matches newly arriving members to the appropriate civic projects.
 
 # Status
 
-This software is actively under development and is not yet ready for release.
+This software is a technical prototype and is actively under development. It is not yet ready for release.
 
 ---
 
-# Origin
+# Background
 
-The Matching Hat concept is the result of user experience research conducted at [Code For San Francisco](http://codeforsanfrancisco.org). This research included interviews with new members and project leaders, structured brainstorming, and wireframe prototyping. 
+**The notion of matching users to projects emerged from an effort to improve the experience of new members at Code For SF.**
 
-User experience research at Code4SF is run by the [UX Research Group](https://github.com/sfbrigade/research-group).
+The Project Match concept is the result of ongoing user experience research conducted at [Code For San Francisco](http://codeforsanfrancisco.org). This research included interviews with new members and project leaders, structured brainstorming, and wireframe prototyping. 
+
+User experience research at Code4SF is run by members of the [UX Research Group](https://github.com/sfbrigade/research-group).
 
 # Concept
 
-Matching Hat is intended for use by a newly arriving member at a [Code For America "brigade"](http://brigade.codeforamerica.org/brigade/), which is a collecting point for local civic projects. 
+The Project Match web application is intended for new members first arriving at a [Code For America "brigade"](http://brigade.codeforamerica.org/brigade/), a collecting point for local civic projects. The app connects new members with those civic projects which are likely to appeal to their skills, interests, and needs.
 
 ## Application Flow
 
-Local civic projects are asked to maintain data about what their volunteer needs are in terms of skills and goals. Other information is also tracked about projects, including what interest category they belong to.
+### Project data
+
+Local civic projects are asked to maintain data about their volunteer needs in terms of skills needed, learning offered, and goals. Other information is also tracked about projects to form a profile, including what interest category they belong to.
+
+### Project match form
 
 When a new member arrives, he/she is asked to open a URL and begins the matching process. The new member is asked to select from three sets of keywords:
 
-* Interests:  elections, homelessness, housing, infrastructure, etc.
-* Skills: javascript, civic organizing, machine learning, legal, etc.
-* Goals: to learn, to help, to build, to manage, to lead, etc.
+* **Civic interests:**  elections, homelessness, housing, infrastructure, etc.
+* **Skills needed:** javascript, civic organizing, machine learning, legal, etc.
+* **Learning opportunities:** javascript, civic organizing, machine learning, legal, etc.
 
-A matching algorithm is employed to generate a sorted list of projects. This algorithm uses the interests, skills, and goals entered by the new member to score every project based on keyword matching. 
+### Project match
 
-A list of projects sorted by the matching scores is presented to the new member. There is information describing each project and how it fits what he/she is looking for. Within this list, the new member is then able to select projects that interest them and send messages to project leaders. 
+A matching algorithm is employed to generate a sorted list of projects. This algorithm uses the civic interests, skills, and learning opportunities entered by the new member to score every project based on keyword matching. 
+
+Based on what was entered in the project match form, list of projects sorted by the matching scores is presented. 
+
+### Project profile
+
+There is brief information describing each project and how it fits what he/she is looking for. Within this list, the new member is then able to select projects that interest them and send messages to project leaders. 
+
+### Messaging
+
+A user can message the project leads. This is mediated using a common email account, enabling messages to me passed back and forth without revealing the new member's email address.
+
+### Bookmarks
+
+A user can bookmark projects that interest him/her. This is retained in the browser temporarily, until the user chooses to create an account with their email address.
 
 ## Wireframe Prototype
+
+The UX Research 
 
 Check out our [Wireframe Prototype](https://www.justinmind.com/usernote/tests/10742872/22268666/23072489/index.html#/screens/d12245cc-1680-458d-89dd-4f0d7fb22724)... start by clicking on the white "Hack Night Check In" button.
 
@@ -40,31 +62,37 @@ Check out our [Wireframe Prototype](https://www.justinmind.com/usernote/tests/10
 
 # Architectural Overview
 
-Matching Hat is implemented as a theme within a clone of an alpha version of [BrigadeHub](https://github.com/brigadehub/brigadehub/releases/tag/v1.0.0-alpha.11) (before many improvements were made). As it is a technical demonstration, Matching Hat does not track changes to BrigadeHub. However a future version will be properly tracking changes to BrigadeHub Beta.
-
 ## Major Components
 
-Matching Hat is a system consisting of the following parts:
+Project Match is a system consisting of the following parts:
 
-* MongoDB Database 
-* Data models representing users, projects, project needs
-* Node.js Web Application aka "the webapp"
-* Matchmaking function (currently python) aka "the algorithm"
-* Test scripts
+* **Database** - MongoDB
+* **Data Models** - Mongoose
+* **New Member Front-End** and **JSON API** -  Node.js / Express / Pug / jQuery
+* **Matching Algorithm** - python
+* **Messaging Service** - Node.js / Express
+* **Project Content Management** - EmberJS / Bootstrap
+* **Test Scripts** - bash and wget
 
-## MongoDB Database
+## Database
 
-[MongoDB](https://www.mongodb.com/) is used as the back-end database for all user, brigade, and project data.
+[MongoDB](https://www.mongodb.com/) is used as the back-end database for all of the other components of the Project Match system.
 
 ## Data Models
 
-Data in MongoDB is queried and updated in the webapp using [Mongoose](http://mongoosejs.com/).
+Defines users, projects, and project taxonomy. Data in MongoDB is queried and updated in the webapp using [Mongoose](http://mongoosejs.com/).
 
-## The webapp
+## New Member Front-End and JSON API
 
 The webapp generates the web interface for users, controls how data is updated, and accesses the matchmaking function.
 
-Key dependencies include:
+### Origins of the Front-End
+
+The Project Match new member front-end is based on the alpha version of [BrigadeHub](https://github.com/brigadehub/brigadehub/releases/tag/v1.0.0-alpha.11) (before many improvements were made). 
+
+As it is only a technical demonstration, Project Match does not track changes to BrigadeHub.
+
+### Key dependencies 
 
 * [Express](http://expressjs.com/)
 * [Mongoose](http://mongoosejs.com/)
@@ -72,19 +100,29 @@ Key dependencies include:
 * [Bootstrap](https://github.com/brigadehub/brigadehub/releases/tag/v1.0.0-alpha.11)
 * [jQuery](https://github.com/brigadehub/brigadehub/releases/tag/v1.0.0-alpha.11)
 
-## The algorithm
+## Matching Algorithm
 
-Currently the matching function is written in python. It accepts input representing a user's preferences for skills, interests, and goals. The algorithm outputs a sorted list of projects.
+Currently the matching function is written in python. It accepts input representing a user's preferences for skills, opportunities to learn, and interests. The algorithm outputs a sorted list of projects.
 
-The webapp directly interacts with the algorithm, providing a JSON web API.
+The New Member Front-End directly interacts with the algorithm, providing a JSON web API.
 
-The matching function is currently being re-written in javascript.
+## Messaging Service
+
+The Front-End sends emails from new members to project leads via an API hosted by the Messaging Service. This component is Node.js and securely interacts with a GMail account.
+
+## Project Content Management
+
+This component enables project leads to update project-related data, including the skills needed, learning opportunities, and civic interests. This component is rendered by EmberJS and interacts with the JSON API.
+
+## Test Scripts
+
+These are rudimentary bash scripts which use wget in order to perform basic tasks step-by-step.
 
 ---
 
 # Installation
 
-Installing Matching Hat requires the following installations and configurations:
+Installing the core Project Match components requires the following installations and configurations:
 
 * Project files on GitHub
 * MongoDB
@@ -93,7 +131,7 @@ Installing Matching Hat requires the following installations and configurations:
 * Web application configuration
 * Python
 
-## Project files on GitHub
+## 1. Clone the project files
 
 Create a general project directory. You'll want to keep the code separate from notes, diagrams, and media assets that are related to the project.
 
@@ -121,7 +159,7 @@ git commit -m 'I updated some file.'
 git push origin <YOUR GIT USERNAME>
 ```
 
-## MongoDB
+## 2. Install the database
 
 If you do not want to just download and install the latest mongodb, for OSX systems there is a way to install it in components/mongodb. 
 
@@ -139,7 +177,7 @@ cd brigade-matchmakercomponents/mongodb
 ./bin/start-mongodb.sh
 ```
 
-MongoDB will components/mongodb/var for the data, although there is no data yet for Matching Hat. The first time you run the webapp, it will be populated. To query mongodb directly, use a different terminal and type:
+MongoDB will components/mongodb/var for the data, although there is no data yet for Project Match. The first time you run the webapp, it will be populated. To query mongodb directly, use a different terminal and type:
 
 ```
 cd brigade-matchmaker/components/mongodb
@@ -149,7 +187,7 @@ cd brigade-matchmaker/components/mongodb
 
 SEE: [mongo shell reference](https://docs.mongodb.com/manual/reference/mongo-shell/)
 
-## Node.js - via the Node Version Manager
+## 3. Install Node.js 
 
 Node.js is server-side javascript. We are targeting a particular version and you can use the Node Version Manager to make sure you use v6.9.5. 
 
@@ -162,7 +200,7 @@ nvm use v6.9.5
 node --version
 ```
 
-## Node.js dependencies - via the Node Package Manager
+## 4. Install Node.js dependencies
 
 The webapp has many dependencies that can be easily installed with the Node Package Manager. It uses [package.json](https://github.com/designforsf/brigade-matchmaker/blob/99bf7aef75542391f5c1630faa7611553345feba/components/web/package.json) to know what dependencies to install. Remember to make sure to be using node v6.9.5 when installing!
 
@@ -174,30 +212,8 @@ nvm use v6.9.5
 npm install
 ```
 
-## Admin application configuration
 
-The admin tools are built using [KeystoneJS 4](http://keystonejs.com).  
-
-To set the admin tools up, in the command line terminal:
-
-```
-nvm use v6.9.5
-npm install --save keystone@next
-npm install -g yo
-npm install -g generator-keystone
-
-cd brigade-matchmaker/components/admin
-npm install
-```
-
-To run the admin tools, first make sure that mongodb is running. Then, in the command line terminal:
-
-```
-cd brigade-matchmaker/components/admin
-node keystone
-```
-
-## Web application configuration
+## 5. Configure the New Member Front-End
 
 Once Node.js and the dependencies are installed, the webapp is very close to being runnable. What it needs first is the .env comfiguration file.
 
@@ -215,11 +231,11 @@ cd brigade-matchmaker/components/web
 node app.js
 ```
 
-This should now allow you to interact with the Matching Hat webapp at [http://localhost:5465](http://localhost:5465).
+Please now visit the new member front-end at [http://localhost:5465](http://localhost:5465). Doing so will now load the test data!
 
-The matching algorithm can be called at: [http://localhost:5465/api/user/matches](http://localhost:5465/api/user/matches?skills=javascript,python&interests=housing&goals=developer,presenter).
+**NOTE: the Project Match front-end won't work until the Matching Algoritm is installed**
 
-## Python
+## 6. Install the Matching Algorithm
 
 Python is included in OSX, however to install packages you will need pip. The best way to get pip installed on OSX is to use [homebrew](https://brew.sh/).
 
@@ -246,7 +262,7 @@ Both python and pip should now be located in /usr/local/bin/.
 Now you are ready to install pymongo. In the command line terminal:
 
 ```
-cd brigade-matchmaker/components/algorithms
+cd brigade-matchmaker/components/matching
 python --version
 pip --version
 pip install pymongo==3.4
@@ -258,6 +274,95 @@ If the database is running and the webapp has been fired up (at least once), you
 In the command line terminal:
 
 ```
-cd brigade-matchmaker/components/algorithms
+cd brigade-matchmaker/components/matching
 python db-match-algo.py javascript housing developer
 ```
+
+## 7. Running and testing the Project Match system
+
+### Terminal 1: Start MongoDB
+
+This needs to be running (if it isn't running already).
+
+### Terminal 2: New Member Front-End / JSON API
+
+This needs to be running, (if it isn't running already).
+
+### Terminal 3: Test the matching algorithm
+
+The following interacts with the JSON API, querying with three sets of criteria and returning matching projects for each.
+
+```
+./test/matching/test_matching.sh
+```
+
+### Browser 1: Test the JSON API
+
+The matching algorithm can be called at: [http://localhost:5465/api/user/matches](http://localhost:5465/api/user/matches?skills=javascript,python&interests=housing&goals=developer,presenter).
+
+### Browser 2: Test the New Member Front-End
+
+The New Member Front-End interacts with the JSON API to generate the search criteria and to return the project list.
+
+[http://localhost:5465](http://localhost:5465)
+
+---
+
+# Installing Additional Components
+
+Beyond the new member front-end aspect, the Project Match system also relies on messaging, bookmarks, and project content management.
+
+## Project Content Management
+
+This service enables project leaders to manage content stored in MongoDB. The data which project leaders manage here is displayed to new members in the Front-End. 
+
+Project Content Management makes use of [EmberJS framework](http://emberjs.com/) and [Ember Bootstrap](http://www.ember-bootstrap.com/#/components) with the JSON API. 
+
+### Install dependencies
+
+EmberJS 2.14 is tested with Node.js v6.11.1 and requires a global install:
+
+```
+nvm install v6.11.1
+nvm use v6.11.1
+npm install -g ember-cli@2.14
+```
+
+### Run the service
+
+```
+cd brigade-matchmaker/components/ember-client
+ember build
+ember serve
+```
+
+To interact with the Project Content Management UI:
+
+[http://localhost:4200](http://localhost:4200)
+
+
+## Messaging Service
+
+This is a technical demo and starting the service currently only attempts to send a message using a GMail account. 
+
+### Install dependencies:
+
+```
+cd brigade-matchmaker/components/messaging
+nvm use v6.9.5
+npm install
+```
+
+### Start the service
+
+```
+NODE_ENV=development node app.js
+```
+
+## Bookmarks
+
+This service has not been defined yet.
+
+
+
+

@@ -1,3 +1,37 @@
+
+(function (projectMatch) {
+
+  projectMatch.uiActivateLanding = function () {
+
+      // show top nav
+      $('#top-nav').collapse("hide")
+      
+      // hide the landing page intro
+      $('#landing-intro').collapse("show");
+
+  };
+
+  projectMatch.uiActivateNavigation = function () {
+
+      // show top nav
+      $('#top-nav').collapse("show")
+      
+      // hide the landing page intro
+      $('#landing-intro').collapse("hide");
+
+  };
+
+}) (( window.ProjectMatch=window.ProjectMatch || {}));
+
+/*
+
+  NOTE: below will be incorporated into the above anonymous self-executing function
+  
+  http://markdalgleish.com/2011/03/self-executing-anonymous-functions/
+
+*/
+
+
 $(document).ready(function () {
   // Make the "You are checked in" item visible (enables logout)
   if ( localStorage.getItem("checkedIn") === "true" ) {
@@ -56,7 +90,12 @@ $(document).ready(function () {
   ******************/
   
   var selectorsObj = {
-    formIDs : ['s2cselections', 's2lselections', 'intSelections', 'goalSelections'],
+
+    formIDs : [
+      'contributeSkillsSelections', 
+      'learnSkillsSelections', 
+      'interestsSelections', 
+      'goalSelections'],
     myForm : '',
     projTax : {  // all taxonomies from across all BrigadeHub projects
       skills : projTaxSkills,
@@ -68,9 +107,9 @@ $(document).ready(function () {
       
     // these help with jQuery selections to load the selection forms
       var taxSelectors = {
-        s2cselections : 'skills',
-        s2lselections : 'skills',
-        intSelections : 'interests',
+        contributeSkillsSelections : 'skills',
+        learnSkillsSelections : 'skills',
+        interestsSelections : 'interests',
         goalSelections : 'goals'
       };
 
@@ -81,6 +120,9 @@ $(document).ready(function () {
 
       //Set the listener on the selector glyph to show the forms
       $("div#label" + userProfile.formID ).on('click', function() {
+
+        ProjectMatch.uiActivateNavigation();
+
         userProfile.doShow( event );
         $("#match_res").addClass("btn--hidden"); //??? this is duplicate code
         $("#pListHeader").addClass("btn--hidden"); // to be refactored
@@ -207,7 +249,7 @@ var userProfile = {
 
         });
         // ??? possible changes to get row separation for flex containers
-        //jItem=$('div#s2cselections div.row:first').clone().appendTo('div#s2cselections')
+        //jItem=$('div#contributeSkillsSelections div.row:first').clone().appendTo('div#contributeSkillsSelections')
 
 
         jItem = $(myBase + ' div.nic:first');
@@ -228,7 +270,7 @@ var userProfile = {
     // Each catg div (main+subcat) and dtlItm (lowest level item) gets a handler
 
     /***??? Leave for future work to enable selection by subCat
-    $("#s2cselections div.catg").each(function( ) {
+    $("#contributeSkillsSelections div.catg").each(function( ) {
       $(this).attr("id", getUniqueId() );
       //$(this).click(function() {
         userProfile.toggleSelection(this, 'selForm');
@@ -276,8 +318,10 @@ var userProfile = {
 
     var choiceColumn, oldChoiceColumn;
     var mainCat, subCat;
-    var uncheckedGlyph = ' <span class="glyphicon  glyphicon-unchecked"></span>';
-    
+    //var uncheckedGlyph = ' <span class="glyphicon  glyphicon-unchecked" style="padding:5px;"></span>';
+    var uncheckedGlyph = ' <span style="padding:5px;"></span>';
+
+
     var taxName, taxAttr;
     for (var choiceCount=0; choiceCount < taxObj.length; choiceCount++) {
       taxAttr = taxObj[choiceCount];
@@ -311,6 +355,9 @@ var userProfile = {
     //Set the stored data for the form: taxObj
     $(myBase).data('taxObj', taxObj);
 
+    //console.log(' taxObj.length=' + taxObj.length);
+    //console.log(taxObj);
+
     //Build the selector form
     for (var choiceCount=0; choiceCount < taxObj.length; choiceCount++) {
       taxAttr = taxObj[choiceCount];
@@ -324,16 +371,15 @@ var userProfile = {
       // main category
       if (taxAttr.parent == taxName) {  
         mainCat = taxAttr.name;
-      
-
         mainSub = mainCat + subCat;
+        //console.log(' process maincat ' + mainSub);
 
         choiceColumn = Math.ceil( choiceCount / detailLimit ); // should give a value 1-4 integer
         oldChoiceColumn = choiceColumn;
         var jItem = $(myBase + ' div.model'+ choiceColumn + ':first' ).clone().insertBefore(myBase + ' div.nic' + choiceColumn + ':last');
         $(jItem).text(mainCat + ' ' + subCat).addClass('catg').removeClass('btn--hidden');
         $(jItem).data('name', mainSub ); //label category
-      
+
       
       // END main category
       
@@ -343,22 +389,36 @@ var userProfile = {
         
         choiceColumn = Math.ceil( choiceCount / detailLimit ); // should give a value 1-4 integer
         //
-        // If choiceColumn now > old choiceColumn, output the mainSub again as a column header
+
+
+        /* If choiceColumn now > old choiceColumn, output the mainSub again as a column header
+        // NOTE: removed because:
+        //         1. it is not working properly
+        //     and 2. the design is moving toward masonry-style layout
         if ( choiceColumn > oldChoiceColumn ) {
           oldChoiceColumn = choiceColumn;
           choiceCount++;
           var jItem = $(myBase + ' div.model'+ choiceColumn + ':first' ).clone().insertBefore(myBase + ' div.nic' + choiceColumn + ':last');
           $(jItem).text(mainCat + ' ' + subCat).addClass('catg').removeClass('btn--hidden');
           $(jItem).data('name', mainSub ); //label category
+          //$(jItem).html('hello');
+          console.log(jItem);
+          console.log('condition to set jItem=' + jItem + ' name to mainSub ' + mainSub);
         }
+        */
+        
 
         mainSubDtl = mainCat + '.' + subCat;
+
+        //console.log(' process subcat ' + mainSubDtl);
+
         //
         // Output all the taxObj details now, under its category header
         jItem = $(myBase + ' div.model' + choiceColumn + ':first').clone().insertBefore(myBase + ' div.nic'+ choiceColumn + ':last');
 //          $(jItem).text(detail).addClass('dtlItm').removeClass('btn--hidden').data('name', mainSubDtl );
         jItem = $(jItem).addClass('dtlItm').removeClass('btn--hidden').data('name', mainSubDtl );
-        $(jItem).html(uncheckedGlyph + taxAttr.name)
+        //$(jItem).html(uncheckedGlyph + taxAttr.name)
+        $(jItem).html(taxAttr.name + 'x');
         
         
       } // END sub category
@@ -372,7 +432,7 @@ var userProfile = {
     // Each catg div (main+subcat) and dtlItm (lowest level item) gets a handler
 
     /***??? Leave for future work to enable selection by subCat
-    $("#s2cselections div.catg").each(function( ) {
+    $("#contributeSkillsSelections div.catg").each(function( ) {
       $(this).attr("id", getUniqueId() );
       //$(this).click(function() {
         userProfile.toggleSelection(this, 'selForm');
@@ -397,7 +457,7 @@ var userProfile = {
     var itemInChosen2 = false;
     var jItem;
     mainSubDtl = $(event).data().name; //in form 'main.sub.detail' as a string
-    console.log('Toggle switch clicked at ', mainSubDtl + ' ' + whereClicked );
+    console.log('Toggle switch clicked at ' + mainSubDtl + ' ' + whereClicked );
     //
     // invert the selection:
     // If the item was NOT chosen now it IS
@@ -434,6 +494,7 @@ var userProfile = {
       // so that this item can be revealed later, if the user removes this
       // from chosenBox.
       userProfile.outputSelection(userProfile.formID, mainSubDtl, $(event).attr('id'));
+
     };
 
     if (whereClicked === 'chosenBox') {
@@ -485,7 +546,7 @@ function parseSelections( ) {
   var skills2c = "skills=", skills2l = "skills=", interests = "interests=", goals = "goals=";
   var searchSkills, searchInterests, searchGoals = '';
 
-    //selectorsObj.formIDs = ['s2cselections', 's2lselections', 'goalSelections', 'intSelections'];
+    //selectorsObj.formIDs = ['contributeSkillsSelections', 'learnSkillsSelections', 'goalSelections', 'interestsSelections'];
   function buildSrchStr( catg ) {
     var srchCriteria = [];
     var name = [];
@@ -500,13 +561,13 @@ function parseSelections( ) {
     return srchCriteria.toString() ;
   };
 
-  skills2c += buildSrchStr( 's2cselections' );
+  skills2c += buildSrchStr( 'contributeSkillsSelections' );
   skills2c = ( skills2c === "skills=" ) ? "" : skills2c + "&";
   console.log('Skills2c search string: ', skills2c);
-  skills2l += buildSrchStr( 's2lselections' );
+  skills2l += buildSrchStr( 'learnSkillsSelections' );
   skills2l = ( skills2l === "skills=" ) ? "" : skills2l + "&";
   console.log('Skills2l search string: ', skills2l);
-  interests+= buildSrchStr( 'intSelections' , interests);
+  interests+= buildSrchStr( 'interestsSelections' , interests);
   interests = ( interests === "interests=" ) ? "" : interests + "&";
   console.log('Interests search string: ', interests);
   var searchStr = baseURL+skills2c+interests+goals;
@@ -578,11 +639,14 @@ function processMatches( allPs, userMatches ) {
 
 	//Iterate over the projects returned in the user match object userMatches
 	// to complete the project info using object allPs
-	userMatches.projects.forEach(function(userProject) {
+	userMatches.data.forEach(function(userProject) {
 		//filter the allPs.projects array for a project name matching the userProject
-		var fullProjInfo = allPs.projects.filter ( function( thisProject, index ) {
-			return ( userProject.id ===  thisProject.name );
+		var fullProjInfo = allPs.data.filter ( function( thisProject, index ) {
+      console.log(userProject.id + ' ' + thisProject.id)
+			return ( userProject.id ===  thisProject.id );
 		});
+
+    console.log('full proj info ', fullProjInfo);
 
 		if ( !fullProjInfo ) {
 			userProject.found = false;
@@ -591,14 +655,16 @@ function processMatches( allPs, userMatches ) {
 
 		if ( fullProjInfo ) {
 			userProject.found = true;
+      var project = fullProjInfo[0].attributes;
+      console.log('project ', project);
 
 				//projects match, we can fill in some missing info -- what
 				// skills / interests / goals are sought by this project
 				// That info is in the matching Config property, which is an array
 
-				userProject.skills = fullProjInfo[0].matchingConfig.skillsNeeded;
-				userProject.interests = fullProjInfo[0].matchingConfig.interestsNeeded;
-				userProject.goals = fullProjInfo[0].matchingConfig.rolesNeeded;
+				userProject.attributes.skills = project.matchingConfig.skillsNeeded;
+				userProject.attributes.interests = project.matchingConfig.interestsNeeded;
+				userProject.attributes.goals = project.matchingConfig.rolesNeeded;
 
 				// fullProjInfo[0] is the additional information retrieved for
 				//  the user's matching project
@@ -624,34 +690,39 @@ function processMatches( allPs, userMatches ) {
 
 function outputProject(userProject, fullProjInfo ) {
 
-		$("#umtemplate img:first").attr("src", fullProjInfo.thumbnailUrl );
+    projectMatch = userProject.attributes;
+    project = fullProjInfo.attributes;
+
+    console.log('output project ', fullProjInfo);
+
+		$("#umtemplate img:first").attr("src", project.thumbnailUrl );
 
 		// Next image is for an avatar of the team leader:
-		$("#umtemplate img:last").attr("src", fullProjInfo.team[0].avatar );
-		$('#umtemplate h4.leader').text( fullProjInfo.team[0].username );
+		$("#umtemplate img:last").attr("src", project.team[0].avatar );
+		$('#umtemplate h4.leader').text( project.team[0].username );
 
 		// Now add info for the Contact Team button.
 		// On the data model -- we need to understand the use of contact[]
 		// vs team[]
-		if ( fullProjInfo.contact.length ) {
-			$("#teamAddr").attr("info", fullProjInfo.contact[0].email).attr("data-leader", fullProjInfo.contact[0].name);
+		if ( project.contactName && project.contactEmail ) {
+			$("#teamAddr").attr("info", project.contactEmail).attr("data-leader", fullProjInfo.contactName);
 		} else {
 			$("#teamAddr").attr("info", "").attr("data-leader", "");
 		};
 
-		$("#pName").text( fullProjInfo.name );
+		$("#pName").text( project.name );
 		//
 		// New data model -- description is short enough without truncation.
 		// leave short text for now in case a longer mission stmnt is available later
 		//var shortText = $.trim(fullProjInfo.description).substring(0, 300).split(" ").slice(0, -1).join(" ") + "...";; //cut and add ellipses
 		//code from http://jsfiddle.net/schadeck/GpCZL/
-		$("#pMission").text(fullProjInfo.description );
-		$("a#Repo").attr("href", fullProjInfo.repository );
+		$("#pMission").text(project.description );
+		$("a#Repo").attr("href", project.repository );
 
 		//
 		// This section outputs skill/goal/interests that each
-		// project team is seeking (userProject.skills).  Ones that match user selections
-		// (userProject.skillsMatched) are highlighted using Bootstrap class btn-success
+		// project team is seeking (projectMatch.skills).  Ones that match user selections
+		// (projectMatch.skillsMatched) are highlighted using Bootstrap class btn-success
 		//
 		// Preserve the initial empty content for the skill/interest/goal sections
 		//
@@ -661,12 +732,12 @@ function outputProject(userProject, fullProjInfo ) {
 		var btnGoals = $('div#umtemplate').find('section#pG').html();
 		var btnInterests = $('div#umtemplate').find('section#pI').html();
 		var btnSuccess;
-		if (userProject.skills !== undefined ) {
-			userProject.skills.forEach( function (item, index ) {
+		if (projectMatch.skills !== undefined ) {
+			projectMatch.skills.forEach( function (item, index ) {
 				$('section#pS button').filter(':first').clone( 'false' ).appendTo( $('section#pS').filter(':first') );
 				btnSuccess = "";
-				for ( var x = 0; x < userProject.skillsMatched.length; x++ ) {
-					if ( item === userProject.skillsMatched[x] ) {
+				for ( var x = 0; x < projectMatch.skillsMatched.length; x++ ) {
+					if ( item === projectMatch.skillsMatched[x] ) {
 						btnSuccess = "btn-success";
 					};
 				};
@@ -675,12 +746,12 @@ function outputProject(userProject, fullProjInfo ) {
 		}
 
 
-		if (userProject.goals !== undefined ) {
-			userProject.goals.forEach( function (item ) {
+		if (projectMatch.goals !== undefined ) {
+			projectMatch.goals.forEach( function (item ) {
 				$('section#pG button').filter(':first').clone( 'false' ).appendTo( $('section#pG').filter(':first') );
 				btnSuccess = "";
-				for ( var x = 0; x < userProject.goalsMatched.length; x++ ) {
-					if ( item === userProject.goalsMatched[x] ) {
+				for ( var x = 0; x < projectMatch.goalsMatched.length; x++ ) {
+					if ( item === projectMatch.goalsMatched[x] ) {
 						btnSuccess = "btn-success";
 					};
 				};
@@ -688,12 +759,12 @@ function outputProject(userProject, fullProjInfo ) {
 			});
 		}
 
-		if (userProject.interests !== undefined ) {
-			userProject.interests.forEach( function (item ) {
+		if (projectMatch.interests !== undefined ) {
+			projectMatch.interests.forEach( function (item ) {
 				$('section#pI button').filter(':first').clone( 'false' ).appendTo( $('section#pI').filter(':first') );
 				btnSuccess = "";
-				for ( var x = 0; x < userProject.interestsMatched.length; x++ ) {
-					if ( item === userProject.interestsMatched[x] ) {
+				for ( var x = 0; x < projectMatch.interestsMatched.length; x++ ) {
+					if ( item === projectMatch.interestsMatched[x] ) {
 						btnSuccess = "btn-success";
 					};
 				};
