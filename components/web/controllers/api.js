@@ -193,7 +193,7 @@ module.exports = {
    
   getUserMatches: function (req, res, next) {
     console.log('getUserMatch');
-
+    
     // final output in JSON-API
     // SEE: http://jsonapi.org/examples/
     var output = {

@@ -44,6 +44,7 @@
 
     }
   */
+  
   self.taxonomies.forEach(function (taxonomyName) {
     self.selectedItemsData[taxonomyName] = {
       name: taxonomyName,
@@ -65,43 +66,74 @@
     // wait until page loads
     jQuery(document).ready(function () {
 
-      // loop over taxonomies
-      // then load the UI click handlers
-      self.taxonomies.forEach(function (selectedTaxonomy) {
+      self.renderContainer(function (err, output) {
+        console.log('called renderContainer ', output)
 
-        //console.log('Load onClick for ' + 'taxonomy-selector-' + taxonomyName + '-container');
-        jQuery('#taxonomy-selector-' + selectedTaxonomy + '-container').click(function() {
-          console.log('Click ' + 'taxonomy-selector-' + selectedTaxonomy + '-container');
-          
-          var prevTaxonomy = self.selectedTaxonomy;
-          self.selectedTaxonomy = selectedTaxonomy;
+        // loop over taxonomies
+        // then load the UI click handlers
 
-          /* 
-            NOTE: issues with masonry required the use of scratchpads
-          */
+        self.taxonomies.forEach(function (selectedTaxonomy) {
 
-          // copy the content back to its scratchpad
-          var prevHtml = jQuery('#taxonomy-selection-display').html();
-          jQuery('#taxonomy-selection-' + prevTaxonomy + '-container').html(prevHtml);
+          //console.log('Load onClick for ' + 'taxonomy-selector-' + taxonomyName + '-container');
+          jQuery('#taxonomy-selector-' + selectedTaxonomy + '-container').click(function() {
+            console.log('Click ' + 'taxonomy-selector-' + selectedTaxonomy + '-container');
+            
+            var prevTaxonomy = self.selectedTaxonomy;
+            self.selectedTaxonomy = selectedTaxonomy;
 
-          // cut/paste the content in from its scratchpad
-          var selectedHtml = jQuery('#taxonomy-selection-' + selectedTaxonomy + '-container').html();
-          jQuery('#taxonomy-selection-display').html(selectedHtml);
-          jQuery('#taxonomy-selection-' + selectedTaxonomy + '-container').html('');
+            /* 
+              NOTE: issues with masonry required the use of scratchpads
+            */
 
+            // copy the content back to its scratchpad
+            var prevHtml = jQuery('#taxonomy-selection-display').html();
+            jQuery('#taxonomy-selection-' + prevTaxonomy + '-container').html(prevHtml);
+
+            // cut/paste the content in from its scratchpad
+            var selectedHtml = jQuery('#taxonomy-selection-' + selectedTaxonomy + '-container').html();
+            jQuery('#taxonomy-selection-display').html(selectedHtml);
+            jQuery('#taxonomy-selection-' + selectedTaxonomy + '-container').html('');
+
+          });
+        })
+        
+
+        // load the selection containers
+
+        ProjectMatch.TaxonomyModel.getSkills(function (taxonomy) {
+          self.renderSelection(taxonomy, 'skills');
+          self.renderSelection(taxonomy, 'learnSkills');
         });
-      })
-      
 
-      // load the selection containers
-      ProjectMatch.TaxonomyModel.getSkills(function (taxonomy) {
-        self.renderSelection(taxonomy, 'skills');
-        self.renderSelection(taxonomy, 'learnSkills');
-      });
+      }); // END get container
 
     });
     
 
+
+  }
+
+
+  /*
+    render container
+
+    renders the container for the taxonomy selector
+    should be run early-on in the initialization
+    
+  */
+
+  self.renderContainer = function (cb) {
+    jQuery.get('./templates/container.html', function(hbrTemplate, status) {
+      var template = Handlebars.compile(hbrTemplate);
+      var context = {};
+      var renderedHtml = template(context);
+      jQuery('#taxonomy-selector-container').html(renderedHtml);
+      cb(null,{
+        template: template,
+        context: context,
+        renderedHtml: renderedHtml
+      });
+    });
 
   }
 

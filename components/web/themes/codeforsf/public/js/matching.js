@@ -119,7 +119,7 @@ $(document).ready(function () {
       userProfile.doCreateForm( taxObjToUse, userProfile.formID );
 
       //Set the listener on the selector glyph to show the forms
-      $("div#label" + userProfile.formID ).on('click', function() {
+      $("div#label" + userProfile.formID ).on('click', function(event) {
 
         ProjectMatch.uiActivateNavigation();
 
@@ -148,7 +148,7 @@ var userProfile = {
 
   formID : '',
   formActive : '',
-  doShow : function( e) {
+  doShow : function(event) {
     var label=event.currentTarget.id.split('label');
     if ( this.formActive === label[1] ) {  //trying to close the open form
       this.doDismiss( this.formActive );
