@@ -10,8 +10,18 @@ define(['underscore', 'backbone', 'lockr'],
       initialize: function(urlEnding) {
          this.urlEnding = urlEnding;
       },
-      searchProjects: function(urlEnding) {
-         this.urlEnding = urlEnding;
+      searchProjects: function(taxonomyObj) {
+         var url = "/api/user/matches";
+         $.each( taxonomyObj, function( key, value ) {
+            url += "?" + key + "=";
+            $.each(value, function(tagIndex, tagInfo){
+               url += tagInfo;
+               if (tagIndex !== value.length - 1){
+                  url += ",";
+               }
+            });
+         });
+         this.urlEnding = url;
       },
       combineData: function(res) {
          var arr = [];

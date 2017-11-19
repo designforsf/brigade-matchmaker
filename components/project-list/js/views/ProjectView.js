@@ -26,10 +26,12 @@ define(['underscore','backbone','handlebars','models/ProjectModel', 'text!templa
 
       //This will take in a url and find new matches
       searchProjects: function(url){
-         //Pass in object
-         //$.param(obj) --> this is the urlEnding that would get passed to
-         // searchProjects
-         this.model.searchProjects("/api/user/matches?skills=client-dev/javascript,data-sci/python&interests=housing&goals=developer,presenter");
+         var taxonomyObj = {
+            "skills":["client-dev/javascript","data-sci/python"],
+            "interests":["housing"],
+            "goals":["developer", "presenter"]
+         };
+         this.model.searchProjects(taxonomyObj);
          this.listenTo(this.model, 'sync', this.render);
          var _this = this;
          this.model.fetch({ success: function(res){
