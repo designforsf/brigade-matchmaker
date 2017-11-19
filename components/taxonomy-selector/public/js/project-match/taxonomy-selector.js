@@ -22,11 +22,23 @@
     {
       skills: {
         itemsBySection: {
-          name: name,
-          title: title,
-          items: [
-            {name: name}
-          ]
+          
+          sectionName1: {
+            name: name,
+            title: title,
+            items: [
+              {name: name}
+            ]
+          },
+
+          sectionName2: {
+            name: name,
+            title: title,
+            items: [
+              {name: name}
+            ]
+          },
+
         }
       }
 
@@ -246,9 +258,30 @@
   self.unselectItem = function (taxonomyName, parentItemName, itemName) {
     console.log('unselectItem ' + taxonomyName + '/' + parentItemName + '/' + itemName);
     
+    var data = self.selectedItemsData[taxonomyName];
+    console.log(data);
+
+    if (data['itemsBySection'][parentItemName]) {
+      //var itemIndex = data['itemsBySection'][parentItemName]['items'].indexOf(itemName);
+      var itemIndex = self.indexOfNamedItems(data['itemsBySection'][parentItemName]['items'], itemName);
+      console.log('REMOVE item ' + itemIndex);
+
+      delete data['itemsBySection'][parentItemName]['items'][itemIndex];
+      console.log(data['itemsBySection']);
+    }
+
     self.renderSelected();
 
   } // END self.unselectItem
+
+  self.indexOfNamedItems = function (items, name) {
+    for (i=0; i<items.length; i++) {
+      console.log('index of named item ' + i +  ' ', items[i]);
+      console.log(items[i].name + ' == ' + name + ' ', (items.name == name));
+      if (items[i].name == name) return i;
+    }
+    return -1;
+  }
 
 
 
@@ -267,15 +300,15 @@
     //console.log('renderSelected ' + selectedTaxonomy);
 
     var context = {
-      taxonomy: selectedTaxonomy,
+      taxonomyName: selectedTaxonomy,
       itemsBySection: self.selectedItemsData[selectedTaxonomy]['itemsBySection'],
     };
 
     //console.log(self.selectedItems);
-    console.log(context);
+    //console.log(context);
 
     var renderedHtml = template(context);
-    console.log(renderedHtml);
+    //console.log(renderedHtml);
     $('#taxonomy-selected-' + selectedTaxonomy).html(renderedHtml);
 
   }
@@ -297,7 +330,8 @@
               <div class="row">
                 <div class="col-md-10 taxonomy-selected-item">&nbsp;{{name}}</div>
                 <div>
-                  <a class="col-md-2 nav-close pull-right" href="javascript:">&times;</a>
+                  <a class="col-md-2 nav-close pull-right" 
+                    <a onClick="ProjectMatch.TaxonomySelector.unselectItem('{{../../taxonomyName}}', '{{../name}}','{{name}}');">&times;</a>
                 </div>
               </div>
             {{/each}}
@@ -315,7 +349,7 @@
             <p>
               <strong>{{title}}</strong>
             </p>
-            
+
             {{#each items}}
               <p><a onClick="ProjectMatch.TaxonomySelector.selectItem('{{../../taxonomyName}}', '{{../name}}','{{name}}'); return undefined;">{{name}}</a></p>
             {{/each}}
