@@ -7,6 +7,7 @@ lib-cov
 *.pid
 *.gz
 *.swp
+.gitignore
 
 pids
 logs
@@ -15,7 +16,9 @@ tmp
 
 # API keys and secrets
 .env
+HEROKU.env
 config/*.js
+../messaging/config
 
 # Dependency directory
 node_modules
@@ -29,3 +32,10 @@ bower_components
 .DS_Store
 Thumbs.db
 coverage
+
+# miscellany
+../messaging/config/development.js
+../messaging/node_modules
+../../node_modules
+./themes/codeforsf/views/working
+./themes/codeforsf/views/partials/working

@@ -1,21 +1,21 @@
 /*
   Messaging Component: Context configuration object
-  
+
   Initializes critical resources for the system
-  
+
   Attributes of context:
-    
+
     config - configuration for development, staging, production
-    
-    imap - interface to retrieve emails 
+
+    imap - interface to retrieve emails
       SEE: https://github.com/mscdex/node-imap
-    
+
     mailparser - interface to parse emails
       SEE: https://github.com/nodemailer/mailparser
-    
+
     emailjs -  interface to send emails
       SEE: https://github.com/eleith/emailjs
-      
+
 */
 
 
@@ -38,26 +38,25 @@ module.exports = Context;
 
 function Context (attr) {
   var self = this;
-  
+
   /*
     config
       web
       mongodb
-
   */
-  
+
   self.config = attr.config;
-  
-  
+
+
   // set up imap retriever
   // ------------------------------------------------------
-  
+
   self.imap = new Imap(self.config.imap);
-  
+
   self.imap.once('ready', function() {
     console.log('Context: imap is ready');
   });
-  
+
   self.imap.once('error', function(err) {
     console.log('Context: imap error ', err);
   });
@@ -65,20 +64,20 @@ function Context (attr) {
   self.imap.once('end', function() {
     console.log('Context: imap Connection ended');
   });
-  
+
   self.imap.connect();
-  
-  
-  // set up email parser 
+
+
+  // set up email parser
   // ------------------------------------------------------
   self.parser = new MailParser();
-  
-  
+
+
   // set up email sender
   // ------------------------------------------------------
   self.emailServer = EmailJs.server.connect(self.config.emailjs);
-  
-  
+
+
 }
 
 
@@ -88,10 +87,10 @@ function Context (attr) {
 
 Context.prototype.testProcessEmails = function () {
   var self = this;
-  
+
   // test out the fetching of 3 recent emails
   console.log('testProcessEmails: read some emails from gmail');
-  
+
   self.imap.openBox('INBOX', true, function(err, box) {
     if (err) throw err;
     var fetch = self.imap.seq.fetch('1:3', {
@@ -100,7 +99,7 @@ Context.prototype.testProcessEmails = function () {
     });
     fetch.on('message', function(msg, seqno) {
       console.log(' Message #%d', seqno);
-      
+
       var prefix = ' (#' + seqno + ') ';
       msg.on('body', function(stream, info) {
         var buffer = '';
@@ -117,7 +116,7 @@ Context.prototype.testProcessEmails = function () {
       msg.once('end', function() {
         console.log(' ' + prefix + 'Finished');
       });
-      
+
     });
     fetch.once('error', function(err) {
       console.log(' Fetch error: ' + err);
@@ -126,13 +125,13 @@ Context.prototype.testProcessEmails = function () {
       console.log(' Done fetching all messages!');
       self.imap.end();
     });
-      
+
   });
 }
 
-/* 
+/*
   sendEmail
-  
+
   attrs:
     conversationId
     email
@@ -145,41 +144,41 @@ Context.prototype.testProcessEmails = function () {
 Context.prototype.sendEmail = function (attr, cb) {
   var self = this;
   console.log('Test: send an email to gmail');
-  
+
   self.emailServer.send({
-     text:    attr.email.text, 
-     from:    attr.email.from[0].name + ' <' + attr.email.from[0].email + '>', 
-     to:      attr.email.to[0].name + ' <' + attr.email.to[0].email + '>', 
+     text:    attr.email.text,
+     from:    attr.email.from[0].name + ' <' + attr.email.from[0].email + '>',
+     to:      attr.email.to[0].name + ' <' + attr.email.to[0].email + '>',
      subject: attr.email.subject
-  }, function(err, message) { 
+  }, function(err, message) {
     if (err) {
       console.error(err);
       cb(err, {success: false});
     }
-    console.log('Sent message ', message); 
+    console.log('Sent message ', message);
     cb(null, {success: true, message: message});
   });
 
 }
 
-/* 
+/*
   testSendEmail
 */
 
 Context.prototype.testSendEmail = function () {
   var self = this;
   console.log('Test: send an email to gmail');
-  
+
   self.emailServer.send({
-     text:    "Sending test message", 
-     from:    "Hifriend Volunteery <welcome.sfbrigade#+01-01@gmail.com>", 
+     text:    "Sending test message",
+     from:    "Hifriend Volunteery <welcome.sfbrigade#+01-01@gmail.com>",
      to:      "Project Lead <welcome.sfbrigade+02-02@gmail.com>",
      subject: "New Member Intro: Hifriend Volunteery"
-  }, function(err, message) { 
+  }, function(err, message) {
     if (err) {
       console.error(err);
     }
-    console.log('Sent message ', message); 
+    console.log('Sent message ', message);
   });
 
 }

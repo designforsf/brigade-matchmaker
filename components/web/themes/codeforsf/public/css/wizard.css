@@ -1,11 +1,38 @@
+
+
+.nav-close {
+  font-size: 28px;
+  font-weight: bold;
+  line-height: 18px;
+  color: #000000;
+  text-shadow: 0 1px 0 #ffffff;
+  opacity: 0.2;
+  filter: alpha(opacity=20);
+  text-decoration: none;
+}
+
+.nav-close:hover {
+  color: #000000;
+  text-decoration: none;
+  opacity: 0.4;
+  filter: alpha(opacity=40);
+  cursor: pointer;
+}
+
+
 input[type=text], label {
     display: block;
 }
 #wizardcards {
-	width: 512px;
-	margin: 50px auto;
+	width: 960px;
+	margin: 20px auto;
 	position: relative;
 }
+
+.section--gutter {
+  margin-left: 0px;
+}
+
 
 #wizardcards fieldset {
 	background: white;

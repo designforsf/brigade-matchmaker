@@ -8,6 +8,8 @@ var PyShell = require('python-shell')
 module.exports = {
 
   /**
+   * userLogoff
+   * ------------------------------------------------------
     POST /api/user/logouff
   */
   
@@ -17,8 +19,11 @@ module.exports = {
   },
 
   /**
+   * createUserAndLogin
+   * ------------------------------------------------------     
    * Get /api/user/create_and_login
    */
+   
   createUserAndLogin: function (req, res, next) {
     console.log('createUserAndLogin ', req.body);
     Users.find({email: req.body.email}, function (err, foundUsers) {
@@ -44,7 +49,7 @@ module.exports = {
         newUser.save((err) => {
           if (err) console.error(err)
         })
-        req.flash('success', {msg: 'Success! You have created a new user.'})
+        //req.flash('success', {msg: 'Success! You have created a new user.'})
         res.json({ success: true, user: { id: newUser.id } });
 
       } else {
@@ -56,8 +61,11 @@ module.exports = {
   },
 
   /**
+   * userLogin
+   * ------------------------------------------------------
    * Get /api/user/login
    */
+   
   userLogin: function (req, res, next) {
     console.log('userLogin ', req.body);
 
@@ -106,6 +114,8 @@ module.exports = {
   },
 
   /**
+   * updateUserMatchConfig
+   * ------------------------------------------------------
    * Post /api/user/match_config
    */
 
@@ -123,7 +133,7 @@ module.exports = {
           upsert_configs[attrib] = req.body[attrib].split(',');
         }
       });
-
+      
       //console.log('updateUserConfig post-processed: ', upsert_configs);
       UserMatchConfigs.findOneAndUpdate({ 'user_id': req.user.id }, upsert_configs, {upsert:true}, function(err, match_configs) {
         if (err) {
@@ -134,16 +144,20 @@ module.exports = {
         res.json({ success: true, match_configs: match_configs });
         return next();
       });
+      
     } else {
       res.json({ success: false, error: {message: "User in session required."} });
       return next();
     }
-
+    
   },
 
   /**
+   * getUserSession
+   * ------------------------------------------------------
    * Get /api/user/session
    */
+   
   getUserSession: function (req, res, next) {
     console.log('getUserSession');
 
@@ -161,6 +175,8 @@ module.exports = {
   },
 
   /**
+   * getUserMatches
+   * ------------------------------------------------------
    * Get /api/user/match
    * Interacts with python algorithm to produce json list of sorted projects
 
@@ -174,13 +190,14 @@ module.exports = {
         http://localhost:5465/api/user/matches?skills=server-dev/nodejs
         http://localhost:5465/api/user/matches?learnSkills=client-dev/javascript
    */
+   
   getUserMatches: function (req, res, next) {
     console.log('getUserMatch');
-
-    // final output
+    
+    // final output in JSON-API
+    // SEE: http://jsonapi.org/examples/
     var output = {
-      success: undefined,
-      projects: [] // sorted projects
+      data: [] // sorted projects
     };
 
     // the structure of the python script output
@@ -188,35 +205,32 @@ module.exports = {
       "_id",    // mongo id
       "id",     // BrigadeHub id
       "score",  // total match score
-      
+
       "name0",    // user attr 0 field name
       "score0",   // user attr 0 score
       "attrs0",   // user attr 0 matching attrs
-      
+
       "name1",    // user attr 1 field name
       "score1",   // user attr 1 score
       "attrs1",   // user attr 1 matching attrs
-      
+
       "name2",    // user attr 2 field name
       "score2",   // user attr 2 score
       "attrs2",   // user attr 2 matching attrs
-      
+
       "name3",    // user attr 3 field name
       "score3",   // user attr 3 score
       "attrs3",   // user attr 3 matching attrs
-      
+
     ];
     matchUserAttrs = ["skills", "learnSkills", "interests", "goals"];
-    
+
     // user input, translated from web params to the python script arguments
     var pyArgs = [];
     matchUserAttrs.forEach(function(arg) {
 
       // clean up the web input
       var argArr = (typeof req.query[arg] !== 'undefined' ? req.query[arg].split(',') : []);
-
-      // add to the output array the user's entry for that argument
-      output[arg] = argArr;
 
       // convert back to comma delimited list
       var argValue = argArr.join(',');
@@ -225,7 +239,7 @@ module.exports = {
 
     });
 
-    //console.log(req);
+    //console.log('req.options: ', req.options);
     //console.log((typeof req.query.interests !== 'undefined'));
     //console.log(req.query.goals);
     //console.log(pyArgs);
@@ -234,54 +248,60 @@ module.exports = {
     var pyDirArr = process.cwd().split('/');
     pyDirArr.pop();
     pyDirArr.push('matching');
-    var pyDir = pyDirArr.join('/');
+    //
+    // heroku environemnt only
+    //var pyDir = pyDirArr.join('/');
+    var pyDir = '../matching'
     var pyFile = '/db-match-algo.py';
-    
+    //
+    //console.log('req.MongoStore is ', req);
     //console.log('run python: ' + pyFile + ' with args=', pyArgs);
+    //console.log('pyDir: ', pyDir);
 
     PyShell.run(pyFile, {
       scriptPath: pyDir,
       args: pyArgs
     }, function (err, pyOutput) {
-      
+
       if (err) { console.error(err); }
 
+      //console.log('pyOutput is: ', pyOutput);
       pyOutput.forEach(function (line, idx){
-        var project = {};
         var lineArr = line.split(',');
-        //console.log(lineArr);
 
-        //project['_id'] = lineArr[0]; // mongoid not to show in output
-        project['id'] = lineArr[1];
-        project['score'] = parseInt(lineArr[2]);
+        // JSON-API resource object
+        // SEE: http://jsonapi.org/format/#document-resource-objects
+        var resourceObj = {
+          type: "projectMatch",
+          id: lineArr[0],
+          attributes: {} // where the project match data goes
+        };
+        
+        resourceObj.attributes['name'] = lineArr[1];
+        resourceObj.attributes['score'] = parseInt(lineArr[2]);
 
         // process individual user attributes
         // NOTE: after general fields, py script outputs
         //  alternating name + score + matched attrs for each user attribute
         matchUserAttrs.forEach(function(arg, aidx) {
-          //console.log(arg);
-          //console.log(aidx);
-          
-          project[arg + 'Score'] = parseInt(lineArr[2 + 2 + (aidx*3)]);
-          
+          resourceObj.attributes[arg + 'Score'] = parseInt(lineArr[2 + 2 + (aidx*3)]);
+
           // set up the matched args array
           var matchedArgs = lineArr[2 + 3 + (aidx*3)];
           matchedArgs = matchedArgs.replace(/[()]/g, '');
           if (matchedArgs.length > 0) {
-            project[arg + 'Matched'] = matchedArgs.split(' ');
+            resourceObj.attributes[arg + 'Matched'] = matchedArgs.split(' ');
           }  else {
-            project[arg + 'Matched'] = [];
+            resourceObj.attributes[arg + 'Matched'] = [];
           }
-          
-          
-          //console.log(project['id'] + ' for ' + arg + ' matched-attrs: ', lineArr[2 + 3 + (aidx*3)]);
+
+
           //console.log(lineArr);
+
+          // push the resurce object into the output data
+          output.data.push(resourceObj);
+
         });
-
-        //console.log(project);
-
-        // push the project into the projects array
-        output.projects.push(project);
 
       })
 
@@ -303,16 +323,23 @@ module.exports = {
 
   }, // END getUserMatches
 
-
   /**
+   * getProjects
+   * ------------------------------------------------------
    * Get /api/projects
    * Returns a json list of available projects
+   * Conforms to JSON-API
 
    * TEST:
         http://localhost:5465/api/projects
    */
+   
   getProjects: function (req, res, next) {
     console.log('getProjects');
+    
+    // for the emberjs client
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
     // final output
     var output = {
@@ -322,32 +349,232 @@ module.exports = {
 
     Projects.
       find({
-        status: { $in: ['proposed', 'ideation', 'alpha', 'beta', 'production'] }
+        status: { $in: ['mvp', 'live', 'proposed', 'ideation', 'alpha', 'beta', 'production'] }
       }).
-      sort({ occupation: -1 }).
-      select({ _id: 1, name: 1, matchingConfig: 1 }).
+      select({ 
+        _id: 1, 
+        name: 1, 
+        matchingConfig: 1, matchingDescr: 1, 
+        description: 1, 
+        team: 1, 
+        homepage: 1, 
+        thumbnailUrl: 1, 
+        repository: 1, 
+        needs: 1, 
+        contact: 1
+      }).
       exec(function (err, results) {
 
         // script returned error
         if (err) {
           output.success = false;
           output.error = {message: err};
-          res.json({ success: false });
-          return next();
-
-        } else {
-          output.success = true;
-          output.projects = results;
+          output.data = {};
           res.json(output);
           return next();
 
+        } else {
+          
+          var outputData = [];
+          results.forEach(function(result) {
+            result.id = result['_id'];
+            
+            outputData.push({
+              type: "project",
+              id: result._id,
+              attributes: result
+            });
+            
+          });
+          
+          //output.success = true;
+          res.json({ data: outputData });
+          return next();
+          
         }
 
       });
 
     }, // END getProjects
 
+  /**
+    * getProject
+    * ------------------------------------------------------
+   * Get /api/project
+   * Returns a json obj of a project
+   * Conforms to JSON-API
+
+   * TEST:
+        http://localhost:5465/api/project/<MONGO_ID>
+   */
+   
+  getProject: function (req, res, next) {
+    console.log('getProject ' + req.params.id);
+    
+    // for the emberjs client
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    
+    Projects.
+      find({
+        _id: req.params.id
+      }).
+      select({ 
+        _id: 1, 
+        name: 1, 
+        matchingConfig: 1, matchingDescr: 1,
+        description: 1, 
+        team: 1, 
+        homepage: 1, 
+        thumbnailUrl: 1, 
+        repository: 1, 
+        needs: 1, 
+        contact: 1
+      }).
+      exec(function (err, results) {
+        
+        // script returned error
+        if (err) {
+          output.success = false;
+          output.error = {message: err};
+          output.data = {};
+          res.json(output);
+          return next();
+
+        } else {
+          
+          var outputData = [];
+          results.forEach(function(result) {
+            var project = result.toObject();
+            
+            // re-name fields for EmberJS/JSON-API conformance
+            project['matching-descr'] = project.matchingDescr;
+            if (typeof project['matching-descr'] === 'undefined') { 
+              project['matching-descr'] = {};
+            }
+            delete project.matchingDescr;
+            project.id = project['_id'];
+            
+            outputData.push({
+              type: "project",
+              id: result._id,
+              attributes: project
+            });
+            
+          });
+          
+          //output.success = true;
+          res.json({ data: outputData[0] });
+          return next();
+          
+        }
+        
+      }); // END model query
+      
+  }, // END getProject
+
+  /**
+   * createProject
+   * ------------------------------------------------------
+   * POST /api/projects
+   * Creates a project
+   * Conforms to JSON-API
+   */
+
+    createProject: function (req, res, next) {
+      console.log('createProjects');
+
+      // for the emberjs client
+      res.header("Access-Control-Allow-Origin", "*");
+      res.header("Access-Control-Allow-Headers", "X-Requested-With");
+
+      var newProject = {
+        name: req.body.name
+      };
+      
+      Projects(newProject).create(function (err) {
+        if (err) {
+          return next(err);
+        } else {
+          res.json({ success: true, project: project });
+          return next();
+        }
+      })
+    
+    },
+
+  /**
+   * updateProject
+   * ------------------------------------------------------
+   * POST /api/projects/<MONGO_ID>
+   * Updates a project
+   * Conforms to JSON-API
+   
+   JSON posted:
+   
+     {
+       "data": {
+         "type": "photos",
+         "id": "550e8400-e29b-41d4-a716-446655440000",
+         "attributes": {
+           "title": "Ember Hamster",
+           "src": "http://example.com/images/productivity.png"
+         }
+       }
+     }
+   
+   
+   */
+
+    updateProject: function (req, res, next) {
+      console.log('updateProjects');
+      jsonAPIData = req.body.data;
+      
+      var updatedData = {
+        name: jsonAPIData.attributes.name,
+        'matchingDescr.summary': jsonAPIData.attributes['matching-descr'].summary
+      };
+      
+      console.log(updatedData);
+      
+      Projects.findOneAndUpdate({ '_id': req.params.id }, 
+        {
+          '$set': updatedData,
+        }, 
+        {upsert: false, new: true}, 
+        function(err, project) {
+          
+          if (err || !project) {
+            console.error(err);
+            res.json({
+              "errors": [
+                {
+                  "status": "400",
+                  "source": { "pointer": "/data/attributes" },
+                  "title":  "Data Update Error",
+                  "detail": err
+                }
+              ]
+            });
+            return next(err)
+          }
+          
+          res.json({ 
+            data: {
+              type: "projects",
+              id: project['_id'],
+              attributes: project
+            }
+          });
+          return next();
+        
+      });
+    
+    },
+
     /**
+     * testProjects
+     * ------------------------------------------------------
      * Get /api/projects
      * Returns a page rendering the JSON list of projects
 
@@ -356,14 +583,29 @@ module.exports = {
      */
 
     testProjects: function (req, res) {
-      res.render(res.locals.brigade.theme.slug + '/views/all_projects', {
-        title: 'Test the Projects API',
+      res.render(res.locals.brigade.theme.slug + '/views/prototypes/projects', {
+        title: 'Test Projects API & UI',
         brigade: res.locals.brigade
       })
     }, // END testProjects
 
+    testTaxonomySelector: function (req, res) {
+      
+      res.render(res.locals.brigade.theme.slug + '/views/prototypes/taxonomySelector', {
+        title: 'Test Taxonomy data & UI',
+        brigade: res.locals.brigade,
+        skills: res.locals.projectTaxonomySkills,
+        interests: res.locals.projectTaxonomyInterests,
+        goals: res.locals.projectTaxonomyGoals,
+      })
+    }, // END testTaxonomySelector
+
 
     /**
+     * getTaxonomySkills
+     * getTaxonomyInterests
+     * getTaxonomyGoals
+     * ------------------------------------------------------
      * Get /api/project/taxonomy/skills | interests | goals
      * Returns a json list of available skills, interests, or goals
 
@@ -396,6 +638,5 @@ module.exports = {
         return next();
       })
     }
-
 
 };

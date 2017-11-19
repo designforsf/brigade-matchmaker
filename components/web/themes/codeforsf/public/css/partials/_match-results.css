@@ -10,12 +10,14 @@
 }
 
 .saveIt__centered {
+  display: block;
   position: relative;
-  margin-top: 16px;
-  margin-bottom: 10px;
-  margin-left: 20px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-left: auto;
+  margin-right: auto;
   width: 100px;
-  padding: 6px 6px;
+  margin-bottom:10px;
 }
 
 .saveIt__centered--no-left {
@@ -68,8 +70,9 @@
 
 .section--remove-left-padding {
   padding-left: 0;
-  border-style: solid;
+  border-style: none;
   border-width: 1px 0 1px 0;
+  padding-bottom: 20px;
 }
 /* User's match config items (the search parameters) = mitem */
 .mitem {
@@ -103,16 +106,24 @@
 
 .container-maxWidth970-no-top-pad {
   padding-top: 10px;
-  margin: 10px 10px;
+  margin: 10px 0px;
   border-style: solid;
   border-width: 1px;
   border-color: gray;
-  background-color: #eaeff7;
+  background-color: rgba(215, 217, 221, .45);
+  /*background-color: #eaeff7;*/
 }
 
 .row--proj-container div {
   padding-top: 6px;
   padding-bottom: 6px;
+
+}
+
+.container--soft-border {
+  border-width: 2px;
+  border-style: solid;
+  border-color: rgba(215, 217, 221, .45);
 
 }
 
@@ -127,10 +138,12 @@
     padding-top: 6px;
     padding-bottom: 6px;
 }
-.project-thumbnail {
-    width: 100px;
+img.project-thumbnail {
+    width: 120px;
     height: 100px;
     display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
     margin-top: 10px;
     margin-bottom: 10px;
     border-radius: .25rem;
@@ -143,6 +156,11 @@
     float: left;
 }
 
+span.project-thumbnail {
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+  }
 
 .panel--interests {
 	background: rgba(255, 255, 255, 0.8);
@@ -180,4 +198,12 @@
 .h1--more-margin {
   margin-top: 30px;
 	margin-left: 500px;
+}
+
+.matchingConfigs-list h4 {
+  font-size: 2.5rem;
+}
+
+.h4--light {
+  font-weight: 300;
 }

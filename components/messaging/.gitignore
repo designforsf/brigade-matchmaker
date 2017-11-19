@@ -14,12 +14,12 @@ results
 tmp
 
 # API keys and secrets
-.env
-config/*.js
+HEROKU.env
+heroku.*
 
 # Dependency directory
-node_modules
-bower_components
+HEROKUnode_modules
+HEROKUbower_components
 
 # Editors
 .idea
@@ -36,4 +36,9 @@ main.css.map
 .jshintignore
 phantomjsdriver.log
 bundle.js
+
+config/*.js
+npm-debug.log
+node_modules
+
 

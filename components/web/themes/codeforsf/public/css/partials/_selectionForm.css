@@ -1,0 +1,125 @@
+
+.containerSelList {
+  width: 960px;
+  line-height: 40px;
+  margin-left: initial;
+  margin-top: 20px;
+  padding-left: 0px;
+  overflow-x: scroll;
+  white-space: nowrap;
+
+}
+
+.flexrow {
+  overflow-x: scroll;
+}
+
+.dtlItm {
+  display: block;
+  width: 224px;
+  font-size: 1.25rem;
+  line-height: inherit;
+  text-align: left;
+  transition: background-color 0.5s ease;
+  background-color: rgba(225, 224, 181, 0.9);
+  padding: 4px 10px 4px 10px;
+}
+.dtlItm:hover {
+  background-color: olive;
+}
+
+.selectedItm {
+  display: block;
+  width: 224px;
+  font-size: 1.25rem;
+  line-height: inherit;
+  text-align: left;
+  transition: background-color 0.5s ease;
+  background-color: rgba(229, 230, 230, 0.9);
+  padding: 4px 10px 4px 10px;
+}
+
+/* May be deprecated now, in favor of .selectedItm styling
+.itemChosen {
+  color: indigo;
+  font-weight: 650;
+}
+*/
+.catg {
+  display: block;
+  width: 224px;
+  text-align: left;
+  background-color: silver;
+  transition: background-color 0.5s ease;
+  line-height: inherit;
+  font-size: 1.7rem;
+  font-weight: 400;
+  padding: 1px 8px 7px 10px;
+}
+
+/*
+.catg:hover {
+  background-color: aqua;
+}
+*/
+
+.selection_bar {
+  display: inline-block;
+  background-color: silver;
+  line-height: 40px;
+  width: 230px;
+  font-size: 1.75rem;
+  font-weight: 300;
+  padding: 4px 10px;
+  margin-right: 3px;
+}
+
+.selection_bar:hover {
+  background-color: rgba(225, 224, 181, 0.9);
+}
+
+.selection_bar_active {
+  background-color: rgba(225, 224, 181, 0.9);
+}
+
+.selection_box {
+  display: inline-block;
+  overflow: auto;
+  background-color: rgba(229, 230, 230, 0.9);
+  height: 100px;
+  width: 230px;
+  border-style: solid;
+  border-color: black;
+  border-width: 0px;
+  padding: 4px 10px;
+  margin-right: 3px;
+}
+
+.selection_box_active {
+  display: inline-block;
+  background-color: rgba(225, 224, 181, 0.9);
+  height: 60px;
+  width: 230px;
+  border-style: solid;
+  border-color: black;
+  border-width: 0px;
+  padding: 4px 10px;
+  margin-right: 3px;
+}
+
+
+.no-left-margin {
+  margin-left: 0px;
+  padding-left: 0px;
+}
+
+.form-group-horiz {
+
+}
+
+.glyphicon-chevron-down {
+  font-size: 1.8rem;
+  font-weight: 100;
+  top: 3px;
+  margin-left: 5px;
+}

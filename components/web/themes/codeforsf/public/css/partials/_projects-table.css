@@ -4,10 +4,6 @@
 */
 
 #projects-list {}
-.row {
-	padding-top: 0px;
-	padding-bottom: 0px;
-}
 
 .projects-list__project-container {
 	font-size: 1.75rem;
@@ -73,21 +69,6 @@
 	height: 2rem;
 }
 
-.project-thumbnail {
-    width: 100px;
-    height: 100px;
-    display: inline-block;
-    margin-top: 26px;
-    border-radius: .25rem;
-    padding: 0;
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-color: #e6e6e6;
-    box-shadow: none;
-    float: left;
-}
-
 .row__projects-list--info-2 .btn {
 	margin-top: 26px;
 	font-size: 1.75rem;
@@ -107,11 +88,68 @@
 	border-width: 1px;
 }
 
-.pName, .pSkills {
-	font-size: 2rem;
-	font-weight: 500;
+.pName {
+	text-align: left;
+	margin-top: 0px;
+	font-size: 2.2rem;
+	font-weight: 400;
+	padding-left: 0px;
+}
+
+.pSkills {
+	font-size: 1.7rem;
+	font-weight: 400;
+}
+
+.btn-less-padding {
+	padding-left: 2px;
+	padding-right: 2px;
+	color: #000;
 }
 
 .skiIntGoa {
-	padding-top: 5px;
+	padding-top: 12px;
+}
+
+span.glyphicon-send {
+	line-height: inherit;
+	vertical-align: text-bottom;
+		margin-top: px;
+    font-size: 2.2rem;
+		color: black;
+}
+
+span.glyphicon-pushpin {
+	line-height: inherit;
+	vertical-align: text-bottom;
+		margin-top: px;
+    font-size: 2.2rem;
+		color: black;
+}
+
+.glyphicon-asterisk {
+		line-height: inherit;
+		vertical-align: text-bottom;
+		margin-top: px;
+		font-size: 2.2rem;
+		color: black;
+}
+
+span.glyphicon-envelope-text {
+	line-height: inherit;
+		margin-left: 10px;
+    font-size: 1.7rem;
+		font-weight: 400;
+		vertical-align: top;
+}
+
+.pGlyphs {
+	padding-top: 0px;
+	line-height: 200%;
+}
+
+.pMission {
+	margin-top: 1rem;
+	font-size: 1.7rem;
+
 }

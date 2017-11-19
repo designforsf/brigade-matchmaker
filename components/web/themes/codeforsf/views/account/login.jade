@@ -6,7 +6,6 @@
 
 extends ../layout
 block content
-	//script(src='https://code.jquery.com/jquery-3.1.1.min.js')
 
 	body
 		//nav.navbar.navbar-light.bg-faded.navbar-fixed-top
@@ -18,7 +17,8 @@ block content
 						#checkinModal.modal.fade
 							.modal-dialog
 								.alert.alert-danger(role="alert")
-									strong(id=errMsg) Change a few things up and try submitting again.
+									span.glyphicon.glyphicon-exclamation-sign(aria-hidden=true)
+									strong(id=errMsg)  Change a few things up and try submitting again.
 
 						div.panel-heading
 							h3.panel-title.text-center Please check in with your email address for Civic Hack Night

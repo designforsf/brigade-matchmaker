@@ -27,6 +27,19 @@ var projectsSchema = new mongoose.Schema({
     skillsOffered: {type: Array, default: []}, // for members to learn
     goalsNeeded: {type: Array, default: []}
   },
+  
+  matchingDescr: {
+    thumbnailUrl: {type: String, default: ''},
+    summary: {type: String, default: ''},
+    contactName: {type: String, default: ''},
+    contactEmail: {type: String, default: ''},
+    contactRole: {type: String, default: ''},
+    contactThumbnailUrl: {type: String, default: ''},
+    tasks: {type: Array, default: []},
+    progress: {type: Array, default: []},
+    repository: {type: String, default: ''},
+    link: {type: String, default: ''},
+  },
 
   /* Expanded Open DC civic.json */
 
@@ -48,5 +61,40 @@ var projectsSchema = new mongoose.Schema({
   videos: {type: Array, default: []},
   published: {type: Boolean, default: true}
 })
+
+/*
+  prepareResultForJsonAPI
+  prepareResultsForJsonAPI
+*/
+
+projectsSchema.statics.prepareResultForJsonAPI = function(result) {
+  var project = result.toObject();
+
+  var project = result.toObject();
+  
+  // re-name fields for EmberJS/JSON-API conformance
+  project['matching-descr'] = project.matchingDescr;
+  if (typeof project['matching-descr'] !== 'undefined') { 
+    project['matching-descr'] = {};
+  }
+  delete project.matchingDescr;
+  project.id = project['_id'];
+
+  return {
+    type: "project",
+    id: result._id,
+    attributes: project
+  };
+  
+};
+
+projectsSchema.statics.prepareResultForJsonAPI = function(results, cb) {
+  var projects = [];
+  results.forEach(function(result) {
+    var project = result.toObject();
+    projects.push(project);
+  });
+  cb(projects);
+};
 
 module.exports = mongoose.model('Projects', projectsSchema)

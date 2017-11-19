@@ -26,6 +26,7 @@ var sass = require('node-sass-middleware')
 var path = require('path')
 var requireDir = require('require-dir')
 var pkg = require('./package.json')
+var router = express.Router()
 require('colors')
 
 /**
@@ -41,7 +42,7 @@ var apiCtrl = require('./controllers/api')
 var homeCtrl = require('./controllers/home')
 var usersCtrl = require('./controllers/user')
 var projectsCtrl = require('./controllers/projects')
-var matchingCtrl = require('./controllers/matching')
+//var matchingCtrl = require('./controllers/matching')
 
 /*
  * Helpers
@@ -65,11 +66,36 @@ var app = express()
  */
 mongoose.connect(process.env.MONGODB || process.env.MONGOLAB_URI, function (err) {
   if (err) throw new Error(err)
-})
+});
+mongoose.connection.on('disconnected', function () {
+  console.log('Mongoose disconnected');
+
+});
 mongoose.connection.on('error', function (err) {
   console.log('There was an error while trying to connect!')
   throw new Error(err)
-})
+});
+var gracefulShutdown = function(msg, callback ) {
+  mongoose.connection.close(function() {
+    console.log('Mongoose disconnected through ' + msg);
+    callback();
+  });
+};
+
+// Listen for SIGINT from app termination
+process.on('SIGINT', function() {
+  gracefulShutdown('app termination', function() {
+    process.exit(0);
+  });
+});
+
+// Listen for SIGTERM from Heroku for app termination
+process.on('SIGTERM', function() {
+  gracefulShutdown('Heroku app shutdown', function() {
+    process.exit(0);
+  });
+});
+
 
 /**
  * Check Model Settings in db
@@ -83,6 +109,26 @@ var ProjectTaxonomies = require('./models/ProjectTaxonomies')
 /**
  * Express configuration.
  */
+ 
+ // allow cross-domain calls for API calls
+ var allowCrossDomain = function(req, res, next) {
+   console.log('allowCrossDomain');
+   
+   res.header('Access-Control-Allow-Origin', '*');
+   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS,PATCH');
+   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+
+   // intercept OPTIONS method
+   if ('OPTIONS' == req.method) {
+     res.send(200);
+   }
+   else {
+     next();
+   }
+ };
+ app.use(allowCrossDomain);
+ 
+ 
 app.set('port', process.env.PORT || 5465)
 app.set('views', path.join(__dirname, 'themes'))
 app.locals.capitalize = function (value) {
@@ -98,7 +144,9 @@ app.set('view engine', 'jade')
 app.use(compress())
 
 app.use(logger('dev'))
-app.use(bodyParser.json())
+//app.use(bodyParser.json())
+//app.use(bodyParser.json({ type: 'application/json' }));
+app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(expressValidator())
 app.use(methodOverride())
@@ -108,7 +156,8 @@ app.use(session({
   saveUninitialized: true,
   secret: process.env.SESSION_SECRET,
   store: new MongoStore({
-    url: process.env.MONGODB || process.env.MONGOLAB_URI,
+    url: 'mongodb://localhost:27017',
+    //url: process.env.MONGODB || process.env.MONGOLAB_URI,
     autoReconnect: true
   })
 }))
@@ -181,10 +230,10 @@ app.use(function (req, res, next) {
  * Primary app routes.
  */
 
-app.get('/', homeCtrl.index)
+app.get('/login-old', homeCtrl.index)
 var pt = new ProjectTaxonomies();
 
-app.get('/test/projectList',
+app.get('/',
   function (req, res, next) {
     pt.getSkills(function (err, results) {
       if (err) throw err
@@ -212,8 +261,11 @@ app.get('/test/projectList',
   homeCtrl.projectList
 )
 
-app.get('/projects', projectsCtrl.index)
-app.get('/matching', matchingCtrl.index)
+/**
+/* PK 4_24 /projects and /matching no longer used
+/* app.get('/projects', projectsCtrl.index)
+/* app.get('/matching', matchingCtrl.index)
+**/
 
 app.get('/login', usersCtrl.getLogin)
 app.post('/login', usersCtrl.postLogin)
@@ -240,18 +292,51 @@ app.get('/logout', usersCtrl.getLogout)
  app.post('/api/user/match_config', apiCtrl.updateUserMatchConfig)
  app.get('/api/user/matches', apiCtrl.getUserMatches)
  app.get('/api/projects', apiCtrl.getProjects)
- app.get('/test/api/projects', apiCtrl.testProjects)
+ app.post('/api/project', apiCtrl.createProject)
+ app.get('/api/projects/:id', apiCtrl.getProject)
+ app.patch('/api/projects/:id', apiCtrl.updateProject)
+ app.post('/api/projects/:id', apiCtrl.updateProject)
  app.get('/api/project/taxonomy/skills', apiCtrl.getTaxonomySkills)
  app.get('/api/project/taxonomy/interests', apiCtrl.getTaxonomyInterests)
  app.get('/api/project/taxonomy/goals', apiCtrl.getTaxonomyGoals)
-
+ 
+ app.get('/test/api/projects', apiCtrl.testProjects)
+ app.get('/test/api/taxonomy-selector', 
+   function (req, res, next) {
+     pt.getSkills(function (err, results) {
+       if (err) throw err
+       res.locals = res.locals || {}
+       res.locals.projectTaxonomySkills = results
+       next()
+     })
+   },
+   function (req, res, next) {
+     pt.getInterests(function (err, results) {
+       if (err) throw err
+       res.locals = res.locals || {}
+       res.locals.projectTaxonomyInterests = results
+       next()
+     })
+   },
+   function (req, res, next) {
+     pt.getGoals(function (err, results) {
+       if (err) throw err
+       res.locals = res.locals || {}
+       res.locals.projectTaxonomyGoals = results
+       next()
+     })
+   },
+   apiCtrl.testTaxonomySelector)
+ 
 /**
 * Messaging Routes
 **/
 
+/**
 helpers.messagingConfigurator({
   expressApp: app
 });
+**/
 
 /**
  * Meta Routes
@@ -376,6 +461,38 @@ ProjectTaxonomies.find({}, function (err, results) {
         console.log('Inserted ' + output.insertedCount + ' attributes from the ProjectTaxonomies');
       });
     
+    });
+
+  } else {
+    console.log(results.length + ' attributes found for ProjectTaxonomies.')
+
+  }
+});
+
+
+/**
+ * Check if project taxonomies exist before starting Express server
+ */
+ProjectTaxonomies.find({}, function (err, results) {
+  if (err) throw err
+  if (!results.length) {
+    //console.log('No project taxonomies found!');
+
+    // load the seed class
+    var defaultPTAttributes = require('./seeds/development/ProjectTaxonomies');
+
+    // ProjectTaxonomies is different from the other seeds:
+    //    this class exports a function!
+
+    defaultPTAttributes(function (err, attributes) {
+
+      // insert all attributes of all taxonomies... all at once
+      ProjectTaxonomies.collection.insert(attributes, function (err, output) {
+        if (err) throw err;
+        //console.log(output);
+        console.log('Inserted ' + output.insertedCount + ' attributes from the ProjectTaxonomies');
+      });
+
     });
 
   } else {

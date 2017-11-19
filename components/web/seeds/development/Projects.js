@@ -2,6 +2,84 @@ var faker = require('faker')
 
 module.exports = [
   {
+    'id': 'UXR-Matching-App-DigitalPrototype',
+    'brigade': 'codeforexample',
+    'status': 'mvp',
+    'thumbnailUrl': 'https://cloud.githubusercontent.com/assets/451510/23977184/d371c3ba-09a9-11e7-971c-f8dc705f0f5a.png',
+    'bannerUrl': faker.image.people(),
+    'bornAt': 'Code for Example',
+    'geography': faker.address.city(),
+    'politicalEntity': '',
+    'name': 'UXR Matching App - Digital Prototype',
+    'description': 'Developing a working prototype of a Matching App for new C4SF members.',
+    'license': 'MIT',
+    'homepage': 'http://old.codeforsanfrancisco.org/research-group/projects/NewMemberEngagement/3-3_Implementation_ProjectMatchingHat/index.html',
+    'repository': 'https://github.com/designforsf/brigade-matchmaker',
+    'links': [],
+    'videos': [],
+    'matchingConfig': {
+      'interests': ['all'],
+      'skillsNeeded': ['server-dev/nodejs', 'client-dev/html-css', 'client-dev/javascript'],
+      'skillsOffered': ['server-dev/mongodb'],
+      'goalsNeeded': ['developer','helper']
+    },
+    'matchingDescr': {
+      'summary':'Developing a working prototype of a Matching App for new C4SF members.',
+      'contactName': 'Jamie Pitts',
+      'contactEmail': 'designforsf@gmail.com',
+      'contactRole': 'Dev Lead',
+      'contactThumbnailUrl': 'https://avatars3.githubusercontent.com/u/509756',
+      'tasks': ['Convert front-end UI to EmberJS'],
+      'progress': ['Demo of admin tool in EmberJS'],
+      'repository': 'https://github.com/designforsf/brigade-matchmaker',
+      'link': 'http://old.codeforsanfrancisco.org/research-group/projects/NewMemberEngagement/3-3_Implementation_ProjectMatchingHat/index.html',
+    },
+    'keywords': [
+      faker.company.bsBuzz(),
+      faker.company.bsBuzz(),
+      faker.company.bsBuzz(),
+      faker.company.bsBuzz(),
+      faker.company.bsBuzz(),
+      faker.company.bsBuzz()
+    ],
+    'partners': [],
+    'team': [
+      {
+        avatar: faker.internet.avatar(),
+        username: faker.internet.userName()
+      },
+      {
+        avatar: faker.internet.avatar(),
+        username: faker.internet.userName()
+      },
+      {
+        avatar: faker.internet.avatar(),
+        username: faker.internet.userName()
+      }
+    ],
+    'needs': [
+      faker.company.bsBuzz(),
+      faker.company.bsBuzz(),
+      faker.company.bsBuzz(),
+      faker.company.bsBuzz(),
+      faker.company.bsBuzz()
+    ],
+    'content': '# This Project! \n\n This is sub info.\n\n' +
+      faker.lorem.paragraph() +
+      '\n\n' +
+      faker.lorem.paragraph() +
+      '\n\n' +
+      faker.lorem.paragraph() +
+      '\n\n' +
+      faker.lorem.paragraph() +
+      '\n\n' +
+      faker.lorem.paragraph() +
+      '\n\n' +
+      faker.lorem.paragraph() +
+      '\n\n| Table | Info | Goes | Here |\n| --- | --- | --- | --- |\n| foo | bar | lorem | ipsum |'
+  },
+  
+  {
     'id': 'Roadmap-to-HTML',
     'brigade': 'codeforexample',
     'status': 'mvp',
@@ -22,6 +100,9 @@ module.exports = [
       'skillsNeeded': ['office/ms-word','client-dev/html-css'],
       'skillsOffered': ['office/cms'],
       'goalsNeeded': ['developer','helper']
+    },
+    'matchingDescr': {
+      'summary':'Publishing an essential reentry resource on the web for governmental use.'
     },
     'keywords': [
       faker.company.bsBuzz(),
