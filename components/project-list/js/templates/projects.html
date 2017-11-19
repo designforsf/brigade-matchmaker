@@ -45,7 +45,12 @@
         <div class="col projDesc">
             {{project.attributes.description}}
             <br>
-            <a id="accordion" href="#">more</a>
+            <button class="btn" type="button"
+                    data-toggle="collapse" data-target="#collapse{{@index}}"
+                    aria-expanded="false" aria-controls="collapseExample">
+                More Info
+            </button>
+
         </div>
         <div class="col col-sm-8">
             <ul>
@@ -83,7 +88,7 @@
             </ul>
         </div>
     </div>
-    <div class=" panel-collapse collapse" id='collapse{{@index}}'>
+    <div class="collapse" id='collapse{{@index}}'>
         <div class="row">
             <div class="col col-sm-4">
                 <div class="boldTitle">To-Do Tasks</div>

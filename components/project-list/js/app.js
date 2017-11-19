@@ -6,7 +6,8 @@ require.config({
       text: 'lib/text',
       underscore: 'lib/underscore',
       localstorage : 'lib/backbone.localStorage',
-      lockr: 'lib/lockr'
+      lockr: 'lib/lockr',
+      boostrap: 'lib/bootstrap.min.js'
    }
 });
 
