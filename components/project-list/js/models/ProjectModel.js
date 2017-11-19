@@ -29,8 +29,9 @@ define(['underscore', 'backbone', 'lockr'],
             var result = $.grep(Lockr.get('projects').data, function(e){
                return e.id === val.id;
             });
-            var finalObj = $.extend(val, result[0]);
-            arr.push(finalObj);
+            val.attributes = $.extend(val.attributes, result[0].attributes);
+
+            arr.push(val);
          });
          this.attributes = {"data": arr}
       }

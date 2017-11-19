@@ -22,6 +22,31 @@ define(['underscore','backbone','handlebars','models/ProjectModel', 'text!templa
       },
       render: function(){
          this.$el.html(this.template(this.model.toJSON()));
+         this.colorTags("skills", "skillsMatched", "navy");
+         this.colorTags("interests", "interestsMatched", "blue");
+         this.colorTags("goals", "skillsMatched", "red");
+
+      },
+
+      colorTags: function(idVal, attValue, color){
+         var obj = this.model.toJSON();
+         if (obj.data){
+            var _this = this;
+            _.bind(function(){
+               $.each(obj.data, function(idx, val){
+                  var id = "#" + idVal + idx;
+                  if (val.attributes[attValue]){
+                     $.each(val.attributes[attValue], function(idx, matchedWord){
+                        var div = $(($("#container").find(id)[0].children[1])).find(':contains('+matchedWord +')')[0];
+                        if (div){
+                           div.style.backgroundColor = color;
+                           div.style.color = "white";
+                        }
+                     });
+                  }
+               })
+            },this)();
+         }
       },
 
       //This will take in a url and find new matches
