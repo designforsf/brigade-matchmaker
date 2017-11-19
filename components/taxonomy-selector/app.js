@@ -33,7 +33,6 @@ app.use(express.static(path.join(__dirname, 'public'), { }));
 // development only
 if (app.get('env') == 'development') {
   console.log('Running in developent mode!');
-  
   app.use(errorHandler());
 }
 
