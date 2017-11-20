@@ -16,6 +16,7 @@ html
       window.__bh = {
         version: '#{brigade.buildVersion}'
       }
+      
   body(data-view="#{view}")
 
     include partials/header.jade
@@ -29,13 +30,6 @@ html
       block content
 
     include partials/footer.jade
-
-
-    script(src='/js/lib/jquery-3.1.1.min.js')
-    script(src='/vendor/chosen-js-1.6.2/chosen.jquery.js')
-    script(src='/vendor/bootstrap-3.3.7/js/bootstrap.js')
-    script(src='/js/matching.js')
-    script(src='/js/checkin.js')
 
     // Google Analytics: change UA-XXXXX-X to be your site's ID
     script.

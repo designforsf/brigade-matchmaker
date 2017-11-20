@@ -30,9 +30,6 @@ exports.index = function (req, res) {
 exports.projectList = function (req, res) {
   res.render(res.locals.brigade.theme.slug + '/views/project-match', {
     title: 'Project Match',
-    brigade: res.locals.brigade,
-    skills: res.locals.projectTaxonomySkills,
-    interests: res.locals.projectTaxonomyInterests,
-    goals: res.locals.projectTaxonomyGoals
+    brigade: res.locals.brigade
   });
 }

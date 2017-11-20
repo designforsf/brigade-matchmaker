@@ -4,7 +4,7 @@ define(['underscore','backbone','handlebars','models/ProjectModel', 'text!templa
 
    var ProjectView = Backbone.View.extend({
       // el - stands for element. Every view has a element associate in with HTML content will be rendered.
-      el: '#container',
+      el: '#project-list-container',
       events: {
          "click .changeList":"searchProjects"
       },
@@ -37,7 +37,7 @@ define(['underscore','backbone','handlebars','models/ProjectModel', 'text!templa
                   var id = "#" + idVal + idx;
                   if (val.attributes[attValue]){
                      $.each(val.attributes[attValue], function(idx, matchedWord){
-                        var div = $(($("#container").find(id)[0].children[1])).find(':contains('+matchedWord +')')[0];
+                        var div = $(($("#project-list-container").find(id)[0].children[1])).find(':contains('+matchedWord +')')[0];
                         if (div){
                            div.style.backgroundColor = color;
                            div.style.color = "white";

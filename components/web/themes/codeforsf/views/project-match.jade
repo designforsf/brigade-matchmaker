@@ -21,109 +21,33 @@ block content
             | Project Match will connect you to civic projects.
 
 
-
   div.container.container-maxWidth970
+    div(id="taxonomy-selector-container")
+    div(id="project-list-container")
 
-    form#wizardcards
-      div.interest_profile
-        form
-          include partials/flexSelect
-          div.form-group.form-group-horizontal
+  link(rel="stylesheet" href="/components/project-list/css/style.css")
+  script(src='/components/project-list/js/lib/require.js')
+  script(type='text/javascript').
+    
+    require.config({
+      baseUrl: '/components/project-list/js',
+      paths: {
+        jquery: 'lib/jquery',
+        handlebars: 'lib/handlebars',
+        backbone: 'lib/backbone',
+        text: 'lib/text',
+        underscore: 'lib/underscore',
+        localstorage : 'lib/backbone.localStorage',
+        lockr: 'lib/lockr',
+        boostrap: 'lib/bootstrap.min.js'
+      }
+    });
+    
+    require(['views/ProjectView'], function(ProjectView) {
+       new ProjectView({
+          skills: ["java", "react"],
+          interests: ["webDev"],
+          learning: ["node"]
+       });
+    });
 
-              div.pull-right(role="group" aria-label="...")
-                button(id="selectOrSearch" type="button" role="start_matching" class="next btn btn-md disabled") Match Me
-
-              br
-
-    div#pListHeader.container-maxWidth970-no-top-pad.row.row--proj-container.pName.btn--hidden
-      section.col-sm-2 Name
-      section.col-sm-3 Mission Statement
-      section.col-sm-4 Matching Points
-      section.col-sm-3 Team Interactions
-
-
-
-    div#umtemplate.container-maxWidth970-no-top-pad.row.row--proj-container.btn--hidden
-      section.col-sm-12
-        section#pName.col-sm-12.pName Needs Project Name
-      section.col-sm-2
-        span.project-thumbnail
-          img.project-thumbnail
-        button#seeMore.btn.btn-default.btn--aligntext(type='button') Show more...
-
-      section.col-sm-3
-        span#pMission.pMission.col-sm-12 Project Mission Statement
-      section.col-sm-4
-        section.col-sm-12.section--remove-left-padding.skiIntGoa
-          section.col-sm-3.pSkills Skills:
-          section#pS.col-sm-9
-            <button  type="button" class="btn btn-default disabled btn-less-padding btn--hidden btn--aligntext"></button>
-
-          section.col-sm-3.pSkills  Goals:
-          section#pG.col-sm-9
-            <button  type="button" class="btn btn-less-padding btn-default disabled btn--hidden btn--aligntext"></button>
-
-          section.col-sm-3.pSkills  Interests:
-          section#pI.col-sm-9
-            <button  type="button" class="btn btn-default btn-less-padding disabled btn--hidden btn--aligntext"></button>
-      section.col-sm-3
-        section.pGlyphs.col-sm-12
-          span.glyphicon.glyphicon-asterisk(id="contactMe")
-          span.glyphicon-envelope-text  Please contact me
-          br
-          span.glyphicon.glyphicon-send(id="contactTeam")
-          span.glyphicon-envelope-text  Email project lead
-          br
-          span.glyphicon.glyphicon-pushpin(id="saveIt")(aria-hidden=true)
-          span.glyphicon-envelope-text Save it
-          //button(id="saveIt" class="btn btn-large btn-success saveIt__centered" role="button" data-leader="" info="") Save it!
-
-
-        //button(id="saveIt" class="btn btn-large btn-success saveIt__centered" role="button" data-leader="" info="") Save it!
-
-
-      div#moreInfo.btn--hidden
-        section.col-sm-12.section--remove-left-padding.skiIntGoa
-          section.col-sm-2.pSkills Skills:
-          section#ppS.col-sm-10
-            <button  type="button" class="btn btn-default disabled btn--hidden"></button>
-          section.col-sm-2.pSkills  Goal sought:
-          section#ppG.col-sm-10
-            <button  type="button" class="btn btn-default disabled btn--hidden"></button>
-          section.col-sm-2.pSkills  Civic Interest areas:
-          section#ppI.col-sm-10
-            <button  type="button" class="btn btn-default disabled btn--hidden"></button>
-        div#moreProjInfo
-          section.col-sm-12
-            h3 Tasks
-              h5 Lorem Ipsum
-          section.col-sm-12
-            h3 Past results
-              h5 Lorem Ipsum
-          section.col-sm-12.section--remove-left-padding.skiIntGoa
-            section.col-sm-2
-              h3 Project Lead
-                img.project-thumbnail
-            section.col-sm-10
-                h4.leader Team Leader Name
-                button(id="teamAddr" class="btn btn-large btn-primary mail-icon__centered" role="button" data-leader="" info="") Contact Team
-            br
-
-    audio#audioRem(src="http://rpg.hamsterrepublic.com/wiki-images/0/00/Soft_Airy_Swish.ogg")
-    audio#audioAdd(src="http://rpg.hamsterrepublic.com/wiki-images/3/3a/Thip.ogg")
-
-
-
-    div#match_res.btn--hidden
-      div#pList
-        //
-        //matching list will be appended here.
-        //
-
-    include partials/contactTeamForm.jade
-    include partials/savedProjs.jade
-
-    script(type='text/javascript').
-      var projTaxSkills = !{JSON.stringify(skills)};
-      var projTaxInterests = !{JSON.stringify(interests)};
-      var projTaxGoals = !{JSON.stringify(goals)};
