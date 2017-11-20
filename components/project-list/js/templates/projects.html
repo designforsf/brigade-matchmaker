@@ -38,11 +38,13 @@
 
     </div>
     <div class="row rowUnderline">
-        <div class="col center-cropped"
+
+        <div class="col-md-2 enter-cropped"
              style="background-image: url('http://placehold.it/200x200');">
-            <img src={{project.attributes.thumbnailUrl}}>
+            <img src="{{project.attributes.thumbnailUrl}}" style="width:150px; height:150px;" />
         </div>
-        <div class="col projDesc">
+
+        <div class="col-md-3 projDesc">
             {{project.attributes.description}}
             <br>
             <button class="btn" type="button"
@@ -50,9 +52,9 @@
                     aria-expanded="false" aria-controls="collapseExample">
                 More Info
             </button>
-
         </div>
-        <div class="col col-sm-8">
+
+        <div class="col-md-7">
             <ul>
                 <li id="skills{{@index}}">
                     <span>Skills Needed:</span>
