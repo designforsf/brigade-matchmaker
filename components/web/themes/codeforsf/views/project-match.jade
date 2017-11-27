@@ -23,31 +23,49 @@ block content
 
   div.container.container-maxWidth970
     div(id="taxonomy-selector-container")
+      | Taxonomy Selector To Go Here
     div(id="project-list-container")
 
   link(rel="stylesheet" href="/components/project-list/css/style.css")
   script(src='/components/project-list/js/lib/require.js')
   script(type='text/javascript').
-    
+
     require.config({
-      baseUrl: '/components/project-list/js',
+      baseUrl: '/components',
       paths: {
-        jquery: 'lib/jquery',
-        handlebars: 'lib/handlebars',
-        backbone: 'lib/backbone',
-        text: 'lib/text',
-        underscore: 'lib/underscore',
-        localstorage : 'lib/backbone.localStorage',
-        lockr: 'lib/lockr',
-        boostrap: 'lib/bootstrap.min.js'
+        jquery: 'project-list/js/lib/jquery',
+        handlebars: 'project-list/js/lib/handlebars',
+        'handlebars.runtime': 'project-list/js/lib/handlebars.runtime',
+        backbone: 'project-list/js/lib/backbone',
+        text: 'project-list/js/lib/text',
+        underscore: 'project-list/js/lib/underscore',
+        localstorage : 'project-list/js/lib/backbone.localStorage',
+        lockr: 'project-list/js/lib/lockr',
+        boostrap: 'project-list/js/lib/bootstrap.min.js',
+        projlistview: 'project-list/js/views/ProjectView',
+        projlistmodel:  'project-list/js/models/ProjectModel',
+        projlisttemplate: 'project-list/js/templates/projects',
+
+        masonry: 'taxonomy-selector/js/masonry/masonry-4.2.0.pkgd',
+        taxsel: 'taxonomy-selector/js/project-match/taxonomy-selector',
+        taxselmodel: 'taxonomy-selector/js/project-match/taxonomy-model',
+        taxseltemplate: 'taxonomy-selector/templates/container'
       }
     });
     
-    require(['views/ProjectView'], function(ProjectView) {
-       new ProjectView({
-          skills: ["java", "react"],
-          interests: ["webDev"],
-          learning: ["node"]
+    require(['projlistview','projlistmodel','taxsel', 'taxselmodel'], 
+      function(ProjectView, ProjectModel, TaxonomySelector, TaxonomyModel) {
+
+      // taxonomy selector component
+      ProjectMatch.TaxonomySelector.init({});
+
+
+      // project list component
+      new ProjectView({
+        skills: ["java", "react"],
+        interests: ["webDev"],
+        learning: ["node"]
        });
     });
+
 

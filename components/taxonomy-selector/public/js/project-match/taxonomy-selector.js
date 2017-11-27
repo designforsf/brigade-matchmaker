@@ -1,9 +1,12 @@
+
+
 (function (PM) {
 
-
-	ProjectMatch.TaxonomySelector = {};
+  ProjectMatch.TaxonomySelector = {};
   var self = ProjectMatch.TaxonomySelector;
-  
+
+  var Handlebars;
+
   /*
     
     useful data
@@ -66,6 +69,8 @@
     // wait until page loads
     jQuery(document).ready(function () {
 
+      console.log('ProjectMatch.TaxonomySelector.init()');
+
       self.renderContainer(function (err, output) {
         console.log('called renderContainer ', output)
 
@@ -123,16 +128,23 @@
   */
 
   self.renderContainer = function (cb) {
-    jQuery.get('./templates/container.html', function(hbrTemplate, status) {
-      var template = Handlebars.compile(hbrTemplate);
-      var context = {};
-      var renderedHtml = template(context);
-      jQuery('#taxonomy-selector-container').html(renderedHtml);
-      cb(null,{
-        template: template,
-        context: context,
-        renderedHtml: renderedHtml
-      });
+    console.log('ProjectMatch.TaxonomySelector.renderContainer()');
+    
+    require(['taxseltemplate'],
+      function(Template){
+
+        //var template = Handlebars.compile(hbrTemplate);
+
+        var context = {};
+        var renderedHtml = Template(context);
+        console.log(Template);
+        jQuery('#taxonomy-selector-container').html(renderedHtml);
+        cb(null,{
+          template: Template,
+          context: context,
+          renderedHtml: renderedHtml
+        });
+
     });
 
   }
@@ -146,80 +158,86 @@
   */
 
   self.renderSelection = function (taxonomy, taxonomyName) {
-    //console.log(taxonomy);
-    var hbrTemplate = self.templates.selection;
 
-    // render the taxonomy into something more easily used by handlebars
-    itemsBySection = {};
-    var taxonomySet, currSection;
-    taxonomy.forEach(function (item) {
-      
-      // the root item
-      if (!item.parent) {
-        taxonomySet = item.name
-      } 
+    require(['handlebars', 'masonry'],
+      function(Handlebars, Masonry){
 
-      // item section
-      if (item.parent == taxonomySet && item.title) {
-        //console.log('section ' + item.name + ' - ' + item.title);
-        currSection = item.name;
-        itemsBySection[item.name] = {
-          name: item.name,
-          title: item.title,
-          parent: item.parent,
-          items: []
-        };
-        //console.log(itemsBySection[item.name]);
-      }
+        //console.log(taxonomy);
+        var hbrTemplate = self.templates.selection;
 
-      // item (has parent, parent is current section)
-      if (item.parent && item.parent == currSection) {
-        //console.log('item parent=' + item.parent);
-        //console.log(' > ' + item.name);
-        itemsBySection[item.parent].items.push(item);
-      }
+        // render the taxonomy into something more easily used by handlebars
+        itemsBySection = {};
+        var taxonomySet, currSection;
+        taxonomy.forEach(function (item) {
+          
+          // the root item
+          if (!item.parent) {
+            taxonomySet = item.name
+          } 
 
-    });
+          // item section
+          if (item.parent == taxonomySet && item.title) {
+            //console.log('section ' + item.name + ' - ' + item.title);
+            currSection = item.name;
+            itemsBySection[item.name] = {
+              name: item.name,
+              title: item.title,
+              parent: item.parent,
+              items: []
+            };
+            //console.log(itemsBySection[item.name]);
+          }
 
+          // item (has parent, parent is current section)
+          if (item.parent && item.parent == currSection) {
+            //console.log('item parent=' + item.parent);
+            //console.log(' > ' + item.name);
+            itemsBySection[item.parent].items.push(item);
+          }
 
-    // handlebars rendering
-    // ----------------------------------------------------
-    var template = Handlebars.compile(hbrTemplate);
-
-    var context = {
-      taxonomy: taxonomy,
-      taxonomyName: taxonomyName,
-      itemsBySection: itemsBySection,
-    };
-
-    var renderedHtml = template(context);
-    $('#taxonomy-selection-' + taxonomyName).html(renderedHtml);
-    //console.log(renderedHtml);
-
-
-    // masonry
-    // ----------------------------------------------------
-    // SEE: https://masonry.desandro.com
-
-    // configure masonry obj
-    var msnry = new Masonry( '#taxonomy-selection', {
-      initLayout: false, // delays the layout so that events can be defined
-      horizontalOrder: true,
-      itemSelector: '.item'
-    });
-
-    // define masonry events
-    msnry.on( 'layoutComplete',
-      function( laidOutItems ) {
-        laidOutItems.forEach(function (item) {
-          //console.log( 'Masonry item ', item);
         });
-        
-      }
-    );
 
-    // init masonry layout
-    msnry.layout();
+        // handlebars rendering
+        // ----------------------------------------------------
+        var template = Handlebars.compile(hbrTemplate);
+
+        var context = {
+          taxonomy: taxonomy,
+          taxonomyName: taxonomyName,
+          itemsBySection: itemsBySection,
+        };
+
+        var renderedHtml = template(context);
+        $('#taxonomy-selection-' + taxonomyName).html(renderedHtml);
+        //console.log(renderedHtml);
+
+
+        // masonry
+        // ----------------------------------------------------
+        // SEE: https://masonry.desandro.com
+
+        // configure masonry obj
+        var msnry = new Masonry( '#taxonomy-selection', {
+          initLayout: false, // delays the layout so that events can be defined
+          horizontalOrder: true,
+          itemSelector: '.item'
+        });
+
+        // define masonry events
+        msnry.on( 'layoutComplete',
+          function( laidOutItems ) {
+            laidOutItems.forEach(function (item) {
+              //console.log( 'Masonry item ', item);
+            });
+            
+          }
+        );
+
+        // init masonry layout
+        msnry.layout();
+
+      }
+    ); // END require
 
 
   };
@@ -326,23 +344,28 @@
   */
 
   self.renderSelected = function (selectedTaxonomy) {
-    var hbrTemplate = self.templates.selected;
-    var template = Handlebars.compile(hbrTemplate);
-    selectedTaxonomy = selectedTaxonomy || self.selectedTaxonomy;
-    //console.log('renderSelected ' + selectedTaxonomy);
 
-    var context = {
-      taxonomyName: selectedTaxonomy,
-      itemsBySection: self.selectedItemsData[selectedTaxonomy]['itemsBySection'],
-    };
+    require(['handlebars'],
+      function(Handlebars){
 
-    //console.log(self.selectedItems);
-    //console.log(context);
+        var hbrTemplate = self.templates.selected;
+        var template = Handlebars.compile(hbrTemplate);
+        selectedTaxonomy = selectedTaxonomy || self.selectedTaxonomy;
+        //console.log('renderSelected ' + selectedTaxonomy);
 
-    var renderedHtml = template(context);
-    //console.log(renderedHtml);
-    $('#taxonomy-selected-' + selectedTaxonomy).html(renderedHtml);
+        var context = {
+          taxonomyName: selectedTaxonomy,
+          itemsBySection: self.selectedItemsData[selectedTaxonomy]['itemsBySection'],
+        };
 
+        //console.log(self.selectedItems);
+        //console.log(context);
+
+        var renderedHtml = template(context);
+        //console.log(renderedHtml);
+        $('#taxonomy-selected-' + selectedTaxonomy).html(renderedHtml);
+      }
+    ); // END require
   }
 
   /*
@@ -392,6 +415,5 @@
     </div>
   `
   };
-
 
 }) (( window.ProjectMatch=window.ProjectMatch || {}));
