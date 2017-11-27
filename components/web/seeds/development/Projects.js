@@ -1,4 +1,4 @@
-var faker = require('faker')
+var faker = require('faker');
 
 module.exports = [
   {
@@ -19,8 +19,8 @@ module.exports = [
     'videos': [],
     'matchingConfig': {
       'interests': ['all'],
-      'skillsNeeded': ['server-dev/nodejs', 'client-dev/html-css', 'client-dev/javascript'],
-      'skillsOffered': ['server-dev/mongodb'],
+      'skillsNeeded': ['backend-development/node', 'frontend-development/css', 'frontend-development/html', 'frontend-development/javascript'],
+      'skillsOffered': ['backend-development/mongodb'],
       'goalsNeeded': ['developer','helper']
     },
     'matchingDescr': {
@@ -97,8 +97,8 @@ module.exports = [
     'videos': [],
     'matchingConfig': {
       'interests': ['all'],
-      'skillsNeeded': ['office/ms-word','client-dev/html-css'],
-      'skillsOffered': ['office/cms'],
+      'skillsNeeded': ['frontend-development/css', 'frontend-development/html'],
+      'skillsOffered': ['frontend-development/css'],
       'goalsNeeded': ['developer','helper']
     },
     'matchingDescr': {
@@ -166,8 +166,8 @@ module.exports = [
     'videos': [],
     'matchingConfig': {
       'interests': ['homelessness'],
-      'skillsNeeded': ['client-dev/ios'],
-      'skillsOffered': ['client-dev/javascript'],
+      'skillsNeeded': ['mobile-development/ios'],
+      'skillsOffered': ['frontend-development/javascript'],
       'goalsNeeded': ['developer']
     },
     'keywords': [
@@ -236,7 +236,7 @@ module.exports = [
     'videos': [],
     'matchingConfig': {
       'interests': ['criminal-justice'],
-      'skillsNeeded': ['data-sci/optimization-modeling','data-sci/predictive-modeling','data-sci/statistics'],
+      'skillsNeeded': ['data-science/data-modeling','data-science/predictive-modeling','data-science/data-analysis'],
       'skillsOffered':[],
       'goalsNeeded': ['developer','helper']
     },
@@ -307,8 +307,8 @@ module.exports = [
     'videos': [],
     'matchingConfig': {
       'interests': ['housing'],
-      'skillsNeeded': ['server-dev/rails','server-dev/ruby','client-dev/javascript'],
-      'skillsOffered':['client-dev/html-css'],
+      'skillsNeeded': ['backend-development/rails','backend-development/ruby','frontend-development/javascript'],
+      'skillsOffered':['frontend-development/css', 'frontend-development/html'],
       'goalsNeeded': ['developer','bug-testing']
     },
     'keywords': [
@@ -377,9 +377,9 @@ module.exports = [
     'links': [],
     'videos': [],
     'matchingConfig': {
-      'interests': ['civic-participation'],
-      'skillsNeeded': ['server-dev/nodejs','server-dev/mongodb'],
-      'skillsOffered': ['office'],
+      'interests': ['community-issues'],
+      'skillsNeeded': ['backend-development/node','backend-development/mongodb'],
+      'skillsOffered': ['marketing/communications'],
       'goalsNeeded': ['developer']
     },
     'keywords': [
@@ -431,10 +431,10 @@ module.exports = [
       faker.lorem.paragraph() +
       '\n\n| Table | Info | Goes | Here |\n| --- | --- | --- | --- |\n| foo | bar | lorem | ipsum |'
   }, {
-    'id': 'The-Data-Science-Working-Group',
+    'id': 'The-data-scienceence-Working-Group',
     'brigade': 'codeforexample',
     'status': 'proposed',
-    'thumbnailUrl': 'https://github.com/sfbrigade/data-science-wg/raw/master/datascience-wg_header.jpg  ',
+    'thumbnailUrl': 'https://github.com/sfbrigade/data-scienceence-wg/raw/master/datascience-wg_header.jpg  ',
     'bannerUrl': faker.image.people(),
     'bornAt': 'Code for Example',
     'geography': faker.address.city(),
@@ -448,8 +448,8 @@ module.exports = [
     'videos': [],
     'matchingConfig': {
       'interests': [],
-      'skillsNeeded': ['data-sci','data-sci/python','data-sci/visualization','data-sci/machine-learning'],
-      'skillsOffered': ['data-sci'],
+      'skillsNeeded': ['data-science/python','frontend-development/visualization','data-science/machine-learning'],
+      'skillsOffered': ['data-science/python'],
       'goalsNeeded': ['developer','learner']
     },
     'keywords': [
@@ -501,4 +501,4 @@ module.exports = [
       faker.lorem.paragraph() +
       '\n\n| Table | Info | Goes | Here |\n| --- | --- | --- | --- |\n| foo | bar | lorem | ipsum |'
   }
-]
+];
