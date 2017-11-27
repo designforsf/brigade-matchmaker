@@ -1,6 +1,6 @@
 
-define(['underscore','backbone','handlebars','models/ProjectModel', 'text!templates/projects.html'],
-   function(_, Backbone,handlebars, ProjectModel, projectTemplate){
+define(['jquery','underscore','backbone','handlebars','projlistmodel','projlisttemplate'],
+   function(jQuery, _, Backbone, handlebars, ProjectModel, ProjectTemplate){
 
    var ProjectView = Backbone.View.extend({
       // el - stands for element. Every view has a element associate in with HTML content will be rendered.
@@ -9,7 +9,8 @@ define(['underscore','backbone','handlebars','models/ProjectModel', 'text!templa
          "click .changeList":"searchProjects"
       },
       // It's the first function called when this view it's instantiated.
-      template: handlebars.compile(projectTemplate),
+      template: ProjectTemplate, 
+         // NOTE: template is compiled, SEE the README.md
       initialize: function(){
          //Pass in object
          //$.param(obj) --> this is the urlEnding that would get passed to

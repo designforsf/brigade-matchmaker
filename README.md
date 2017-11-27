@@ -312,6 +312,34 @@ The New Member Front-End interacts with the JSON API to generate the search crit
 
 Beyond the new member front-end aspect, the Project Match system also relies on messaging, bookmarks, and project content management.
 
+## Project List
+
+This is a user interface component presenting a list of projects. The project list interacts with the REST API, and by extension, the matching algorithm.
+
+### Installing dependencies
+
+This installs, along with basic dependencies for a Node.js express application, the handlebars utility. 
+
+```
+cd components/project-list
+nvm use v6.9.5
+
+
+```
+
+### Precompiling the HBS template
+
+Project List uses handlebars templates. When updating the template, the handlebars compile command must be run in order to use the template within the application.
+
+```
+cd components/project-list
+nvm use v6.9.5
+./node_modules/handlebars/bin/handlebars -amd js/templates/projects.html -f js/templates/projects.js
+
+```
+
+For more info, SEE: [Using Handlebars with Backbone and RequireJS and Precompiling templates](http://www.remwebdevelopment.com/blog/javascript/using-handlebars-with-backbone-and-requirejs-and-precompiling-templates-182.html)
+
 ## Project Content Management
 
 This service enables project leaders to manage content stored in MongoDB. The data which project leaders manage here is displayed to new members in the Front-End. 
