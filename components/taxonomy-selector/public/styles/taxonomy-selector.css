@@ -1,5 +1,9 @@
 
 
+#taxonomy-selector-container a:hover {
+  cursor: pointer;
+}
+
 #taxonomy-selector-container .item p a {
   padding:0px 0px 5px 0px;
   color: #333;
@@ -148,7 +152,7 @@
 
 
 
-.taxonomy-selector-container {
+.taxonomy-selector-uis-container {
   padding:25px;
 }
 
@@ -178,6 +182,12 @@
   margin:0px;
 }
 
+#taxonomy-selector-skills-container, 
+#taxonomy-selector-learnSkills-container, 
+#taxonomy-selector-interests-container {
+  padding:10px 30px 10px 30px;
+}
+
 #taxonomy-selection-skills-container, 
 #taxonomy-selection-learnSkills-container, 
 #taxonomy-selection-interests-container {
@@ -188,5 +198,10 @@
 #taxonomy-selected-learnSkills-container, 
 #taxonomy-selected-interests-container {
 
+}
+
+#taxonomy-selector-search-button-container {
+  text-align:center;
+  padding:20px;
 }
 

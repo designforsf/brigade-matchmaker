@@ -81,23 +81,46 @@
 
           //console.log('Load onClick for ' + 'taxonomy-selector-' + taxonomyName + '-container');
           jQuery('#taxonomy-selector-' + selectedTaxonomy + '-container').click(function() {
-            console.log('Click ' + 'taxonomy-selector-' + selectedTaxonomy + '-container');
             
             var prevTaxonomy = self.selectedTaxonomy;
-            self.selectedTaxonomy = selectedTaxonomy;
 
-            /* 
-              NOTE: issues with masonry required the use of scratchpads
-            */
 
-            // copy the content back to its scratchpad
-            var prevHtml = jQuery('#taxonomy-selection-display').html();
-            jQuery('#taxonomy-selection-' + prevTaxonomy + '-container').html(prevHtml);
+            // user has clicked twice on a taxonomy
+            //    retract the previously selected taxonomy display
 
-            // cut/paste the content in from its scratchpad
-            var selectedHtml = jQuery('#taxonomy-selection-' + selectedTaxonomy + '-container').html();
-            jQuery('#taxonomy-selection-display').html(selectedHtml);
-            jQuery('#taxonomy-selection-' + selectedTaxonomy + '-container').html('');
+            if (prevTaxonomy == selectedTaxonomy) {
+              console.log('Unselect ' + 'taxonomy-selector-' + selectedTaxonomy + '-container');
+              self.selectedTaxonomy = undefined;
+
+              // copy the content back to its scratchpad
+              var prevHtml = jQuery('#taxonomy-selection-display').html();
+              jQuery('#taxonomy-selection-' + prevTaxonomy + '-container').html(prevHtml);
+
+              // clear out the display
+              jQuery('#taxonomy-selection-display').html("");              
+
+            // user has clicked on a new taxonomy
+            //    display the selected taxonomy
+
+            } else {
+              console.log('Select ' + 'taxonomy-selector-' + selectedTaxonomy + '-container');
+              self.selectedTaxonomy = selectedTaxonomy;
+
+              /* 
+                NOTE: issues with masonry required the use of scratchpads
+              */
+
+              // copy the content back to its scratchpad
+              var prevHtml = jQuery('#taxonomy-selection-display').html();
+              jQuery('#taxonomy-selection-' + prevTaxonomy + '-container').html(prevHtml);
+
+              // cut/paste the content in from its scratchpad
+              var selectedHtml = jQuery('#taxonomy-selection-' + selectedTaxonomy + '-container').html();
+              jQuery('#taxonomy-selection-display').html(selectedHtml);
+              jQuery('#taxonomy-selection-' + selectedTaxonomy + '-container').html('');
+
+            }
+
 
           });
         })
