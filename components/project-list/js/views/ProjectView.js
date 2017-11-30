@@ -51,18 +51,27 @@ define(['jquery','underscore','backbone','handlebars','projlistmodel','projlistt
       },
 
       //This will take in a url and find new matches
-      searchProjects: function(url){
-         var taxonomyObj = {
+      searchProjects: function(taxonomyObj) {
+         console.log('ProjectView.searchProjects', taxonomyObj);
+
+         var taxonomyObj = taxonomyObj || {
             "skills":["client-dev/javascript","data-sci/python"],
+            "learnSkills":[],
             "interests":["housing"],
-            "goals":["developer", "presenter"]
          };
          this.model.searchProjects(taxonomyObj);
          this.listenTo(this.model, 'sync', this.render);
          var _this = this;
          this.model.fetch({ success: function(res){
+
+            // QUESTION: is this the right place to put this Lockr.set?
+            Lockr.set('projects', {
+               data: res.attributes.data
+            });
+
             //Combines cached data with new list order
             _this.model.combineData(res.attributes);
+
          }});
          //Renders the view with the new order of data
          this.render();

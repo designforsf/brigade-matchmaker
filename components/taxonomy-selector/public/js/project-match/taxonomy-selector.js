@@ -7,6 +7,9 @@
 
   var Handlebars;
 
+
+  self.generateMatchCb = undefined;
+
   /*
     
     useful data
@@ -61,10 +64,19 @@
     loads click handlers
     loads taxonomy data into the UI
     
+
+    attrs:
+      generateMatchCb
+
   */
 
 
   self.init = function (attr) {
+
+    // generate match function
+    self.generateMatchCb = attr.generateMatchCb || function () {
+      console.log('default generate match callback');
+    }
 
     // wait until page loads
     jQuery(document).ready(function () {
@@ -390,6 +402,17 @@
       }
     ); // END require
   }
+
+
+  /*
+    generate match
+  */
+
+  self.generateMatch = function (attr) {
+    console.log('ProjectMatch.TaxonomySelector.generateMatch()');
+    self.generateMatchCb(attr);
+  }
+
 
   /*
     handlebars templates

@@ -58,16 +58,24 @@ block content
     require(['projlistview','projlistmodel','taxsel', 'taxselmodel'], 
       function(ProjectView, ProjectModel, TaxonomySelector, TaxonomyModel) {
 
-      // taxonomy selector component
-      ProjectMatch.TaxonomySelector.init({});
-
-
       // project list component
-      new ProjectView({
+      projView = new ProjectView({
         skills: ["java", "react"],
         interests: ["webDev"],
         learning: ["node"]
        });
+
+      // taxonomy selector component
+      ProjectMatch.TaxonomySelector.init({
+        generateMatchCb: function () {
+          projView.searchProjects({
+            "skills":["client-dev/javascript"],
+            "learnSkills":[],
+            "interests":[],
+          })
+        }
+      });
+
     });
 
 
