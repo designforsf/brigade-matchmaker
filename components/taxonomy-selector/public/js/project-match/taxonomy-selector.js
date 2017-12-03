@@ -365,6 +365,11 @@
 
   } // END self.unselectItem
 
+
+  /* 
+    index of named items
+  */
+
   self.indexOfNamedItems = function (items, name) {
     for (i=0; i<items.length; i++) {
       console.log('index of named item ' + i +  ' ', items[i]);
@@ -372,6 +377,48 @@
       if (items[i].name == name) return i;
     }
     return -1;
+  },
+
+
+
+  /*
+    get selection
+
+    returns a hash containing arrays of user-selected items from the taxonomies:
+    skills, learnSkills, and interests
+
+    {
+      "skills":["client-dev/javascript","server-dev/nodejs"],
+      "learnSkills":[],
+      "interests":[],
+    }
+
+  */
+
+  self.getSelection = function () {
+    var selection = {};
+    self.taxonomies.forEach(function (taxonomyName) { 
+      
+      // set up the taxonomy array
+      selection[taxonomyName]=[]; 
+
+      // taxonomy data (hierarchical)
+      var data = self.selectedItemsData[taxonomyName];
+
+      // sections
+      for (var section in data.itemsBySection) {
+        // items
+        data.itemsBySection[section]['items'].forEach(function(itemData) {
+          // push in the selected item
+          selection[taxonomyName].push(section + '/' + itemData.name);
+        });
+      }
+
+
+    });
+
+    return selection;
+
   }
 
 

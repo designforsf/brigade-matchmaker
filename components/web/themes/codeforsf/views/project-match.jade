@@ -62,13 +62,20 @@ block content
       projView = new ProjectView({ skills:[], learnSkills:[], interests:[] });
 
       // taxonomy selector component
-      ProjectMatch.TaxonomySelector.init({
+      var taxonomySel = ProjectMatch.TaxonomySelector;
+      taxonomySel.init({
         generateMatchCb: function () {
+
+          projView.searchProjects(taxonomySel.getSelection());
+
+          /*
           projView.searchProjects({
             "skills":["client-dev/javascript","server-dev/nodejs"],
             "learnSkills":[],
             "interests":[],
           })
+          */
+
         }
       });
 
