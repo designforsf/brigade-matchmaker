@@ -41,4 +41,4 @@ config/*.js
 npm-debug.log
 node_modules
 
-
+credentials.js
