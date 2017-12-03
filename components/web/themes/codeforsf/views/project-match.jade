@@ -59,17 +59,13 @@ block content
       function(ProjectView, ProjectModel, TaxonomySelector, TaxonomyModel) {
 
       // project list component
-      projView = new ProjectView({
-        skills: ["java", "react"],
-        interests: ["webDev"],
-        learning: ["node"]
-       });
+      projView = new ProjectView({ skills:[], learnSkills:[], interests:[] });
 
       // taxonomy selector component
       ProjectMatch.TaxonomySelector.init({
         generateMatchCb: function () {
           projView.searchProjects({
-            "skills":["client-dev/javascript"],
+            "skills":["client-dev/javascript","server-dev/nodejs"],
             "learnSkills":[],
             "interests":[],
           })

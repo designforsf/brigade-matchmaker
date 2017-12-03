@@ -145,6 +145,10 @@
           self.renderSelection(taxonomy, 'learnSkills');
         });
 
+        ProjectMatch.TaxonomyModel.getInterests(function (taxonomy) {
+          self.renderSelection(taxonomy, 'interests');
+        });
+
       }); // END get container
 
     });
@@ -193,6 +197,8 @@
   */
 
   self.renderSelection = function (taxonomy, taxonomyName) {
+    console.log('ProjectMatch.TaxonomySelector.renderSelection taxonomy=' + taxonomyName);
+    console.log(taxonomy);
 
     require(['handlebars', 'masonry'],
       function(Handlebars, Masonry){

@@ -12,14 +12,32 @@ define(['jquery','underscore','backbone','handlebars','projlistmodel','projlistt
       template: ProjectTemplate, 
          // NOTE: template is compiled, SEE the README.md
       initialize: function(){
+         var projView = this;
+
          //Pass in object
          //$.param(obj) --> this is the urlEnding that would get passed to
          // projectModel
+
          //Model gets initialized with all the projects
-         this.model = new ProjectModel("/api/projects");
-         this.listenTo(this.model, 'sync', this.render);
-         this.model.fetch();
-         this.render();
+         projView.model = new ProjectModel("/api/projects");
+
+         // sync callback
+         // on sync: sets data in lockr, renders the template 
+         projView.listenTo(projView.model, 'sync', function (model, res, options) {
+            //console.log('ProjectView.initialize: sync callback');
+            //console.log(res.data);
+
+            // store the projects data in the lockr
+            Lockr.set('projects', { data: res.data });
+
+            // render the template
+            projView.render();
+
+         });
+
+         projView.model.fetch();
+         
+         projView.render();
       },
       render: function(){
          this.$el.html(this.template(this.model.toJSON()));
@@ -55,21 +73,18 @@ define(['jquery','underscore','backbone','handlebars','projlistmodel','projlistt
          console.log('ProjectView.searchProjects', taxonomyObj);
 
          var taxonomyObj = taxonomyObj || {
-            "skills":["client-dev/javascript","data-sci/python"],
+            "skills":[],
             "learnSkills":[],
-            "interests":["housing"],
+            "interests":[],
          };
          this.model.searchProjects(taxonomyObj);
          this.listenTo(this.model, 'sync', this.render);
          var _this = this;
          this.model.fetch({ success: function(res){
 
-            // QUESTION: is this the right place to put this Lockr.set?
-            Lockr.set('projects', {
-               data: res.attributes.data
-            });
-
             //Combines cached data with new list order
+            console.log('combineData with attributes');
+            console.log(res.attributes);
             _this.model.combineData(res.attributes);
 
          }});
