@@ -64,18 +64,10 @@ block content
       // taxonomy selector component
       var taxonomySel = ProjectMatch.TaxonomySelector;
       taxonomySel.init({
+        // callback when the user clicks on the generate match button
         generateMatchCb: function () {
-
+          // search with the current user's taxonomy selection
           projView.searchProjects(taxonomySel.getSelection());
-
-          /*
-          projView.searchProjects({
-            "skills":["client-dev/javascript","server-dev/nodejs"],
-            "learnSkills":[],
-            "interests":[],
-          })
-          */
-
         }
       });
 

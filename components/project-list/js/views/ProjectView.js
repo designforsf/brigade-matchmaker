@@ -18,7 +18,7 @@ define(['jquery','underscore','backbone','handlebars','projlistmodel','projlistt
          //$.param(obj) --> this is the urlEnding that would get passed to
          // projectModel
 
-         //Model gets initialized with all the projects
+         // model gets initialized with all the projects
          projView.model = new ProjectModel("/api/projects");
 
          // sync callback
