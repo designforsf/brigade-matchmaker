@@ -1,168 +1,101 @@
-.boldTitle {
-    font-weight: bold;
-    color: black;
+.container {
+    width: 66%;
+    border: 1px solid lightgray;
+    box-shadow: 2px 3px 2px #ccc;
+
+}
+.project-header {
+    font-weight: 100;
+    font-size: 1.7em;
+    margin: 10px;
+    font-family: sans-serif;
 }
 
-.center-cropped {
-    width: 200px;
-    height: 200px;
-    background-position: center center;
-    background-repeat: no-repeat;
-    overflow: hidden;
-    margin-bottom: 1em;
+.divider {
+    width: 2px;
+    background-color: lightgray;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
-.projectHeader {
+.flex-container{
     display: flex;
-    justify-content: space-between;
+    border: 1px solid lightgray;
+    margin-bottom: 25px;
+    box-shadow: 2px 3px 2px #ccc;
 }
 
-.projectHeader__section {
-    display: flex;
-    align-items: center;
-
+.left {
+    margin: 25px;
+    width: 50%;
 }
 
-.b {
-    display: inline-block;
-    padding: .5em .5em;
-    font-size: 75%;
-    line-height: 1;
-    color: #fff;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: baseline;
-    margin-left: 1em;
-    margin-right: 1em;
-}
-
-.badge-civic {
-    color: #000000;
-    border: 1px solid #004969;
-}
-.badge-learn {
-    color: #000000;
-    border: 1px solid #399FD3;
-
-}
-.badge-contribute {
-    color: #000000;
-    border: 1px solid #CF173F;
-    border-radius: .2em;
-}
-
-.badge-civic-selected {
-    color: #fff;
-    background-color: #004969;
-    border-radius: .2em;
-}
-.badge-learn-selected {
-    color: #fff;
-    background-color: #399FD3;
-    border-radius: .2em;
-}
-.badge-contribute-selected {
-    color: #fff;
-    background-color: #CF173F;
-    border-radius: .2em;
-}
-
-/* Set the image to fill its parent and make transparent */
-.center-cropped img {
-    min-height: 100%;
-    min-width: 100%;
-    /* IE 8 */
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-    /* IE 5-7 */
-    filter: alpha(opacity=0);
-    /* modern browsers */
-    opacity: 0;
-    margin-right: 10px;
-}
-
-.matchingClass {
-    margin: .5em;
-}
-
-.projDesc {
-    border-right-style: solid;
-    border-right-width: .01em;
-    margin-bottom: 1em;
-    border-right-color: lightgray;
-}
-
-.rowUnderline{
-    border-bottom: solid dimgray .02em;
-    margin-bottom: 1em;
-}
-
-.projName {
-    color: #628DA1;
-    padding: .1em;
-    font-size: 1.5em;
-}
-
-
-.rowBorder {
-    border-bottom-color: lightgray;
-    border-bottom-style: solid;
-    border-bottom-width: .01em;
-}
-
-.skills {
-    min-width: 100%;
-}
-
-.thumbnail {
-    margin-right: .5em;
-}
-
-.viewBtn:hover {
-    background-color: #47ADDB;
-    color: white;
-
-}
-
-html,body,ul
-{
-    height: 100%;
-}
-ul
-{
-    display: table;
-    table-layout: fixed;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    padding: 0;
-}
-
-li
-{
-    text-align: center;
-    display: table-row;
-}
-span
-{
-    display: table-cell;
-    vertical-align: top;
-}
-
-.heading-info {
-    font-size: .8em;
-    font-weight: 600;
-    color: #034C6B;
-    float: right;
+.right {
+    margin: 25px;
+    width: 50%;
 }
 
 .project-info {
-    align-self: flex-end;
-    text-align: right;
+    font-size: 1.2em;
+    font-family: sans-serif;
+    margin-bottom: 25px;
+    font-weight: lighter;
+
 }
 
-.project-list {
-    padding: 0;
+.tag-title {
+    font-family: sans-serif;
+    font-size: .9em;
+    font-weight: bold;
 }
 
-.flex-container {
+.tag-container {
     display: flex;
 }
+
+.tag {
+    padding: 4px;
+    font-family: sans-serif;
+    font-size: .8em;
+    margin: 5px;
+    border-radius: 4px;
+}
+
+.skills-tag {
+    border: 1px solid #AA193A;
+}
+
+.opportunities-tag {
+    border: 1px solid #3DA1D2;
+}
+
+.interest-tag {
+    border: 1px solid #123D51;
+}
+
+.project-title {
+    font-size: 1.3em;
+    font-family: sans-serif;
+    font-weight: 400;
+}
+
+.description {
+    margin-top: 25px;
+    color: gray;
+    font-size: .9em;
+    color: #5E5E5E;
+}
+
+.contact-btn {
+    background-color: #17A277;
+    margin-top: 25px;
+    align-items: center;
+    height: 2.5em;
+    display: flex;
+    justify-content: center;
+    font-family: sans-serif;
+    color: white;
+    border-radius: 3px;
+}
+
+

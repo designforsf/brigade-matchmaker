@@ -22,9 +22,9 @@ define(['underscore','backbone','handlebars','models/ProjectModel', 'text!templa
       },
       render: function(){
          this.$el.html(this.template(this.model.toJSON()));
-         this.colorTags("skills", "skillsMatched", "navy");
-         this.colorTags("interests", "interestsMatched", "blue");
-         this.colorTags("goals", "skillsMatched", "red");
+         this.colorTags("skills", "skillsMatched", "#AA193A");
+         this.colorTags("interests", "interestsMatched", "#3DA1D2");
+         this.colorTags("goals", "skillsMatched", "#123D51");
 
       },
 
