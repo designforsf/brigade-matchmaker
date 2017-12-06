@@ -27,6 +27,7 @@ var path = require('path')
 var requireDir = require('require-dir')
 var pkg = require('./package.json')
 var router = express.Router()
+var path = require("path")
 require('colors')
 
 /**
@@ -233,33 +234,7 @@ app.use(function (req, res, next) {
 app.get('/login-old', homeCtrl.index)
 var pt = new ProjectTaxonomies();
 
-app.get('/',
-  function (req, res, next) {
-    pt.getSkills(function (err, results) {
-      if (err) throw err
-      res.locals = res.locals || {}
-      res.locals.projectTaxonomySkills = results
-      next()
-    })
-  },
-  function (req, res, next) {
-    pt.getInterests(function (err, results) {
-      if (err) throw err
-      res.locals = res.locals || {}
-      res.locals.projectTaxonomyInterests = results
-      next()
-    })
-  },
-  function (req, res, next) {
-    pt.getGoals(function (err, results) {
-      if (err) throw err
-      res.locals = res.locals || {}
-      res.locals.projectTaxonomyGoals = results
-      next()
-    })
-  },
-  homeCtrl.projectList
-)
+app.get('/',homeCtrl.projectList)
 
 /**
 /* PK 4_24 /projects and /matching no longer used
@@ -545,6 +520,18 @@ function startServer () {
   })
   app.use(favicon(path.join(__dirname, 'themes/' + brigadeDetails.theme.slug + '/public', 'favicon.png')))
   app.use(express.static(path.join(__dirname, 'themes/' + brigadeDetails.theme.slug + '/public'), { maxAge: 31557600000 }))
+  
+  // static resources for components
+  app.use("/common", 
+    express.static(path.resolve(__dirname, '../common/public')));
+  app.use("/components/project-list", 
+    express.static(path.resolve(__dirname, '../project-list')));
+  app.use("/components/taxonomy-selector", 
+    express.static(path.resolve(__dirname, '../taxonomy-selector/public')));
+
+  // for development
+  app.locals.pretty = true; // sets jade/pug HTML to render pretty
+
   app.listen(app.get('port'), function () {
     console.log('[BrigadeMatchmaker]'.yellow + ' Server listening on port', app.get('port'))
   })

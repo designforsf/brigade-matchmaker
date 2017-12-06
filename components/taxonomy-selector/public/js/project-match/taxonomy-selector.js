@@ -1,9 +1,15 @@
+
+
 (function (PM) {
 
-
-	ProjectMatch.TaxonomySelector = {};
+  ProjectMatch.TaxonomySelector = {};
   var self = ProjectMatch.TaxonomySelector;
-  
+
+  var Handlebars;
+
+
+  self.generateMatchCb = undefined;
+
   /*
     
     useful data
@@ -58,13 +64,24 @@
     loads click handlers
     loads taxonomy data into the UI
     
+
+    attrs:
+      generateMatchCb
+
   */
 
 
   self.init = function (attr) {
 
+    // generate match function
+    self.generateMatchCb = attr.generateMatchCb || function () {
+      console.log('default generate match callback');
+    }
+
     // wait until page loads
     jQuery(document).ready(function () {
+
+      console.log('ProjectMatch.TaxonomySelector.init()');
 
       self.renderContainer(function (err, output) {
         console.log('called renderContainer ', output)
@@ -76,23 +93,46 @@
 
           //console.log('Load onClick for ' + 'taxonomy-selector-' + taxonomyName + '-container');
           jQuery('#taxonomy-selector-' + selectedTaxonomy + '-container').click(function() {
-            console.log('Click ' + 'taxonomy-selector-' + selectedTaxonomy + '-container');
             
             var prevTaxonomy = self.selectedTaxonomy;
-            self.selectedTaxonomy = selectedTaxonomy;
 
-            /* 
-              NOTE: issues with masonry required the use of scratchpads
-            */
 
-            // copy the content back to its scratchpad
-            var prevHtml = jQuery('#taxonomy-selection-display').html();
-            jQuery('#taxonomy-selection-' + prevTaxonomy + '-container').html(prevHtml);
+            // user has clicked twice on a taxonomy
+            //    retract the previously selected taxonomy display
 
-            // cut/paste the content in from its scratchpad
-            var selectedHtml = jQuery('#taxonomy-selection-' + selectedTaxonomy + '-container').html();
-            jQuery('#taxonomy-selection-display').html(selectedHtml);
-            jQuery('#taxonomy-selection-' + selectedTaxonomy + '-container').html('');
+            if (prevTaxonomy == selectedTaxonomy) {
+              console.log('Unselect ' + 'taxonomy-selector-' + selectedTaxonomy + '-container');
+              self.selectedTaxonomy = undefined;
+
+              // copy the content back to its scratchpad
+              var prevHtml = jQuery('#taxonomy-selection-display').html();
+              jQuery('#taxonomy-selection-' + prevTaxonomy + '-container').html(prevHtml);
+
+              // clear out the display
+              jQuery('#taxonomy-selection-display').html("");              
+
+            // user has clicked on a new taxonomy
+            //    display the selected taxonomy
+
+            } else {
+              console.log('Select ' + 'taxonomy-selector-' + selectedTaxonomy + '-container');
+              self.selectedTaxonomy = selectedTaxonomy;
+
+              /* 
+                NOTE: issues with masonry required the use of scratchpads
+              */
+
+              // copy the content back to its scratchpad
+              var prevHtml = jQuery('#taxonomy-selection-display').html();
+              jQuery('#taxonomy-selection-' + prevTaxonomy + '-container').html(prevHtml);
+
+              // cut/paste the content in from its scratchpad
+              var selectedHtml = jQuery('#taxonomy-selection-' + selectedTaxonomy + '-container').html();
+              jQuery('#taxonomy-selection-display').html(selectedHtml);
+              jQuery('#taxonomy-selection-' + selectedTaxonomy + '-container').html('');
+
+            }
+
 
           });
         })
@@ -101,8 +141,12 @@
         // load the selection containers
 
         ProjectMatch.TaxonomyModel.getSkills(function (taxonomy) {
-          self.renderSelection(taxonomy, 'skills');
-          self.renderSelection(taxonomy, 'learnSkills');
+          self.renderSelection(taxonomy, 'skills', 2);
+          self.renderSelection(taxonomy, 'learnSkills', 2);
+        });
+
+        ProjectMatch.TaxonomyModel.getInterests(function (taxonomy) {
+          self.renderSelection(taxonomy, 'interests', 1);
         });
 
       }); // END get container
@@ -123,16 +167,23 @@
   */
 
   self.renderContainer = function (cb) {
-    jQuery.get('./templates/container.html', function(hbrTemplate, status) {
-      var template = Handlebars.compile(hbrTemplate);
-      var context = {};
-      var renderedHtml = template(context);
-      jQuery('#taxonomy-selector-container').html(renderedHtml);
-      cb(null,{
-        template: template,
-        context: context,
-        renderedHtml: renderedHtml
-      });
+    console.log('ProjectMatch.TaxonomySelector.renderContainer()');
+    
+    require(['taxseltemplate'],
+      function(Template){
+
+        //var template = Handlebars.compile(hbrTemplate);
+
+        var context = {};
+        var renderedHtml = Template(context);
+        console.log(Template);
+        jQuery('#taxonomy-selector-container').html(renderedHtml);
+        cb(null,{
+          template: Template,
+          context: context,
+          renderedHtml: renderedHtml
+        });
+
     });
 
   }
@@ -145,81 +196,104 @@
     
   */
 
-  self.renderSelection = function (taxonomy, taxonomyName) {
+  self.renderSelection = function (taxonomy, taxonomyName, hierarchyLevels) {
+
+    // default levels = 2
+    if (typeof hierarchyLevels === 'undefined') hierarchyLevels = 2 ;
+
+    console.log('ProjectMatch.TaxonomySelector.renderSelection'
+      + ' taxonomy=' + taxonomyName
+      + ' levels=' + hierarchyLevels);
     //console.log(taxonomy);
-    var hbrTemplate = self.templates.selection;
 
-    // render the taxonomy into something more easily used by handlebars
-    itemsBySection = {};
-    var taxonomySet, currSection;
-    taxonomy.forEach(function (item) {
-      
-      // the root item
-      if (!item.parent) {
-        taxonomySet = item.name
-      } 
+    require(['handlebars', 'masonry'],
+      function(Handlebars, Masonry){
 
-      // item section
-      if (item.parent == taxonomySet && item.title) {
-        //console.log('section ' + item.name + ' - ' + item.title);
-        currSection = item.name;
-        itemsBySection[item.name] = {
-          name: item.name,
-          title: item.title,
-          parent: item.parent,
-          items: []
-        };
-        //console.log(itemsBySection[item.name]);
-      }
+        //console.log(taxonomy);
+        var hbrTemplate = self.templates.selection;
 
-      // item (has parent, parent is current section)
-      if (item.parent && item.parent == currSection) {
-        //console.log('item parent=' + item.parent);
-        //console.log(' > ' + item.name);
-        itemsBySection[item.parent].items.push(item);
-      }
+        // render the taxonomy into something more easily used by handlebars
+        itemsBySection = {};
+        var taxonomySet, currSection;
+        taxonomy.forEach(function (item) {
+          
+          // the root item
+          if (!item.parent) {
+            taxonomySet = item.name
+          } 
 
-    });
+          // item section
+          if (
+            // 1 level hierarchy, 1 section containing all items
+            (hierarchyLevels == 1 && !item.parent) 
+              ||
+            // 2+ level hierarchy, multiple sections
+            (hierarchyLevels > 1 && item.parent == taxonomySet)
+            ) {
+            console.log(taxonomySet + ' section ' + item.name + ' - ' + item.title);
+            currSection = item.name;
 
+            itemsBySection[currSection] = {
+              name: item.name,
+              title: item.title,
+              parent: item.parent,
+              items: []
+            };
+            //console.log(itemsBySection[item.name]);
+          }
 
-    // handlebars rendering
-    // ----------------------------------------------------
-    var template = Handlebars.compile(hbrTemplate);
+          // item (has parent, parent is current section)
+          if (item.parent && item.parent == currSection) {
+            console.log('item parent=' + item.parent);
+            console.log(' > ' + item.name);
 
-    var context = {
-      taxonomy: taxonomy,
-      taxonomyName: taxonomyName,
-      itemsBySection: itemsBySection,
-    };
+            itemsBySection[item.parent].items.push(item);
 
-    var renderedHtml = template(context);
-    $('#taxonomy-selection-' + taxonomyName).html(renderedHtml);
-    //console.log(renderedHtml);
+          }
 
-
-    // masonry
-    // ----------------------------------------------------
-    // SEE: https://masonry.desandro.com
-
-    // configure masonry obj
-    var msnry = new Masonry( '#taxonomy-selection', {
-      initLayout: false, // delays the layout so that events can be defined
-      horizontalOrder: true,
-      itemSelector: '.item'
-    });
-
-    // define masonry events
-    msnry.on( 'layoutComplete',
-      function( laidOutItems ) {
-        laidOutItems.forEach(function (item) {
-          //console.log( 'Masonry item ', item);
         });
-        
-      }
-    );
 
-    // init masonry layout
-    msnry.layout();
+        // handlebars rendering
+        // ----------------------------------------------------
+        var template = Handlebars.compile(hbrTemplate);
+
+        var context = {
+          taxonomy: taxonomy,
+          taxonomyName: taxonomyName,
+          itemsBySection: itemsBySection,
+        };
+
+        var renderedHtml = template(context);
+        $('#taxonomy-selection-' + taxonomyName).html(renderedHtml);
+        //console.log(renderedHtml);
+
+
+        // masonry
+        // ----------------------------------------------------
+        // SEE: https://masonry.desandro.com
+
+        // configure masonry obj
+        var msnry = new Masonry( '#taxonomy-selection', {
+          initLayout: false, // delays the layout so that events can be defined
+          horizontalOrder: true,
+          itemSelector: '.item'
+        });
+
+        // define masonry events
+        msnry.on( 'layoutComplete',
+          function( laidOutItems ) {
+            laidOutItems.forEach(function (item) {
+              //console.log( 'Masonry item ', item);
+            });
+            
+          }
+        );
+
+        // init masonry layout
+        msnry.layout();
+
+      }
+    ); // END require
 
 
   };
@@ -291,28 +365,82 @@
     console.log('unselectItem ' + taxonomyName + '/' + parentItemName + '/' + itemName);
     
     var data = self.selectedItemsData[taxonomyName];
-    console.log(data);
+    //console.log(data);
 
     if (data['itemsBySection'][parentItemName]) {
-      //var itemIndex = data['itemsBySection'][parentItemName]['items'].indexOf(itemName);
       var itemIndex = self.indexOfNamedItems(data['itemsBySection'][parentItemName]['items'], itemName);
-      console.log('REMOVE item ' + itemIndex);
+      console.log('REMOVE ' + parentItemName + ' item ' + itemIndex);
 
-      delete data['itemsBySection'][parentItemName]['items'][itemIndex];
-      console.log(data['itemsBySection']);
+      // remove the item
+      data['itemsBySection'][parentItemName]['items'].splice(itemIndex, 1);
+
+      // if no items left, delete the section
+      if (data['itemsBySection'][parentItemName]['items'].length == 0) {
+        console.log('REMOVE section ' + parentItemName);
+        delete data['itemsBySection'][parentItemName]
+      }
+
+      //console.log(data['itemsBySection']);
     }
 
     self.renderSelected();
 
   } // END self.unselectItem
 
+
+  /* 
+    index of named items
+  */
+
   self.indexOfNamedItems = function (items, name) {
     for (i=0; i<items.length; i++) {
-      console.log('index of named item ' + i +  ' ', items[i]);
-      console.log(items[i].name + ' == ' + name + ' ', (items.name == name));
+      //console.log('index of named item ' + i +  ' ', items[i]);
+      //console.log(items[i].name + ' == ' + name + ' ', (items.name == name));
       if (items[i].name == name) return i;
     }
     return -1;
+  },
+
+
+
+  /*
+    get selection
+
+    returns a hash containing arrays of user-selected items from the taxonomies:
+    skills, learnSkills, and interests
+
+    {
+      "skills":["client-dev/javascript","server-dev/nodejs"],
+      "learnSkills":[],
+      "interests":[],
+    }
+
+  */
+
+  self.getSelection = function () {
+    var selection = {};
+    self.taxonomies.forEach(function (taxonomyName) { 
+      
+      // set up the taxonomy array
+      selection[taxonomyName]=[]; 
+
+      // taxonomy data (hierarchical)
+      var data = self.selectedItemsData[taxonomyName];
+
+      // sections
+      for (var section in data.itemsBySection) {
+        // items
+        data.itemsBySection[section]['items'].forEach(function(itemData) {
+          // push in the selected item
+          selection[taxonomyName].push(section + '/' + itemData.name);
+        });
+      }
+
+
+    });
+
+    return selection;
+
   }
 
 
@@ -326,24 +454,40 @@
   */
 
   self.renderSelected = function (selectedTaxonomy) {
-    var hbrTemplate = self.templates.selected;
-    var template = Handlebars.compile(hbrTemplate);
-    selectedTaxonomy = selectedTaxonomy || self.selectedTaxonomy;
-    //console.log('renderSelected ' + selectedTaxonomy);
 
-    var context = {
-      taxonomyName: selectedTaxonomy,
-      itemsBySection: self.selectedItemsData[selectedTaxonomy]['itemsBySection'],
-    };
+    require(['handlebars'],
+      function(Handlebars){
 
-    //console.log(self.selectedItems);
-    //console.log(context);
+        var hbrTemplate = self.templates.selected;
+        var template = Handlebars.compile(hbrTemplate);
+        selectedTaxonomy = selectedTaxonomy || self.selectedTaxonomy;
+        //console.log('renderSelected ' + selectedTaxonomy);
 
-    var renderedHtml = template(context);
-    //console.log(renderedHtml);
-    $('#taxonomy-selected-' + selectedTaxonomy).html(renderedHtml);
+        var context = {
+          taxonomyName: selectedTaxonomy,
+          itemsBySection: self.selectedItemsData[selectedTaxonomy]['itemsBySection'],
+        };
 
+        //console.log(self.selectedItems);
+        //console.log(context);
+
+        var renderedHtml = template(context);
+        //console.log(renderedHtml);
+        $('#taxonomy-selected-' + selectedTaxonomy).html(renderedHtml);
+      }
+    ); // END require
   }
+
+
+  /*
+    generate match
+  */
+
+  self.generateMatch = function (attr) {
+    console.log('ProjectMatch.TaxonomySelector.generateMatch()');
+    self.generateMatchCb(attr);
+  }
+
 
   /*
     handlebars templates
@@ -378,9 +522,12 @@
       {{#each itemsBySection}}
 
           <div class="item">
+
+            {{#if title}}
             <p>
               <strong>{{title}}</strong>
             </p>
+            {{/if}}
 
             {{#each items}}
               <p><a onClick="ProjectMatch.TaxonomySelector.selectItem('{{../../taxonomyName}}', '{{../name}}','{{name}}'); return undefined;">{{name}}</a></p>
@@ -392,6 +539,5 @@
     </div>
   `
   };
-
 
 }) (( window.ProjectMatch=window.ProjectMatch || {}));

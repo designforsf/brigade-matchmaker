@@ -15,25 +15,29 @@
       <div class="well" id="taxonomy-selected-interests">&nbsp;</div>
     </div>
   </div>
+</div>
+
+
+
+<div class="container" id="taxonomy-selector-uis-container">
+
+<div class="panel panel-default">
 
   <div class="row">
 
-    <div class="col-md-4" 
-      class="taxonomy-selector-container" 
+    <div class="col-md-4"  
       id="taxonomy-selector-skills-container">
         <a>Choose skills to contribute</a>
         <span class="contributeSkillsSelections glyphicon glyphicon-chevron-down" style="padding:5px;"></span>
     </div>
 
     <div class="col-md-4" 
-      class="taxonomy-selector-container" 
       id="taxonomy-selector-learnSkills-container">
         <a>Choose skills to learn</a>
         <span class="contributeSkillsSelections glyphicon glyphicon-chevron-down" style="padding:5px;"></span>
     </div>
 
     <div class="col-md-4" 
-      class="taxonomy-selector-container" 
       id="taxonomy-selector-interests-container">
         <a>Choose civic interests</a>
         <span class="contributeSkillsSelections glyphicon glyphicon-chevron-down" style="padding:5px;"></span>
@@ -42,6 +46,14 @@
   </div>
 
   <div id="taxonomy-selection-display"></div>
+
+  <div id="taxonomy-selector-search-button-container">
+    <button type="button" class="btn btn-success btn-lg"
+      id="taxonomy-selector-search-button"
+      onclick="ProjectMatch.TaxonomySelector.generateMatch();">Generate Match</button>
+  </div>
+
+</div>
 
 </div>
 

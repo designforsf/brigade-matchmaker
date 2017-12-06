@@ -1,12 +1,11 @@
 {
-    "name": "project-match-taxonomy-selector",
-    "description": "Component to provide a taxonomy selector UI, enabling users to interact with the matching algo and the project list.",
+    "name": "project-match-project-list",
+    "description": "Component to provide a project list user interface.",
     "version": "0.9.0",
     "homepage": "",
     "author": {
-        "name": "James Pitts",
-        "email": "james.pitts@gmail.com",
-        "url": "https://github.com/jpitts"
+        "name": "aschmiedt",
+        "url": "https://github.com/aschmiedt"
     },
     "repository": {
         "type": "git",

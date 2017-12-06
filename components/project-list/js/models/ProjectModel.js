@@ -11,6 +11,8 @@ define(['underscore', 'backbone', 'lockr'],
          this.urlEnding = urlEnding;
       },
       searchProjects: function(taxonomyObj) {
+         console.log('ProjectModel.searchProjects');
+
          var url = "/api/user/matches";
          $.each( taxonomyObj, function( key, value ) {
             url += "?" + key + "=";
@@ -24,6 +26,7 @@ define(['underscore', 'backbone', 'lockr'],
          this.urlEnding = url;
       },
       combineData: function(res) {
+         console.log('ProjectModel.combineData');
          var arr = [];
          $.each(res.data, function(idx, val){
             var result = $.grep(Lockr.get('projects').data, function(e){
