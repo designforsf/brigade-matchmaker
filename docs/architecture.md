@@ -3,12 +3,12 @@
 
 Project Match is a system consisting of the following components:
 
-* **Database** - MongoDB
-* **Data Models** - Mongoose
-* **Web App** and **JSON API** -  Node.js / Express / Pug / jQuery
+* **Data Structures** - MongoDB, Mongoose, project participation taxonomy
+* **Web App** and **REST API** -  Node.js, Express, Pug
 * **Matching Algorithm** - python
-* **Messaging Service** - Node.js / Express
-* **Project Content Management** - EmberJS / Bootstrap
+* **UI Components** - RequireJS, Handlebars, jQuery, Backbone, Bootstrap
+* **Messaging Service** - Node.js, Express, Slack API
+* **Admin / Project CMS** - EmberJS, Bootstrap
 * **Test Scripts** - bash and wget
 
 ## Data Structures
@@ -30,7 +30,7 @@ The project volunteering taxonomy provides sets of useful keywords which users s
 **Interests** - 1-level hierarchy, example: "housing"
 
 
-## Web App and JSON REST API
+## Web App and REST API
 
 The webapp generates the web interface for users, controls how data is updated, and accesses the matchmaking function. 
 
@@ -87,7 +87,7 @@ The Front-End sends emails from new members to project leads via an API hosted b
 
 ---
 
-## Admin / Project Content Management
+## Admin / Project CMS
 
 This component enables project leads to update project-related data, including the skills needed, learning opportunities, and civic interests. This component is rendered by EmberJS and interacts with the JSON API.
 

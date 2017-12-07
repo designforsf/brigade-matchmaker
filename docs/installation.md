@@ -228,7 +228,7 @@ For more info, SEE: [Using Handlebars with Backbone and RequireJS and Precompili
 
 ---
 
-## Installing Project Content Management
+## Installing Admin / Project CMS
 
 This service enables project leaders to manage content stored in MongoDB. The data which project leaders manage here is displayed to new members in the Front-End. 
 
