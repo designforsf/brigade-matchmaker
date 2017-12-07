@@ -66,30 +66,30 @@ Vagrant.configure("2") do |config|
   # documentation for more information about their specific syntax and use.
   config.vm.provision "file", source: "./vagrant_fs", destination: "$HOME/fs"
   config.vm.provision "shell", inline: <<-SHELL
-    yum install -y deltarpm rsync
+    rpm --silent -q deltarpm rsync || yum install -y deltarpm rsync
     rsync -rv /home/vagrant/fs/ /
 
     # Update packages and install dependencies
     yum update
-    yum install -y gcc gcc-c++ git mongodb-org openssl-devel
+    rpm --silent -q gcc gcc-c++ git mongodb-org openssl-devel || yum install -y gcc gcc-c++ git mongodb-org openssl-devel
 
     # Install python libraries for matching algo
-    curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
-    python get-pip.py
+    command -v pip > /dev/null || curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
+    command -v pip > /dev/null || python get-pip.py
     pip install pymongo==3.4
 
     # Install NVM
     export NVM_DIR="/opt/nvm"
-    curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | bash
+    command -v nvm > /dev/null || curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | bash
     [ -s "${NVM_DIR}/nvm.sh" ] && source "${NVM_DIR}/nvm.sh"
     nvm --version
 
     # Install node
-    nvm install v6.9.5
+    nvm list | grep -qE -- "(->|)\s+v6.9.5\s*" || nvm install v6.9.5
 
     # Install ember-client requirements
-    nvm install v6.11.1
-    NODE_VERSION=6.11.1 /opt/nvm/nvm-exec npm install -g ember-cli@2.14
+    nvm list | grep -qE -- "(->|)\s+v6.11.1\s*" || nvm install v6.11.1
+    NODE_VERSION=6.11.1 /opt/nvm/nvm-exec npm list -g ember-cli || NODE_VERSION=6.11.1 /opt/nvm/nvm-exec npm install -g ember-cli@2.14
 
     # Configure frontend
     [ -e "/opt/brigade-matchmaker/components/web/.env" ] || cp -p /opt/brigade-matchmaker/components/web/heroku.env.example /opt/brigade-matchmaker/components/web/.env
@@ -99,8 +99,10 @@ Vagrant.configure("2") do |config|
     sudo -u vagrant NODE_VERSION=6.9.5 /opt/nvm/nvm-exec npm --prefix /opt/brigade-matchmaker/components/messaging install
 
     # Configure content management
-    sudo -u vagrant NODE_VERSION=6.11.1 /opt/nvm/nvm-exec npm --prefix /opt/brigade-matchmaker/components/ember-client install
-    sudo -u vagrant NODE_VERSION=6.11.1 (cd /opt/brigade/matchmaker/components/ember-client && /opt/nvm/nvm-exec ember build)
+    if [ -d /opt/brigade/matchmaker/components/ember-client ]; then
+      sudo -u vagrant NODE_VERSION=6.11.1 /opt/nvm/nvm-exec npm --prefix /opt/brigade-matchmaker/components/ember-client install
+      sudo -u vagrant NODE_VERSION=6.11.1 bash -c '(cd /opt/brigade-matchmaker/components/ember-client && /opt/nvm/nvm-exec ember build)'
+    fi
 
     # Start mongodb
     systemctl enable mongod
@@ -109,5 +111,8 @@ Vagrant.configure("2") do |config|
     # Start applications
     systemctl enable brigade-matchmaker.target
     systemctl start brigade-matchmaker.target
+
+    # Tell the user
+    echo "Provisioning complete!"
   SHELL
 end
