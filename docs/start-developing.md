@@ -75,7 +75,7 @@ cd brigade-matchmaker/components/notifications
 node app.js
 ```
 
-Please now visit the new member front-end at [http://localhost:5455](http://localhost:5455). Doing so will now load the test data!
+Please now visit the Notifications component at [http://localhost:5455](http://localhost:5455).
 
 # Client-side Development
 
