@@ -1,0 +1,7 @@
+[Unit]
+After=brigade-matchmaker-web.service
+Description=Brigade Matchmaker
+ExecReload=/bin/true
+PropagatesReloadTo=brigade-matchmaker-ember-client.service brigade-matchmaker-messaging.service brigade-matchmaker-web.service
+Requires=brigade-matchmaker-web.service
+Wants=brigade-matchmaker-ember-client.service brigade-matchmaker-messaging.service brigade-matchmaker-web.service
