@@ -20,31 +20,39 @@ This service is the result of extensive [UX research conducted at Code For San F
 
 User experience research at Code4SF is run by members of the [UX Research Group](https://github.com/sfbrigade/research-group).
 
-# Architecture
-
-Project Match organizes its functionality into components, each of which may combine Node.js, client-side javascript, and python.
-
-See [docs/architecture.md](https://github.com/designforsf/brigade-matchmaker/tree/master/docs/architecture.md) for details.
-
 # Start Developing
 
-**Attention new developers on the project!** - get started by installing the Notifications UI component, join our Slack channel, and learn about the development process. 
+**Attention new developers on the project!** - get started by installing the Notifications UI component, join our Slack channel, and learn about the development process.
+
+Currently we are working on "Phase I: MVP". This includes a basic matching service for new members, and the ability for project leads to administer the system.
 
 See [docs/start-developing.md](https://github.com/designforsf/brigade-matchmaker/tree/master/docs/start-developing.md) for installation details.
 
 To interact with the team, please join #research on [http://c4a.me/cfsfslack](http://c4a.me/cfsfslack).
-
-# Project Management and Road Map
-
-This development effort is organized using [GitHub project management](https://github.com/designforsf/brigade-matchmaker/projects).
-
-Project Match design and development will be released in stages, following a road map. See our [Road Map presentation](https://designforsf.github.io/brigade-matchmaker/docs/roadmap/) for details.
 
 # Advanced Installation
 
 To run the service, or to develop all aspects of Project Match, you must first install the Web App and dependencies, including the database.
 
 See [docs/installation.md](https://github.com/designforsf/brigade-matchmaker/tree/master/docs/installation.md) for the full instructions.
+
+# Project Management and Road Map
+
+Our development effort is organized using [GitHub project management](https://github.com/designforsf/brigade-matchmaker/projects).
+
+Project Match design and development will be released in phases, following a road map. See our [Road Map presentation](https://designforsf.github.io/brigade-matchmaker/docs/roadmap/) for details.
+
+# Architecture
+
+Project Match organizes its functionality into components, each of which may combine Node.js, client-side javascript, and python.
+
+See [docs/architecture.md](https://github.com/designforsf/brigade-matchmaker/tree/master/docs/architecture.md) for details.
+
+# JSON API Documentation
+
+All interaction with the database, including CRUD operations on projects, can be accessed from a REST API endpoint. 
+
+See [docs/json-api.md](https://github.com/designforsf/brigade-matchmaker/tree/master/docs/json-api.md) for details.
 
 
 

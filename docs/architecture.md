@@ -36,6 +36,8 @@ The webapp generates the web interface for users, controls how data is updated, 
 
 All UIs make use of the REST API, which follows the [JSON API format](http://jsonapi.org/format/).
 
+To learn more, please take a look at the [REST API documentation](https://github.com/designforsf/brigade-matchmaker/tree/master/docs/json-api.md).
+
 ### Key dependencies 
 
 * [Express](http://expressjs.com/)
