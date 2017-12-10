@@ -6,10 +6,10 @@ Project Match APIs are targeting the [JSON API v1.0 specification](http://jsonap
 
 The most important REST endpoints in Project Match are:
 
-* [GET /api/user/matches](#GET-apiusermatches) - returns a sorted list of projects based on user preferences for skills, learn skills, interests.
-* [GET /api/projects](#GET-apiprojects) - returns the default list of projects, contains each project's configuration for skills, learn skills, interests.
-* [All project-related APIs](#Web-App-API-Project) - used to update project configurations.
-* [All taxonomy-related APIs](#Web-App-API-Project-Taxonomy) - returns project volunteering taxonomies. Certain taxonomies may be organized in a hierarchy with categories and individual tags.
+* [GET /api/user/matches](#get-apiusermatches) - returns a sorted list of projects based on user preferences for skills, learn skills, interests.
+* [GET /api/projects](#get-apiprojects) - returns the default list of projects, contains each project's configuration for skills, learn skills, interests.
+* [All project-related APIs](#web-app-api-project) - used to update project configurations.
+* [All taxonomy-related APIs](#web-app-api-project-taxonomy) - returns project volunteering taxonomies. Certain taxonomies may be organized in a hierarchy with categories and individual tags.
 
 ## Web App API: User Match
 
