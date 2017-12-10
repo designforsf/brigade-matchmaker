@@ -9,7 +9,7 @@ The most important REST endpoints in Project Match are:
 * [GET /api/user/matches](#get-apiusermatches) - returns a sorted list of projects based on user preferences for skills, learn skills, interests.
 * [GET /api/projects](#get-apiprojects) - returns the default list of projects, contains each project's configuration for skills, learn skills, interests.
 * [All project-related APIs](#web-app-api-project) - used to update project configurations.
-* [All taxonomy-related APIs](#web-app-api-project-taxonomy) - returns project volunteering taxonomies. Certain taxonomies may be organized in a hierarchy with categories and individual tags.
+* [All taxonomy-related APIs](#web-app-api-project-taxonomy) - returns project volunteering taxonomies. Certain taxonomies may be organized in a 2-level hierarchy with categories as parents and tags as children.
 
 ## Web App API: User Match
 
@@ -90,7 +90,7 @@ Updates a project record. According to the [JSON API spec for "resource objects"
 
 ### GET /api/project/taxonomy/skills
 
-Returns a set of keywords under the parent category of "skills". This taxonomy has a hierarchy of two levels in which skills are organized by skill category.
+Returns keywords data under the parent of "skills". This taxonomy has a hierarchy of two levels in which skills are organized by category.
 
 ```
 wget -qO- http://localhost:5465/api/project/taxonomy/skills
@@ -98,7 +98,7 @@ wget -qO- http://localhost:5465/api/project/taxonomy/skills
 
 ### GET /api/project/taxonomy/interests
 
-Returns a set of keywords under the parent category of "interests".
+Returns keywords data under the parent of "interests".
 
 ```
 wget -qO- http://localhost:5465/api/project/taxonomy/interests
@@ -106,7 +106,7 @@ wget -qO- http://localhost:5465/api/project/taxonomy/interests
 
 ### GET /api/project/taxonomy/goals
 
-Returns a set of keywords under the parent category of "goals".
+Returns keywords data under the parent of "goals".
 
 ```
 wget -qO- http://localhost:5465/api/project/taxonomy/goals
