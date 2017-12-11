@@ -161,7 +161,8 @@ In the command line terminal:
 
 ```
 cd brigade-matchmaker/components/matching
-python db-match-algo.py javascript housing developer
+python db-match-algo.py client-dev/javascript null housing null
+python db-match-algo.py data-sci/python data-science/machine-learning null developer
 ```
 
 ## 7. Running and testing the Project Match system

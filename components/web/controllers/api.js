@@ -183,6 +183,7 @@ module.exports = {
    * SEE: https://github.com/extrabacon/python-shell
 
    * TEST:
+        http://localhost:5465/api/user/matches?skills=data-sci/python&learnSkills=data-science/machine-learning&role=developer
         http://localhost:5465/api/user/matches?skills=client-dev/javascript,data-sci/python&interests=housing&goals=developer,presenter
         http://localhost:5465/api/user/matches?skills=data-sci&interests=homelessness&goals=developer
         http://localhost:5465/api/user/matches?skills=server-dev/ruby&goals=developer,learner
@@ -206,18 +207,22 @@ module.exports = {
       "id",     // BrigadeHub id
       "score",  // total match score
 
+      // skills
       "name0",    // user attr 0 field name
       "score0",   // user attr 0 score
       "attrs0",   // user attr 0 matching attrs
 
+      // learnSkills
       "name1",    // user attr 1 field name
       "score1",   // user attr 1 score
       "attrs1",   // user attr 1 matching attrs
 
+      // interests
       "name2",    // user attr 2 field name
       "score2",   // user attr 2 score
       "attrs2",   // user attr 2 matching attrs
 
+      // goals
       "name3",    // user attr 3 field name
       "score3",   // user attr 3 score
       "attrs3",   // user attr 3 matching attrs
@@ -269,6 +274,8 @@ module.exports = {
       pyOutput.forEach(function (line, idx){
         var lineArr = line.split(',');
 
+        //console.log(lineArr);
+
         // JSON-API resource object
         // SEE: http://jsonapi.org/format/#document-resource-objects
         var resourceObj = {
@@ -298,10 +305,10 @@ module.exports = {
 
           //console.log(lineArr);
 
-          // push the resurce object into the output data
-          output.data.push(resourceObj);
-
         });
+
+        // push the resurce object into the output data
+        output.data.push(resourceObj);
 
       })
 
