@@ -340,9 +340,14 @@
     // new item
     if (data['itemsBySection'][parentItemName]['items'].indexOf(itemName)) {
       console.log('ADD item');
-      data['itemsBySection'][parentItemName]['items'].push({
-        'name': itemName
-      });
+
+      // make sure not to duplicate
+      var itemIndex = self.indexOfNamedItems(data['itemsBySection'][parentItemName]['items'], itemName);
+      if (itemIndex == -1) {
+        data['itemsBySection'][parentItemName]['items'].push({
+          'name': itemName
+        });
+      }
     } else {
 
     }
