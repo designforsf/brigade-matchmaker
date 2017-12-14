@@ -75,26 +75,26 @@ SEE: [mongo shell reference](https://docs.mongodb.com/manual/reference/mongo-she
 
 ## 3. Install Node.js 
 
-Node.js is server-side javascript. We are targeting a particular version and you can use the Node Version Manager to make sure you use v6.9.5. 
+Node.js is server-side javascript. We are targeting a particular version and you can use the Node Version Manager to make sure you use v6.12.2. 
 
 In the command line terminal:
 
 ```
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | bash
-nvm install v6.9.5
-nvm use v6.9.5
+nvm install v6.12.2
+nvm use v6.12.2
 node --version
 ```
 
 ## 4. Install Node.js dependencies
 
-The webapp has many dependencies that can be easily installed with the Node Package Manager. It uses [package.json](https://github.com/designforsf/brigade-matchmaker/blob/master/components/web/package.json) to know what dependencies to install. Remember to make sure to be using node v6.9.5 when installing!
+The webapp has many dependencies that can be easily installed with the Node Package Manager. It uses [package.json](https://github.com/designforsf/brigade-matchmaker/blob/master/components/web/package.json) to know what dependencies to install. Remember to make sure to be using node v6.12.2 when installing!
 
 In the command line terminal:
 
 ```
 cd brigade-matchmaker/components/web
-nvm use v6.9.5
+nvm use v6.12.2
 npm install
 ```
 
@@ -209,7 +209,7 @@ This installs, along with basic dependencies for a Node.js express application, 
 
 ```
 cd components/project-list
-nvm use v6.9.5
+nvm use v6.12.2
 
 
 ```
@@ -220,7 +220,7 @@ Project List uses handlebars templates. When updating the template, the handleba
 
 ```
 cd components/project-list
-nvm use v6.9.5
+nvm use v6.12.2
 ./node_modules/handlebars/bin/handlebars -amd js/templates/projects.html -f js/templates/projects.js
 
 ```
@@ -237,11 +237,11 @@ Project Content Management makes use of [EmberJS framework](http://emberjs.com/)
 
 ### Dependencies
 
-EmberJS 2.14 is tested with Node.js v6.11.1 and requires a global install:
+EmberJS 2.14 is tested with Node.js v6.12.2 and requires a global install:
 
 ```
-nvm install v6.11.1
-nvm use v6.11.1
+nvm install v6.12.2
+nvm use v6.12.2
 npm install -g ember-cli@2.14
 ```
 
@@ -267,7 +267,7 @@ This is a technical demo and starting the service currently only attempts to sen
 
 ```
 cd brigade-matchmaker/components/messaging
-nvm use v6.9.5
+nvm use v6.12.2
 npm install
 ```
 

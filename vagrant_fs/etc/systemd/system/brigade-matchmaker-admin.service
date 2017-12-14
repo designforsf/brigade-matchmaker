@@ -4,7 +4,7 @@ Documentation=https://github.com/designforsf/brigade-matchmaker
 After=network.target mongod.service
 
 [Service]
-Environment=NODE_VERSION=6.11.1
+Environment=NODE_VERSION=6.12.2
 Type=simple
 User=vagrant
 ExecReload=/opt/nvm/nvm-exec ember build

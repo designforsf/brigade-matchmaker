@@ -42,26 +42,26 @@ git push origin <YOUR GIT USERNAME>
 
 ## 2. Install Node.js 
 
-Node.js is server-side javascript. We are targeting a particular version and you can use the Node Version Manager to make sure you use v6.9.5. 
+Node.js is server-side javascript. We are targeting a particular version and you can use the Node Version Manager to make sure you use v6.12.2. 
 
 In the command line terminal:
 
 ```
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | bash
-nvm install v6.9.5
-nvm use v6.9.5
+nvm install v6.12.2
+nvm use v6.12.2
 node --version
 ```
 
 ## 3. Install Node.js dependencies
 
-Notifications has dependencies that can be easily installed with the Node Package Manager. It uses [package.json](https://github.com/designforsf/brigade-matchmaker/blob/master/components/notifications/package.json to know what dependencies to install. Remember to make sure to be using node v6.9.5 when installing!
+Notifications has dependencies that can be easily installed with the Node Package Manager. It uses [package.json](https://github.com/designforsf/brigade-matchmaker/blob/master/components/notifications/package.json to know what dependencies to install. Remember to make sure to be using node v6.12.2 when installing!
 
 In the command line terminal:
 
 ```
 cd brigade-matchmaker/components/notifications
-nvm use v6.9.5
+nvm use v6.12.2
 npm install
 ```
 
