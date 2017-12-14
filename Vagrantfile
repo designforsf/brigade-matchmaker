@@ -6,7 +6,7 @@
 # backwards compatibility). Please don't change it unless you know what
 # you're doing.
 Vagrant.configure("2") do |config|
-  # For a complete reference, please see the online documentation at
+  ### For a complete reference, please see the online documentation at
   # https://docs.vagrantup.com.
 
   ### Base machine to use ###
@@ -14,9 +14,10 @@ Vagrant.configure("2") do |config|
   # config.vm.box = "archlinux/archlinux"
 
   ### Forward component ports ###
-  config.vm.network "forwarded_port", guest: 4200, host: 4200, host_ip: "127.0.0.1"
-  config.vm.network "forwarded_port", guest: 5465, host: 5465, host_ip: "127.0.0.1"
-  # config.vm.network "forwarded_port", guest: 27017, host: 27017, host_ip: "127.0.0.1"
+  config.vm.network "forwarded_port", guest: 4200, host: 4200, host_ip: "127.0.0.1" # ember-client
+  config.vm.network "forwarded_port", guest: 5465, host: 5465, host_ip: "127.0.0.1" # web
+  config.vm.network "forwarded_port", guest: 5475, host: 5475, host_ip: "127.0.0.1" # messaging
+  # config.vm.network "forwarded_port", guest: 27017, host: 27017, host_ip: "127.0.0.1" # mongodb
 
   # Share the current folder (the git repository) to the host
   config.vm.synced_folder ".", "/opt/brigade-matchmaker"
