@@ -1,0 +1,18 @@
+[Unit]
+Description=Brigade Matchmaker Web
+Documentation=https://github.com/designforsf/brigade-matchmaker
+After=network.target mongod.service
+Requires=mongod.service
+
+[Service]
+Environment=NODE_PORT=%i
+Environment=NODE_VERSION=6.12.2
+Type=simple
+User=vagrant
+ExecReload=/opt/nvm/nvm-exec npm install
+ExecStart=/opt/nvm/nvm-exec node app.js
+Restart=on-failure
+WorkingDirectory=/opt/brigade-matchmaker/components/web
+
+[Install]
+WantedBy=multi-user.target
