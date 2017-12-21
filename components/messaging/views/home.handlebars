@@ -1,0 +1,33 @@
+<!-- button changes css of #contact-project-lead to visible -->
+
+<div class="container">
+  <button type="button" class="btn btn-success" id="example1">Contact Project Lead</button>
+</div>
+
+  <!-- to be replaced with templating blocks -->
+  <div id="contact-project-lead">
+    <form action="/process-slackbot" method="POST">
+      <div class="form-group">
+        <label for="email">Please enter your email</label>
+        <input type="email" class="form-control" required id="email" name="email">
+      </div>
+      <div id="message">
+        <p>Hi Jane Doe,<br>
+          I'm a new member and I'm interested in working on your User Research Project<br>
+          My profile is appended below, and I can be reached at example@example.com<br>
+          - - -<br>
+          John Doe<br>
+          Skills to contribute:<br>
+          UX Design, Javascript-Front End, Python, Django<br>
+          Skills I hope to learn:<br>
+          Front-end dev, User research, HTML, UX Design<br>
+          Civic interests:<br>
+          Criminal justice, Homelessness, General help, Housing
+        </p>
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-success">Okay to Send</button>
+        <button type="reset" class="btn btn-danger">Cancel</button>
+      </div>
+    </form>
+  </div>
