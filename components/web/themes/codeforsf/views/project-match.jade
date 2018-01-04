@@ -66,6 +66,10 @@ block content
       taxonomySel.init({
         // callback when the user clicks on the generate match button
         generateMatchCb: function () {
+
+          // retracts the selector so the user can focus on the results
+          taxonomySel.closeSelector();
+
           // search with the current user's taxonomy selection
           projView.searchProjects(taxonomySel.getSelection());
         }
