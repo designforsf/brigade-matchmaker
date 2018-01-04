@@ -4,15 +4,14 @@ require.config({
       handlebars: 'lib/handlebars',
       'handlebars.runtime':  'lib/handlebars.runtime',
       backbone: 'lib/backbone',
-      text: 'lib/text',
       underscore: 'lib/underscore',
       localstorage : 'lib/backbone.localStorage',
       lockr: 'lib/lockr',
       boostrap: 'lib/bootstrap.min.js',
       projlistview: 'views/ProjectView',
       projlistmodel:  'models/ProjectModel',
-      projlisttemplate: 'templates/projects'
-   }  
+      MessageView: '../../slackbot/js/app'
+   }
 });
 
 require(['projlistview'], function(ProjectView){
