@@ -1,0 +1,181 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 38em;
+    border: 1px lightgray solid;
+    padding: 1em;
+    position: fixed;
+    right: 2em;
+    bottom: 0;
+    background-color: white;
+}
+
+.contact-header {
+    display: flex;
+    justify-content: center;
+    margin-bottom: .7em;
+    font-family: sans-serif;
+    font-size: 1.1em;
+    background-color: #272322;
+    color: white;
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+
+.slack-message {
+    min-height: 10em;
+    font-size: .8em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    border: 1px lightgray solid;
+    width: 100%;
+}
+
+.personal-info {
+    width: 100%;
+}
+
+.slack-form {
+    color: gray;
+    font-weight: 300;
+    padding: .5em;
+}
+
+.form-class {
+    display: flex;
+    flex-direction: column;
+}
+
+.skills-header {
+    font-family: sans-serif;
+    font-size: .8em;
+
+}
+
+.tag-container {
+    display: flex;
+}
+
+.tag {
+    padding: 4px;
+    font-family: sans-serif;
+    font-size: .8em;
+    margin: 5px;
+    border-radius: 4px;
+    color: white;
+    font-weight: 400;
+
+}
+
+.skills-tag {
+    background-color: #AA193A;
+}
+
+.opportunities-tag {
+    background-color: #3DA1D2;
+}
+
+.interest-tag {
+    background-color: #123D51;
+}
+
+.attachment-title-container {
+    display: flex;
+    align-items: center;
+}
+
+.attachment-header {
+    background-color: #9B9B9B;
+    margin-right: 1em;
+    padding: 10px 20px 10px 20px;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    color: white;
+    font-family: sans-serif;
+}
+
+.attachment-info-text {
+    color: #B3B3B3;
+    font-family: sans-serif;
+    font-size: .8em;
+    font-weight: bold;
+}
+
+.attachment-container {
+    padding: 1em;
+    width: 100%;
+    background-color: #CFCDCE;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.skills-container {
+    font-family: sans-serif;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+.skills-title {
+    margin-right: 1em;
+}
+
+.skills-tags {
+    border: 1px red solid;
+}
+
+.personal-message-header {
+    font-family: sans-serif;
+    font-weight: 600;
+    margin-bottom: .2em;
+    margin-top: .5em;
+}
+
+.personal-message-info {
+    color: #B3B3B3;
+    font-family: sans-serif;
+    font-size: .8em;
+    font-weight: bold;
+}
+
+textarea {
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+.submit-btn {
+    background-color: #17A277;
+    margin-top: 25px;
+    align-items: center;
+    height: 2.5em;
+    display: flex;
+    justify-content: center;
+    font-family: sans-serif;
+    color: white;
+    border-radius: 3px;
+    width: 50%;
+}
+
+.control-label:after {
+    content:"*";
+    color:red;
+}
+
+.control-label {
+    width: 25%;
+    display: flex;
+    align-self: center;
+    font-weight: 600;
+}
+
+.input-container {
+    display: flex;
+    width: 100%;
+    justify-items: center;
+}
+
+.submit-container {
+    display: flex;
+    justify-content: center;
+}

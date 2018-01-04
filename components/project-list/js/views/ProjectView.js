@@ -1,17 +1,31 @@
 
-define(['jquery','underscore','backbone','handlebars','projlistmodel','projlisttemplate'],
-   function(jQuery, _, Backbone, handlebars, ProjectModel, ProjectTemplate){
+define(['jquery','underscore','backbone','handlebars','projlistmodel', 'MessageView'],
+   function(jQuery, _, Backbone, handlebars, ProjectModel, MessageView){
 
    var ProjectView = Backbone.View.extend({
       // el - stands for element. Every view has a element associate in with HTML content will be rendered.
       el: '#project-list-container',
       events: {
-         "click .changeList":"searchProjects"
+         "click .changeList":"searchProjects",
+         "click .contact-btn":"popUpMessage"
+      },
+      popUpMessage: function(e){
+         console.log(e.currentTarget.id);
+         var arr_num = e.currentTarget.id.replace("contact-btn", "");
+         //Need to pass the email of the project contact lead
+         console.log(this.model.attributes.data[arr_num]);
+         console.log(this.model.skills);
+         new MessagingView({
+            //Use learnedSkills
+            skills: ["java", "react"],
+            interests: ["webDev"],
+            learning: ["node"]
+         });
       },
       // It's the first function called when this view it's instantiated.
-      template: ProjectTemplate, 
+      template: ProjectList.templates.projects,
          // NOTE: template is compiled, SEE the README.md
-      initialize: function(){
+      initialize: function(skills){
          var projView = this;
 
          //Pass in object
@@ -19,8 +33,8 @@ define(['jquery','underscore','backbone','handlebars','projlistmodel','projlistt
          // projectModel
 
          // model gets initialized with all the projects
-         projView.model = new ProjectModel("/api/projects");
-
+         this.model = new ProjectModel("/api/projects");
+         this.model.skills = skills;
          // sync callback
          // on sync: sets data in lockr, renders the template 
          projView.listenTo(projView.model, 'sync', function (model, res, options) {
