@@ -13,15 +13,16 @@ define(['underscore', 'backbone', 'lockr'],
       searchProjects: function(taxonomyObj) {
          console.log('ProjectModel.searchProjects');
 
-         var url = "/api/user/matches";
+         var url = "/api/user/matches?";
          $.each( taxonomyObj, function( key, value ) {
-            url += "?" + key + "=";
+            url += key + "=";
             $.each(value, function(tagIndex, tagInfo){
                url += tagInfo;
                if (tagIndex !== value.length - 1){
                   url += ",";
                }
             });
+            url += '&';
          });
          this.urlEnding = url;
       },

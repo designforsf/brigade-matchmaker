@@ -33,7 +33,7 @@
             name: name,
             title: title,
             items: [
-              {name: name}
+              {name: name, title: title}
             ]
           },
 
@@ -41,7 +41,7 @@
             name: name,
             title: title,
             items: [
-              {name: name}
+              {name: name, title: title}
             ]
           },
 
