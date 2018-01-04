@@ -21,12 +21,14 @@ block content
             | Project Match will connect you to civic projects.
 
 
-  div.container.container-maxWidth970
-    div(id="taxonomy-selector-container")
-      | Taxonomy Selector To Go Here
-    div(id="project-list-container")
+
+  div(id="taxonomy-selector-container")
+    | Taxonomy Selector To Go Here
+  div(id="project-list-container")
 
   link(rel="stylesheet" href="/components/project-list/css/style.css")
+  link(rel="stylesheet" href="/components/taxonomy-selector/styles/taxonomy-selector.css")
+
   script(src='/components/project-list/js/lib/require.js')
   script(type='text/javascript').
 
@@ -56,16 +58,19 @@ block content
     require(['projlistview','projlistmodel','taxsel', 'taxselmodel'], 
       function(ProjectView, ProjectModel, TaxonomySelector, TaxonomyModel) {
 
-      // taxonomy selector component
-      ProjectMatch.TaxonomySelector.init({});
-
-
       // project list component
-      new ProjectView({
-        skills: ["java", "react"],
-        interests: ["webDev"],
-        learning: ["node"]
-       });
+      projView = new ProjectView({ skills:[], learnSkills:[], interests:[] });
+
+      // taxonomy selector component
+      var taxonomySel = ProjectMatch.TaxonomySelector;
+      taxonomySel.init({
+        // callback when the user clicks on the generate match button
+        generateMatchCb: function () {
+          // search with the current user's taxonomy selection
+          projView.searchProjects(taxonomySel.getSelection());
+        }
+      });
+
     });
 
 

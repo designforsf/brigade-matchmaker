@@ -27,6 +27,13 @@ http://api.mongodb.com/python/current/api/pymongo/collection.html
 Install dependencies:
     python -m pip install pymongo
 
+Interface:
+
+    param skills_list: Skills that the user can contribute.
+    param skills_offered_list: Skills the the user wants to learn.
+    param interests_list: Interests of the user.
+    param goals_list: Project-related goals of the user.
+
 @usage:
     python ./db-match-algo.py client-dev/javascript,data-sci/python null housing developer,presenter
     python ./db-match-algo.py data-sci null homelessness developer
@@ -107,6 +114,28 @@ for project in db.projects.find({}):
     #print project['_id']
     #pp.pprint(project['matchingConfig'])
 
+
+    # NOTE: the algo will add the following data to project:
+
+    # project['interests'] = []
+    # project['interests_total'] = 0
+    # project['interests_matched'] = []
+
+    # project['skills_offered'] = []
+    # project['skills_offered_categories'] = []
+    # project['skills_offered_total'] = 0
+    # project['skills_offered_matched'] = []
+
+    # project['skills_needed'] = []
+    # project['skills_needed_categories'] = []
+    # project['skills_total'] = 0
+    # project['skills_matched'] = []
+
+    # project['goals_needed'] = []
+    # project['goals_total'] = 0
+    # project['goals_matched'] = []
+
+
     # interests
     project['interests'] = []
     for need in project['matchingConfig']['interests']:
@@ -114,13 +143,21 @@ for project in db.projects.find({}):
 
     # skills offered
     project['skills_offered'] = []
+    project['skills_offered_categories'] = []
     for offering in project['matchingConfig']['skillsOffered']:
         project['skills_offered'].append(offering)
+        if "/" in offering:
+            #print('category: ' + offering.split("/")[0])
+            project['skills_offered_categories'].append(offering.split("/")[0])
 
     # skills needed
     project['skills_needed'] = []
+    project['skills_needed_categories'] = []
     for need in project['matchingConfig']['skillsNeeded']:
         project['skills_needed'].append(need)
+        if "/" in need:
+            #print('category: ' + offering.split("/")[0])
+            project['skills_needed_categories'].append(need.split("/")[0])
 
     # goals
     project['goals_needed'] = []
@@ -132,7 +169,12 @@ for project in db.projects.find({}):
 
 # END loading projects list
 
-def matchmaking (skills_list, skills_offered_list, interests_list, goals_list):
+def matchmaking (
+    skills_list,                # targeting skills needed by project
+    skills_offered_list,        # targeting skills offered by project
+    interests_list,             # targeting shared interests
+    goals_list                  # targeting goals needed by project
+    ):
 
     """
     print 'matchmaking()'
@@ -178,6 +220,21 @@ def matchmaking (skills_list, skills_offered_list, interests_list, goals_list):
                     project['skills_total'] += 1
                     project['skills_matched'].append(skill)
 
+
+
+                # category match# category match: category match to increase total score
+                if "/" not in skill and skill in project['skills_needed_categories']:
+                    #print 'skill needed = ' + skill
+                    #pp.pprint(project['skills_needed_categories'])
+                    project['skills_total'] += 1
+                    project['skills_matched'].append(skill)
+
+                # NOTE: initial work on category-related scoring
+                #elif "/" in skill and skill.split("/")[0] in project['skills_needed_categories']:
+                #    project['skills_total'] += 1
+
+
+
         '''
         iterate over the skills_offered_list and get the corresponding
         values for each skill offered and the total value from the project
@@ -187,6 +244,17 @@ def matchmaking (skills_list, skills_offered_list, interests_list, goals_list):
                 if offering in project['skills_offered']:
                     project['skills_offered_total'] += 1
                     project['skills_offered_matched'].append(offering)
+
+                # category match: category match to increase total score
+                if "/" not in offering and offering in project['skills_offered_categories']:
+                    #print 'skill offered ' + offering
+                    #pp.pprint(project['skills_offered_categories'])
+                    project['skills_offered_total'] += 1
+                    project['skills_offered_matched'].append(skill)
+
+                # NOTE: initial work on category-related scoring
+                #elif "/" in offering and offering.split("/")[0] in project['skills_needed_categories']:
+                #    project['skills_total'] += 1
 
         '''
         iterate over the interests_list and get the corresponding

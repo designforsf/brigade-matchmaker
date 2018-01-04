@@ -11,19 +11,23 @@ define(['underscore', 'backbone', 'lockr'],
          this.urlEnding = urlEnding;
       },
       searchProjects: function(taxonomyObj) {
-         var url = "/api/user/matches";
+         console.log('ProjectModel.searchProjects');
+
+         var url = "/api/user/matches?";
          $.each( taxonomyObj, function( key, value ) {
-            url += "?" + key + "=";
+            url += key + "=";
             $.each(value, function(tagIndex, tagInfo){
                url += tagInfo;
                if (tagIndex !== value.length - 1){
                   url += ",";
                }
             });
+            url += '&';
          });
          this.urlEnding = url;
       },
       combineData: function(res) {
+         console.log('ProjectModel.combineData');
          var arr = [];
          $.each(res.data, function(idx, val){
             var result = $.grep(Lockr.get('projects').data, function(e){

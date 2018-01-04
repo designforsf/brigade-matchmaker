@@ -6,7 +6,7 @@
     "url": "https://github.com/designforsf/brigade-matchmaker.git"
   },
   "engines": {
-    "node": "~6.9.5",
+    "node": "~6.12.2",
     "npm": "^4.2.0"
   },
   "scripts": {
