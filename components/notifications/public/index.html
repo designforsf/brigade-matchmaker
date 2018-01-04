@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <title>Notifications Test</title>
+
+  <link rel="stylesheet" href="/styles/notifications.css" />
+  <link rel="stylesheet" href="/common/vendor/bootstrap-3.3.7/css/bootstrap.css">
+
+  <script src="/common/js/requirejs/require-2.3.5.js"></script>
+  <script src="/js/notifications.js"></script>
+
+</head>
+
+<body>
+
+  <div id="top-nav">
+
+    <div class="nav navbar navbar-default">
+      <div class="container container-fluid">
+        
+        <div class="navbar-header">
+          <strong>
+            <a class="navbar-brand" href="#">Project Match</a>
+          </strong>
+        </div>
+
+        <ul class="nav navbar-nav navbar-right">
+
+        </ul>
+
+      </div>
+    </div>
+  </div>
+
+  <div id="notifications-container"></div>
+
+  <script>
+
+  require.config({
+    baseUrl: '/',
+    paths: {
+      jquery: 'common/js/jquery/jquery-3.2.1',
+      handlebars: 'common/js/handlebars/handlebars-4.0.11',
+      'handlebars.runtime': 'common/js/handlebars/handlebars.runtime-4.0.11',
+      bootstrap: 'common/vendor/bootstrap-3.3.7/js/bootstrap',
+
+      notif: 'js/notifications',
+      //notiftemplate: 'templates/notifications'
+    }
+  });
+
+  require(['notif', 'jquery'], 
+    function(Notifications, jQuery) {
+
+      // taxonomy selector component
+      ProjectMatch.Notifications.init({});
+
+    }
+  );
+
+  </script>
+
+</body>
+</html>
