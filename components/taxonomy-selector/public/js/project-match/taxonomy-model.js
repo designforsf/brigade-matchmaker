@@ -15,5 +15,29 @@
     })
   }
 
+  /*
+    get interests taxonomy
+
+  */
+
+  ProjectMatch.TaxonomyModel.getInterests = function (cb) {
+    jQuery.ajax({
+        url: 'http://localhost:5465/api/project/taxonomy/interests',
+        success: cb
+    })
+  }
+
+  /*
+    get roles taxonomy
+
+  */
+
+  ProjectMatch.TaxonomyModel.getRoles = function (cb) {
+    jQuery.ajax({
+        url: 'http://localhost:5465/api/project/taxonomy/roles',
+        success: cb
+    })
+  }
+
 
 }) (( window.ProjectMatch=window.ProjectMatch || {}));

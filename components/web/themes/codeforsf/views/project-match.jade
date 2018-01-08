@@ -21,15 +21,19 @@ block content
             | Project Match will connect you to civic projects.
 
 
-  div.container.container-maxWidth970
-    div(id="taxonomy-selector-container")
-      | Taxonomy Selector To Go Here
-    div(id="project-list-container")
+
+  div(id="taxonomy-selector-container")
+    | Taxonomy Selector To Go Here
+  div(id="project-list-container")
 
   link(rel="stylesheet" href="/components/project-list/css/style.css")
   link(rel="stylesheet" href="/components/taxonomy-selector/styles/taxonomy-selector.css")
 
+  
+  script(src='/components/project-list/js/lib/handlebars.runtime.js')
   script(src='/components/project-list/js/lib/require.js')
+  script(src='/components/project-list/js/templates/projects.js')
+
   script(type='text/javascript').
 
     require.config({
@@ -48,6 +52,8 @@ block content
         projlistmodel:  'project-list/js/models/ProjectModel',
         projlisttemplate: 'project-list/js/templates/projects',
 
+        MessageView: 'slackbot/js/app',
+
         masonry: 'taxonomy-selector/js/masonry/masonry-4.2.0.pkgd',
         taxsel: 'taxonomy-selector/js/project-match/taxonomy-selector',
         taxselmodel: 'taxonomy-selector/js/project-match/taxonomy-model',
@@ -59,20 +65,19 @@ block content
       function(ProjectView, ProjectModel, TaxonomySelector, TaxonomyModel) {
 
       // project list component
-      projView = new ProjectView({
-        skills: ["java", "react"],
-        interests: ["webDev"],
-        learning: ["node"]
-       });
+      projView = new ProjectView({ skills:[], learnSkills:[], interests:[] });
 
       // taxonomy selector component
-      ProjectMatch.TaxonomySelector.init({
+      var taxonomySel = ProjectMatch.TaxonomySelector;
+      taxonomySel.init({
+        // callback when the user clicks on the generate match button
         generateMatchCb: function () {
-          projView.searchProjects({
-            "skills":["client-dev/javascript"],
-            "learnSkills":[],
-            "interests":[],
-          })
+
+          // retracts the selector so the user can focus on the results
+          taxonomySel.closeSelector();
+
+          // search with the current user's taxonomy selection
+          projView.searchProjects(taxonomySel.getSelection());
         }
       });
 

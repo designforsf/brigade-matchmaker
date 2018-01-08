@@ -1,0 +1,6 @@
+[Unit]
+After=brigade-matchmaker-web.service
+Description=Brigade Matchmaker
+PropagatesReloadTo=brigade-matchmaker-admin.service brigade-matchmaker-messaging@5475.service brigade-matchmaker-web@5465.service
+Requires=brigade-matchmaker-web@5465.service
+Wants=brigade-matchmaker-admin.service brigade-matchmaker-messaging@5475.service brigade-matchmaker-web@5465.service
