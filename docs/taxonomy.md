@@ -13,9 +13,9 @@ The project participation taxonomies are simply groups of keywords that describe
 
 Each project is assigned keywords according to skills needed, skills that can be learned, and civic interests. In the UI of Project Match, these same keywords are selected by the new member before their search. 
 
-# Taxonomy Data Structures
+# Taxonomy Data Structure
 
-For certain taxonomies with many keywords (such as skills), keywords can be arranged into sections. Not all taxonomies are arranged in this way; interests for example do not need sections.
+For certain taxonomies with many keywords (e.g. skills), keywords can be arranged into sections. Not all taxonomies are arranged in this way; interests for example do not need sections.
 
 "Skills" keywords are organized into sections:
 
@@ -51,6 +51,12 @@ These keywords, their sections, keyword synonyms, and other data are all stored 
 
 The project participation taxonomies are stored in the database as tree structures with parent references. This allows a particular taxonomy to be organized into a hierarchy.
 
+This [example of tree with parent references](https://docs.mongodb.com/manual/tutorial/model-tree-structures-with-parent-references/) shows how such a hierarchy may be formed.
+
+Both the underlying database and [JSON API](https://github.com/designforsf/brigade-matchmaker/tree/master/docs/json-api.md) use a similar array of objects to represent the taxonomy in a hierarchy. However, more data is present in each object. An object may represent a section, or it may represent a keyword item.
+
+In each object, the parent is identified by the name field. Also, if there is an object without a parent, this is the root record.
+
 ```
 [
 
@@ -72,7 +78,6 @@ The project participation taxonomies are stored in the database as tree structur
 ]
 ```
 
-[Simple example of tree w/ parent refs](https://docs.mongodb.com/manual/tutorial/model-tree-structures-with-parent-references/)
 
 ## Tree Structure for UI Rendering
 
