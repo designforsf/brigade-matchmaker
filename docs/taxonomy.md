@@ -20,7 +20,7 @@ For certain taxonomies with many keywords (e.g. skills), keywords can be arrange
 "Skills" keywords are organized into sections:
 
 * Skills
-  * Non-technical
+  * Non-Technical Skills
     * Advocacy
     * Legal
     * Writing
@@ -45,7 +45,7 @@ For certain taxonomies with many keywords (e.g. skills), keywords can be arrange
   * Healthcare
   * Housing
 
-These keywords, their sections, keyword synonyms, and other data are all stored in the database as JSON data. The UI and match algorithm can retrieve this data via API calls.
+These keywords, their sections, keyword synonyms, and other data are all stored in the database as JSON data. The UI and match algorithm can retrieve this data via API calls and make extensive use of it.
 
 ## Tree Structure with Parent References
 
@@ -93,8 +93,10 @@ This format formats the taxonomy into "sections" and "items".
       
       "non-technical": {
         name: "non-technical", //redundant
-        title: "Non Technical",
+        title: "Non-Technical Skills",
         items: [
+          {name: "advocacy", title: "Advocacy"},
+          {name: "legal", title: "Legal"},
           {name: "writing", title: "Writing"}
         ]
       },
