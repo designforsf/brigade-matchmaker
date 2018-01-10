@@ -29,6 +29,7 @@ The project volunteering taxonomy provides sets of useful keywords which users s
 **Learn Skills** - 2-level hierarchy, example: "client-dev/javascript"
 **Interests** - 1-level hierarchy, example: "housing"
 
+[Taxonomy documentation](https://github.com/designforsf/brigade-matchmaker/tree/master/docs/taxonomy.md).
 
 ## Web App and REST API
 
