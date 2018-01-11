@@ -120,32 +120,6 @@ class TTop extends TCategory {
 }
 
 const TAXONOMIES = {
-  roles: T.toplevel('Roles', [
-    T.category('Software Engineer', [
-      T.item('Frontend'),
-      T.item('Backend'),
-      T.item('Full-stack'),
-      T.item('QA'),
-      T.item('DevOps'),
-      T.item('Mobile'),
-    ]),
-    T.category('Design', [
-      T.item('UI/UX Designer'),
-      T.item('User Researcher'),
-      T.item('Visual Designer'),
-    ]),
-    T.item('Data Science'),
-    T.item('Operations'),
-    T.item('Marketing'),
-    T.item('Product Management'),
-    T.item('Project Management'),
-    T.category('General', [
-      T.item('Government Employee'),
-      T.item('Attorney / Legal Knowledge'),
-      T.item('Partnerships'),
-      T.item('Urban Planner'),
-    ]),
-  ]),
   skills: T.toplevel('Skills', [
     T.category('Frontend Development', [
       T.item('CSS'),
@@ -374,15 +348,6 @@ ptSchema.methods.getSkills = function (cb) {
 
 ptSchema.methods.getInterests = function (cb) {
   return cb(null, TAXONOMIES.interests.serializeAll());
-};
-
-
-/*
-  skills taxonomy
-*/
-
-ptSchema.methods.getRoles = function (cb) {
-  return cb(null, TAXONOMIES.roles.serializeAll());
 };
 
 module.exports = mongoose.model('ProjectTaxonomies', ptSchema);
