@@ -96,26 +96,19 @@
             
             var prevTaxonomy = self.selectedTaxonomy;
 
-
             // user has clicked twice on a taxonomy
             //    retract the previously selected taxonomy display
 
             if (prevTaxonomy == selectedTaxonomy) {
-              console.log('Unselect ' + 'taxonomy-selector-' + selectedTaxonomy + '-container');
-              self.selectedTaxonomy = undefined;
-
-              // copy the content back to its scratchpad
-              var prevHtml = jQuery('#taxonomy-selection-display').html();
-              jQuery('#taxonomy-selection-' + prevTaxonomy + '-container').html(prevHtml);
-
-              // clear out the display
-              jQuery('#taxonomy-selection-display').html("");              
+              console.log('Unselect taxonomy ' + 'taxonomy-selector-' + selectedTaxonomy + '-container');
+              
+              self.closeSelector();
 
             // user has clicked on a new taxonomy
             //    display the selected taxonomy
 
             } else {
-              console.log('Select ' + 'taxonomy-selector-' + selectedTaxonomy + '-container');
+              console.log('Select taxonomy ' + 'taxonomy-selector-' + selectedTaxonomy + '-container');
               self.selectedTaxonomy = selectedTaxonomy;
 
               /* 
@@ -130,6 +123,13 @@
               var selectedHtml = jQuery('#taxonomy-selection-' + selectedTaxonomy + '-container').html();
               jQuery('#taxonomy-selection-display').html(selectedHtml);
               jQuery('#taxonomy-selection-' + selectedTaxonomy + '-container').html('');
+
+              jQuery('#taxonomy-selection-display').slideDown({
+                duration: 350,
+                done:function () {
+                  
+                }
+              });
 
             }
 
@@ -388,7 +388,7 @@
       //console.log(data['itemsBySection']);
     }
 
-    self.renderSelected();
+    self.renderSelected(taxonomyName);
 
   } // END self.unselectItem
 
@@ -459,6 +459,7 @@
   */
 
   self.renderSelected = function (selectedTaxonomy) {
+    console.log('ProjectMatch.TaxonomySelector.renderSelected() ' + selectedTaxonomy);
 
     require(['handlebars'],
       function(Handlebars){
@@ -467,6 +468,10 @@
         var template = Handlebars.compile(hbrTemplate);
         selectedTaxonomy = selectedTaxonomy || self.selectedTaxonomy;
         //console.log('renderSelected ' + selectedTaxonomy);
+
+        console.log('selected items data');
+        console.log('selected taxonomy=' + selectedTaxonomy);
+        console.log(self.selectedItemsData);
 
         var context = {
           taxonomyName: selectedTaxonomy,
@@ -491,6 +496,34 @@
   self.generateMatch = function (attr) {
     console.log('ProjectMatch.TaxonomySelector.generateMatch()');
     self.generateMatchCb(attr);
+  }
+
+
+  /*
+    retract selector 
+    (allows the user to focus on the search results)
+  */
+
+  self.closeSelector = function (attr) {
+
+    console.log('ProjectMatch.TaxonomySelector.CloseSelector ' + 'taxonomy-selector-' + self.selectedTaxonomy + '-container');
+
+    jQuery('#taxonomy-selection-display').slideUp({
+      duration: 350,
+      complete: function () {
+
+        // copy the content back to its scratchpad
+        var prevHtml = jQuery('#taxonomy-selection-display').html();
+        jQuery('#taxonomy-selection-' + self.selectedTaxonomy + '-container').html(prevHtml);
+
+        // clear out the display
+        jQuery('#taxonomy-selection-display').html("");  
+
+        self.selectedTaxonomy = undefined;
+
+      }
+    });
+    
   }
 
 

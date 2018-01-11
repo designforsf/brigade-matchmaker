@@ -53,9 +53,6 @@ var projectsSchema = new mongoose.Schema({
   repository: {type: String, default: ''},
   githubSlug: {type: String, default: ''},
   contact: {type: Array, default: []},
-  slackUserName: {type: String, default: ''},
-  slackId: {type: String, default: ''},
-  slackDm: {type: String, default: ''},
   team: {type: Array, default: []},
   partners: {type: Array, default: []}, // name, email, logo?
   data: {type: Array, default: []},
