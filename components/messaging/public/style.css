@@ -2,11 +2,16 @@ button {
   margin-top: 10px;
 }
 
+button#message-button {
+  margin-left: 40%;
+  margin-right: 10%;
+}
+
 #contact-project-lead {
   border: 1px solid black;
   padding: 10px;
-  margin-left: 25%;
-  margin-right: 25%;
+  margin-left: 40%;
+  margin-right: 1%;
   top: 200px;
   position: absolute;
   display: none;
@@ -15,4 +20,9 @@ button {
 #message {
   border: 1px solid black;
   padding: 10px;
+}
+
+span#close-message {
+  /* change this. does weird things if the windows begins to narrow */
+  float: right;
 }
