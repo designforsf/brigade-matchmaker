@@ -375,8 +375,8 @@ ptSchema.methods.getInterests = function (cb) {
   skills taxonomy
 */
 
-ptSchema.methods.getGoals = function (cb) {
-  return cb(null, TAXONOMIES.goals.serializeAll());
+ptSchema.methods.getRoles = function (cb) {
+  return cb(null, TAXONOMIES.roles.serializeAll());
 };
 
 module.exports = mongoose.model('ProjectTaxonomies', ptSchema);
