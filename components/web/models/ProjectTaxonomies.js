@@ -68,9 +68,15 @@ class TCategory extends T {
   }
 
   serialize(i_parent) {
+    var out = [
+      this.serialize(this)
+    ];
+
     for (var child in this._children) {
       out.concat(child.serialize(this));
     }
+
+    return out;
   }
 
   topmost() {
