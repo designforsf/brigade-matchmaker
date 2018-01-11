@@ -8,6 +8,23 @@ var PyShell = require('python-shell')
 module.exports = {
 
   /**
+   * system config
+   * ------------------------------------------------------
+    POST /api/system/config
+  */
+  
+  systemConfig: function (req, res, next) {
+    var config = res.locals.config;
+
+    // remove certain sensitive entries
+    delete config.mongodb;
+    delete config.imap;
+    delete config.emailjs;
+
+    res.json(config);
+  },
+
+  /**
    * userLogoff
    * ------------------------------------------------------
     POST /api/user/logouff

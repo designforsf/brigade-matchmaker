@@ -36,6 +36,18 @@ require('colors')
  * Default path: .env
  */
 require('./dotenv.js')()
+
+/**
+
+ * New configuration file approach : common/ConfigFile
+ * Allows for more complex data in environment-based configration.
+
+**/
+
+var ConfigFile = require('../common/lib/ConfigFile');
+var config = new ConfigFile().config;
+
+
 /**
  * Controllers (route handlers).
  */
@@ -53,9 +65,9 @@ var helpers = requireDir('./helpers')
 var brigadeDetails
 
 /**
- * API keys and Passport configuration.
+ * API keys and Passport
  */
-var passportConf = require('./config/passport')
+var passportAuth = require('./lib/passport')
 
 /**
  * Create Express server.
@@ -245,12 +257,12 @@ app.get('/',homeCtrl.projectList)
 app.get('/login', usersCtrl.getLogin)
 app.post('/login', usersCtrl.postLogin)
 app.get('/login/edit',
-  passportConf.isAuthenticated,
-  passportConf.checkRoles(['core', 'superAdmin']),
+  passportAuth.isAuthenticated,
+  passportAuth.checkRoles(['core', 'superAdmin']),
   usersCtrl.getLoginEdit)
 app.post('/login/edit',
-  passportConf.isAuthenticated,
-  passportConf.checkRoles(['core', 'superAdmin']),
+  passportAuth.isAuthenticated,
+  passportAuth.checkRoles(['core', 'superAdmin']),
   usersCtrl.postLoginEdit)
 app.get('/logout', usersCtrl.getLogout)
 
@@ -258,6 +270,15 @@ app.get('/logout', usersCtrl.getLogout)
 /**
  * API routes
  */
+
+ app.get('/api/system/config', 
+   function (req, res, next) {
+     res.locals = res.locals || {};
+     res.locals.config = config;
+     next();
+   },
+   apiCtrl.systemConfig
+ );
 
  app.post('/api/user/create_and_login', apiCtrl.createUserAndLogin)
  app.post('/api/user/login', apiCtrl.userLogin)
@@ -317,54 +338,54 @@ helpers.messagingConfigurator({
  * Meta Routes
  */
 
-app.get('/account', passportConf.isAuthenticated, usersCtrl.getAccount)
-app.post('/account/profile', passportConf.isAuthenticated, usersCtrl.postUpdateProfile)
-app.post('/account/delete', passportConf.isAuthenticated, usersCtrl.postDeleteAccount)
+app.get('/account', passportAuth.isAuthenticated, usersCtrl.getAccount)
+app.post('/account/profile', passportAuth.isAuthenticated, usersCtrl.postUpdateProfile)
+app.post('/account/delete', passportAuth.isAuthenticated, usersCtrl.postDeleteAccount)
 
 /**
  * Users routes.
  */
 app.get('/users', usersCtrl.getUsers)
 app.get('/users/manage',
-  passportConf.isAuthenticated,
-  passportConf.checkRoles(['core', 'superAdmin']),
-  passportConf.checkScopes(['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook']),
+  passportAuth.isAuthenticated,
+  passportAuth.checkRoles(['core', 'superAdmin']),
+  passportAuth.checkScopes(['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook']),
   usersCtrl.getUsersManage)
 app.post('/users/manage',
-  passportConf.isAuthenticated,
-  passportConf.checkRoles(['core', 'superAdmin']),
-  passportConf.checkScopes(['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook']),
+  passportAuth.isAuthenticated,
+  passportAuth.checkRoles(['core', 'superAdmin']),
+  passportAuth.checkScopes(['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook']),
   usersCtrl.postUsersManage)
 app.post('/users/sync',
-  passportConf.isAuthenticated,
-  passportConf.checkRoles(['core', 'superAdmin']),
-  passportConf.checkScopes(['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook']),
+  passportAuth.isAuthenticated,
+  passportAuth.checkRoles(['core', 'superAdmin']),
+  passportAuth.checkScopes(['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook']),
   usersCtrl.postUsersSync)
 app.get('/users/new',
-  passportConf.isAuthenticated,
-  passportConf.checkRoles(['core', 'superAdmin']),
-  passportConf.checkScopes(['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook']),
+  passportAuth.isAuthenticated,
+  passportAuth.checkRoles(['core', 'superAdmin']),
+  passportAuth.checkScopes(['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook']),
   usersCtrl.getUsersNew)
 app.post('/users/new',
-  passportConf.isAuthenticated,
-  passportConf.checkRoles(['core', 'superAdmin']),
-  passportConf.checkScopes(['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook']),
+  passportAuth.isAuthenticated,
+  passportAuth.checkRoles(['core', 'superAdmin']),
+  passportAuth.checkScopes(['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook']),
   usersCtrl.postUsersNew)
 app.get('/users/:userId', usersCtrl.getUsersID)
 app.post('/users/:userId',
-  passportConf.isAuthenticated,
-  passportConf.checkRoles(['core', 'superAdmin']),
-  passportConf.checkScopes(['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook']),
+  passportAuth.isAuthenticated,
+  passportAuth.checkRoles(['core', 'superAdmin']),
+  passportAuth.checkScopes(['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook']),
   usersCtrl.postUsersIDSettings)
 app.get('/users/:userId/settings',
-  passportConf.isAuthenticated,
-  passportConf.checkRoles(['core', 'superAdmin']),
-  passportConf.checkScopes(['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook']),
+  passportAuth.isAuthenticated,
+  passportAuth.checkRoles(['core', 'superAdmin']),
+  passportAuth.checkScopes(['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook']),
   usersCtrl.getUsersIDSettings)
 app.post('/users/:userId/sync',
-  passportConf.isAuthenticated,
-  passportConf.checkRoles(['core', 'superAdmin']),
-  passportConf.checkScopes(['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook']),
+  passportAuth.isAuthenticated,
+  passportAuth.checkRoles(['core', 'superAdmin']),
+  passportAuth.checkScopes(['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook']),
   usersCtrl.postUsersIDSync)
 
 /**
@@ -379,7 +400,7 @@ app.get('/auth/google', passport.authenticate('google', {
     'profile'
   ]
 }))
-app.get('/auth/google/elevate', passportConf.elevateScope)
+app.get('/auth/google/elevate', passportAuth.elevateScope)
 app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), function (req, res) {
   console.log('new google callback!', req.user.postAuthLink)
   req.user.postAuthLink = req.user.postAuthLink || ''
@@ -393,7 +414,7 @@ app.get('/auth/github', passport.authenticate('github', {
     'public_repo'
   ]
 }))
-app.get('/auth/github/elevate', passportConf.elevateScope)
+app.get('/auth/github/elevate', passportAuth.elevateScope)
 app.get('/auth/github/callback', passport.authenticate('github', { failureRedirect: '/login' }), function (req, res) {
   console.log('new github callback!', req.user.postAuthLink)
   req.user.postAuthLink = req.user.postAuthLink || ''
@@ -406,7 +427,7 @@ app.get('/auth/meetup/callback', passport.authenticate('meetup', { failureRedire
   res.redirect(req.session.returnTo || '/account')
 })
 
-app.get('/auth/disconnect/:service', passportConf.isAuthenticated, usersCtrl.disconnectService)
+app.get('/auth/disconnect/:service', passportAuth.isAuthenticated, usersCtrl.disconnectService)
 /**
  * Error Handler.
  */
