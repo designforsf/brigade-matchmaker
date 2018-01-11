@@ -8,17 +8,17 @@ class T {
     this._title = i_title;
   }
   get name() {
-    T._toKey(self._title);
+    return T._toKey(this._title);
   }
 
   get title() {
-    return self._title;
+    return this._title;
   }
-  /*
   get synonyms() {
     return this._synonyms;
   }
 
+  /*
   synonyms(i_synonyms) {
     this._synonyms = i_synonyms;
   }
@@ -87,7 +87,7 @@ class TCategory extends T {
 
 class TTop extends TCategory {
   get className() {
-    this.title().split().pop();
+    return this.title.split(" ").pop();
   }
 
   serializeAll() {
@@ -98,6 +98,8 @@ class TTop extends TCategory {
     for (var child in this._children) {
       out.concat(child.serialize(this));
     }
+
+    return out;
   }
 
   serializeThis() {
