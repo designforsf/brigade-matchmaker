@@ -142,7 +142,7 @@ var ProjectTaxonomies = require('./models/ProjectTaxonomies')
  app.use(allowCrossDomain);
  
  
-app.set('port', process.env.PORT || 5465)
+app.set('port', config.web.port || 5465)
 app.set('views', path.join(__dirname, 'themes'))
 app.locals.capitalize = function (value) {
   return value.charAt(0).toUpperCase() + value.slice(1)
@@ -295,6 +295,7 @@ app.get('/logout', usersCtrl.getLogout)
  app.get('/api/project/taxonomy/skills', apiCtrl.getTaxonomySkills)
  app.get('/api/project/taxonomy/interests', apiCtrl.getTaxonomyInterests)
  app.get('/api/project/taxonomy/goals', apiCtrl.getTaxonomyGoals)
+ app.get('/api/project/taxonomies-for-ui', apiCtrl.getTaxonomiesForUI)
  
  app.get('/test/api/projects', apiCtrl.testProjects)
  app.get('/test/api/taxonomy-selector', 

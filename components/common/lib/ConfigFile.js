@@ -11,14 +11,16 @@ module.exports = ConfigFile;
 function ConfigFile (attr) {
   var self = this;
   
+  var env = global.process.env.NODE_ENV ? global.process.env.NODE_ENV : 'development';
+
   try {
-    console.log('Attempting to require.resolve ' + 'etc/' + global.process.env.NODE_ENV)
-    require.resolve('../../etc/' + global.process.env.NODE_ENV);
-    self.config = require('../../etc/' + global.process.env.NODE_ENV).config;
+    console.log('ConfigFile: require.resolve ' + 'etc/' + env)
+    require.resolve('../../../etc/' + env);
+    self.config = require('../../../etc/' + env).config;
 
   } catch (err) {
     if (err) { console.error(err); }
-    console.log('Service will use the default config: etc/env.js.default');
+    console.log('ConfigFile: service will use the default config: etc/env.js.default');
 
     // fall back to the default config
     try {
@@ -27,7 +29,7 @@ function ConfigFile (attr) {
 
     } catch (defaulterr) {
       if (defaulterr) { console.error(defaulterr); }
-      console.error('Cannot load etc/env.js.default');
+      console.error('ConfigFile: cannot load etc/env.js.default');
       process.exit(defaulterr.code);
     }
 
