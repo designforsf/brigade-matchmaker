@@ -767,7 +767,7 @@ module.exports = {
               cb(err, {
                   name: 'skills',
                   title: 'Skills',
-                  items: itemsBySection
+                  itemsBySection: itemsBySection
               });
             });
           },
