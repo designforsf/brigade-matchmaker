@@ -2,7 +2,7 @@ var mongoose = require('mongoose')
 var _ = require('lodash')
 var linkHeaderParser = require('link-header-parser')
 var Users = require('./Users')
-var defaultHeaders = require('../config/defaultGithubAPIHeaders')
+var defaultHeaders = require('../lib/defaultGithubAPIHeaders')
 var slug = require('slug')
 
 var projectsSchema = new mongoose.Schema({
