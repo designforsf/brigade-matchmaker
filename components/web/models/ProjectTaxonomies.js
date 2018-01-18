@@ -7,15 +7,17 @@ class T {
     this._synonyms = [];
     this._title = i_title;
   }
+
   get name() {
     return T._toKey(this._title);
   }
 
-  get title() {
-    return this._title;
-  }
   get synonyms() {
     return this._synonyms;
+  }
+
+  get title() {
+    return this._title;
   }
 
   /*
@@ -24,12 +26,26 @@ class T {
   }
   */
 
+  serialize(i_parent) {
+    return [this.serializeThis(i_parent)];
+  }
+
+  serializeThis(i_parent) {
+    return {
+      name: this.name,
+      synonyms: this.synonyms,
+      parent: i_parent.topmost(),
+      title: this.title,
+      className: i_parent.className,
+    };
+  }
+
   static _toKey(i_string) {
     return i_string.replace(' ', '-').replace('\\', '_').replace('\'', '').replace('&', 'and');
   }
   
-  static toplevel(i_title) {
-    return new TTop(i_title);
+  static toplevel(i_title, i_children) {
+    return new TTop(i_title, i_children);
   }
 
   static category(i_title, i_children) {
@@ -45,16 +61,6 @@ class TItem extends T {
   constructor(i_title) {
     super(i_title);
   }
-
-  serialize(i_parent) {
-    return {
-      name: this.name,
-      synonyms: this.synonyms,
-      parent: i_parent.topmost(),
-      title: this.title,
-      className: i_parent.className,
-    };
-  }
 }
 
 class TCategory extends T {
@@ -64,27 +70,29 @@ class TCategory extends T {
   }
 
   get className() {
-    return this.name();
+    return this.name;
   }
 
   serialize(i_parent) {
     var out = [
-      this.serialize(this)
+      this.serializeThis(i_parent)
     ];
 
-    for (var child in this._children) {
-      out.concat(child.serialize(this));
-    }
+    this._children.forEach(function(child) {
+      out = out.concat(child.serialize(this));
+    });
 
     return out;
   }
 
   topmost() {
     var current = this;
-    while(current != nullptr) {
-      if(current instanceof T.toplevel) {
+    while(current != undefined) {
+      if(current instanceof TTop) {
         break;
       }
+
+      current = current.parent;
     }
 
     return current;
@@ -92,6 +100,11 @@ class TCategory extends T {
 }
 
 class TTop extends TCategory {
+  constructor(i_title, i_children) {
+    super(i_title);
+    this._children = i_children;
+  }
+
   get className() {
     return this.title.split(" ").pop();
   }
@@ -101,9 +114,9 @@ class TTop extends TCategory {
       this.serializeThis()
     ];
 
-    for (var child in this._children) {
-      out.concat(child.serialize(this));
-    }
+    this._children.forEach(function(child) {
+      out = out.concat(child.serialize(this));
+    });
 
     return out;
   }
@@ -327,18 +340,19 @@ var ptSchema = new mongoose.Schema({
 /*
   top-level taxonomies
 */
-
 ptSchema.methods.getTaxonomies = function (cb) {
-  return cb(null, TAXONOMIES.map(t => t.serializeThis()));
+  var taxonomies = Array.from(Object.keys(TAXONOMIES).map(t => TAXONOMIES[t].serializeThis()));
+  return cb(null, taxonomies);
 };
 
 
 /*
   skills taxonomy
 */
-
 ptSchema.methods.getSkills = function (cb) {
-  return cb(null, TAXONOMIES.skills.serializeAll());
+  var skillz = TAXONOMIES.skills.serializeAll();
+  // console.log(skillz);
+  return cb(null, skillz);
 };
 
 
@@ -347,7 +361,9 @@ ptSchema.methods.getSkills = function (cb) {
 */
 
 ptSchema.methods.getInterests = function (cb) {
-  return cb(null, TAXONOMIES.interests.serializeAll());
+  var interestz = TAXONOMIES.interests.serializeAll();
+  // console.log(interestz);
+  return cb(null, interestz);
 };
 
 module.exports = mongoose.model('ProjectTaxonomies', ptSchema);
