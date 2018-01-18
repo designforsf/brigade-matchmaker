@@ -78,8 +78,9 @@ class TCategory extends T {
       this.serializeThis(i_parent)
     ];
 
+    var currentParent = this;
     this._children.forEach(function(child) {
-      out = out.concat(child.serialize(this));
+      out = out.concat(child.serialize(currentParent));
     });
 
     return out;
@@ -114,8 +115,9 @@ class TTop extends TCategory {
       this.serializeThis()
     ];
 
+    var currentParent = this;
     this._children.forEach(function(child) {
-      out = out.concat(child.serialize(this));
+      out = out.concat(child.serialize(currentParent));
     });
 
     return out;
@@ -351,7 +353,6 @@ ptSchema.methods.getTaxonomies = function (cb) {
 */
 ptSchema.methods.getSkills = function (cb) {
   var skillz = TAXONOMIES.skills.serializeAll();
-  // console.log(skillz);
   return cb(null, skillz);
 };
 
@@ -362,7 +363,6 @@ ptSchema.methods.getSkills = function (cb) {
 
 ptSchema.methods.getInterests = function (cb) {
   var interestz = TAXONOMIES.interests.serializeAll();
-  // console.log(interestz);
   return cb(null, interestz);
 };
 
