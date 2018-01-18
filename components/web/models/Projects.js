@@ -2,7 +2,7 @@ var mongoose = require('mongoose')
 var _ = require('lodash')
 var linkHeaderParser = require('link-header-parser')
 var Users = require('./Users')
-var defaultHeaders = require('../config/defaultGithubAPIHeaders')
+var defaultHeaders = require('../lib/defaultGithubAPIHeaders')
 var slug = require('slug')
 
 var projectsSchema = new mongoose.Schema({
@@ -53,9 +53,6 @@ var projectsSchema = new mongoose.Schema({
   repository: {type: String, default: ''},
   githubSlug: {type: String, default: ''},
   contact: {type: Array, default: []},
-  slackUserName: {type: String, default: ''},
-  slackId: {type: String, default: ''},
-  slackDm: {type: String, default: ''},
   team: {type: Array, default: []},
   partners: {type: Array, default: []}, // name, email, logo?
   data: {type: Array, default: []},

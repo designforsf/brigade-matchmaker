@@ -112,6 +112,15 @@ Returns keywords data under the parent of "goals".
 wget -qO- http://localhost:5465/api/project/taxonomy/goals
 ```
 
+### GET /api/project/taxonomies-for-ui
+
+Returns all keywords data, as a [Tree Structure for UI Rendering](https://github.com/designforsf/brigade-matchmaker/blob/master/docs/taxonomy.md#tree-structure-for-ui-rendering).
+
+```
+wget -qO- http://localhost:5465/api/project/taxonomies-for-ui
+```
+
+
 
 ## Messaging API
 

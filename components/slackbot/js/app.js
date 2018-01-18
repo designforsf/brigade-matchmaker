@@ -3,11 +3,13 @@ require.config({
       jquery: 'lib/jquery',
       handlebars: 'lib/handlebars',
       backbone: 'lib/backbone',
-      underscore: 'lib/underscore'
+      underscore: 'lib/underscore',
+      messagingview: 'views/MessagingView',
    }
 });
 
-require(['views/MessagingView'], function(MessagingView){
+/*
+require(['messagingview'], function(MessagingView){
    new MessagingView({
       //Use learnedSkills
       skills: ["java", "react"],
@@ -15,3 +17,4 @@ require(['views/MessagingView'], function(MessagingView){
       learning: ["node"]
    });
 });
+*/

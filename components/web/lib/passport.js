@@ -5,7 +5,7 @@ var LocalStrategy = require('passport-local').Strategy
 var GitHubStrategy = require('passport-github').Strategy
 var GoogleStrategy = require('passport-google-oauth20').Strategy
 var MeetupStrategy = require('passport-meetup').Strategy
-var defaultHeaders = require('../config/defaultGithubAPIHeaders')
+var defaultHeaders = require('../lib/defaultGithubAPIHeaders')
 
 var User = require('../models/Users')
 
