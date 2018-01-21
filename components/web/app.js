@@ -27,6 +27,7 @@ var path = require('path')
 var requireDir = require('require-dir')
 var pkg = require('./package.json')
 var router = express.Router()
+var path = require("path")
 require('colors')
 
 /**
@@ -35,6 +36,18 @@ require('colors')
  * Default path: .env
  */
 require('./dotenv.js')()
+
+/**
+
+ * New configuration file approach : common/ConfigFile
+ * Allows for more complex data in environment-based configration.
+
+**/
+
+var ConfigFile = require('../common/lib/ConfigFile');
+var config = new ConfigFile().config;
+
+
 /**
  * Controllers (route handlers).
  */
@@ -52,9 +65,9 @@ var helpers = requireDir('./helpers')
 var brigadeDetails
 
 /**
- * API keys and Passport configuration.
+ * API keys and Passport
  */
-var passportConf = require('./config/passport')
+var passportAuth = require('./lib/passport')
 
 /**
  * Create Express server.
@@ -129,7 +142,7 @@ var ProjectTaxonomies = require('./models/ProjectTaxonomies')
  app.use(allowCrossDomain);
  
  
-app.set('port', process.env.PORT || 5465)
+app.set('port', config.web.port || 5465)
 app.set('views', path.join(__dirname, 'themes'))
 app.locals.capitalize = function (value) {
   return value.charAt(0).toUpperCase() + value.slice(1)
@@ -233,33 +246,7 @@ app.use(function (req, res, next) {
 app.get('/login-old', homeCtrl.index)
 var pt = new ProjectTaxonomies();
 
-app.get('/',
-  function (req, res, next) {
-    pt.getSkills(function (err, results) {
-      if (err) throw err
-      res.locals = res.locals || {}
-      res.locals.projectTaxonomySkills = results
-      next()
-    })
-  },
-  function (req, res, next) {
-    pt.getInterests(function (err, results) {
-      if (err) throw err
-      res.locals = res.locals || {}
-      res.locals.projectTaxonomyInterests = results
-      next()
-    })
-  },
-  function (req, res, next) {
-    pt.getGoals(function (err, results) {
-      if (err) throw err
-      res.locals = res.locals || {}
-      res.locals.projectTaxonomyGoals = results
-      next()
-    })
-  },
-  homeCtrl.projectList
-)
+app.get('/',homeCtrl.projectList)
 
 /**
 /* PK 4_24 /projects and /matching no longer used
@@ -270,12 +257,12 @@ app.get('/',
 app.get('/login', usersCtrl.getLogin)
 app.post('/login', usersCtrl.postLogin)
 app.get('/login/edit',
-  passportConf.isAuthenticated,
-  passportConf.checkRoles(['core', 'superAdmin']),
+  passportAuth.isAuthenticated,
+  passportAuth.checkRoles(['core', 'superAdmin']),
   usersCtrl.getLoginEdit)
 app.post('/login/edit',
-  passportConf.isAuthenticated,
-  passportConf.checkRoles(['core', 'superAdmin']),
+  passportAuth.isAuthenticated,
+  passportAuth.checkRoles(['core', 'superAdmin']),
   usersCtrl.postLoginEdit)
 app.get('/logout', usersCtrl.getLogout)
 
@@ -283,6 +270,15 @@ app.get('/logout', usersCtrl.getLogout)
 /**
  * API routes
  */
+
+ app.get('/api/system/config', 
+   function (req, res, next) {
+     res.locals = res.locals || {};
+     res.locals.config = config;
+     next();
+   },
+   apiCtrl.systemConfig
+ );
 
  app.post('/api/user/create_and_login', apiCtrl.createUserAndLogin)
  app.post('/api/user/login', apiCtrl.userLogin)
@@ -296,10 +292,16 @@ app.get('/logout', usersCtrl.getLogout)
  app.get('/api/projects/:id', apiCtrl.getProject)
  app.patch('/api/projects/:id', apiCtrl.updateProject)
  app.post('/api/projects/:id', apiCtrl.updateProject)
+
  app.get('/api/project/taxonomy/skills', apiCtrl.getTaxonomySkills)
  app.get('/api/project/taxonomy/interests', apiCtrl.getTaxonomyInterests)
  app.get('/api/project/taxonomy/goals', apiCtrl.getTaxonomyGoals)
- 
+
+ app.get('/api/project/taxonomies-for-ui', apiCtrl.getTaxonomiesForUI)
+ app.get('/api/project/taxonomy/skills-for-ui', apiCtrl.getTaxonomySkillsForUI)
+ app.get('/api/project/taxonomy/interests-for-ui', apiCtrl.getTaxonomyInterestsForUI)
+ app.get('/api/project/taxonomy/goals-for-ui', apiCtrl.getTaxonomyGoalsForUI)
+
  app.get('/test/api/projects', apiCtrl.testProjects)
  app.get('/test/api/taxonomy-selector', 
    function (req, res, next) {
@@ -342,54 +344,54 @@ helpers.messagingConfigurator({
  * Meta Routes
  */
 
-app.get('/account', passportConf.isAuthenticated, usersCtrl.getAccount)
-app.post('/account/profile', passportConf.isAuthenticated, usersCtrl.postUpdateProfile)
-app.post('/account/delete', passportConf.isAuthenticated, usersCtrl.postDeleteAccount)
+app.get('/account', passportAuth.isAuthenticated, usersCtrl.getAccount)
+app.post('/account/profile', passportAuth.isAuthenticated, usersCtrl.postUpdateProfile)
+app.post('/account/delete', passportAuth.isAuthenticated, usersCtrl.postDeleteAccount)
 
 /**
  * Users routes.
  */
 app.get('/users', usersCtrl.getUsers)
 app.get('/users/manage',
-  passportConf.isAuthenticated,
-  passportConf.checkRoles(['core', 'superAdmin']),
-  passportConf.checkScopes(['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook']),
+  passportAuth.isAuthenticated,
+  passportAuth.checkRoles(['core', 'superAdmin']),
+  passportAuth.checkScopes(['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook']),
   usersCtrl.getUsersManage)
 app.post('/users/manage',
-  passportConf.isAuthenticated,
-  passportConf.checkRoles(['core', 'superAdmin']),
-  passportConf.checkScopes(['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook']),
+  passportAuth.isAuthenticated,
+  passportAuth.checkRoles(['core', 'superAdmin']),
+  passportAuth.checkScopes(['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook']),
   usersCtrl.postUsersManage)
 app.post('/users/sync',
-  passportConf.isAuthenticated,
-  passportConf.checkRoles(['core', 'superAdmin']),
-  passportConf.checkScopes(['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook']),
+  passportAuth.isAuthenticated,
+  passportAuth.checkRoles(['core', 'superAdmin']),
+  passportAuth.checkScopes(['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook']),
   usersCtrl.postUsersSync)
 app.get('/users/new',
-  passportConf.isAuthenticated,
-  passportConf.checkRoles(['core', 'superAdmin']),
-  passportConf.checkScopes(['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook']),
+  passportAuth.isAuthenticated,
+  passportAuth.checkRoles(['core', 'superAdmin']),
+  passportAuth.checkScopes(['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook']),
   usersCtrl.getUsersNew)
 app.post('/users/new',
-  passportConf.isAuthenticated,
-  passportConf.checkRoles(['core', 'superAdmin']),
-  passportConf.checkScopes(['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook']),
+  passportAuth.isAuthenticated,
+  passportAuth.checkRoles(['core', 'superAdmin']),
+  passportAuth.checkScopes(['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook']),
   usersCtrl.postUsersNew)
 app.get('/users/:userId', usersCtrl.getUsersID)
 app.post('/users/:userId',
-  passportConf.isAuthenticated,
-  passportConf.checkRoles(['core', 'superAdmin']),
-  passportConf.checkScopes(['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook']),
+  passportAuth.isAuthenticated,
+  passportAuth.checkRoles(['core', 'superAdmin']),
+  passportAuth.checkScopes(['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook']),
   usersCtrl.postUsersIDSettings)
 app.get('/users/:userId/settings',
-  passportConf.isAuthenticated,
-  passportConf.checkRoles(['core', 'superAdmin']),
-  passportConf.checkScopes(['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook']),
+  passportAuth.isAuthenticated,
+  passportAuth.checkRoles(['core', 'superAdmin']),
+  passportAuth.checkScopes(['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook']),
   usersCtrl.getUsersIDSettings)
 app.post('/users/:userId/sync',
-  passportConf.isAuthenticated,
-  passportConf.checkRoles(['core', 'superAdmin']),
-  passportConf.checkScopes(['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook']),
+  passportAuth.isAuthenticated,
+  passportAuth.checkRoles(['core', 'superAdmin']),
+  passportAuth.checkScopes(['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook']),
   usersCtrl.postUsersIDSync)
 
 /**
@@ -404,7 +406,7 @@ app.get('/auth/google', passport.authenticate('google', {
     'profile'
   ]
 }))
-app.get('/auth/google/elevate', passportConf.elevateScope)
+app.get('/auth/google/elevate', passportAuth.elevateScope)
 app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), function (req, res) {
   console.log('new google callback!', req.user.postAuthLink)
   req.user.postAuthLink = req.user.postAuthLink || ''
@@ -418,7 +420,7 @@ app.get('/auth/github', passport.authenticate('github', {
     'public_repo'
   ]
 }))
-app.get('/auth/github/elevate', passportConf.elevateScope)
+app.get('/auth/github/elevate', passportAuth.elevateScope)
 app.get('/auth/github/callback', passport.authenticate('github', { failureRedirect: '/login' }), function (req, res) {
   console.log('new github callback!', req.user.postAuthLink)
   req.user.postAuthLink = req.user.postAuthLink || ''
@@ -431,7 +433,7 @@ app.get('/auth/meetup/callback', passport.authenticate('meetup', { failureRedire
   res.redirect(req.session.returnTo || '/account')
 })
 
-app.get('/auth/disconnect/:service', passportConf.isAuthenticated, usersCtrl.disconnectService)
+app.get('/auth/disconnect/:service', passportAuth.isAuthenticated, usersCtrl.disconnectService)
 /**
  * Error Handler.
  */
@@ -578,6 +580,20 @@ function startServer () {
   })
   app.use(favicon(path.join(__dirname, 'themes/' + brigadeDetails.theme.slug + '/public', 'favicon.png')))
   app.use(express.static(path.join(__dirname, 'themes/' + brigadeDetails.theme.slug + '/public'), { maxAge: 31557600000 }))
+  
+  // static resources for components
+  app.use("/common", 
+    express.static(path.resolve(__dirname, '../common/public')));
+  app.use("/components/project-list", 
+    express.static(path.resolve(__dirname, '../project-list')));
+  app.use("/components/slackbot", 
+    express.static(path.resolve(__dirname, '../slackbot')));
+  app.use("/components/taxonomy-selector", 
+    express.static(path.resolve(__dirname, '../taxonomy-selector/public')));
+
+  // for development
+  app.locals.pretty = true; // sets jade/pug HTML to render pretty
+
   app.listen(app.get('port'), function () {
     console.log('[BrigadeMatchmaker]'.yellow + ' Server listening on port', app.get('port'))
   })

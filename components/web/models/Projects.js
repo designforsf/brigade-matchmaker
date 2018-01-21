@@ -2,7 +2,7 @@ var mongoose = require('mongoose')
 var _ = require('lodash')
 var linkHeaderParser = require('link-header-parser')
 var Users = require('./Users')
-var defaultHeaders = require('../config/defaultGithubAPIHeaders')
+var defaultHeaders = require('../lib/defaultGithubAPIHeaders')
 var slug = require('slug')
 
 var projectsSchema = new mongoose.Schema({
@@ -27,7 +27,7 @@ var projectsSchema = new mongoose.Schema({
     skillsOffered: {type: Array, default: []}, // for members to learn
     goalsNeeded: {type: Array, default: []}
   },
-  
+
   matchingDescr: {
     thumbnailUrl: {type: String, default: ''},
     summary: {type: String, default: ''},
@@ -71,10 +71,10 @@ projectsSchema.statics.prepareResultForJsonAPI = function(result) {
   var project = result.toObject();
 
   var project = result.toObject();
-  
+
   // re-name fields for EmberJS/JSON-API conformance
   project['matching-descr'] = project.matchingDescr;
-  if (typeof project['matching-descr'] !== 'undefined') { 
+  if (typeof project['matching-descr'] !== 'undefined') {
     project['matching-descr'] = {};
   }
   delete project.matchingDescr;
@@ -85,7 +85,7 @@ projectsSchema.statics.prepareResultForJsonAPI = function(result) {
     id: result._id,
     attributes: project
   };
-  
+
 };
 
 projectsSchema.statics.prepareResultForJsonAPI = function(results, cb) {

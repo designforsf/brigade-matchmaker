@@ -1,6 +1,6 @@
 {
-    "name": "matching-hat-messaging",
-    "description": "Component to provide moderated email conversation between the new member and a project representative.",
+    "name": "project-match-taxonomy-selector",
+    "description": "Component to provide a taxonomy selector UI, enabling users to interact with the matching algo and the project list.",
     "version": "0.9.0",
     "homepage": "",
     "author": {
@@ -15,30 +15,23 @@
     "bugs": {
         "url": ""
     },
-    "license": {
-    },
+    "license": {},
     "private": true,
-    "scripts": {
-    },
+    "scripts": {},
     "dependencies": {
-        "mailparser":"~2.0.2",
-        "emailjs": "~1.0.8",
-        "imap": "~0.8.19",
-
+        "handlebars": "~4.0.11",
         "express": "~4.13.4",
         "express-session": "~1.11.3",
         "cookie-parser": "~1.3.5",
-        "body-parser":"~1.13.3",
-        "errorhandler":"~1.4.3",
-        "method-override":"~2.3.7",
-        "multer":"~0.1.8",
-        "path":"~0.11.14",
-        "serve-favicon":"~2.3.2",
-        "urlize":"~0.2.1",
+        "body-parser": "~1.13.3",
+        "errorhandler": "~1.4.3",
+        "method-override": "~2.3.7",
+        "multer": "~0.1.8",
+        "path": "~0.11.14",
+        "serve-favicon": "~2.3.2",
+        "urlize": "~0.2.1",
         "winston": "~1.0.2"
     },
-    "keywords": [
-    ],
-    "devDependencies": {
-    }
+    "keywords": [],
+    "devDependencies": {}
 }

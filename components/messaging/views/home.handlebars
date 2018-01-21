@@ -1,0 +1,32 @@
+<!-- button changes css of #contact-project-lead to visible -->
+
+<div class="container">
+  <button type="button" class="btn btn-success" id="example1">Contact Project Lead</button>
+</div>
+
+  <!-- to be replaced with templating blocks -->
+  <div id="contact-project-lead">
+    <h3>Contact [Project Name] Project Lead <span id="close-message">X</span></h3>
+    <form action="/process-slackbot" method="POST">
+      <div class="form-group">
+        <label for="name"></label>
+        <input type="text" class="form-control" required id="name" placeholder="Your Name" name="name">
+        <label for="email"></label>
+        <input type="email" class="form-control" required id="email" placeholder="Your Email" name="email">
+      </div>
+      <div id="message">
+        <!-- eventually we want this to be a form you can edit -->
+        <p>Hi there,<br>
+          I'm a new member of Code for SF, and I am interested in learning more about how I can contribute to your project. Attached are my skills and interests for your reference. I look forward to hearing from you!</p>
+        <p><strong>Skills to contribute</strong><br>
+          [Tags]<br>
+          <strong>Skills to learn</strong><br>
+          [Tags]<br>
+          <strong>Civic Interests</strong><br>
+          [Tags]</p>
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-success" id="message-button">Send Message</button>
+      </div>
+    </form>
+  </div>

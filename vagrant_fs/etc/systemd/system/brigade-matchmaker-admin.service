@@ -1,0 +1,16 @@
+[Unit]
+Description=Brigade Matchmaker Ember-client
+Documentation=https://github.com/designforsf/brigade-matchmaker
+After=network.target mongod.service
+
+[Service]
+Environment=NODE_VERSION=6.12.2
+Type=simple
+User=vagrant
+ExecReload=/opt/nvm/nvm-exec ember build
+ExecStart=/opt/nvm/nvm-exec ember serve
+Restart=on-failure
+WorkingDirectory=/opt/brigade-matchmaker/components/ember-client
+
+[Install]
+WantedBy=multi-user.target
