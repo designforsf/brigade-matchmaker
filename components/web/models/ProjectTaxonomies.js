@@ -34,14 +34,19 @@ class T {
     return {
       name: this.name,
       synonyms: this.synonyms,
-      parent: i_parent.topmost(),
+      parent: i_parent.name,
       title: this.title,
       className: i_parent.className,
     };
   }
 
   static _toKey(i_string) {
-    return i_string.replace(' ', '-').replace('\\', '_').replace('\'', '').replace('&', 'and');
+    return i_string
+      .replace(/\ /g, '-')
+      .replace(/\\/g, '_')
+      .replace(/\'/g, '')
+      .replace(/\&/g, 'and')
+      .toLowerCase();
   }
   
   static toplevel(i_title, i_children) {
