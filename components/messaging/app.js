@@ -8,7 +8,6 @@
 
 
 // node module dependencies
-
 var express = require('express')
   , path = require('path')
   , bodyParser = require('body-parser')
@@ -21,6 +20,7 @@ var express = require('express')
   , handlebars = require('express-handlebars')
   , WebClient = require('@slack/client').WebClient
   , credentials = require('./credentials.js')
+  , mongoose = require('mongoose');
 ;
 
 // access Slack API token
@@ -84,7 +84,7 @@ class NewUser {
 app.get('/', function (req, res) {
   res.render('home');
 });
-
+// MESSAGING COMPONENT
 app.post('/process-slackbot', function (req, res) {
   // collect user data
   var email = req.body.email;
@@ -97,7 +97,7 @@ app.post('/process-slackbot', function (req, res) {
   var teamLead = 'Jane Doe';
 
   var tester = new NewUser(newUserName, project, skills.toString(), learn.toString(), civic.toString());
-
+// old message. see home.handlebars for what the current default message looks like.
   var message = `Hi ${teamLead},\n
                 I'm a new member and I'm interested in working on your ${tester.project}\n
                 My profile is appended below, and I can be reached at ${email}.\n

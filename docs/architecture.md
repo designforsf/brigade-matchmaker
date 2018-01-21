@@ -29,16 +29,17 @@ The project volunteering taxonomy provides sets of useful keywords which users s
 **Learn Skills** - 2-level hierarchy, example: "client-dev/javascript"
 **Interests** - 1-level hierarchy, example: "housing"
 
+[Taxonomy documentation](https://github.com/designforsf/brigade-matchmaker/tree/master/docs/taxonomy.md).
 
 ## Web App and REST API
 
-The webapp generates the web interface for users, controls how data is updated, and accesses the matchmaking function. 
+The webapp generates the web interface for users, controls how data is updated, and accesses the matchmaking function.
 
 All UIs make use of the REST API, which follows the [JSON API format](http://jsonapi.org/format/).
 
 To learn more, please take a look at the [REST API documentation](https://github.com/designforsf/brigade-matchmaker/tree/master/docs/json-api.md).
 
-### Key dependencies 
+### Key dependencies
 
 * [Express](http://expressjs.com/)
 * [Mongoose](http://mongoosejs.com/)
@@ -49,7 +50,7 @@ To learn more, please take a look at the [REST API documentation](https://github
 
 ### Origins of the Web App
 
-The Project Match new member front-end is based on the alpha version of [BrigadeHub](https://github.com/brigadehub/brigadehub/releases/tag/v1.0.0-alpha.11) (before many improvements were made). 
+The Project Match new member front-end is based on the alpha version of [BrigadeHub](https://github.com/brigadehub/brigadehub/releases/tag/v1.0.0-alpha.11) (before many improvements were made).
 
 As it is only a technical demonstration, Project Match does not track changes to BrigadeHub.
 
@@ -67,25 +68,25 @@ The New Member Front-End directly interacts with the algorithm, providing a JSON
 
 ### Project List UI
 
-Project List interacts with the JSON API to display a sorted list of projects. It is combined with Taxonomy Selector UI. 
+Project List interacts with the JSON API to display a sorted list of projects. It is combined with Taxonomy Selector UI.
 
 This UI component uses RequireJS, Handlebars, jQuery, Backbone, and Bootstrap.
 
 ### Taxonomy Selector UI
 
-Taxonomy Selector interacts with the JSON API to enable new members to select their volunteering preferences for skills to offer, skills to learn, and interests. It is combined with Project List. 
+Taxonomy Selector interacts with the JSON API to enable new members to select their volunteering preferences for skills to offer, skills to learn, and interests. It is combined with Project List.
 
 This UI component uses RequireJS, Handlebars, jQuery, and Bootstrap.
 
 ### Notifications UI
 
-Notifications is used throughout the Web App 
+Notifications is used throughout the Web App
 
 ---
 
 ## Messaging Service
 
-The Front-End sends emails from new members to project leads via an API hosted by the Messaging Service. This component is Node.js and securely interacts with the Slack API.
+The Front-End sends messages from new members to project leads via an API hosted by the Messaging Service. This component is Node.js and securely interacts with the Slack API.
 
 ---
 

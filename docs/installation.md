@@ -47,7 +47,7 @@ git push origin <YOUR GIT USERNAME>
 
 ## 2. Install the database
 
-If you do not want to just download and install the latest mongodb, for OSX systems there is a way to install it in components/mongodb. 
+If you do not want to just download and install the latest mongodb, for OSX systems there is a way to install it in components/mongodb.
 
 In the command line terminal:
 
@@ -73,9 +73,9 @@ cd brigade-matchmaker/components/mongodb
 
 SEE: [mongo shell reference](https://docs.mongodb.com/manual/reference/mongo-shell/)
 
-## 3. Install Node.js 
+## 3. Install Node.js
 
-Node.js is server-side javascript. We are targeting a particular version and you can use the Node Version Manager to make sure you use v6.12.2. 
+Node.js is server-side javascript. We are targeting a particular version and you can use the Node Version Manager to make sure you use v6.12.2.
 
 In the command line terminal:
 
@@ -155,7 +155,7 @@ pip install pymongo==3.4
 python match-algo.py javascript housing developer
 ```
 
-If the database is running and the webapp has been fired up (at least once), you should be able to interact with the matching algorithm using pre-loaded test project data. 
+If the database is running and the webapp has been fired up (at least once), you should be able to interact with the matching algorithm using pre-loaded test project data.
 
 In the command line terminal:
 
@@ -205,7 +205,7 @@ This is a user interface component presenting a list of projects. The project li
 
 ### Installing dependencies
 
-This installs, along with basic dependencies for a Node.js express application, the handlebars utility. 
+This installs, along with basic dependencies for a Node.js express application, the handlebars utility.
 
 ```
 cd components/project-list
@@ -231,9 +231,9 @@ For more info, SEE: [Using Handlebars with Backbone and RequireJS and Precompili
 
 ## Installing Admin / Project CMS
 
-This service enables project leaders to manage content stored in MongoDB. The data which project leaders manage here is displayed to new members in the Front-End. 
+This service enables project leaders to manage content stored in MongoDB. The data which project leaders manage here is displayed to new members in the Front-End.
 
-Project Content Management makes use of [EmberJS framework](http://emberjs.com/) and [Ember Bootstrap](http://www.ember-bootstrap.com/#/components) with the JSON API. 
+Project Content Management makes use of [EmberJS framework](http://emberjs.com/) and [Ember Bootstrap](http://www.ember-bootstrap.com/#/components) with the JSON API.
 
 ### Dependencies
 
@@ -261,22 +261,6 @@ To interact with the Project Content Management UI:
 
 # Installing Messaging Service
 
-This is a technical demo and starting the service currently only attempts to send a message using a GMail account. 
+The messaging service relies on the Slack Web API. Therefore testing the messaging service requires a Slack Web API token. You can find more information about those at https://api.slack.com/web
 
-### Dependencies:
-
-```
-cd brigade-matchmaker/components/messaging
-nvm use v6.12.2
-npm install
-```
-
-### Start the service
-
-```
-NODE_ENV=development node app.js
-```
-
-## Bookmarks
-
-This service has not been defined yet.
+As with all API keys, please make sure that the credential file is listed in your .gitignore file. You can find out more about best practices at https://api.slack.com/docs/oauth-safety
