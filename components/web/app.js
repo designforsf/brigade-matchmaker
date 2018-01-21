@@ -292,11 +292,16 @@ app.get('/logout', usersCtrl.getLogout)
  app.get('/api/projects/:id', apiCtrl.getProject)
  app.patch('/api/projects/:id', apiCtrl.updateProject)
  app.post('/api/projects/:id', apiCtrl.updateProject)
+
  app.get('/api/project/taxonomy/skills', apiCtrl.getTaxonomySkills)
  app.get('/api/project/taxonomy/interests', apiCtrl.getTaxonomyInterests)
  app.get('/api/project/taxonomy/goals', apiCtrl.getTaxonomyGoals)
+
  app.get('/api/project/taxonomies-for-ui', apiCtrl.getTaxonomiesForUI)
- 
+ app.get('/api/project/taxonomy/skills-for-ui', apiCtrl.getTaxonomySkillsForUI)
+ app.get('/api/project/taxonomy/interests-for-ui', apiCtrl.getTaxonomyInterestsForUI)
+ app.get('/api/project/taxonomy/goals-for-ui', apiCtrl.getTaxonomyGoalsForUI)
+
  app.get('/test/api/projects', apiCtrl.testProjects)
  app.get('/test/api/taxonomy-selector', 
    function (req, res, next) {
