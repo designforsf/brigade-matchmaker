@@ -77,7 +77,7 @@ var app = express()
 /**
  * Connect to MongoDB.
  */
-mongoose.connect(process.env.MONGODB || process.env.MONGOLAB_URI, function (err) {
+mongoose.connect(process.env.MONGODB || process.env.MONGOLAB_URI, {useMongoClient: true}, function (err) {
   if (err) throw new Error(err)
 });
 mongoose.connection.on('disconnected', function () {
