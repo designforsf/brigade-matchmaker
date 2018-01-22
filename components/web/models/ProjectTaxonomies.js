@@ -41,7 +41,12 @@ class T {
   }
 
   static _toKey(i_string) {
-    return i_string.replace(' ', '-').replace('\\', '_').replace('\'', '').replace('&', 'and').toLowerCase();
+    return i_string
+      .replace(/\ /g, '-')
+      .replace(/\\/g, '_')
+      .replace(/\'/g, '')
+      .replace(/\&/g, 'and')
+      .toLowerCase();
   }
   
   static toplevel(i_title, i_children) {
