@@ -26,22 +26,22 @@ class T {
   }
   */
 
-  serialize(i_parent) {
-    return [this.serializeThis(i_parent)];
+  serializeArray(i_parent, i_top) {
+    return [this.serializeThis(i_parent, i_top)];
   }
 
-  serializeThis(i_parent) {
+  serializeThis(i_parent, i_top) {
     return {
       name: this.name,
       synonyms: this.synonyms,
-      parent: i_parent.topmost(),
+      parent: i_top.name,
       title: this.title,
       className: i_parent.className,
     };
   }
 
   static _toKey(i_string) {
-    return i_string.replace(' ', '-').replace('\\', '_').replace('\'', '').replace('&', 'and');
+    return i_string.replace(' ', '-').replace('\\', '_').replace('\'', '').replace('&', 'and').toLowerCase();
   }
   
   static toplevel(i_title, i_children) {
@@ -73,30 +73,17 @@ class TCategory extends T {
     return this.name;
   }
 
-  serialize(i_parent) {
+  serializeArray(i_parent, i_top) {
     var out = [
-      this.serializeThis(i_parent)
+      this.serializeThis(i_parent, i_top)
     ];
 
     var currentParent = this;
     this._children.forEach(function(child) {
-      out = out.concat(child.serialize(currentParent));
+      out = out.concat(child.serializeArray(currentParent, i_top));
     });
 
     return out;
-  }
-
-  topmost() {
-    var current = this;
-    while(current != undefined) {
-      if(current instanceof TTop) {
-        break;
-      }
-
-      current = current.parent;
-    }
-
-    return current;
   }
 }
 
@@ -117,7 +104,7 @@ class TTop extends TCategory {
 
     var currentParent = this;
     this._children.forEach(function(child) {
-      out = out.concat(child.serialize(currentParent));
+      out = out.concat(child.serializeArray(currentParent, currentParent));
     });
 
     return out;
