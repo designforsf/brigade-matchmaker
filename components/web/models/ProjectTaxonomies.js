@@ -34,7 +34,7 @@ class T {
     return {
       name: this.name,
       synonyms: this.synonyms,
-      parent: i_top.name,
+      parent: i_parent.name,
       title: this.title,
       className: i_parent.className,
     };
@@ -44,8 +44,10 @@ class T {
     return i_string
       .replace(/\ /g, '-')
       .replace(/\\/g, '_')
-      .replace(/\'/g, '')
+      .replace(/\//g, 'and')
       .replace(/\&/g, 'and')
+      .replace(/\'/g, '')
+      .replace(/\,/g, '')
       .toLowerCase();
   }
   
@@ -108,7 +110,7 @@ class TTop extends TCategory {
     ];
 
     var currentParent = this;
-    this._children.forEach(function(child) {
+    this._children.forEach(function(child) { 
       out = out.concat(child.serializeArray(currentParent, currentParent));
     });
 

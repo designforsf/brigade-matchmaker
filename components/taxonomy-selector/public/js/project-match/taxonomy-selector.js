@@ -1,5 +1,3 @@
-
-
 (function (PM) {
 
   ProjectMatch.TaxonomySelector = {};
@@ -59,6 +57,7 @@
     };
   });
 
+
   /*
     init
 
@@ -70,7 +69,6 @@
       generateMatchCb
 
   */
-
 
   self.init = function (attr) {
     console.log('ProjectMatch.TaxonomySelector.init()');
@@ -92,22 +90,24 @@
     // wait until page loads
     jQuery(document).ready(function () {
 
-      // load the selection containers
-
-      self.taxModel.getSkills(function (taxonomy) {
-        console.log('ProjectMatch.TaxonomySelector.getSkills()');
-        self.renderSelection(taxonomy, 'skills', 2);
-        self.renderSelection(taxonomy, 'learnSkills', 2);
-      });
-
-      self.taxModel.getInterests(function (taxonomy) {
-        console.log('ProjectMatch.TaxonomySelector.getInterests()');
-        self.renderSelection(taxonomy, 'interests', 1);
-      });
-
-
       self.renderContainer(function (err, output) {
         console.log('...called renderContainer');
+
+
+        // load the selection containers
+        // NOTE: first requires renderContainer
+        
+        self.taxModel.getSkills(function (taxonomy) {
+          console.log('ProjectMatch.TaxonomySelector.getSkills()');
+          self.renderSelection(taxonomy, 'skills', 2);
+          self.renderSelection(taxonomy, 'learnSkills', 2);
+        });
+
+        self.taxModel.getInterests(function (taxonomy) {
+          console.log('ProjectMatch.TaxonomySelector.getInterests()');
+          self.renderSelection(taxonomy, 'interests', 1);
+        });
+
 
         // loop over taxonomies
         // then load the UI click handlers
@@ -164,8 +164,11 @@
 
       }); // END get container
 
-    });
+    }); // END jQuery ready
     
+
+
+
     return self;
 
   }
