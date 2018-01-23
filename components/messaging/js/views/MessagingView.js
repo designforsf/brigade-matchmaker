@@ -13,9 +13,16 @@ define(['underscore','backbone','handlebars','models/MessagingModel'],
       },
       submitHandler: function(e){
          var final_obj = this.model.createFinalObj($('form').serializeArray());
-         //This is where we would send to slackbot!!
-         console.log("THIS IS WHERE WE WOULD SUBMIT DATA TO SLACKBOT");
-         console.log(final_obj);
+         $.ajax({
+            type: "POST",
+            url: 'http://localhost:5475/',
+            success: function() {
+              console.log('ajax callback response: ' + data);
+            },
+            dataType: 'json',
+            contentType: 'application/json; charset=UTF-8',
+            data: JSON.stringify(final_obj)
+          });
          this.remove();
          this.render();
       },
