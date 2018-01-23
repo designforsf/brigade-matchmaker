@@ -42,3 +42,5 @@ npm-debug.log
 node_modules
 
 credentials.js
+test.js
+cron.js
