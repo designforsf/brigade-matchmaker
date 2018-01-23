@@ -72,7 +72,11 @@ var passportAuth = require('./lib/passport')
 /**
  * Create Express server.
  */
-var app = express()
+var app = express();
+
+// express global variables
+app.set('config',config);
+
 
 /**
  * Connect to MongoDB.

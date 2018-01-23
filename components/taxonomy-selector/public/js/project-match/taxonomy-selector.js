@@ -7,8 +7,9 @@
 
   var Handlebars;
 
-
+  self.taxModel = undefined;
   self.generateMatchCb = undefined;
+  self.config = undefined;
 
   /*
     
@@ -72,6 +73,16 @@
 
 
   self.init = function (attr) {
+    console.log('ProjectMatch.TaxonomySelector.init()');
+    //console.log(attr);
+
+    self.config = attr.config;
+
+
+    // init the taxonomy model
+    self.taxModel = ProjectMatch.TaxonomyModel.init({
+      config: self.config
+    });
 
     // generate match function
     self.generateMatchCb = attr.generateMatchCb || function () {
@@ -81,15 +92,29 @@
     // wait until page loads
     jQuery(document).ready(function () {
 
-      console.log('ProjectMatch.TaxonomySelector.init()');
+      // load the selection containers
+
+      self.taxModel.getSkills(function (taxonomy) {
+        console.log('ProjectMatch.TaxonomySelector.getSkills()');
+        self.renderSelection(taxonomy, 'skills', 2);
+        self.renderSelection(taxonomy, 'learnSkills', 2);
+      });
+
+      self.taxModel.getInterests(function (taxonomy) {
+        console.log('ProjectMatch.TaxonomySelector.getInterests()');
+        self.renderSelection(taxonomy, 'interests', 1);
+      });
+
 
       self.renderContainer(function (err, output) {
-        console.log('called renderContainer ', output)
+        console.log('...called renderContainer');
 
         // loop over taxonomies
         // then load the UI click handlers
 
         self.taxonomies.forEach(function (selectedTaxonomy) {
+
+          console.log('...prepare #taxonomy-selector-' + selectedTaxonomy + '-container onClick');
 
           //console.log('Load onClick for ' + 'taxonomy-selector-' + taxonomyName + '-container');
           jQuery('#taxonomy-selector-' + selectedTaxonomy + '-container').click(function() {
@@ -135,25 +160,13 @@
 
 
           });
-        })
-        
-
-        // load the selection containers
-
-        ProjectMatch.TaxonomyModel.getSkills(function (taxonomy) {
-          self.renderSelection(taxonomy, 'skills', 2);
-          self.renderSelection(taxonomy, 'learnSkills', 2);
-        });
-
-        ProjectMatch.TaxonomyModel.getInterests(function (taxonomy) {
-          self.renderSelection(taxonomy, 'interests', 1);
         });
 
       }); // END get container
 
     });
     
-
+    return self;
 
   }
 
