@@ -29,13 +29,13 @@
     font-size: .8em;
 }
 
-.tab-name:hover {
-    border-bottom: 1px solid gray;
-    font-weight: bold;
-    color: gray;
-    margin-bottom: .1em;
-    padding-bottom: .1em;
-}
+/*.tab-name:hover {*/
+    /*border-bottom: 1px solid gray;*/
+    /*font-weight: bold;*/
+    /*color: gray;*/
+    /*margin-bottom: .1em;*/
+    /*padding-bottom: .1em;*/
+/*}*/
 
 .tag::after {
     content: " +";
@@ -46,12 +46,6 @@
     margin-left: .5em;
     margin-top: 1em;
     font-size: .8em;
-}
-
-.selector-container {
-    padding: 1em;
-    width: 100%;
-
 }
 
 .view-inactive {
@@ -67,9 +61,15 @@
 
 }
 
+.selector-container {
+    padding: 1em;
+    width: 100%;
+
+}
+
 .selector-btn {
     display: flex;
-    border: gray 1px solid;
+    border: gray 1.5px solid;
     width: 15em;
     padding: .5em;
     min-height: 7em;
@@ -114,6 +114,33 @@
     content: " x";
 }
 
+.popup {
+    display: none;
+    position: absolute;
+    background: #fff;
+    width: 95%;
+    min-height: 200px;
+    z-index: 200;
+    color: black;
+    border: 1.5px black solid;
+    margin-left: 2em;
+    left: 0;
+    border-radius: 10px;
+}
 
+.popup.show-popup {
+    display: block;
+}
+
+.selector-holder {
+    display: flex;
+    justify-content: center;
+}
+
+.footer {
+    display: flex;
+    padding: 1em;
+    justify-content: flex-end;
+}
 
 

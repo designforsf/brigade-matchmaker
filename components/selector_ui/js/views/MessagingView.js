@@ -12,7 +12,14 @@ define(['underscore','backbone','handlebars', 'jquery','models/MessagingModel'],
          'click .tab-name':'tabHandler',
          'click .tag' : 'addTag',
          'click .selected-tag' : 'removeTag',
-         'click .selector-btn' : 'showModal'
+         'click .selector-btn' : 'showModal',
+         'click .close-btn' : 'showModal'
+      },
+      initialize: function(opts){
+         this.model = new MessagingModel(opts);
+         this.render();
+         //Model gets initialized with all the projects
+
       },
       tabHandler: function(e){
          var viewName = e.currentTarget.getAttribute("childName");
@@ -34,7 +41,21 @@ define(['underscore','backbone','handlebars', 'jquery','models/MessagingModel'],
          $(tabView).addClass('view-active');
       },
       showModal : function(){
-
+         var popup = $("#"+this.model.get("name") + "_popup");
+         var selector_btn = $("#"+this.model.get("name") + "-btn");
+         //if it is open
+         if (popup.hasClass("show-popup")){
+            this.closeOpenPopups();
+            this.deselectBtns();
+         }
+         //if it is closed
+         else {
+            this.closeOpenPopups();
+            this.deselectBtns();
+            popup.addClass("show-popup");
+            popup.css("border-color", this.model.get('tag-color'));
+            selector_btn.css("border-color", this.model.get('tag-color'));
+         }
       },
       addSelectedStyling: function(element){
          $(element).addClass('selected-tag').removeClass('tag')
@@ -53,6 +74,20 @@ define(['underscore','backbone','handlebars', 'jquery','models/MessagingModel'],
             $(activeTabs[i]).addClass(newName);
          }
 
+      },
+
+      closeOpenPopups: function(){
+        var visiblePopups = $('.popup.show-popup');
+        for (var i =0; i < visiblePopups.length; i++){
+           visiblePopups.removeClass("show-popup");
+        }
+      },
+
+      deselectBtns: function(){
+        var selectorList = $('.selector-btn');
+         for (var i =0; i < selectorList.length; i++){
+            selectorList.css("border-color", "gray");
+         }
       },
 
       addTag : function(e){
@@ -99,11 +134,6 @@ define(['underscore','backbone','handlebars', 'jquery','models/MessagingModel'],
          }
 
          this.model.removeItem(tagName);
-      },
-      initialize: function(opts){
-         //Model gets initialized with all the projects
-         this.model = new MessagingModel(opts);
-         this.render();
       },
       render: function(){
          this.$el.html(this.template(this.model.toJSON()));
