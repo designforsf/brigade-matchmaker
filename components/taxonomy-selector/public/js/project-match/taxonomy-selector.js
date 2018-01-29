@@ -506,6 +506,20 @@
 
 
   /*
+    indicate matching started
+  */
+
+  self.indicateMatchingStarted = function (attr) {
+
+    // retracts the selector so the user can focus on the results
+    self.closeSelector();
+
+    // disable the search button
+    jQuery('#taxonomy-selector-search-button').prop('disabled', true);
+  }
+
+
+  /*
     generate match
   */
 
@@ -514,6 +528,16 @@
     self.generateMatchCb(attr);
   }
 
+
+  /*
+    indicate matching finshed
+  */
+
+  self.indicateMatchingFinished = function (attr) {
+
+    // re-enable the search button
+    jQuery('#taxonomy-selector-search-button').prop('disabled', false);
+  }
 
   /*
     retract selector 

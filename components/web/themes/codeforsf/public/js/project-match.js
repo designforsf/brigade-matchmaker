@@ -25,16 +25,25 @@ define(['jquery', 'projlistview','projlistmodel','taxsel', 'taxselmodel'],
 	    	// config (from the configuration set in the web app)
 	    	config: attr.config,
 
-
 	      // callback when the user clicks on the generate match button
 	      generateMatchCb: function () {
 
-	        // retracts the selector so the user can focus on the results
-	        taxonomySel.closeSelector();
+	      	console.log('ProjectMatch.init generateMatchCb()');
+
+	      	// UI: matching started
+	      	taxonomySel.indicateMatchingStarted();
 
 	        // search with the current user's taxonomy selection
 	        projView.searchProjects(taxonomySel.getSelection());
-	      }
+
+	        // UI: matching finished
+	        setTimeout(function () {
+	        	taxonomySel.indicateMatchingFinished();
+	        }, 1000)
+	        
+	      },
+
+
 	    });
 
   	} // END init
