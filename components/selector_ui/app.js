@@ -23,6 +23,13 @@ var express = require('express')
 
 // express app
 var app = express();
+
+var logger = function (req, res, next) {
+  console.log(req.url);
+  next();
+}
+app.use(logger);
+
 app.use(methodOverride());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -42,5 +49,7 @@ if (app.get('env') == 'development') {
 var server = app.listen(config.selector_ui.port, function () {
   var host = config.selector_ui.port;
   console.log('Express 4 server listening at http://%s:%s', config.selector_ui.host, config.selector_ui.port);
-})
+});
+
+
 
