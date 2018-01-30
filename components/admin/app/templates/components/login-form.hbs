@@ -1,1 +1,5 @@
-<a class="btn btn-default" style="cursor: pointer;">Login with GitHub</a>
+{{#if session.isAuthenticated}}
+  <a {{action 'logout'}} class="btn btn-default">Logout</a>
+{{else}}
+  <a {{action 'login'}} class="btn btn-default" style="cursor: pointer;">Login with GitHub</a>
+{{/if}}
