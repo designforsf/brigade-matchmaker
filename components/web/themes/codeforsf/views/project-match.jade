@@ -48,7 +48,14 @@ block content
     
     require(['projmatch'], 
       function(ProjectMatch) { 
-        ProjectMatch.init();
+        ProjectMatch.init({
+          config: {
+            web: {
+              host: '#{config.web.host}',
+              port: '#{config.web.port}'
+            }
+          }
+        });
       }
     );
 

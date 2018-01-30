@@ -12,25 +12,38 @@ define(['jquery', 'projlistview','projlistmodel','taxsel', 'taxselmodel'],
 			
 		*/
 
-		PM.init = function () {
-
+		PM.init = function (attr) {
 			console.log('ProjectMatch.init()');
 
 	    // project list component
 	    projView = new ProjectView({ skills:[], learnSkills:[], interests:[] });
 
-	    // taxonomy selector component
+	    // init the taxonomy selector component
 	    var taxonomySel = ProjectMatch.TaxonomySelector;
 	    taxonomySel.init({
+
+	    	// config (from the configuration set in the web app)
+	    	config: attr.config,
+
 	      // callback when the user clicks on the generate match button
 	      generateMatchCb: function () {
 
-	        // retracts the selector so the user can focus on the results
-	        taxonomySel.closeSelector();
+	      	console.log('ProjectMatch.init generateMatchCb()');
+
+	      	// UI: matching started
+	      	taxonomySel.indicateMatchingStarted();
 
 	        // search with the current user's taxonomy selection
 	        projView.searchProjects(taxonomySel.getSelection());
-	      }
+
+	        // UI: matching finished
+	        setTimeout(function () {
+	        	taxonomySel.indicateMatchingFinished();
+	        }, 1000)
+	        
+	      },
+
+
 	    });
 
   	} // END init
