@@ -1,7 +1,7 @@
 
 define(['underscore', 'backbone', 'jquery', 'Lockr'],
  function(_, Backbone, $, Lockr){
-   var MessagingModel = Backbone.Model.extend({
+   var SelectorModel = Backbone.Model.extend({
       initialize: function(opts) {
          this.url = opts.url;
          this.set("component_name", opts.component_name);
@@ -43,7 +43,7 @@ define(['underscore', 'backbone', 'jquery', 'Lockr'],
       }
 
    });
-   return MessagingModel;
+   return SelectorModel;
 });
 
 

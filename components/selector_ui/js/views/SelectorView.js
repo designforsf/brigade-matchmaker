@@ -1,8 +1,8 @@
 
-define(['underscore','backbone','handlebars', 'jquery','models/MessagingModel'],
-   function(_, Backbone,handlebars, $, MessagingModel){
+define(['underscore','backbone','handlebars', 'jquery','models/SelectorModel'],
+   function(_, Backbone,handlebars, $, SelectorModel){
 
-   var MessagingView = Backbone.View.extend({
+   var SelectorView = Backbone.View.extend({
       // el - stands for element. Every view has a element associate in with HTML content will be rendered.
       el: '#container',
       template: Messages.templates.messages,
@@ -20,7 +20,7 @@ define(['underscore','backbone','handlebars', 'jquery','models/MessagingModel'],
          $('body').on("click", function(e){
             _this.closeModal(e);
          });
-         this.model = new MessagingModel(opts);
+         this.model = new SelectorModel(opts);
          var that = this;
          this.model.fetch({ success: function () {
             that.render();
@@ -179,7 +179,7 @@ define(['underscore','backbone','handlebars', 'jquery','models/MessagingModel'],
 
    });
 
-   return MessagingView;
+   return SelectorView;
 
 });
 
