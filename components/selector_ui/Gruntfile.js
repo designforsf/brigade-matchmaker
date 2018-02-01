@@ -12,7 +12,7 @@ module.exports = function(grunt) {
             options: {
 
                // configure a namespace for your templates
-               namespace: 'Messages.templates',
+               namespace: 'Selector.templates',
 
                // convert file path into a function name
                // in this example, I convert grab just the filename without the extension
@@ -25,7 +25,7 @@ module.exports = function(grunt) {
 
             // output file: input files
             files: {
-               'js/templates/compiled.js': 'js/templates/*.hbs'
+               'js/templates/selector.js': 'js/templates/*.hbs'
             }
          }
       }

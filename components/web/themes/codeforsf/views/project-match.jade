@@ -4,17 +4,31 @@ block content
 
   div(id="taxonomy-selector-container")
     | Loading Selector...
+    div.taxonomy-container
+      div.selector-holder
+        #container
+        |         
+        #container2
+        |         
+        #container3
+      |     
+      div.generate-button-container
+        button#submitButton.generate-button(onclick='registerButton()', type='button')
+          | Generate
+
 
   div(id="project-list-container")
     | Loading List...
 
   link(rel="stylesheet" href="/components/project-list/css/style.css")
+  link(rel="stylesheet" href="/components/selector/css/style.css")
   link(rel="stylesheet" href="/components/taxonomy-selector/styles/taxonomy-selector.css")
 
   
   script(src='/components/project-list/js/lib/handlebars.runtime.js')
   script(src='/components/project-list/js/lib/require.js')
   script(src='/components/project-list/js/templates/projects.js')
+  script(src='/components/selector/js/templates/selector.js')
 
   script(type='text/javascript').
 
@@ -39,10 +53,14 @@ block content
 
         MessageView: 'components/slackbot/js/app',
 
-        masonry: 'components/taxonomy-selector/js/masonry/masonry-4.2.0.pkgd',
-        taxsel: 'components/taxonomy-selector/js/project-match/taxonomy-selector',
-        taxselmodel: 'components/taxonomy-selector/js/project-match/taxonomy-model',
-        taxseltemplate: 'components/taxonomy-selector/templates/container'
+        //masonry: 'components/taxonomy-selector/js/masonry/masonry-4.2.0.pkgd',
+        //taxsel: 'components/taxonomy-selector/js/project-match/taxonomy-selector',
+        //taxselmodel: 'components/taxonomy-selector/js/project-match/taxonomy-model',
+        //taxseltemplate: 'components/taxonomy-selector/templates/container',
+
+        selector: 'components/selector/js/views/SelectorView',
+        selectormodel: 'components/selector/js/models/SelectorModel'
+
       }
     });
     

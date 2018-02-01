@@ -1,5 +1,5 @@
-define(['jquery', 'projlistview','projlistmodel','taxsel', 'taxselmodel'],
-	function(jQuery, ProjectView, ProjectModel, TaxonomySelector, TaxonomyModel){
+define(['jquery', 'projlistview','projlistmodel','selector', 'selectormodel'],
+	function(jQuery, ProjectView, ProjectModel, SelectorView, SelectorModel){
 
 	// ProjectMatch closure
 	(function (PM) {
@@ -17,6 +17,30 @@ define(['jquery', 'projlistview','projlistmodel','taxsel', 'taxselmodel'],
 
 	    // project list component
 	    projView = new ProjectView({ skills:[], learnSkills:[], interests:[] });
+	    
+			new SelectorView({
+			  'component_name':'Skills',
+			  'display-title' : 'Skills to Contribute',
+			  'tag-color':'#AA193A',
+			  'url' : 'http://localhost:5465/api/project/taxonomy/skills-for-ui'
+			});
+			new SelectorView({
+			  'component_name':'Interests',
+			  'display-title' : 'Civic Interests',
+			  'tag-color':'#3DA1D2',
+			  'url' : 'http://localhost:5465/api/project/taxonomy/skills-for-ui',
+			  'el' : '#container2'
+			});
+			new SelectorView({
+			  'component_name':'Learnings',
+			  'display-title' : 'Skills to Learn',
+			  'tag-color':'#123D51',
+			  'url' : 'http://localhost:5465/api/project/taxonomy/skills-for-ui',
+			  'el' : '#container3'
+			});
+
+
+	    /* old approach 
 
 	    // init the taxonomy selector component
 	    var taxonomySel = ProjectMatch.TaxonomySelector;
@@ -46,7 +70,10 @@ define(['jquery', 'projlistview','projlistmodel','taxsel', 'taxselmodel'],
 
 	    });
 
-  	} // END init
+
+	    */
+
+  	} // END PM.init
 
 
 		// UI activate landing

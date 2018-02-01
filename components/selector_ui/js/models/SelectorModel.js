@@ -1,5 +1,5 @@
 
-define(['underscore', 'backbone', 'jquery', 'Lockr'],
+define(['underscore', 'backbone', 'jquery', 'lockr'],
  function(_, Backbone, $, Lockr){
    var SelectorModel = Backbone.Model.extend({
       initialize: function(opts) {

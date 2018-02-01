@@ -594,6 +594,8 @@ function startServer () {
     express.static(path.resolve(__dirname, '../slackbot')));
   app.use("/components/taxonomy-selector", 
     express.static(path.resolve(__dirname, '../taxonomy-selector/public')));
+  app.use("/components/selector", 
+    express.static(path.resolve(__dirname, '../selector_ui/public')));
 
   // for development
   app.locals.pretty = true; // sets jade/pug HTML to render pretty

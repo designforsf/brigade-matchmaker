@@ -1,11 +1,11 @@
 
-define(['underscore','backbone','handlebars', 'jquery','models/SelectorModel'],
+define(['underscore','backbone','handlebars', 'jquery','selectormodel'],
    function(_, Backbone,handlebars, $, SelectorModel){
 
    var SelectorView = Backbone.View.extend({
       // el - stands for element. Every view has a element associate in with HTML content will be rendered.
       el: '#container',
-      template: Messages.templates.messages,
+      template: Selector.templates.messages,
       // It's the first function called when this view it's instantiated.
       // template: handlebars.compile(projectTemplate),
       events: {
