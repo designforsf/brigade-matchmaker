@@ -1,6 +1,6 @@
-<div id="{{name}}-btn" class="selector-btn">
+<div id="{{component_name}}-btn" class="selector-btn">
     <div class="selector-btn-header">
-        <div class="name">{{name}} to Contribute</div>
+        <div class="name">{{display-title}}</div>
         <a data-toggle="modal"class="add-btn">add skills</a>
 
     </div>
@@ -8,24 +8,29 @@
 </div>
 
 <!-- Modal content-->
-<div id="{{name}}_popup" class="popup">
+<div id="{{component_name}}_popup" class="popup">
     <div class="selector-container">
         <div class="tabs">
-            <div childName="allCategories" class="tab-name tab-name-active">All
+            <div childName="{{component-name}}-allCategories" class="tab-name
+            tab-name-active">All
                 Categories</div>
-            {{#each data.skills.itemsBySection}}
-                <div childName="{{@key}}" class="tab-name">{{this.title}}</div>
+            {{#each itemsBySection}}
+                <div childName="{{component-name}}-{{@key}}"
+                     class="tab-name">{{this
+                .title}}</div>
             {{/each}}
         </div>
         {{!-- Start creation of tabs --}}
-        {{#each data.skills.itemsBySection}}
-            <div id="{{@key}}" class="taxonomy-container view-inactive">
+        {{#each itemsBySection}}
+            <div id="{{../component_name}}-{{@key}}" class="taxonomy-container
+            view-inactive">
                 <div class="category">
                     <div class="category-title">{{this.title}}</div>
                     <div class="tag-container">
                         {{#each this.items}}
-                            <div id="{{this.title}}" class="tag">{{this
-                            .title}}</div>
+                            <div id="{{../../component_name}}-{{this.name}}"
+                                 class="tag">{{this
+                            .name}}</div>
                         {{/each}}
                     </div>
                 </div>
@@ -34,14 +39,17 @@
         {{!-- End creation of tabs --}}
 
         {{!-- Create all categories tab--}}
-        <div id="allCategories" class="taxonomy-container view-active">
-            {{#each data.skills.itemsBySection}}
+        <div id="{{component_name}}-allCategories"
+             class="taxonomy-container
+         view-active">
+            {{#each itemsBySection}}
                 <div class="category">
                     <div class="category-title">{{this.title}}</div>
                     <div class="tag-container">
                         {{#each this.items}}
-                            <div id="{{this.title}}" class="tag">{{this
-                            .title}}</div>
+                            <div id="{{../../component_name}}-{{this.name}}"
+                                 class="tag">{{this
+                            .name}}</div>
                         {{/each}}
                     </div>
                 </div>

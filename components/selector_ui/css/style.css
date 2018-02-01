@@ -1,6 +1,6 @@
 .tabs {
     display: flex;
-
+    justify-content: center;
 }
 
 .tab-name {
@@ -74,7 +74,7 @@
     padding: .5em;
     min-height: 7em;
     flex-direction: column;
-    margin: 2em;
+    margin: 2em 2em 1em 2em;
 }
 
 .selector-btn-header {
@@ -130,6 +130,11 @@
 
 .popup.show-popup {
     display: block;
+    background: white;
+}
+
+.selector-btn-active {
+    background: white;
 }
 
 .selector-holder {
@@ -143,4 +148,28 @@
     justify-content: flex-end;
 }
 
+.gray-background {
+    background: lightgray;
+}
 
+.taxonomy-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.generate-button-container {
+    display: flex;
+    justify-content: center;
+}
+
+.generate-button {
+    background-color: #17A277;
+    margin-top: 25px;
+    align-items: center;
+    height: 2.5em;
+    display: flex;
+    justify-content: center;
+    font-family: sans-serif;
+    color: white;
+    border-radius: 3px;
+}
