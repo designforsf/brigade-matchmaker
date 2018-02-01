@@ -14,10 +14,14 @@ var express = require('express')
   , errorHandler = require('errorhandler')
   , WebClient = require('@slack/client').WebClient
   , credentials = require('./credentials.js')
+<<<<<<< HEAD
   , mop = require('./MessageObjectParse.js')
   , mongoose = require('mongoose')
   , Message = require('./models/MessageQueue.js')
   , CronJob = require('cron').CronJob;
+=======
+  , mongoose = require('mongoose');
+>>>>>>> c9dbb3f755837671927e87f54e6541671772c12c
 ;
 
 // access Slack API token
@@ -109,6 +113,7 @@ var clearQueue = new CronJob('0 0 0 * * Sun', function() {
 app.get('/', function (req, res) {
   res.sendFile('index.html', { root: __dirname });
 });
+<<<<<<< HEAD
 
 app.post('/', function (req, res) {
   var messageString = mop.parseObject(req.body);
@@ -123,6 +128,43 @@ app.post('/', function (req, res) {
     else {
       console.log('Saved: ', data );
       res.send(data);
+=======
+// MESSAGING COMPONENT
+app.post('/process-slackbot', function (req, res) {
+  // collect user data
+  var email = req.body.email;
+  // test data
+  var newUserName = 'John Doe';
+  var project = 'User Research Project';
+  var skills =  ['UX Design', 'Javascript-Front End', 'Python', 'Django'];
+  var learn = ['Front-end dev', 'User research', 'HTML', 'UX Design'];
+  var civic = ['Criminal justice', 'Homelessness', 'General help', 'Housing'];
+  var teamLead = 'Jane Doe';
+
+  var tester = new NewUser(newUserName, project, skills.toString(), learn.toString(), civic.toString());
+// old message. see home.handlebars for what the current default message looks like.
+  var message = `Hi ${teamLead},\n
+                I'm a new member and I'm interested in working on your ${tester.project}\n
+                My profile is appended below, and I can be reached at ${email}.\n
+                - - -\n
+                ${tester.name}\n
+                Skills to contribute:\n
+                ${tester.skills}\n
+                Skills I hope to learn:\n
+                ${tester.learn}\n
+                Civic interests:\n
+                ${tester.civic}`;
+  // console.log what the bot message looks like
+  console.log("slackbot message:\n", message);
+  // what the API call looks like
+  /*
+  var dmId = '';
+  webClient.chat.postMessage(dmId, message, function (err, res) {
+    if (err) {
+      console.log('Error: ', err);
+    } else {
+      console.log('Message sent: ', res);
+>>>>>>> c9dbb3f755837671927e87f54e6541671772c12c
     }
   });
 

@@ -9,9 +9,9 @@
   
 */
 
-var faker = require('faker')
-var ProjectTaxonomies = require('../../models/ProjectTaxonomies')
-var Async = require('async')
+var faker = require('faker');
+var ProjectTaxonomies = require('../../models/ProjectTaxonomies');
+var Async = require('async');
 
 function getAttributes (cb) {
 
