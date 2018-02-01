@@ -827,7 +827,9 @@ module.exports = {
       var pt = new ProjectTaxonomies();
 
       pt.getInterests(function (err, results) {
+
         var itemsBySection = formatTaxonomyForUI(results, 'interests', 1);
+        console.log(itemsBySection);
         res.json(itemsBySection['interests']);
         return next();
       });
@@ -836,7 +838,7 @@ module.exports = {
 
     getTaxonomyGoalsForUI: function (req, res, next) {
       var pt = new ProjectTaxonomies();
-      pt.getInterests(function (err, results) {
+      pt.getGoals(function (err, results) {
         var itemsBySection = formatTaxonomyForUI(results, 'goals', 1);
         res.json(itemsBySection['goals']);
         return next();
