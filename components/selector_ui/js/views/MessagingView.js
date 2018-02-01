@@ -16,13 +16,20 @@ define(['underscore','backbone','handlebars', 'jquery','models/MessagingModel'],
          'click .close-btn' : 'showModal'
       },
       initialize: function(opts){
+         var _this = this;
+         $('body').on("click", function(e){
+            _this.closeModal(e);
+         });
          this.model = new MessagingModel(opts);
-         this.render();
-         //Model gets initialized with all the projects
-
+         var that = this;
+         this.model.fetch({ success: function () {
+            that.render();
+            }
+         });
       },
       tabHandler: function(e){
-         var viewName = e.currentTarget.getAttribute("childName");
+         e.stopPropagation();
+         var viewName = this.model.get("component_name") + "-" + e.currentTarget.getAttribute("childName");
          var tabView = document.getElementById(viewName);
          var childTags = $(tabView).find('.tag-container').children();
          for(var i=0; i< childTags.length; i++){
@@ -40,22 +47,42 @@ define(['underscore','backbone','handlebars', 'jquery','models/MessagingModel'],
          $(tabView).removeClass('view-inactive');
          $(tabView).addClass('view-active');
       },
-      showModal : function(){
-         var popup = $("#"+this.model.get("name") + "_popup");
-         var selector_btn = $("#"+this.model.get("name") + "-btn");
-         //if it is open
+      showModal : function(e){
+         e.stopPropagation();
+         var popup = $("#"+this.model.get("component_name") + "_popup");
+         var tab_content = popup.find("#"+this.model.get("component_name") + "-allCategories");
+         var selector_btn = $("#"+this.model.get("component_name") + "-btn");
+         var allCategory_tab = popup.find(".tab-name")[0];
+         var body = $("body");
+         this.deselectTabs();
+         //if the modal is already opened
          if (popup.hasClass("show-popup")){
             this.closeOpenPopups();
             this.deselectBtns();
+            body.removeClass("gray-background");
          }
-         //if it is closed
+         //if we are opening a new modal
          else {
+            tab_content.removeClass("view-inactive");
+            tab_content.addClass("view-active");
+            $(allCategory_tab).addClass("tab-name-active");
             this.closeOpenPopups();
             this.deselectBtns();
             popup.addClass("show-popup");
             popup.css("border-color", this.model.get('tag-color'));
             selector_btn.css("border-color", this.model.get('tag-color'));
+            selector_btn.css("background", "white");
+            body.addClass("gray-background");
          }
+      },
+      closeModal: function(e){
+         var body = $("body");
+
+         this.closeOpenPopups();
+         this.deselectBtns();
+         this.deselectTabs();
+         body.removeClass("gray-background");
+
       },
       addSelectedStyling: function(element){
          $(element).addClass('selected-tag').removeClass('tag')
@@ -76,6 +103,13 @@ define(['underscore','backbone','handlebars', 'jquery','models/MessagingModel'],
 
       },
 
+      deselectTabs: function(){
+         var active_tabs = $('.tab-name-active');
+         for (var i =0; i < active_tabs.length; i++){
+            active_tabs.removeClass("tab-name-active");
+         }
+      },
+
       closeOpenPopups: function(){
         var visiblePopups = $('.popup.show-popup');
         for (var i =0; i < visiblePopups.length; i++){
@@ -87,13 +121,16 @@ define(['underscore','backbone','handlebars', 'jquery','models/MessagingModel'],
         var selectorList = $('.selector-btn');
          for (var i =0; i < selectorList.length; i++){
             selectorList.css("border-color", "gray");
+            selectorList.css("background", "");
          }
       },
 
       addTag : function(e){
+         e.stopPropagation();
+
          if (!this.model.inItemsList(e.currentTarget.innerHTML)){
 
-            var selector = '#' + this.model.get("name") + "-btn";
+            var selector = '#' + this.model.get("component_name") + "-btn";
             var newDiv = $(e.currentTarget).clone();
             var selectorDiv = $(selector).find('.selector-tag-container');
             var selectedTag = $(e.currentTarget);
@@ -112,8 +149,9 @@ define(['underscore','backbone','handlebars', 'jquery','models/MessagingModel'],
       },
 
       removeTag: function(e) {
+         e.stopPropagation();
 
-         var selectedTags = $('#' + this.model.get('name') + '-btn')
+         var selectedTags = $('#' + this.model.get('component_name') + '-btn')
             .find('.selected-tag');
          var currTabTags = $('.view-active').children().find('.selected-tag');
          var tagName = e.currentTarget.innerHTML;

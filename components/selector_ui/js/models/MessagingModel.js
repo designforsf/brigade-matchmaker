@@ -1,50 +1,36 @@
 
-define(['underscore', 'backbone', 'jquery'],
- function(_, Backbone, $){
+define(['underscore', 'backbone', 'jquery', 'Lockr'],
+ function(_, Backbone, $, Lockr){
    var MessagingModel = Backbone.Model.extend({
       initialize: function(opts) {
-         var obj = {
-            "skills": {
-               "itemsBySection": {
-
-                  "non-technical": {
-                     "title": "Non Technical",
-                     "items": [
-                        {"name": "writing", "title": "Writing"}
-                     ]
-                  },
-
-                  "server-dev": {
-                     "title": "Server Development",
-                     "items": [
-                        {"name": "nodejs", "title": "Node.js"},
-                        {"name": "python", "title": "Python"}
-                     ]
-                  },
-
-                  "client-dev": {
-                     "title": "Client Development",
-                     "items": [
-                        {"name": "jquery", "title": "JQuery"},
-                        {"name": "emberjs", "title": "EmberJS"},
-                        {"name": "bootstrap", "title": "Bootstrap"}
-                     ]
-                  }
-               }
-            }
-         };
-         this.set("data", obj);
-         this.set("name", opts.name);
+         this.url = opts.url;
+         this.set("component_name", opts.component_name);
          this.set("selectedItems", []);
+         this.set("activeView", opts.component_name + "-allCategories");
+      },
+
+      updateStorage: function(){
+         var selectedItems = this.get('selectedItems');
+         var componentName = this.get('component_name');
+
+         var taxonomy_info = Lockr.get('taxonomy-info');
+         if (!taxonomy_info){
+            taxonomy_info = {};
+         }
+         taxonomy_info[componentName] = selectedItems;
+
+         Lockr.set("taxonomy-info", taxonomy_info);
       },
 
       addItem: function(itemName){
          this.get('selectedItems').push(itemName);
+         this.updateStorage();
       },
 
       removeItem: function(itemName) {
          var selectedItems = this.get('selectedItems');
          selectedItems.splice($.inArray(itemName, selectedItems),1);
+         this.updateStorage();
       },
 
       inItemsList: function(itemName) {
