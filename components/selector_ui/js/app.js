@@ -4,7 +4,8 @@ require.config({
       handlebars: 'lib/handlebars',
       backbone: 'lib/backbone',
       underscore: 'lib/underscore',
-      Lockr: 'lib/lockr'
+      lockr: 'lib/lockr',
+      selectormodel: 'models/SelectorModel'
    }
 });
 

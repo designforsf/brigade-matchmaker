@@ -10,10 +10,9 @@ define(['underscore','backbone','handlebars', 'jquery','selectormodel'],
       // template: handlebars.compile(projectTemplate),
       events: {
          'click .tab-name':'tabHandler',
-         'click .tag' : 'addTag',
-         'click .selected-tag' : 'removeTag',
-         'click .selector-btn' : 'showModal',
-         'click .close-btn' : 'showModal'
+         'click .tag' : 'tagHandler',
+         'click .selector-btn' : 'modalHandler',
+         'click .close-btn' : 'closeModal'
       },
       initialize: function(opts){
          var _this = this;
@@ -29,59 +28,93 @@ define(['underscore','backbone','handlebars', 'jquery','selectormodel'],
       },
       tabHandler: function(e){
          e.stopPropagation();
-         var viewName = this.model.get("component_name") + "-" + e.currentTarget.getAttribute("childName");
-         var tabView = document.getElementById(viewName);
-         var childTags = $(tabView).find('.tag-container').children();
-         for(var i=0; i< childTags.length; i++){
-            if ( this.model.inItemsList(childTags[i].innerHTML)){
-               this.addSelectedStyling(childTags[i]);
-            }
-            else {
-               this.removeSelectedStyling(childTags[i]);
+
+         var tab = e.currentTarget;
+         var tabName = e.currentTarget.getAttribute("tabName");
+         var tabContent = document.getElementById(tabName);
+
+         //Remove all active views
+         this.replaceAllClasses('tab-view-active', 'tab-view-inactive');
+         //Remove bold from all other tabs
+         this.replaceAllClasses('tab-name-active', '');
+
+         //Make the view visible
+         $(tabContent).removeClass('tab-view-inactive');
+         $(tabContent).addClass('tab-view-active');
+
+         //Bold the clicked on tab
+         $(tab).addClass('tab-name-active');
+
+         //Color all tags selected in different view
+         this.colorSelectedTags(tabContent);
+      },
+
+      colorSelectedTags: function(tabContent){
+         var tags = $(tabContent).find(".tag");
+         var selectedTags = this.model.get("selectedItems");
+         for ( var i=0; i < tags.length; i++){
+            if (selectedTags.indexOf(tags[i].innerHTML) >= 0){
+               this.addSelectedStyling(tags[i]);
             }
          }
-         this.replaceAll('tab-name-active', '');
-         this.replaceAll('view-active', 'view-inactive');
-
-         $(e.currentTarget).addClass('tab-name-active');
-         $(tabView).removeClass('view-inactive');
-         $(tabView).addClass('view-active');
       },
-      showModal : function(e){
+
+      modalHandler: function(e){
          e.stopPropagation();
-         var popup = $("#"+this.model.get("component_name") + "_popup");
-         var tab_content = popup.find("#"+this.model.get("component_name") + "-allCategories");
-         var selector_btn = $("#"+this.model.get("component_name") + "-btn");
-         var allCategory_tab = popup.find(".tab-name")[0];
-         var body = $("body");
-         this.deselectTabs();
-         //if the modal is already opened
-         if (popup.hasClass("show-popup")){
-            this.closeOpenPopups();
-            this.deselectBtns();
-            body.removeClass("gray-background");
-         }
-         //if we are opening a new modal
-         else {
-            tab_content.removeClass("view-inactive");
-            tab_content.addClass("view-active");
-            $(allCategory_tab).addClass("tab-name-active");
-            this.closeOpenPopups();
-            this.deselectBtns();
-            popup.addClass("show-popup");
-            popup.css("border-color", this.model.get('tag-color'));
-            selector_btn.css("border-color", this.model.get('tag-color'));
-            selector_btn.css("background", "white");
-            body.addClass("gray-background");
-         }
-      },
-      closeModal: function(e){
+         var modal = $(this.getElementId("_modals"));
          var body = $("body");
 
-         this.closeOpenPopups();
+         //Deselect all tabs from old view
+         this.deselectTabs();
+
+         //if the modal is already opened
+         if (modal.hasClass("show-modals")) {
+            //close modal
+            this.closeModal();
+         }
+         //if not then open a modal
+         else {
+            //open modal
+            this.openModal();
+         }
+      },
+
+      openModal: function(){
+         var modal = $(this.getElementId("_modals"));
+         var tabContent = modal.find(this.getElementId("-allCategories"));
+         var selectorBtn = $(this.getElementId("-btn"));
+         var allCategoryTab = modal.find(".tab-name")[0];
+
+         //Make the tab content visible
+         tabContent.removeClass("tab-view-inactive");
+         tabContent.addClass("tab-view-active");
+
+         //Set first selected tab to all category tab
+         $(allCategoryTab).addClass("tab-name-active");
+
+         //Remove any old modals
+         this.closeOpenModals();
+         //Make all other unselected buttons gray
+         this.deselectBtns();
+
+         //Make modal visible
+         modal.addClass("show-modals");
+
+         //Add selected styling
+         this.addComponentColor(modal, "border-color");
+         this.addComponentColor(selectorBtn, "border-color");
+
+         //Handles making background gray
+         selectorBtn.css("background", "white");
+         $("body").addClass("gray-background");
+
+      },
+      closeModal: function(){
+         this.closeOpenModals();
          this.deselectBtns();
          this.deselectTabs();
-         body.removeClass("gray-background");
+         this.inactivateTabContent();
+         $("body").removeClass("gray-background");
 
       },
       addSelectedStyling: function(element){
@@ -94,13 +127,12 @@ define(['underscore','backbone','handlebars', 'jquery','selectormodel'],
          .css('background-color', '')
       },
 
-      replaceAll: function(oldName, newName){
+      replaceAllClasses: function(oldName, newName){
          var activeTabs = $('.' + oldName);
          for (var i = 0; i < activeTabs.length; i++){
             $(activeTabs[i]).removeClass(oldName);
             $(activeTabs[i]).addClass(newName);
          }
-
       },
 
       deselectTabs: function(){
@@ -110,10 +142,17 @@ define(['underscore','backbone','handlebars', 'jquery','selectormodel'],
          }
       },
 
-      closeOpenPopups: function(){
-        var visiblePopups = $('.popup.show-popup');
-        for (var i =0; i < visiblePopups.length; i++){
-           visiblePopups.removeClass("show-popup");
+      inactivateTabContent: function(){
+         var active_tabs = $('.tab-view-active');
+         for (var i =0; i < active_tabs.length; i++){
+            active_tabs.removeClass("tab-view-active");
+            active_tabs.addClass("tab-view-inactive");
+         }
+      },
+      closeOpenModals: function(){
+        var visibleModals = $('.modals.show-modals');
+        for (var i =0; i < visibleModals.length; i++){
+           visibleModals.removeClass("show-modals");
         }
       },
 
@@ -125,54 +164,71 @@ define(['underscore','backbone','handlebars', 'jquery','selectormodel'],
          }
       },
 
-      addTag : function(e){
+      tagHandler : function(e){
          e.stopPropagation();
 
-         if (!this.model.inItemsList(e.currentTarget.innerHTML)){
-
-            var selector = '#' + this.model.get("component_name") + "-btn";
-            var newDiv = $(e.currentTarget).clone();
-            var selectorDiv = $(selector).find('.selector-tag-container');
-            var selectedTag = $(e.currentTarget);
-
-            newDiv.removeClass('tag').addClass('selected-tag')
-               .css('background-color', this.model.get('tag-color'));
-            selectorDiv.append(newDiv[0]);
-
-            selectedTag.addClass('selected-tag').removeClass('tag')
-               .css('background-color', this.model.get('tag-color'));
-            this.model.addItem(e.currentTarget.innerHTML);
+         //If the tag has not been selected
+         if (e.currentTarget.className === "tag") {
+            this.addTag(e.currentTarget);
          }
+         //if the tag has already been selected
          else {
-            console.log("Error in addTag");
+            this.removeTag(e.currentTarget);
          }
       },
 
-      removeTag: function(e) {
-         e.stopPropagation();
+      addTag: function(tagElement) {
+         var newTagElement = $(tagElement).clone();
+         var tagContainerId = this.getElementId("-btn");
+         var tagContainerDiv = $(tagContainerId).find('.selector-tag-container');
 
-         var selectedTags = $('#' + this.model.get('component_name') + '-btn')
-            .find('.selected-tag');
-         var currTabTags = $('.view-active').children().find('.selected-tag');
-         var tagName = e.currentTarget.innerHTML;
+         //Add color to original tag element
+         this.addComponentColor($(tagElement).addClass('selected-tag'), "background-color");
 
-         //Search for item in selector div
-         for (var i =0; i < selectedTags.length; i++){
-            //If has correct name remove it
-            if ( selectedTags[i].innerHTML === tagName){
-               selectedTags[i].remove();
-            }
-         }
+         //Add color to the new tag element that is added to the container
+         this.addComponentColor($(newTagElement).addClass('selected-tag'), "background-color");
 
-         //Search for tag in tab and remove selected styling
-         for (var i =0; i < currTabTags.length; i++){
-            if ( currTabTags[i].innerHTML === tagName){
-               this.removeSelectedStyling(currTabTags[i]);
-            }
-         }
+         //Add html name to list of chosen tags
+         this.model.addItem(tagElement.innerHTML);
 
-         this.model.removeItem(tagName);
+         //Change tag id so it is unique
+         newTagElement[0].id += "-selector";
+
+         //Add html of new tag to container
+         tagContainerDiv.append(newTagElement[0]);
       },
+
+      removeTag: function(tagElement){
+         var tagIdBase = "#" + tagElement.id.replace("-selector", "");
+         var selectorTag =  this.findElementById(tagIdBase + "-selector");
+         var originalTag = this.findElementById(tagIdBase);
+
+         //Remove tag from selector div
+         selectorTag.remove();
+
+         //remove styling from tag in tab view
+         this.removeComponentColor($(originalTag).removeClass('selected-tag'), "background-color");
+
+         //remove item from list of selected tags
+         this.model.removeItem(selectorTag.innerHTML);
+      },
+
+      findElementById: function(id){
+         return $(this.el).find(id);
+      },
+
+      getElementId: function(suffix){
+         return "#" + this.model.get("component_name") + suffix;
+      },
+
+      addComponentColor: function(element, attribute){
+         element.css(attribute, this.model.get('tag-color'));
+      },
+
+      removeComponentColor: function(element, attribute){
+         element.css(attribute, "");
+      },
+
       render: function(){
          this.$el.html(this.template(this.model.toJSON()));
       }
