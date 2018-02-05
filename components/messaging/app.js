@@ -66,8 +66,18 @@ var sendMessage = new CronJob('0 * * * * *', function() { // runs every minute w
       var messageToSend = message.message;
       /* during testing phase the Slack ID needs to be filled out.
       In production we will retrieve this with an API call */
-      var slackId = ''; // enter ID here
-      web.chat.postMessage(slackId, messageToSend, function (err, res) {
+      var slackId =  // enter ID here
+      web.chat.postMessage(slackId, 'You have received a message from a new user!', {
+        as_user: false,
+        username: 'new user bot',
+        icon_url: 'https://avatars.slack-edge.com/2018-02-03/309655411173_c89e1a8aae565b88b419_72.png',
+        attachments: [
+          {
+            "color": "#36a64f",
+            "text": messageToSend
+          }
+        ]
+      }, function (err, res) {
         if (err) {
           console.log('Error: ', err);
         } else {
