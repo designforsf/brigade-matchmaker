@@ -13,11 +13,12 @@ define(['underscore','backbone','handlebars','models/MessagingModel'],
       },
       submitHandler: function(e){
          var final_obj = this.model.createFinalObj($('form').serializeArray());
+         var el = this.$el;
          $.ajax({
             type: "POST",
             url: 'http://localhost:5475/',
-            success: function() {
-              console.log('ajax callback response: ' + data);
+            success: function(data) {
+              console.log('ajax callback response: ', data);
             },
             dataType: 'json',
             contentType: 'application/json; charset=UTF-8',

@@ -66,7 +66,7 @@ var sendMessage = new CronJob('0 * * * * *', function() { // runs every minute w
       var messageToSend = message.message;
       /* during testing phase the Slack ID needs to be filled out.
       In production we will retrieve this with an API call */
-      var slackId =  // enter ID here
+      var slackId = '#uxr-projectmatch-test'; // enter ID here
       web.chat.postMessage(slackId, 'You have received a message from a new user!', {
         as_user: false,
         username: 'new user bot',

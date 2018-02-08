@@ -10,8 +10,8 @@ require.config({
 require(['views/MessagingView'], function(MessagingView){
    new MessagingView({
       //Use learnedSkills
-      skills: ["java", "react"],
-      interests: ["webDev"],
-      learning: ["node"]
+      skills: ["javascript", "react"],
+      interests: ["homelessness"],
+      learning: ["nodejs"]
    });
 });

@@ -109,6 +109,31 @@ define(['jquery', 'projlistview','projlistmodel','selector', 'selectormodel'],
 
 	  }; // END uiActivateNavigation
 
+
+    // called when the user clicks on the generate match button
+    PM.generateMatch = function () {
+
+    	console.log('ProjectMatch.generateMatch');
+			var taxonomySel = ProjectMatch.TaxonomySelector;
+			
+    	/* TODO: migrate start and finish matching UI
+
+    	// UI: matching started
+    	taxonomySel.indicateMatchingStarted();
+			*/
+
+      // search with the current user's taxonomy selection
+      projView.searchProjects(taxonomySel.getSelection());
+
+      /*
+      // UI: matching finished
+      setTimeout(function () {
+      	taxonomySel.indicateMatchingFinished();
+      }, 1000);
+      */
+      
+    }; // END generateMatch
+
 	}) (( window.ProjectMatch=window.ProjectMatch || {})); // END ProjectMatch closure
 
 
