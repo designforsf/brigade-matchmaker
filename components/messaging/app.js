@@ -43,7 +43,7 @@ if (app.get('env') == 'development') {
   app.use(errorHandler());
 }
 
-app.use(express.static(path.join(__dirname)));
+app.use(express.static(path.join(__dirname, 'public'), { }));
 
 // Mongoose connection
 var mongoDB = 'mongodb://localhost/test';
@@ -115,11 +115,11 @@ var clearQueue = new CronJob('0 0 0 * * Sun', function() {
 
 
 // routes
-app.get('/', function (req, res) {
+app.get('/messaging', function (req, res) {
   res.sendFile('index.html', { root: __dirname });
 });
 
-app.post('/', function (req, res) {
+app.post('/messaging/api/message', function (req, res) {
   var messageString = mop.parseObject(req.body);
   var message = new Message({
     message: messageString,

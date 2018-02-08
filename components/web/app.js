@@ -596,6 +596,8 @@ function startServer () {
     express.static(path.resolve(__dirname, '../taxonomy-selector/public')));
   app.use("/components/selector", 
     express.static(path.resolve(__dirname, '../selector_ui/public')));
+  app.use("/components/messaging", 
+    express.static(path.resolve(__dirname, '../messaging')));
 
   // for development
   app.locals.pretty = true; // sets jade/pug HTML to render pretty
