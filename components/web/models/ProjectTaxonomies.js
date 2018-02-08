@@ -230,7 +230,7 @@ const TAXONOMIES = {
       T.item('Scheduling And Planning'),
     ]),
   ]),
-  interests: T.toplevel('Civic Interests', [
+  interests: T.toplevel('Interests', [
     T.item('Arts And Culture'),
     T.category('Business, Finance & Economics', [
       T.item('Risk Assessments'),

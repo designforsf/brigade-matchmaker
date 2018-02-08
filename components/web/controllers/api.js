@@ -829,8 +829,15 @@ module.exports = {
       pt.getInterests(function (err, results) {
 
         var itemsBySection = formatTaxonomyForUI(results, 'interests', 1);
-        console.log(itemsBySection);
-        res.json(itemsBySection['interests']);
+        //console.log(itemsBySection);
+        //res.json(itemsBySection['civic-interests']);
+
+        res.json({
+            name: 'interests',
+            title: 'Civic Interests',
+            itemsBySection: itemsBySection
+        });
+
         return next();
       });
 

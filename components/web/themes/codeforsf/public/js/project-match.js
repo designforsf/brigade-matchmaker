@@ -28,7 +28,7 @@ define(['jquery', 'projlistview','projlistmodel','selector', 'selectormodel'],
 			  'component_name':'Interests',
 			  'display-title' : 'Civic Interests',
 			  'tag-color':'#3DA1D2',
-			  'url' : 'http://localhost:5465/api/project/taxonomy/skills-for-ui',
+			  'url' : 'http://localhost:5465/api/project/taxonomy/interests',
 			  'el' : '#container2'
 			});
 			new SelectorView({

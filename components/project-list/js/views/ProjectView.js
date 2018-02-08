@@ -15,12 +15,11 @@ define(['jquery','underscore','backbone','handlebars','projlistmodel'],
          //Need to pass the email of the project contact lead
          console.log(this.model.attributes.data[arr_num]);
          console.log(this.model.skills);
-         new MessagingView({
-            //Use learnedSkills
-            skills: ["java", "react"],
-            interests: ["webDev"],
-            learning: ["node"]
-         });
+         
+         // TODO: This is temporary. Replace with overlay messaging form.
+         var win = window.open('/messaging', '_new');
+         win.focus();
+
       },
       // It's the first function called when this view it's instantiated.
       template: ProjectList.templates.projects,
