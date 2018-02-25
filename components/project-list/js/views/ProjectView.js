@@ -1,6 +1,6 @@
 
-define(['jquery','underscore','backbone','handlebars','projlistmodel'],
-   function(jQuery, _, Backbone, handlebars, ProjectModel){
+define(['jquery','underscore','backbone','handlebars','projlistmodel','configmodel'],
+   function(jQuery, _, Backbone, handlebars, ProjectModel, ConfigModel){
 
    var ProjectView = Backbone.View.extend({
       // el - stands for element. Every view has a element associate in with HTML content will be rendered.
@@ -23,9 +23,25 @@ define(['jquery','underscore','backbone','handlebars','projlistmodel'],
       },
       // It's the first function called when this view it's instantiated.
       template: ProjectList.templates.projects,
+
          // NOTE: template is compiled, SEE the README.md
-      initialize: function(skills){
+
+      /*
+         attrs:
+            
+            config
+
+            NOTE: unsure if these are used any more:
+               skills
+               interests
+               learning
+      */
+
+      initialize: function(attr){
          var projView = this;
+
+         // get the config
+         this.config = attr.config;
 
          //Pass in object
          //$.param(obj) --> this is the urlEnding that would get passed to
@@ -33,7 +49,10 @@ define(['jquery','underscore','backbone','handlebars','projlistmodel'],
 
          // model gets initialized with all the projects
          this.model = new ProjectModel("/api/projects");
-         this.model.skills = skills;
+         if (!this.config.web.protocol) { console.error('Protocol not found. Please define the protocol in the etc environment-config for "web".'); }
+         this.model.urlRoot = this.config.web.protocol + '://' + this.config.web.host + ':' + this.config.web.port
+         //this.model.skills = skills;
+
          // sync callback
          // on sync: sets data in lockr, renders the template 
          projView.listenTo(projView.model, 'sync', function (model, res, options) {

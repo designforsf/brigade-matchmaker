@@ -10,14 +10,20 @@ require.config({
       boostrap: 'lib/bootstrap.min.js',
       projlistview: 'views/ProjectView',
       projlistmodel:  'models/ProjectModel',
+      configmodel:  'models/ConfigModel',
       MessageView: '../../slackbot/js/app'
    }
 });
 
 require(['projlistview'], function(ProjectView){
-   new ProjectView({
-      skills: ["java", "react"],
-      interests: ["webDev"],
-      learning: ["node"]
+   jQuery.ajax({
+      url: 'http://localhost:5465/api/system/config'
+   }).done(function( configData ) {
+      new ProjectView({
+         config: configData,
+         skills: ["java", "react"],
+         interests: ["webDev"],
+         learning: ["node"]
+      });
    });
 });

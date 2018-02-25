@@ -2,7 +2,6 @@
 define(['underscore', 'backbone', 'lockr'],
  function(_, Backbone, Lockr){
    var ProjectModel = Backbone.Model.extend({
-      urlRoot: "http://localhost:5465",
       url: function(){
          var url = this.urlRoot + this.urlEnding;
          return url;
