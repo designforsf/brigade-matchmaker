@@ -9,6 +9,14 @@ define(['jquery', 'projlistview','projlistmodel','selector', 'selectormodel'],
 
 			Main client initialization
 			Should be called from HTML
+
+			attrs:
+
+				config
+					web
+						host
+						port
+						protocol
 			
 		*/
 
@@ -16,62 +24,37 @@ define(['jquery', 'projlistview','projlistmodel','selector', 'selectormodel'],
 			console.log('ProjectMatch.init()');
 
 	    // project list component
-	    projView = new ProjectView({ skills:[], learnSkills:[], interests:[] });
+	    projView = new ProjectView({ 
+	    	config: attr.config,
+	    	skills:[], 
+	    	learnSkills:[], 
+	    	interests:[] 
+	    });
+
+	    var baseUrl = attr.config.web.protocol + '://' + attr.config.web.host + ':' + attr.config.web.port;
 	    
-			new SelectorView({
+			var skillsSel = new SelectorView({
 			  'component_name':'Skills',
 			  'display-title' : 'Skills to Contribute',
 			  'tag-color':'#AA193A',
-			  'url' : 'http://localhost:5465/api/project/taxonomy/skills-for-ui'
+			  'url' : baseUrl + '/api/project/taxonomy/skills-for-ui'
 			});
-			new SelectorView({
+
+			var interestsSel = new SelectorView({
 			  'component_name':'Interests',
 			  'display-title' : 'Civic Interests',
 			  'tag-color':'#3DA1D2',
-			  'url' : 'http://localhost:5465/api/project/taxonomy/interests',
+			  'url' : baseUrl + '/api/project/taxonomy/interests',
 			  'el' : '#container2'
 			});
-			new SelectorView({
+
+			var learnSkillsSel = new SelectorView({
 			  'component_name':'Learnings',
 			  'display-title' : 'Skills to Learn',
 			  'tag-color':'#123D51',
-			  'url' : 'http://localhost:5465/api/project/taxonomy/skills-for-ui',
+			  'url' : baseUrl + '/api/project/taxonomy/skills-for-ui',
 			  'el' : '#container3'
 			});
-
-
-	    /* old approach 
-
-	    // init the taxonomy selector component
-	    var taxonomySel = ProjectMatch.TaxonomySelector;
-	    taxonomySel.init({
-
-	    	// config (from the configuration set in the web app)
-	    	config: attr.config,
-
-	      // callback when the user clicks on the generate match button
-	      generateMatchCb: function () {
-
-	      	console.log('ProjectMatch.init generateMatchCb()');
-
-	      	// UI: matching started
-	      	taxonomySel.indicateMatchingStarted();
-
-	        // search with the current user's taxonomy selection
-	        projView.searchProjects(taxonomySel.getSelection());
-
-	        // UI: matching finished
-	        setTimeout(function () {
-	        	taxonomySel.indicateMatchingFinished();
-	        }, 1000)
-	        
-	      },
-
-
-	    });
-
-
-	    */
 
   	} // END PM.init
 
@@ -114,23 +97,18 @@ define(['jquery', 'projlistview','projlistmodel','selector', 'selectormodel'],
     PM.generateMatch = function () {
 
     	console.log('ProjectMatch.generateMatch');
-			var taxonomySel = ProjectMatch.TaxonomySelector;
-			
-    	/* TODO: migrate start and finish matching UI
+			var selectorUI = ProjectMatch.SelectorUI;
 
     	// UI: matching started
-    	taxonomySel.indicateMatchingStarted();
-			*/
+    	selectorUI.indicateMatchingStarted();
 
       // search with the current user's taxonomy selection
-      projView.searchProjects(taxonomySel.getSelection());
+      projView.searchProjects(selectorUI.getSelection());
 
-      /*
       // UI: matching finished
       setTimeout(function () {
-      	taxonomySel.indicateMatchingFinished();
+      	selectorUI.indicateMatchingFinished();
       }, 1000);
-      */
       
     }; // END generateMatch
 

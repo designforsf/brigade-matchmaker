@@ -1,3 +1,10 @@
+
+/*
+   localdev app.js
+   
+   Used for local development, included an index.html static file
+*/
+
 require.config({
    paths: {
       jquery: 'lib/jquery',
@@ -10,7 +17,6 @@ require.config({
       boostrap: 'lib/bootstrap.min.js',
       projlistview: 'views/ProjectView',
       projlistmodel:  'models/ProjectModel',
-      configmodel:  'models/ConfigModel',
       MessageView: '../../slackbot/js/app'
    }
 });

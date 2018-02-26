@@ -1,7 +1,7 @@
 this["Selector"] = this["Selector"] || {};
 this["Selector"]["templates"] = this["Selector"]["templates"] || {};
 
-this["Selector"]["templates"]["messages"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data,blockParams,depths) {
+this["Selector"]["templates"]["selector"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data,blockParams,depths) {
     var helper, alias1=container.lambda, alias2=container.escapeExpression;
 
   return "                <div tabName=\""

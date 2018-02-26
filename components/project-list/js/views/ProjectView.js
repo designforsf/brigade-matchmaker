@@ -1,6 +1,6 @@
 
-define(['jquery','underscore','backbone','handlebars','projlistmodel','configmodel'],
-   function(jQuery, _, Backbone, handlebars, ProjectModel, ConfigModel){
+define(['jquery','underscore','backbone','handlebars','projlistmodel'],
+   function(jQuery, _, Backbone, handlebars, ProjectModel){
 
    var ProjectView = Backbone.View.extend({
       // el - stands for element. Every view has a element associate in with HTML content will be rendered.
