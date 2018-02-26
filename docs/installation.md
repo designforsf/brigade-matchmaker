@@ -199,7 +199,7 @@ The New Member Front-End interacts with the JSON API to generate the search crit
 
 Beyond the new member front-end aspect, the Project Match system also relies on messaging, bookmarks, and project content management.
 
-## Project List
+## Project List  - components/project_list
 
 This is a user interface component presenting a list of projects. The project list interacts with the REST API, and by extension, the matching algorithm.
 
@@ -210,7 +210,7 @@ This installs, along with basic dependencies for a Node.js express application, 
 ```
 cd components/project-list
 nvm use v6.12.2
-
+npm install
 
 ```
 
@@ -221,11 +221,39 @@ Project List uses handlebars templates. When updating the template, the handleba
 ```
 cd components/project-list
 nvm use v6.12.2
-./node_modules/handlebars/bin/handlebars -amd js/templates/projects.html -f js/templates/projects.js
-
+./node_modules/grunt-cli/bin/grunt handlebars
 ```
 
 For more info, SEE: [Using Handlebars with Backbone and RequireJS and Precompiling templates](http://www.remwebdevelopment.com/blog/javascript/using-handlebars-with-backbone-and-requirejs-and-precompiling-templates-182.html)
+
+
+## Taxonomy Selector - selector_ui
+
+This is a user interface component to enable the user to sort a list of projects according to their personal preferences. The Taxonomy Selector interacts with the REST API, and by extension, the matching algorithm.
+
+### Installing dependencies
+
+This installs, along with basic dependencies for a Node.js express application, the handlebars utility.
+
+```
+cd components/selector_ui
+nvm use v6.12.2
+npm install
+
+```
+
+### Precompiling the HBS template
+
+Taxonomy Selector uses handlebars templates. When updating the template, the handlebars compile command must be run in order to use the template within the application.
+
+```
+cd components/selector_ui
+nvm use v6.12.2
+./node_modules/grunt-cli/bin/grunt handlebars
+```
+
+For more info, SEE: [Using Handlebars with Backbone and RequireJS and Precompiling templates](http://www.remwebdevelopment.com/blog/javascript/using-handlebars-with-backbone-and-requirejs-and-precompiling-templates-182.html)
+
 
 ---
 
