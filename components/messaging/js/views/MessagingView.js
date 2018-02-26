@@ -1,5 +1,5 @@
 
-define(['underscore','backbone','handlebars','models/MessagingModel'],
+define(['underscore','backbone','handlebars','messagingmodel'],
    function(_, Backbone,handlebars, MessagingModel){
 
    var MessagingView = Backbone.View.extend({
@@ -16,7 +16,8 @@ define(['underscore','backbone','handlebars','models/MessagingModel'],
          $.ajax({
             type: "POST",
             //url: 'http://localhost:5475/messaging/api/message',
-            url: 'http://localhost:8080/messaging/api/message',
+            //url: 'http://localhost:8080/messaging/api/message',
+            url: this.config.protocol + '://' + this.config.host + ':' + this.config.port + '/messaging/api/message',
             success: function(data) {
               console.log('ajax callback response: ', data);
             },
@@ -27,10 +28,28 @@ define(['underscore','backbone','handlebars','models/MessagingModel'],
          this.remove();
          this.render();
       },
-      initialize: function(skills){
+
+      /*
+         attrs:
+            
+            config
+               messaging
+               web
+
+            skills
+            interests
+            learning
+      */
+
+      initialize: function(attr){
+
+         // get the config
+         this.config = attr.config;
+
          //Model gets initialized with all the projects
-         this.model = new MessagingModel(skills);
+         this.model = new MessagingModel(attr);
          this.render();
+
       },
       render: function(){
          this.$el.html(this.template(this.model.toJSON()));
