@@ -4,7 +4,7 @@ define(['underscore','backbone','handlebars','messagingmodel'],
 
    var MessagingView = Backbone.View.extend({
       // el - stands for element. Every view has a element associate in with HTML content will be rendered.
-      el: '#container',
+      el: '#messaging-container',
       template: Messages.templates.messages,
       // It's the first function called when this view it's instantiated.
       // template: handlebars.compile(projectTemplate),

@@ -46,6 +46,11 @@ if (app.get('env') == 'development') {
   app.use(errorHandler());
 }
 
+// routes
+app.get('/selector_ui', function (req, res) {
+  res.sendFile('index.html', { root: __dirname });
+});
+
 var server = app.listen(config.selector_ui.port, function () {
   var host = config.selector_ui.port;
   console.log('Express 4 server listening at http://%s:%s', config.selector_ui.host, config.selector_ui.port);

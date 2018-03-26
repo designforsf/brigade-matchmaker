@@ -32,4 +32,7 @@ module.exports = function(grunt) {
 
    });
 
+   // run handlebars task as a default
+   grunt.registerTask('default', ['handlebars']);
+
 }

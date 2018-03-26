@@ -7,17 +7,18 @@ define(['jquery','underscore','backbone','handlebars','projlistmodel'],
       el: '#project-list-container',
       events: {
          "click .changeList":"searchProjects",
-         "click .contact-btn":"popUpMessage"
+         "click .contact-btn":"initiateContact"
       },
-      popUpMessage: function(e){
-         console.log(e.currentTarget.id);
-         var arr_num = e.currentTarget.id.replace("contact-btn", "");
-         //Need to pass the email of the project contact lead
-         console.log(this.model.attributes.data[arr_num]);
-         console.log(this.model.skills);
-         
+      initiateContact: function(e){
+         //console.log('target ', e.currentTarget);
+         var recordNo = e.currentTarget.id.replace("contact-btn", "");
+         //console.log(recordNo);
+
+         var project = this.model.attributes.data[recordNo];
+         console.log('initiateContact projectID=' + project.id);
+
          // TODO: This is temporary. Replace with overlay messaging form.
-         var win = window.open('/messaging', '_new');
+         var win = window.open('/components/messaging', '_new');
          win.focus();
 
       },
