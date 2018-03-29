@@ -16,7 +16,7 @@ var express = require('express')
   , mop = require('./MessageObjectParse.js')
   , mongoose = require('mongoose')
   , Message = require('./models/MessageQueue.js')
-  , CronJob = require('cron').CronJob;
+  , CronJob = require('cron').CronJob
 ;
 
 // access Slack API token
@@ -66,14 +66,25 @@ var sendMessage = new CronJob('0 * * * * *', function() { // runs every minute w
       var messageToSend = message.message;
       /* during testing phase the Slack ID needs to be filled out.
       In production we will retrieve this with an API call */
-      var slackId = '#uxr-projectmatch-test'; // enter ID here
+      var slackId =  '';// enter ID here
+
+      // color function cycles through colors array
+      var colors = ['#36a64f', '#cf1b41', '#399fd3', '#6D6E71'];
+      function color_cycle(arr) {
+        var color = arr[0];
+        arr.push(color);
+        arr.shift();
+      }
+      color_cycle(colors);
+
+      // API call to Slack
       web.chat.postMessage(slackId, 'You have received a message from a new user!', {
         as_user: false,
         username: 'new user bot',
         icon_url: 'https://avatars.slack-edge.com/2018-02-03/309655411173_c89e1a8aae565b88b419_72.png',
         attachments: [
           {
-            "color": "#36a64f",
+            "color": colors[0],
             "text": messageToSend
           }
         ]
