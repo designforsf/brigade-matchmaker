@@ -33,6 +33,7 @@ var projectsSchema = new mongoose.Schema({
     summary: {type: String, default: ''},
     contactName: {type: String, default: ''},
     contactEmail: {type: String, default: ''},
+    contactSlack: {type: String, default: ''},
     contactRole: {type: String, default: ''},
     contactThumbnailUrl: {type: String, default: ''},
     tasks: {type: Array, default: []},
