@@ -1,0 +1,228 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <title>Notifications Test</title>
+
+  <link rel="stylesheet" href="/styles/notifications.css" />
+  <link rel="stylesheet" href="/common/vendor/bootstrap-3.3.7/css/bootstrap.css">
+
+  <script src="/common/js/requirejs/require-2.3.5.js"></script>
+  <script src="/common/js/jquery/jquery-3.2.1.js"></script>
+  <script src="/common/vendor/bootstrap-3.3.7/js/bootstrap.js"></script>
+  <script src="/js/minmaximizer.js"></script>
+
+
+  <style type="text/css">  
+
+    .modal-header .btnGrp{
+      position: absolute;
+      top: 8px;
+      right: 10px;
+    } 
+
+    .min{
+        width: 250px; 
+        height: 35px;
+        overflow: hidden !important;
+        padding: 0px !important;
+        margin: 0px;    
+
+        float: left;  
+        position: static !important; 
+      }
+
+    .min .modal-dialog, .min .modal-content{
+        height: 100%;
+        width: 100%;
+        margin: 0px !important;
+        padding: 0px !important; 
+      }
+
+    .min .modal-header{
+        height: 100%;
+        width: 100%;
+        margin: 0px !important;
+        padding: 3px 5px !important; 
+      }
+
+    .display-none{display: none;}
+
+    button .fa{
+        font-size: 16px;
+        margin-left: 10px;
+      }
+
+    .min .fa{
+        font-size: 14px; 
+      }
+
+    .min .menuTab{display: none;}
+
+    button:focus { outline: none; }
+
+    .minmaxCon{
+      height: 35px;
+      bottom: 1px;
+      left: 1px;
+      position: fixed;
+      right: 1px;
+      z-index: 9999;
+    }
+
+  </style> 
+
+
+</head>
+
+<body>
+
+  <div id="top-nav">
+
+    <div class="nav navbar navbar-default">
+      <div class="container container-fluid">
+        
+        <div class="navbar-header">
+          <strong>
+            <a class="navbar-brand" href="#">Project Match</a>
+          </strong>
+        </div>
+
+        <ul class="nav navbar-nav navbar-right">
+
+        </ul>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container" id="minmaximizer-container">
+   
+    <h2>A demo of modal</h2>
+    <!-- Trigger the modal with a button -->
+    <button type="button" class="btn btn-danger btn-lg mdlFire"  data-target="#minmax-modal" >Click here to open modal</button>
+
+    <!-- Modal -->
+    <div class="modal mymodal" id="minmax-modal" role="dialog">
+      <div class="modal-dialog">
+      
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header" style="padding:35px 50px;">
+            <button type="button" class="close" data-dismiss="modal"> <i class='glyphicon glyphicon-remove'></i> </button>   
+            &nbsp;
+            <button class="close modalMinimize"> <i class='glyphicon glyphicon-minus'></i> </button> 
+
+            <h4 class="modal-title">A demo of modal with min/max options</h4>
+          </div>
+
+          <div class="modal-body"  style="padding:40px 50px;">
+            <p>The content of the modal appears here</p>
+          </div>
+
+          <div class="modal-footer"  style="padding:40px 50px;">
+            <p>Place the footer options like Ok, Cancel buttons here</p>
+          </div>
+   
+        </div>      
+      </div>
+    </div>  
+
+  </div>
+
+  <div class="minmaxCon"></div>  
+
+
+  <script>
+
+    jQuery(document).ready(function(){ 
+      
+      // NOTE: testing a convention of using $variables for jQuery-referenced dom objects
+      var $content, $modal, $apnData, $modalCon; 
+
+      $content = jQuery(".min");   
+
+
+      //To fire modal
+      jQuery(".mdlFire").click(function(e){
+
+        e.preventDefault();
+
+        var $id = jQuery(this).attr("data-target"); 
+        console.log($id);
+        jQuery($id).modal({backdrop: false, keyboard: false}); 
+
+      }); 
+
+
+      jQuery(".modalMinimize").on("click", function(){
+
+        $modalCon = jQuery(this).closest(".mymodal").attr("id");  
+
+        $apnData = jQuery(this).closest(".mymodal");
+
+        $modal = "#" + $modalCon;
+
+        jQuery(".modal-backdrop").addClass("display-none");   
+
+        jQuery($modal).toggleClass("min");  
+
+          if ( jQuery($modal).hasClass("min") ){ 
+
+            jQuery(".minmaxCon").append($apnData);  
+
+            jQuery(this).find("i").toggleClass( 'glyphicon-minus').toggleClass( 'glyphicon-new-window');
+
+          } else { 
+
+            jQuery("#minmaximizer-container").append($apnData); 
+
+            jQuery(this).find("i").toggleClass( 'glyphicon-new-window').toggleClass( 'glyphicon-minus');
+
+          };
+
+      });
+
+      jQuery("button[data-dismiss='modal']").click(function(){   
+
+          jQuery(this).closest(".mymodal").removeClass("min");
+
+          jQuery("#minmaximizer-container").removeClass($apnData);   
+
+          jQuery(this).next('.modalMinimize').find("i").removeClass('glyphicon glyphicon-new-window').addClass( 'glyphicon glyphicon-minus');
+
+      }); 
+
+    });
+
+  </script>
+
+  <script>
+
+  require.config({
+    baseUrl: '/',
+    paths: {
+      jquery: 'common/js/jquery/jquery-3.2.1',
+      handlebars: 'common/js/handlebars/handlebars-4.0.11',
+      'handlebars.runtime': 'common/js/handlebars/handlebars.runtime-4.0.11',
+      bootstrap: 'common/vendor/bootstrap-3.3.7/js/bootstrap',
+
+      minmax: 'js/minmaximizer',
+      //minmaxtemplate: 'templates/notifications'
+    }
+  });
+
+  require(['minmax', 'jquery'], 
+    function(Minmaximizer, jQuery) {
+
+      // taxonomy selector component
+      ProjectMatch.Minmaximizer.init({});
+
+    }
+  );
+
+  </script>
+
+</body>
+</html>
