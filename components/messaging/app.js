@@ -64,9 +64,7 @@ var sendMessage = new CronJob('0 * * * * *', function() { // runs every minute w
     if (err) return handleError(err);
     if(message !== null) {
       var messageToSend = message.message;
-      /* during testing phase the Slack ID needs to be filled out.
-      In production we will retrieve this with an API call */
-      var slackId =  '';// enter ID here
+      var slackId =  message.slack; // testing channel is '#uxr-projectmatch-test';
 
       // color function cycles through colors array
       var colors = ['#36a64f', '#cf1b41', '#399fd3', '#6D6E71'];

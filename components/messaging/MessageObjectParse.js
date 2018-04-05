@@ -3,6 +3,7 @@ module.exports = {
   parseObject: function(final_obj) {
     var name = final_obj.name;
     var email = final_obj.email;
+    var slack = final_obj.slack;
     var personalMessage = final_obj['personal-message'];
     var skills = final_obj.matchingInfo.skills;
     var interests = final_obj.matchingInfo.interests;
