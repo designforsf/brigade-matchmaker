@@ -1,3 +1,12 @@
+//define(['jquery', 'handlebars' ],
+//  function(jQuery, Handlebars){
+
+
+/* 
+  CREDIT: the minmaximizer component is based on work done in this JQuery A-Z example:
+  https://www.jquery-az.com/jquery/demo.php?ex=58.0_1
+*/
+
 
 (function (PM) {
 
@@ -16,64 +25,106 @@
 
   self.init = function (attr) {
 
-    /* 
-      CREDIT: the minmaximizer component is based on work done in this JQuery A-Z example:
-      https://www.jquery-az.com/jquery/demo.php?ex=58.0_1
-    */
+    jQuery(document).ready(function(){
 
-    jQuery(document).ready(function(){ 
-
-      // NOTE: testing a convention of using $variables for jQuery-referenced dom objects
-      var $content, $modal, $apnData, $modalCon; 
-
-      $content = jQuery(".min");   
-
-
-      jQuery(".modalMinimize").on("click", function(){
-
-        $modalCon = jQuery(this).closest(".mymodal").attr("id");  
-        $apnData = jQuery(this).closest(".mymodal");
-        $modal = "#" + $modalCon;
-
-        jQuery(".modal-backdrop").addClass("display-none");   
-
-        jQuery($modal).toggleClass("min");  
-
-          if ( jQuery($modal).hasClass("min") ){ 
-
-            jQuery(".minmaxCon").append($apnData);  
-
-            jQuery(this).find("i")
-              .toggleClass( 'glyphicon-minus')
-              .toggleClass( 'glyphicon-new-window');
-
-          } else { 
-
-            jQuery("#minmaximizer-container").append($apnData); 
-
-            jQuery(this).find("i")
-              .toggleClass( 'glyphicon-new-window')
-              .toggleClass( 'glyphicon-minus');
-
-          };
-
-      });
-
-      jQuery("button[data-dismiss='modal']").click(function(){   
-
-          jQuery(this).closest(".mymodal").removeClass("min");
-          
-          jQuery("#minmaximizer-container").removeClass($apnData);   
-
-          jQuery(this).next('.modalMinimize').find("i")
-            .removeClass('glyphicon glyphicon-new-window')
-            .addClass( 'glyphicon glyphicon-minus');
-
-      }); 
+      self.isEventListenersLoaded = false;
 
     });
 
-  } // END self.init
+  }; // END self.init
 
 
- }) (( window.ProjectMatch=window.ProjectMatch || {}));
+  /*
+    displayModal
+
+    displays the minmaximizer modal
+
+  */
+
+  self.displayModal = function (attr) {
+    
+    require(['minmaxtemplate', 'handlebars', 'jquery', 'bootstrap'],
+      function(MinMaxTemplate, Handlebars, jQuery, Bootstrap){
+
+        var context = {};
+        var renderedHtml = MinMaxTemplate.templates.modal(context);
+        
+        jQuery('#minmaximizer-container').html(renderedHtml);
+
+        jQuery('#minmaximizer-modal').modal({backdrop: false, keyboard: false});
+
+
+        // load the event listeners
+        self.loadEventListeners(); // NOTE: needs to be re-loaded each time
+        
+
+      }
+    );
+
+  }; // END displayModal
+
+
+  /*
+    load event listeners
+  */
+
+  self.loadEventListeners = function (attr) {
+
+
+    // NOTE: testing a convention of using $variables for jQuery-referenced dom objects
+    var $content, $modal, $apnData, $modalCon; 
+
+    $content = jQuery(".min");   
+
+
+    jQuery(".modalMinimize").on("click", function(){
+
+      $modalCon = jQuery(this).closest(".mymodal").attr("id");  
+      $apnData = jQuery(this).closest(".mymodal");
+      $modal = "#" + $modalCon;
+
+      jQuery(".modal-backdrop").addClass("display-none");   
+
+      jQuery($modal).toggleClass("min");  
+
+        if ( jQuery($modal).hasClass("min") ){ 
+
+          jQuery(".minmaxCon").append($apnData);  
+
+          jQuery(this).find("i")
+            .toggleClass( 'glyphicon-minus')
+            .toggleClass( 'glyphicon-new-window');
+
+        } else { 
+
+          jQuery("#minmaximizer-container").append($apnData); 
+
+          jQuery(this).find("i")
+            .toggleClass( 'glyphicon-new-window')
+            .toggleClass( 'glyphicon-minus');
+
+        };
+
+    });
+
+    jQuery("button[data-dismiss='modal']").click(function(){   
+
+        jQuery(this).closest(".mymodal").removeClass("min");
+        
+        jQuery("#minmaximizer-container").removeClass($apnData);   
+
+        jQuery(this).next('.modalMinimize').find("i")
+          .removeClass('glyphicon glyphicon-new-window')
+          .addClass( 'glyphicon glyphicon-minus');
+
+    }); 
+
+  } // END loadEventListeners
+
+
+}) (( window.ProjectMatch=window.ProjectMatch || {}));
+
+// return the object to requirejs
+//return window.ProjectMatch;
+
+//}); // END define

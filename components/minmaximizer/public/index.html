@@ -9,8 +9,6 @@
   <link rel="stylesheet" href="/common/vendor/bootstrap-3.3.7/css/bootstrap.css">
 
   <script src="/common/js/requirejs/require-2.3.5.js"></script>
-  <script src="/common/js/jquery/jquery-3.2.1.js"></script>
-  <script src="/common/vendor/bootstrap-3.3.7/js/bootstrap.js"></script>
   <script src="/js/minmaximizer.js"></script>
 
 </head>
@@ -24,12 +22,14 @@
         
         <div class="navbar-header">
           <strong>
-            <a class="navbar-brand" href="#">Project Match</a>
+            <a class="navbar-brand" href="#">Project Match: MinMaximizer</a>
           </strong>
         </div>
 
-        <ul class="nav navbar-nav navbar-right">
+        <ul class="nav navbar-nav navbar-right" style="padding:10px;">
 
+          <button type="button" class="btn btn-success" id="minmax-test-button"
+          >Click here to test MinMaximize</button>
         </ul>
 
       </div>
@@ -37,58 +37,10 @@
   </div>
 
   <div class="container" id="minmaximizer-container">
-   
-    <h2>A demo of modal</h2>
-    <!-- Trigger the modal with a button -->
-    <button type="button" class="btn btn-danger btn-lg mdlFire"  data-target="#minmax-modal" >Click here to open modal</button>
-
-    <!-- Modal -->
-    <div class="modal mymodal" id="minmax-modal" role="dialog">
-      <div class="modal-dialog">
-      
-        <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-header" style="padding:35px 50px;">
-            <button type="button" class="close" data-dismiss="modal" id="minmaximizer-button-close"> <i class='glyphicon glyphicon-remove'></i> </button>   
-            <button class="close modalMinimize" id="minmaximizer-button-toggle"> <i class='glyphicon glyphicon-minus'></i> </button> 
-
-            <h4 class="modal-title">A demo of modal with min/max options</h4>
-          </div>
-
-          <div class="modal-body"  style="padding:40px 50px;">
-            <p>The content of the modal appears here</p>
-          </div>
-
-          <div class="modal-footer"  style="padding:40px 50px;">
-            <p>Place the footer options like Ok, Cancel buttons here</p>
-          </div>
-   
-        </div>      
-      </div>
-    </div>  
 
   </div>
 
-  <div class="minmaxCon"></div>  
-
-
-  <script>
-
-    jQuery(document).ready(function(){ 
-
-      //To fire modal
-      jQuery(".mdlFire").click(function(e){
-
-        e.preventDefault();
-
-        var $id = jQuery(this).attr("data-target"); 
-        jQuery($id).modal({backdrop: false, keyboard: false}); 
-
-      }); 
-
-    });
-
-  </script>
+  <div class="minmaxCon"></div> 
 
   <script>
 
@@ -101,7 +53,7 @@
       bootstrap: 'common/vendor/bootstrap-3.3.7/js/bootstrap',
 
       minmax: 'js/minmaximizer',
-      //minmaxtemplate: 'templates/notifications'
+      minmaxtemplate: 'templates/minmaximizer'
     }
   });
 
@@ -109,7 +61,13 @@
     function(MinMaximizer, jQuery) {
 
       // taxonomy selector component
-      ProjectMatch.MinMaximizer.init({});
+      ProjectMatch.MinMaximizer.init({ jQuery: jQuery });
+
+      // to develop / test the component out
+      jQuery("#minmax-test-button").click(function(e){
+        e.preventDefault();
+        ProjectMatch.MinMaximizer.displayModal({ event: e });
+      }); 
 
     }
   );
