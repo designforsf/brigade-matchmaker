@@ -20,7 +20,10 @@ define(['jquery','underscore','backbone','handlebars','projlistmodel'],
          this.initiateContactCb({
             event: e,
             project: project,
-            recordNo: recordNo
+            recordNo: recordNo,
+            skills: [],
+            interests: [],
+            learnSkills: [],
          });
 
       },

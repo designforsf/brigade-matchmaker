@@ -128,8 +128,8 @@ Python is included in OSX, however to install packages you will need pip. The be
 First install homebrew (if it has not already been installed). In the command line terminal:
 
 ```
-which python
-which pip
+which python3
+which pip3
 which brew
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
@@ -138,9 +138,9 @@ which brew
 Now use homebrew to install python and pip. In the command line terminal:
 
 ```
-brew install python
-which python
-which pip
+brew install python3
+which python3
+which pip3
 ```
 
 Both python and pip should now be located in /usr/local/bin/.
@@ -149,10 +149,10 @@ Now you are ready to install pymongo. In the command line terminal:
 
 ```
 cd brigade-matchmaker/components/matching
-python --version
-pip --version
-pip install pymongo==3.4
-python match-algo.py javascript housing developer
+python3 --version
+pip3 --version
+pip3 install pymongo==3.4
+python3 match-algo.py javascript housing developer
 ```
 
 If the database is running and the webapp has been fired up (at least once), you should be able to interact with the matching algorithm using pre-loaded test project data.

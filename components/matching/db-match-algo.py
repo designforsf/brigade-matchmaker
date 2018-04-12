@@ -331,8 +331,8 @@ def matchmaking (
             str(project['goals_total']),
             "(" + " ".join(project['goals_matched']) + ")",
         )
-        print ",".join(seq)
-
+        #pp.pprint(seq)
+        print(",".join(seq))
 
 # if called from command line
 

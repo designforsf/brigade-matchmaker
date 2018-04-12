@@ -2,6 +2,8 @@ define([
 	'jquery', 
 	'projlistview',
 	'projlistmodel',
+	'messagingview',
+	'messagingtemplate',
 	'minmax',
 	'minmaxtemplate',
 	'selector', 
@@ -11,6 +13,8 @@ define([
 		jQuery, 
 		ProjectView, 
 		ProjectModel, 
+		MessagingView,
+		MessagingTemplate,
 		MinMaximizer, 
 		MinMaximizerTemplate, 
 		SelectorView, 
@@ -19,6 +23,33 @@ define([
 
 	// ProjectMatch closure
 	(function (PM) {
+
+
+		/*
+
+		config variable
+
+			web
+				host
+				port
+				protocol
+
+		*/
+
+		PM.config = undefined;
+
+		/*
+			instances of backbone views
+		*/
+
+		PM.projectListView = undefined;
+		PM.messagingView = undefined;
+
+		// selectors (each has a backbone model)
+		PM.skillsSel = undefined;
+		PM.interestsSel = undefined;
+		PM.learnSkillsSel = undefined;
+
 
 		/* 
 			init
@@ -39,10 +70,14 @@ define([
 		PM.init = function (attr) {
 			console.log('ProjectMatch.init()');
 
-			ProjectMatch.MinMaximizer.init({ jQuery: jQuery });
+			// set the config variable
+			PM.config = attr.config;
+
+			// initialize the minmaximizer
+			ProjectMatch.MinMaximizer.init({ });
 
 	    // project list component
-	    projView = new ProjectView({ 
+	    PM.projectListView = new ProjectView({ 
 	    	config: attr.config,
 	    	skills:[], learnSkills:[], interests:[],
 	    	initiateContactCb: PM.initiateContact
@@ -50,22 +85,22 @@ define([
 
 	    var baseUrl = attr.config.web.protocol + '://' + attr.config.web.host + ':' + attr.config.web.port;
 	    
-			var skillsSel = new SelectorView({
+			PM.skillsSel = new SelectorView({
 			  'component_name':'Skills',
 			  'display-title' : 'Skills to Contribute',
 			  'tag-color':'#AA193A',
 			  'url' : baseUrl + '/api/project/taxonomy/skills-for-ui'
 			});
 
-			var interestsSel = new SelectorView({
+			PM.interestsSel = new SelectorView({
 			  'component_name':'Interests',
 			  'display-title' : 'Civic Interests',
 			  'tag-color':'#3DA1D2',
-			  'url' : baseUrl + '/api/project/taxonomy/interests',
+			  'url' : baseUrl + '/api/project/taxonomy/interests-for-ui',
 			  'el' : '#container2'
 			});
 
-			var learnSkillsSel = new SelectorView({
+			PM.learnSkillsSel = new SelectorView({
 			  'component_name':'Learnings',
 			  'display-title' : 'Skills to Learn',
 			  'tag-color':'#123D51',
@@ -83,16 +118,38 @@ define([
         project:
         recordNo:
 
+        skills:
+        learnSkills:
+        interests:
+
 		*/
   	PM.initiateContact = function (attr) {
   		console.log('initiate contact to projectID=' + attr.project.id + ' user clicked on item=' + attr.recordNo);
   		
+
+      // fire up the minmaximizer
   		ProjectMatch.MinMaximizer.displayModal({ 
   			event: attr.event,
   			title: 'Message to project ', // + attr.project.name
-  			body: 'Email form',
-  			footer: 'Email buttons'
+  			body: '<div id="messaging-container">&nbsp;</div>',
+  			renderCb: function () {
+
+  				console.log(PM.skillsSel.model.get('selectedItems'));
+
+		  		// fire up the messaging form
+		      PM.messagingView = new MessagingView({
+		         config: PM.config,
+		         skills: PM.skillsSel.model.get('selectedItems'),
+		         interests: PM.interestsSel.model.get('selectedItems'),
+		         learning: PM.learnSkillsSel.model.get('selectedItems')
+		      });
+
+  			}
   		});
+
+
+
+
   	},
 
 
@@ -133,19 +190,12 @@ define([
     // called when the user clicks on the generate match button
     PM.generateMatch = function () {
 
-    	console.log('ProjectMatch.generateMatch');
-			var selectorUI = ProjectMatch.SelectorUI;
-
-    	// UI: matching started
-    	selectorUI.indicateMatchingStarted();
-
-      // search with the current user's taxonomy selection
-      projView.searchProjects(selectorUI.getSelection());
-
-      // UI: matching finished
-      setTimeout(function () {
-      	selectorUI.indicateMatchingFinished();
-      }, 1000);
+    	// run the search
+			PM.projectListView.searchProjects({
+      	"skills": [],
+        "learnSkills": [],
+        "interests": []
+			});
       
     }; // END generateMatch
 

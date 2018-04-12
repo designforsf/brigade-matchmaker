@@ -1,16 +1,15 @@
-.container {
+#messaging-container .container {
     display: flex;
     flex-direction: column;
     width: 38em;
     border: 1px lightgray solid;
     padding: 1em;
-    position: fixed;
     right: 2em;
     bottom: 0;
     background-color: white;
 }
 
-.contact-header {
+#messaging-container .contact-header {
     display: flex;
     justify-content: center;
     margin-bottom: .7em;
@@ -22,7 +21,7 @@
     padding-top: 5px;
 }
 
-.slack-message {
+#messaging-container .slack-message {
     min-height: 10em;
     font-size: .8em;
     margin-top: 1em;
@@ -31,32 +30,32 @@
     width: 100%;
 }
 
-.personal-info {
+#messaging-container .personal-info {
     width: 100%;
 }
 
-.slack-form {
+#messaging-container .slack-form {
     color: gray;
     font-weight: 300;
     padding: .5em;
 }
 
-.form-class {
+#messaging-container .form-class {
     display: flex;
     flex-direction: column;
 }
 
-.skills-header {
+#messaging-container .skills-header {
     font-family: sans-serif;
     font-size: .8em;
 
 }
 
-.tag-container {
+#messaging-container .tag-container {
     display: flex;
 }
 
-.tag {
+#messaging-container .tag {
     padding: 4px;
     font-family: sans-serif;
     font-size: .8em;
@@ -67,24 +66,24 @@
 
 }
 
-.skills-tag {
+#messaging-container .skills-tag {
     background-color: #AA193A;
 }
 
-.opportunities-tag {
+#messaging-container .opportunities-tag {
     background-color: #3DA1D2;
 }
 
-.interest-tag {
+#messaging-container .interest-tag {
     background-color: #123D51;
 }
 
-.attachment-title-container {
+#messaging-container .attachment-title-container {
     display: flex;
     align-items: center;
 }
 
-.attachment-header {
+#messaging-container .attachment-header {
     background-color: #9B9B9B;
     margin-right: 1em;
     padding: 10px 20px 10px 20px;
@@ -94,14 +93,14 @@
     font-family: sans-serif;
 }
 
-.attachment-info-text {
+#messaging-container .attachment-info-text {
     color: #B3B3B3;
     font-family: sans-serif;
     font-size: .8em;
     font-weight: bold;
 }
 
-.attachment-container {
+#messaging-container .attachment-container {
     padding: 1em;
     width: 100%;
     background-color: #CFCDCE;
@@ -110,41 +109,41 @@
     border-bottom-left-radius: 5px;
 }
 
-.skills-container {
+#messaging-container .skills-container {
     font-family: sans-serif;
     font-weight: bold;
     display: flex;
     align-items: center;
 }
 
-.skills-title {
+#messaging-container .skills-title {
     margin-right: 1em;
 }
 
-.skills-tags {
+#messaging-container .skills-tags {
     border: 1px red solid;
 }
 
-.personal-message-header {
+#messaging-container .personal-message-header {
     font-family: sans-serif;
     font-weight: 600;
     margin-bottom: .2em;
     margin-top: .5em;
 }
 
-.personal-message-info {
+#messaging-container .personal-message-info {
     color: #B3B3B3;
     font-family: sans-serif;
     font-size: .8em;
     font-weight: bold;
 }
 
-textarea {
+#messaging-container textarea {
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
 }
-.submit-btn {
+#messaging-container .submit-btn {
     background-color: #17A277;
     margin-top: 25px;
     align-items: center;
@@ -157,25 +156,25 @@ textarea {
     width: 50%;
 }
 
-.control-label:after {
+#messaging-container .control-label:after {
     content:"*";
     color:red;
 }
 
-.control-label {
+#messaging-container .control-label {
     width: 25%;
     display: flex;
     align-self: center;
     font-weight: 600;
 }
 
-.input-container {
+#messaging-container .input-container {
     display: flex;
     width: 100%;
     justify-items: center;
 }
 
-.submit-container {
+#messaging-container .submit-container {
     display: flex;
     justify-content: center;
 }

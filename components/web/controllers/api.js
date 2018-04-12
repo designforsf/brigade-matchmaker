@@ -356,6 +356,7 @@ module.exports = {
     //console.log('pyDir: ', pyDir);
 
     PyShell.run(pyFile, {
+      pythonPath: '/usr/local/bin/python3',
       scriptPath: pyDir,
       args: pyArgs
     }, function (err, pyOutput) {

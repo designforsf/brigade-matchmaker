@@ -11,6 +11,8 @@ define(['underscore', 'backbone', 'lockr'],
       },
       searchProjects: function(taxonomyObj) {
          console.log('ProjectModel.searchProjects');
+         console.log(taxonomyObj);
+         this.searchTaxonomyObj = taxonomyObj;
 
          var url = "/api/user/matches?";
          $.each( taxonomyObj, function( key, value ) {

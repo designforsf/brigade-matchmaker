@@ -594,8 +594,6 @@ function startServer () {
     express.static(path.resolve(__dirname, '../slackbot')));
   app.use("/components/minmaximizer", 
     express.static(path.resolve(__dirname, '../minmaximizer/public')));
-  app.use("/components/taxonomy-selector", 
-    express.static(path.resolve(__dirname, '../taxonomy-selector/public')));
   app.use("/components/selector", 
     express.static(path.resolve(__dirname, '../selector_ui/public')));
   app.use("/components/messaging", 

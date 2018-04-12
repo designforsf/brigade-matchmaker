@@ -41,9 +41,10 @@
     
       event: (click event) 
 
+      renderCb: (callback after the page renders)
+
       title:
       body:
-      footer:
 
   */
 
@@ -54,12 +55,16 @@
 
         var context = {
           title: attr.title,
-          body: attr.body,
-          footer: attr.footer
+          body: attr.body
         };
         var renderedHtml = MinMaxTemplate.templates.modal(context);
         
         jQuery('#minmaximizer-container').html(renderedHtml);
+
+        // post-render callback, usually to load content in a new div
+        if (typeof attr.renderCb !== 'undefined') {
+          attr.renderCb();
+        }
 
         jQuery('#minmaximizer-modal').modal({backdrop: false, keyboard: false});
 
