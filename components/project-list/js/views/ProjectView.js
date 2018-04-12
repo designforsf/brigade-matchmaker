@@ -17,9 +17,11 @@ define(['jquery','underscore','backbone','handlebars','projlistmodel'],
          var project = this.model.attributes.data[recordNo];
          console.log('initiateContact projectID=' + project.id);
 
-         // TODO: This is temporary. Replace with overlay messaging form.
-         var win = window.open('/components/messaging', '_new');
-         win.focus();
+         this.initiateContactCb({
+            event: e,
+            project: project,
+            recordNo: recordNo
+         });
 
       },
       // It's the first function called when this view it's instantiated.
@@ -30,6 +32,8 @@ define(['jquery','underscore','backbone','handlebars','projlistmodel'],
       /*
          attrs:
             
+            initiateContactCb - callback for when the user clicks on the contact button
+
             config
 
             NOTE: unsure if these are used any more:
@@ -43,6 +47,12 @@ define(['jquery','underscore','backbone','handlebars','projlistmodel'],
 
          // get the config
          this.config = attr.config;
+
+         if (typeof attr.initiateContactCb !== 'undefined') {
+            this.initiateContactCb = attr.initiateContactCb;
+         } else {
+            console.error('ProjectView: please pass and initiateContactCb function to the constructor.');
+         }
 
          //Pass in object
          //$.param(obj) --> this is the urlEnding that would get passed to

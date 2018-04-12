@@ -26,9 +26,8 @@ define(['jquery', 'projlistview','projlistmodel','selector', 'selectormodel'],
 	    // project list component
 	    projView = new ProjectView({ 
 	    	config: attr.config,
-	    	skills:[], 
-	    	learnSkills:[], 
-	    	interests:[] 
+	    	skills:[], learnSkills:[], interests:[],
+	    	initiateContactCb: PM.initiateContact
 	    });
 
 	    var baseUrl = attr.config.web.protocol + '://' + attr.config.web.host + ':' + attr.config.web.port;
@@ -57,6 +56,19 @@ define(['jquery', 'projlistview','projlistmodel','selector', 'selectormodel'],
 			});
 
   	} // END PM.init
+
+
+  	/* 
+  		initiate contact
+
+        event:
+        project:
+        recordNo:
+
+		*/
+  	PM.initiateContact = function (attr) {
+  		console.log('initiate contact to projectID=' + attr.project.id + ' user clicked on item=' + attr.recordNo);
+  	},
 
 
 		// UI activate landing

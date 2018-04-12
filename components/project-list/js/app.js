@@ -29,7 +29,12 @@ require(['projlistview'], function(ProjectView){
          config: configData,
          skills: ["java", "react"],
          interests: ["webDev"],
-         learning: ["node"]
+         learning: ["node"],
+         initiateContactCb: function (attr) {
+            console.log('temporary initiateContactCb defined in app.js');
+            var win = window.open('/components/messaging', '_new');
+            win.focus();
+         }
       });
    });
 });
