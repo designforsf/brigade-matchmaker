@@ -20,7 +20,16 @@ block content
   div(id="project-list-container")
     | &nbsp;
 
+  div(class="container" id="minmaximizer-container")
+    | &nbsp;
+
+  div(class="minmaxCon")
+    | &nbsp;
+
+
+  //link(rel="stylesheet" href="/common/vendor/bootstrap-3.3.7/css/bootstrap.css")
   link(rel="stylesheet" href="/components/project-list/css/style.css")
+  link(rel="stylesheet" href="/components/minmaximizer/css/minmaximizer.css")
   link(rel="stylesheet" href="/components/selector/css/style.css")
   link(rel="stylesheet" href="/components/taxonomy-selector/styles/taxonomy-selector.css")
 
@@ -35,7 +44,7 @@ block content
     require.config({
       baseUrl: '/',
       paths: {
-        jquery: 'components/project-list/js/lib/jquery',
+        jquery: 'common/js/jquery/jquery-3.2.1.min',
         handlebars: 'components/project-list/js/lib/handlebars',
         'handlebars.runtime': 'components/project-list/js/lib/handlebars.runtime',
         backbone: 'components/project-list/js/lib/backbone',
@@ -43,7 +52,7 @@ block content
         underscore: 'components/project-list/js/lib/underscore',
         localstorage : 'components/project-list/js/lib/backbone.localStorage',
         lockr: 'components/project-list/js/lib/lockr',
-        boostrap: 'components/project-list/js/lib/bootstrap.min.js',
+        bootstrap: 'common/vendor/bootstrap-3.3.7/js/bootstrap',
 
         projmatch: 'js/project-match',
 
@@ -57,6 +66,9 @@ block content
         //taxsel: 'components/taxonomy-selector/js/project-match/taxonomy-selector',
         //taxselmodel: 'components/taxonomy-selector/js/project-match/taxonomy-model',
         //taxseltemplate: 'components/taxonomy-selector/templates/container',
+
+        minmax: 'components/minmaximizer/js/minmaximizer',
+        minmaxtemplate: 'components/minmaximizer/templates/minmaximizer',
 
         selector: 'components/selector/js/views/SelectorView',
         selectormodel: 'components/selector/js/models/SelectorModel'

@@ -1,5 +1,21 @@
-define(['jquery', 'projlistview','projlistmodel','selector', 'selectormodel'],
-	function(jQuery, ProjectView, ProjectModel, SelectorView, SelectorModel){
+define([
+	'jquery', 
+	'projlistview',
+	'projlistmodel',
+	'minmax',
+	'minmaxtemplate',
+	'selector', 
+	'selectormodel'
+	],
+	function(
+		jQuery, 
+		ProjectView, 
+		ProjectModel, 
+		MinMaximizer, 
+		MinMaximizerTemplate, 
+		SelectorView, 
+		SelectorModel
+		){
 
 	// ProjectMatch closure
 	(function (PM) {
@@ -22,6 +38,8 @@ define(['jquery', 'projlistview','projlistmodel','selector', 'selectormodel'],
 
 		PM.init = function (attr) {
 			console.log('ProjectMatch.init()');
+
+			ProjectMatch.MinMaximizer.init({ jQuery: jQuery });
 
 	    // project list component
 	    projView = new ProjectView({ 
@@ -68,6 +86,13 @@ define(['jquery', 'projlistview','projlistmodel','selector', 'selectormodel'],
 		*/
   	PM.initiateContact = function (attr) {
   		console.log('initiate contact to projectID=' + attr.project.id + ' user clicked on item=' + attr.recordNo);
+  		
+  		ProjectMatch.MinMaximizer.displayModal({ 
+  			event: attr.event,
+  			title: 'Message to project ', // + attr.project.name
+  			body: 'Email form',
+  			footer: 'Email buttons'
+  		});
   	},
 
 

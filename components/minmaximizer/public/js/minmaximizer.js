@@ -38,6 +38,12 @@
     displayModal
 
     displays the minmaximizer modal
+    
+      event: (click event) 
+
+      title:
+      body:
+      footer:
 
   */
 
@@ -46,7 +52,11 @@
     require(['minmaxtemplate', 'handlebars', 'jquery', 'bootstrap'],
       function(MinMaxTemplate, Handlebars, jQuery, Bootstrap){
 
-        var context = {};
+        var context = {
+          title: attr.title,
+          body: attr.body,
+          footer: attr.footer
+        };
         var renderedHtml = MinMaxTemplate.templates.modal(context);
         
         jQuery('#minmaximizer-container').html(renderedHtml);

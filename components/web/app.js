@@ -586,12 +586,14 @@ function startServer () {
   app.use(express.static(path.join(__dirname, 'themes/' + brigadeDetails.theme.slug + '/public'), { maxAge: 31557600000 }))
   
   // static resources for components
-  app.use("/common", 
+  app.use("/commonx", 
     express.static(path.resolve(__dirname, '../common/public')));
   app.use("/components/project-list", 
     express.static(path.resolve(__dirname, '../project-list')));
   app.use("/components/slackbot", 
     express.static(path.resolve(__dirname, '../slackbot')));
+  app.use("/components/minmaximizer", 
+    express.static(path.resolve(__dirname, '../minmaximizer/public')));
   app.use("/components/taxonomy-selector", 
     express.static(path.resolve(__dirname, '../taxonomy-selector/public')));
   app.use("/components/selector", 
