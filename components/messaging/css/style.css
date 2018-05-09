@@ -172,6 +172,7 @@
     display: flex;
     width: 100%;
     justify-items: center;
+    margin-bottom: 10px;
 }
 
 #messaging-container .submit-container {

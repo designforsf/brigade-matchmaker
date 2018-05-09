@@ -1,23 +1,23 @@
 define([
-	'jquery', 
+	'jquery',
 	'projlistview',
 	'projlistmodel',
 	'messagingview',
 	'messagingtemplate',
 	'minmax',
 	'minmaxtemplate',
-	'selector', 
+	'selector',
 	'selectormodel'
 	],
 	function(
-		jQuery, 
-		ProjectView, 
-		ProjectModel, 
+		jQuery,
+		ProjectView,
+		ProjectModel,
 		MessagingView,
 		MessagingTemplate,
-		MinMaximizer, 
-		MinMaximizerTemplate, 
-		SelectorView, 
+		MinMaximizer,
+		MinMaximizerTemplate,
+		SelectorView,
 		SelectorModel
 		){
 
@@ -51,7 +51,7 @@ define([
 		PM.learnSkillsSel = undefined;
 
 
-		/* 
+		/*
 			init
 
 			Main client initialization
@@ -64,7 +64,7 @@ define([
 						host
 						port
 						protocol
-			
+
 		*/
 
 		PM.init = function (attr) {
@@ -77,14 +77,14 @@ define([
 			ProjectMatch.MinMaximizer.init({ });
 
 	    // project list component
-	    PM.projectListView = new ProjectView({ 
+	    PM.projectListView = new ProjectView({
 	    	config: attr.config,
 	    	skills:[], learnSkills:[], interests:[],
 	    	initiateContactCb: PM.initiateContact
 	    });
 
 	    var baseUrl = attr.config.web.protocol + '://' + attr.config.web.host + ':' + attr.config.web.port;
-	    
+
 			PM.skillsSel = new SelectorView({
 			  'component_name':'Skills',
 			  'display-title' : 'Skills to Contribute',
@@ -111,7 +111,7 @@ define([
   	} // END PM.init
 
 
-  	/* 
+  	/*
   		initiate contact
 
         event:
@@ -125,12 +125,12 @@ define([
 		*/
   	PM.initiateContact = function (attr) {
   		console.log('initiate contact to projectID=' + attr.project.id + ' user clicked on item=' + attr.recordNo);
-  		
+
 
       // fire up the minmaximizer
-  		ProjectMatch.MinMaximizer.displayModal({ 
+  		ProjectMatch.MinMaximizer.displayModal({
   			event: attr.event,
-  			title: 'Message to project ', // + attr.project.name
+  			title: '', // + attr.project.name
   			body: '<div id="messaging-container">&nbsp;</div>',
   			renderCb: function () {
 
@@ -159,7 +159,7 @@ define([
 
 	      // show top nav
 	      //jQuery('#top-nav').hide();
-	      
+
 	      // hide the landing page intro
 	      jQuery('#landing-intro').slideDown({
 	        duration: 350,
@@ -196,7 +196,7 @@ define([
         "learnSkills": [],
         "interests": []
 			});
-      
+
     }; // END generateMatch
 
 	}) (( window.ProjectMatch=window.ProjectMatch || {})); // END ProjectMatch closure

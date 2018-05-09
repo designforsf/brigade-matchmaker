@@ -5,8 +5,8 @@
 
   <title>MinMaximizer Test</title>
 
-  <link rel="stylesheet" href="/css/minmaximizer.css" />
   <link rel="stylesheet" href="/common/vendor/bootstrap-3.3.7/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/minmaximizer.css" />
 
   <script src="/common/js/requirejs/require-2.3.5.js"></script>
   <script src="/js/minmaximizer.js"></script>
@@ -19,7 +19,7 @@
 
     <div class="nav navbar navbar-default">
       <div class="container container-fluid">
-        
+
         <div class="navbar-header">
           <strong>
             <a class="navbar-brand" href="#">Project Match: MinMaximizer</a>
@@ -40,7 +40,7 @@
 
   </div>
 
-  <div class="minmaxCon"></div> 
+  <div class="minmaxCon"></div>
 
   <script>
 
@@ -57,7 +57,7 @@
     }
   });
 
-  require(['minmax', 'jquery'], 
+  require(['minmax', 'jquery'],
     function(MinMaximizer, jQuery) {
 
       // taxonomy selector component
@@ -66,13 +66,13 @@
       // to develop / test the component out
       jQuery("#minmax-test-button").click(function(e){
         e.preventDefault();
-        ProjectMatch.MinMaximizer.displayModal({ 
+        ProjectMatch.MinMaximizer.displayModal({
           event: e,
           title: 'Test MinMaximizer',
           body: 'Test body content',
-          footer: 'Test footer content' 
+          footer: 'Test footer content'
         });
-      }); 
+      });
 
     }
   );
