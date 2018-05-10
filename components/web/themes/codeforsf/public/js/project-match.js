@@ -85,14 +85,16 @@ define([
 
 	    var baseUrl = attr.config.web.protocol + '://' + attr.config.web.host + ':' + attr.config.web.port;
 
-			PM.skillsSel = new SelectorView({
+			PM.skillsSelector = new SelectorView({
+				'id': 'skills-selector-view',
 			  'component_name':'Skills',
 			  'display-title' : 'Skills to Contribute',
 			  'tag-color':'#AA193A',
 			  'url' : baseUrl + '/api/project/taxonomy/skills-for-ui'
 			});
 
-			PM.interestsSel = new SelectorView({
+			PM.interestsSelector = new SelectorView({
+				'id': 'interests-selector-view',
 			  'component_name':'Interests',
 			  'display-title' : 'Civic Interests',
 			  'tag-color':'#3DA1D2',
@@ -100,7 +102,8 @@ define([
 			  'el' : '#container2'
 			});
 
-			PM.learnSkillsSel = new SelectorView({
+			PM.learnSkillsSelector = new SelectorView({
+				'id': 'learnSkills-selector-view',
 			  'component_name':'Learnings',
 			  'display-title' : 'Skills to Learn',
 			  'tag-color':'#123D51',
@@ -139,9 +142,9 @@ define([
 		  		// fire up the messaging form
 		      PM.messagingView = new MessagingView({
 		         config: PM.config,
-		         skills: PM.skillsSel.model.get('selectedItems'),
-		         interests: PM.interestsSel.model.get('selectedItems'),
-		         learning: PM.learnSkillsSel.model.get('selectedItems')
+		         skills: PM.skillsSelector.model.get('selectedItems'),
+		         interests: PM.interestsSelector.model.get('selectedItems'),
+		         learning: PM.learnSkillsSelector.model.get('selectedItems')
 		      });
 
   			}
@@ -189,12 +192,12 @@ define([
 
     // called when the user clicks on the generate match button
     PM.generateMatch = function () {
-
+    	
     	// run the search
 			PM.projectListView.searchProjects({
-      	"skills": [],
-        "learnSkills": [],
-        "interests": []
+				skills: PM.skillsSelector.model.get('selectedItems'),
+				interests: PM.interestsSelector.model.get('selectedItems'),
+				learnSkills: PM.learnSkillsSelector.model.get('selectedItems')
 			});
 
     }; // END generateMatch
