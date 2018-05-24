@@ -1,7 +1,7 @@
 <div id="{{component_name}}-btn" class="selector-btn">
     <div class="selector-btn-header">
         <div class="name">{{display-title}}</div>
-        <a data-toggle="modals" class="add-btn">add skills</a>
+        <a data-toggle="modals" class="add-btn">Add Items</a>
 
     </div>
     <div class="selector-tag-container"></div>
@@ -46,9 +46,9 @@
                     <div class="category-title">{{this.title}}</div>
                     <div class="tag-container">
                         {{#each this.items}}
-                            <div id="{{../../component_name}}-{{this.name}}"
+                            <div id="{{../this.name}}/{{this.name}}"
                                  class="tag">{{this
-                            .name}}</div>
+                            .title}}</div>
                         {{/each}}
                     </div>
                 </div>

@@ -18,7 +18,6 @@ define(['underscore', 'backbone', 'jquery', 'lockr'],
             taxonomy_info = {};
          }
          taxonomy_info[componentName] = selectedItems;
-
          Lockr.set("taxonomy-info", taxonomy_info);
       },
 

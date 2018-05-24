@@ -39,8 +39,18 @@ this["Selector"]["templates"]["selector"] = Handlebars.template({"1":function(co
   return "                <div class=\"category\">\n                    <div class=\"category-title\">"
     + container.escapeExpression(container.lambda((depth0 != null ? depth0.title : depth0), depth0))
     + "</div>\n                    <div class=\"tag-container\">\n"
-    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.items : depth0),{"name":"each","hash":{},"fn":container.program(4, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.items : depth0),{"name":"each","hash":{},"fn":container.program(7, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "                    </div>\n                </div>\n";
+},"7":function(container,depth0,helpers,partials,data,blockParams,depths) {
+    var alias1=container.lambda, alias2=container.escapeExpression;
+
+  return "                            <div id=\""
+    + alias2(alias1((depths[1] != null ? depths[1].name : depths[1]), depth0))
+    + "/"
+    + alias2(alias1((depth0 != null ? depth0.name : depth0), depth0))
+    + "\"\n                                 class=\"tag\">"
+    + alias2(alias1((depth0 != null ? depth0.title : depth0), depth0))
+    + "</div>\n";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data,blockParams,depths) {
     var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
@@ -48,7 +58,7 @@ this["Selector"]["templates"]["selector"] = Handlebars.template({"1":function(co
     + alias4(((helper = (helper = helpers.component_name || (depth0 != null ? depth0.component_name : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"component_name","hash":{},"data":data}) : helper)))
     + "-btn\" class=\"selector-btn\">\n    <div class=\"selector-btn-header\">\n        <div class=\"name\">"
     + alias4(((helper = (helper = helpers["display-title"] || (depth0 != null ? depth0["display-title"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"display-title","hash":{},"data":data}) : helper)))
-    + "</div>\n        <a data-toggle=\"modals\" class=\"add-btn\">add skills</a>\n\n    </div>\n    <div class=\"selector-tag-container\"></div>\n</div>\n\n<!-- Modal content-->\n<div id=\""
+    + "</div>\n        <a data-toggle=\"modals\" class=\"add-btn\">Add Items</a>\n\n    </div>\n    <div class=\"selector-tag-container\"></div>\n</div>\n\n<!-- Modal content-->\n<div id=\""
     + alias4(((helper = (helper = helpers.component_name || (depth0 != null ? depth0.component_name : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"component_name","hash":{},"data":data}) : helper)))
     + "_modals\" class=\"modals\">\n    <div class=\"selector-container\">\n        <div class=\"tabs\">\n            <div tabName=\""
     + alias4(((helper = (helper = helpers.component_name || (depth0 != null ? depth0.component_name : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"component_name","hash":{},"data":data}) : helper)))

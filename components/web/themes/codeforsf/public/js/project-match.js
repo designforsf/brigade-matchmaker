@@ -46,9 +46,9 @@ define([
 		PM.messagingView = undefined;
 
 		// selectors (each has a backbone model)
-		PM.skillsSel = undefined;
-		PM.interestsSel = undefined;
-		PM.learnSkillsSel = undefined;
+		PM.skillsSelector = undefined;
+		PM.interestsSelector = undefined;
+		PM.learnSkillsSelector = undefined;
 
 
 		/*
@@ -68,7 +68,7 @@ define([
 		*/
 
 		PM.init = function (attr) {
-			console.log('ProjectMatch.init()');
+			//console.log('ProjectMatch.init()');
 
 			// set the config variable
 			PM.config = attr.config;
@@ -137,7 +137,7 @@ define([
   			body: '<div id="messaging-container">&nbsp;</div>',
   			renderCb: function () {
 
-  				console.log(PM.skillsSel.model.get('selectedItems'));
+  				console.log(PM.skillsSelector.model.get('selectedItems'));
 
 		  		// fire up the messaging form
 		      PM.messagingView = new MessagingView({

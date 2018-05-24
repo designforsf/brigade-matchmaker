@@ -15,7 +15,7 @@ define(['jquery','underscore','backbone','handlebars','projlistmodel'],
          //console.log(recordNo);
 
          var project = this.model.attributes.data[recordNo];
-         console.log('initiateContact projectID=' + project.id);
+         //console.log('initiateContact projectID=' + project.id);
 
          this.initiateContactCb({
             event: e,
@@ -116,7 +116,7 @@ define(['jquery','underscore','backbone','handlebars','projlistmodel'],
 
       //This will take in a url and find new matches
       searchProjects: function(taxonomyObj) {
-         console.log('ProjectView.searchProjects', taxonomyObj);
+         //console.log('ProjectView.searchProjects', taxonomyObj);
 
          var taxonomyObj = taxonomyObj || {
             "skills":[],
@@ -129,8 +129,8 @@ define(['jquery','underscore','backbone','handlebars','projlistmodel'],
          this.model.fetch({ success: function(res){
 
             //Combines cached data with new list order
-            console.log('combineData with attributes');
-            console.log(res.attributes);
+            //console.log('combineData with attributes');
+            //console.log(res.attributes);
             _this.model.combineData(res.attributes);
 
          }});

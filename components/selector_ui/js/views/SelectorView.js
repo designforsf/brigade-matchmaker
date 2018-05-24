@@ -189,20 +189,22 @@ define(['underscore','backbone','handlebars', 'jquery','selectormodel'],
          this.addComponentColor($(newTagElement).addClass('selected-tag'), "background-color");
 
          //Add html name to list of chosen tags
-         this.model.addItem(tagElement.innerHTML);
+         //this.model.addItem(tagElement.innerHTML);
+         this.model.addItem(tagElement.id);
 
          //Change tag id so it is unique
          newTagElement[0].id += "-selector";
-
+         
          //Add html of new tag to container
          tagContainerDiv.append(newTagElement[0]);
       },
 
       removeTag: function(tagElement){
          var tagIdBase = "#" + tagElement.id.replace("-selector", "");
-         var selectorTag =  this.findElementById(tagIdBase + "-selector");
-         var originalTag = this.findElementById(tagIdBase);
-
+         escapedTagIdBase = tagIdBase.replace('/', '\\/'); // forward slash must be escaped
+         var selectorTag =  this.findElementById(escapedTagIdBase + "-selector");
+         var originalTag = this.findElementById(escapedTagIdBase);
+         
          //Remove tag from selector div
          selectorTag.remove();
 
@@ -210,7 +212,7 @@ define(['underscore','backbone','handlebars', 'jquery','selectormodel'],
          this.removeComponentColor($(originalTag).removeClass('selected-tag'), "background-color");
 
          //remove item from list of selected tags
-         this.model.removeItem(selectorTag.innerHTML);
+         this.model.removeItem(originalTag);
       },
 
       findElementById: function(id){

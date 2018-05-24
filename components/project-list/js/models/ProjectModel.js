@@ -10,8 +10,7 @@ define(['underscore', 'backbone', 'lockr'],
          this.urlEnding = urlEnding;
       },
       searchProjects: function(taxonomyObj) {
-         console.log('ProjectModel.searchProjects');
-         console.log(taxonomyObj);
+         //console.log('ProjectModel.searchProjects ', taxonomyObj);
          this.searchTaxonomyObj = taxonomyObj;
 
          var url = "/api/user/matches?";
@@ -26,9 +25,10 @@ define(['underscore', 'backbone', 'lockr'],
             url += '&';
          });
          this.urlEnding = url;
+         //console.log('Using url: ' + url);
       },
       combineData: function(res) {
-         console.log('ProjectModel.combineData');
+         //console.log('ProjectModel.combineData');
          var arr = [];
          $.each(res.data, function(idx, val){
             var result = $.grep(Lockr.get('projects').data, function(e){
