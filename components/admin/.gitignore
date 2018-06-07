@@ -1,4 +1,7 @@
 admin/secrets.json
 __pycache__
-admin/__pycache__
-admin/__init__.py
+admin/__pycache__/__init__.cpythong-36.pyc
+admin/__pycache__/settings.cpython-36.pyc
+admin/__pycache__/urls.cpython-36.pyc
+admin/__pycache__/wsgi.cpython-36.pyc
+myvenv

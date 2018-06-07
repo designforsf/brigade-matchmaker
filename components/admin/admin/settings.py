@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 
 import os
 import json
-secrets = json.load(open("secrets.json"))
+secrets = json.load(open("admin/secrets.json"))
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -85,7 +85,7 @@ WSGI_APPLICATION = 'admin.wsgi.application'
 DATABASES = {
     'default': {
          'ENGINE': 'djongo',
-         'NAME': 'djongo-test',
+         'NAME': 'admin-db',
     }
 }
 
