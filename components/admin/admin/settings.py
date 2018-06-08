@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'data.apps.DataConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -86,6 +87,8 @@ DATABASES = {
     'default': {
          'ENGINE': 'djongo',
          'NAME': 'admin-db',
+         'HOST': 'localhost:27017',
+         'ENFORCE_SCHEMA': False,
     }
 }
 

@@ -1,3 +1,4 @@
-from django.shortcuts import render
+from django.http import HttpResponse
 
-# Create your views here.
+def index(request):
+    return HttpResponse("This is a placeholder page for the Code for SF Project Match admin component. Please visit the admin route.")
