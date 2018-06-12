@@ -88,7 +88,7 @@ DATABASES = {
          'ENGINE': 'djongo',
          'NAME': 'admin-db',
          'HOST': 'localhost:27017',
-         'ENFORCE_SCHEMA': False,
+         'ENFORCE_SCHEMA': True,
     }
 }
 
