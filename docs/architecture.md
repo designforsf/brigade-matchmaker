@@ -8,7 +8,7 @@ Project Match is a system consisting of the following components:
 * **Matching Algorithm** - python
 * **UI Components** - RequireJS, Handlebars, jQuery, Backbone, Bootstrap
 * **Messaging Service** - Node.js, Express, Slack API
-* **Admin / Project CMS** - EmberJS, Bootstrap
+* **Admin / Project CMS** - EmberJS, Bootstrap, Django
 * **Test Scripts** - bash and wget
 
 ## Data Structures
@@ -92,7 +92,7 @@ The Front-End sends messages from new members to project leads via an API hosted
 
 ## Admin / Project CMS
 
-This component enables project leads to update project-related data, including the skills needed, learning opportunities, and civic interests. This component is rendered by EmberJS and interacts with the JSON API.
+This component uses Django to update project-related data, including the skills needed, learning opportunities, and civic interests. This component is rendered by EmberJS and interacts with the JSON API.
 
 ---
 
