@@ -10,7 +10,7 @@
 */
 
 var faker = require('faker');
-var ProjectTaxonomies = require('../../models/ProjectTaxonomies');
+var ProjectTaxonomies = require('../../../taxonomy/codeforsf/ProjectTaxonomies');
 var Async = require('async');
 
 function getAttributes (cb) {
