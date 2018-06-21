@@ -11,7 +11,7 @@ var express = require('express')
   , favicon = require('serve-favicon')
   , methodOverride = require('method-override')
   , errorHandler = require('errorhandler')
-  , WebClient = require('@slack/client').WebClient
+  , { WebClient } = require('@slack/client')
   , credentials = require('./credentials.js')
   , mop = require('./MessageObjectParse.js')
   , mongoose = require('mongoose')
@@ -65,7 +65,6 @@ var sendMessage = new CronJob('0 * * * * *', function() { // runs every minute w
     if(message !== null) {
       var messageToSend = message.message;
       var slackId =  message.slack; // testing channel is '#uxr-projectmatch-test';
-
       // color function cycles through colors array
       var colors = ['#36a64f', '#cf1b41', '#399fd3', '#6D6E71'];
       function color_cycle(arr) {
@@ -74,9 +73,10 @@ var sendMessage = new CronJob('0 * * * * *', function() { // runs every minute w
         arr.shift();
       }
       color_cycle(colors);
-
       // API call to Slack
-      web.chat.postMessage(slackId, 'You have received a message from a new user!', {
+      web.chat.postMessage({
+        channel: slackId,
+        text: 'You have received a message from a new user!',
         as_user: false,
         username: 'new user bot',
         icon_url: 'https://avatars.slack-edge.com/2018-02-03/309655411173_c89e1a8aae565b88b419_72.png',
@@ -86,20 +86,16 @@ var sendMessage = new CronJob('0 * * * * *', function() { // runs every minute w
             "text": messageToSend
           }
         ]
-      }, function (err, res) {
-        if (err) {
-          console.log('Error: ', err);
-        } else {
-          console.log('Message sent to Slack: ', res);
-          message.messageSent = new Date();
-          message.save(function (err, data) {
-            if (err) console.log(err);
-            else {
-              console.log('Message sent, and entry updated: ', data );
-            }
-          });
-        }
-      });
+      }).then((res) => {
+        console.log('Message sent to Slack: ', res);
+        message.messageSent = new Date();
+        message.save(function (err, data) {
+          if (err) console.log(err);
+          else {
+            console.log('Message sent, and entry updated: ', data );
+          }
+        });
+      }).catch(console.error);
     }
   });
 });

@@ -4,11 +4,24 @@ from django.db import models
 
 # prototype project model
 
+class User(models.Model):
+    id = models.CharField(max_length=2000, primary_key=True)
+    name = models.CharField(max_length=254)
+    github_user_name = models.CharField(max_length=254)
+    email_address = models.EmailField(max_length=254)
+    role = models.CharField(max_length=254)
+    slack_id = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.github_user_name
+        return self.name
+
+
 class Project(models.Model):
     id = models.CharField(max_length=2000, primary_key=True)# should be the MongoDB id
 
     # Project List data commented out lines to be implemented in the future
-    name = models.CharField(max_length=2000)                # project name
+    name = models.CharField(max_length=454)                # project name
     summary = models.CharField(max_length=200)              # should be one or two sentences
 #    skills_needed = models.ForeignKey(Skills, on_delete=models.CASCADE)
 #    learning_opportunities = models.ForeignKey(Skills, on_delete=models.CASCADE)
