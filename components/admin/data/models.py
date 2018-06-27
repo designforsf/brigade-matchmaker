@@ -19,6 +19,7 @@ class User(models.Model):
 
 class Project(models.Model):
     id = models.CharField(max_length=2000, primary_key=True)# should be the MongoDB id
+    preview = models.BooleanField(default=True) # project will only appear in Project List when set to False
 
     # Project List data commented out lines to be implemented in the future
     name = models.CharField(max_length=454)                # project name
@@ -33,7 +34,7 @@ class Project(models.Model):
     project_status = models.CharField(max_length=50)       # "active", "prototype", "beta", etc.
     repository = models.CharField(max_length=2000)          # github repository
     website = models.CharField(max_length=2000)            # if there is an app or site the url can go here
-#    team_lead = models.ForeignKey(User, on_delete=models.CASCADE)
+    team_lead = models.ForeignKey(User, on_delete=models.CASCADE)
     slack_channel = models.CharField(max_length=200)        # the slack channel for the 
 
     def __str__(self):
