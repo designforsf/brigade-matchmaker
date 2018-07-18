@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'rest_framework',
     'data.apps.DataConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -88,7 +89,7 @@ DATABASES = {
          'ENGINE': 'djongo',
          'NAME': 'admin-db',
          'HOST': 'localhost:27017',
-         'ENFORCE_SCHEMA': True,
+         'ENFORCE_SCHEMA': False,
     }
 }
 
