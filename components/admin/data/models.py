@@ -1,16 +1,43 @@
 from django.db import models
 
-# the taxonomy model will need to appear before the Project model
+class SkillsTaxonomy(models.Model):
+    name = models.CharField(max_length=254)
+    title = models.CharField(max_length=254)
+    parent = models.CharField(max_length=254)
+    class_name = models.CharField(max_length=254)
 
-# prototype project model
+    def __str__(self):
+        return self.name
 
-class User(models.Model):
-    id = models.CharField(max_length=2000, primary_key=True)
+class InterestsTaxonomy(models.Model):
+    name = models.CharField(max_length=254)
+    title = models.CharField(max_length=254)
+    parent = models.CharField(max_length=254)
+    class_name = models.CharField(max_length=254)
+
+    def __str__(self):
+        return self.name
+
+class GoalsTaxonomy(models.Model):
+    name = models.CharField(max_length=254)
+    title = models.CharField(max_length=254)
+    parent = models.CharField(max_length=254)
+    class_name = models.CharField(max_length=254)
+
+    def __str__(self):
+        return self.name
+
+class ProjectLead(models.Model):
     name = models.CharField(max_length=254)
     github_user_name = models.CharField(max_length=254)
     email_address = models.EmailField(max_length=254)
-    role = models.CharField(max_length=254)
+    slack_name = models.CharField(max_length=254)
     slack_id = models.CharField(max_length=20)
+    created = models.DateTimeField(null=True)
+    owner = models.ForeignKey('auth.User', related_name='ProjectLeads', on_delete=models.CASCADE)
+    
+    def save(self, *args, **kwargs):
+        super(ProjectLead, self).save(*args, **kwargs)   
 
     def __str__(self):
         return self.github_user_name
@@ -18,25 +45,22 @@ class User(models.Model):
 
 
 class Project(models.Model):
-    id = models.CharField(max_length=2000, primary_key=True)# should be the MongoDB id
     preview = models.BooleanField(default=True) # project will only appear in Project List when set to False
-
-    # Project List data commented out lines to be implemented in the future
-    name = models.CharField(max_length=454)                # project name
-    summary = models.CharField(max_length=200)              # should be one or two sentences
-#    skills_needed = models.ForeignKey(Skills, on_delete=models.CASCADE)
-#    learning_opportunities = models.ForeignKey(Skills, on_delete=models.CASCADE)
-#    civic_interests = models.ForeignKey(Civic, on_delete=models.CASCADE)
-
+    title = models.CharField(max_length=454, null=True)
+    summary = models.CharField(max_length=254)              # should be one or two sentences
+    skills_needed = models.ManyToManyField(SkillsTaxonomy)
+    learning_opportunities = models.ManyToManyField(GoalsTaxonomy)
+    civic_interests = models.ManyToManyField(InterestsTaxonomy)
     # Project Page data
-    image_url = models.CharField(max_length=2000)           # the image url for the project
-    description = models.TextField()                        # the blurb for the app, can be long
-    project_status = models.CharField(max_length=50)       # "active", "prototype", "beta", etc.
-    repository = models.CharField(max_length=2000)          # github repository
-    website = models.CharField(max_length=2000)            # if there is an app or site the url can go here
-    team_lead = models.ForeignKey(User, on_delete=models.CASCADE)
-    slack_channel = models.CharField(max_length=200)        # the slack channel for the 
+    image_url = models.CharField(max_length=2000)                   # the image url for the project
+    description = models.TextField()                                # lengthy description
+    project_status = models.CharField(max_length=50)                # "active", "prototype", "beta", etc.
+    repository = models.CharField(max_length=2000)                  # github repository
+    website = models.CharField(max_length=2000)                     # if there is an app or site the url can go here
+    project_lead = models.ForeignKey(ProjectLead, on_delete=models.CASCADE, null=True)   
+    slack_channel = models.CharField(max_length=200)                # the slack channel for the project 
+    created = models.DateTimeField(null=True)
 
     def __str__(self):
-        return self.name
+        return self.title
         return self.summary
