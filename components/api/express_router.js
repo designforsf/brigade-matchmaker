@@ -66,5 +66,21 @@ function ExpressRouterCfg (attr) {
 
   router.get('/api/projects', express_handler.getProjects)
 
+  /**
+   * taxonomy-related routes
+   * ------------------------------------------------------
+    GET /api/project/taxonomy/*
+    GET /api/project/taxonomies/*
+  */
+
+  router.get('/api/project/taxonomy/skills', express_handler.getTaxonomySkills)
+  router.get('/api/project/taxonomy/interests', express_handler.getTaxonomyInterests)
+  router.get('/api/project/taxonomy/goals', express_handler.getTaxonomyGoals)
+
+  router.get('/api/project/taxonomies-for-ui', express_handler.getTaxonomiesForUI)
+  router.get('/api/project/taxonomy/skills-for-ui', express_handler.getTaxonomySkillsForUI)
+  router.get('/api/project/taxonomy/interests-for-ui', express_handler.getTaxonomyInterestsForUI)
+  router.get('/api/project/taxonomy/goals-for-ui', express_handler.getTaxonomyGoalsForUI)
+
 
 }

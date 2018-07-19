@@ -78,10 +78,10 @@ block content
       function(ProjectMatch) { 
         ProjectMatch.init({
           config: {
-            web: {
-              host: '#{config.web.host}',
-              port: '#{config.web.port}',
-              protocol: '#{config.web.protocol}',
+            api: {
+              host: '#{config.api.host}',
+              port: '#{config.api.port}',
+              protocol: '#{config.api.protocol}',
             }
           }
         });

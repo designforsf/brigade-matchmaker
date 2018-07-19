@@ -41,11 +41,25 @@ app.locals.config = config;
 app.locals.brigade = 'codeforsf';
 app.set('port', config.api.port);
 
+// allow cross-domain calls for API calls
+var allowCrossDomain = function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'X-Requested-With');
+  next();
+};
+app.use(allowCrossDomain);
+
 
 // mongoose
 var mongodb_uri = 'mongodb://' + config.mongodb.host + ':' + config.mongodb.port + '/' + config.mongodb.db;
-mongoose.connect(mongodb_uri || mongodb_uri, {}, function (err) {
-  if (err) throw new Error(err)
+mongoose.connect(mongodb_uri, function (err) {
+
+  if (err) {
+    throw new Error(err);
+  } else {
+    console.log('Moongoose connected');
+    console.log(mongodb_uri);
+  }    
 });
 mongoose.connection.on('disconnected', function () {
   console.log('Mongoose disconnected');
@@ -65,6 +79,7 @@ var gracefulShutdown = function(msg, callback ) {
 if (app.get('env') == 'development') {
   console.log('Running in developent mode!');
   app.use(errorHandler());
+  mongoose.set('debug', true);
 }
 
 // static resources for components

@@ -15,6 +15,7 @@ define(['underscore','backbone','handlebars', 'jquery','selectormodel'],
          'click .close-btn' : 'closeModal'
       },
       initialize: function(opts){
+         console.log('initialize SelectorView');
          var _this = this;
          $('body').on("click", function(e){
             _this.closeModal(e);
