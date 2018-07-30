@@ -63,8 +63,8 @@ define(['jquery','underscore','backbone','handlebars','projlistmodel'],
 
          // model gets initialized with all the projects
          this.model = new ProjectModel("/api/projects");
-         if (!this.config.web.protocol) { console.error('Protocol not found. Please define the protocol in the etc environment-config for "web".'); }
-         this.model.urlRoot = this.config.web.protocol + '://' + this.config.web.host + ':' + this.config.web.port
+         if (!this.config.api.protocol) { console.error('Protocol not found. Please define the protocol in the etc environment-config for "web".'); }
+         this.model.urlRoot = this.config.api.protocol + '://' + this.config.api.host + ':' + this.config.api.port
          //this.model.skills = skills;
 
          // sync callback

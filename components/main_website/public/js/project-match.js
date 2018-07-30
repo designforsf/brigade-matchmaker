@@ -29,7 +29,7 @@ define([
 
 		config variable
 
-			web
+			api
 				host
 				port
 				protocol
@@ -60,7 +60,7 @@ define([
 			attrs:
 
 				config
-					web
+					api
 						host
 						port
 						protocol
@@ -83,8 +83,9 @@ define([
 	    	initiateContactCb: PM.initiateContact
 	    });
 
-	    var baseUrl = attr.config.web.protocol + '://' + attr.config.web.host + ':' + attr.config.web.port;
-
+	    var baseUrl = attr.config.api.protocol + '://' + attr.config.api.host + ':' + attr.config.api.port;
+	    console.log(baseUrl);
+	    
 			PM.skillsSelector = new SelectorView({
 				'id': 'skills-selector-view',
 			  'component_name':'Skills',

@@ -1,9 +1,82 @@
 var pug = require('pug')
-  , Users = 						require('../common/models/Users')
-  , UserMatchConfigs = 	require('../common/models/UserMatchConfigs')
-  , Projects = 					require('../common/models/Projects')
-  , ProjectTaxonomies = require('../common/models/ProjectTaxonomies')
+  , Users = 						require('./models/Users')
+  , UserMatchConfigs = 	require('./models/UserMatchConfigs')
+  , Projects = 					require('./models/Projects')
+  , ProjectTaxonomies = require('./models/ProjectTaxonomies')
 ;
+
+
+/*
+   format taxonomy for UI
+
+   function to convert "Tree Structure with Parent References"
+   to "Tree Structure for UI Rendering"
+
+   SEE: https://github.com/designforsf/brigade-matchmaker/blob/master/docs/taxonomy.md#tree-structure-for-ui-rendering
+
+   TODO: approach this with a recursive function
+   Also: work this into the ProjectTaxonomies model
+
+*/
+
+var formatTaxonomyForUI = function (taxonomy, taxonomyName, hierarchyLevels) {
+
+  // default levels = 2
+  if (typeof hierarchyLevels === 'undefined') hierarchyLevels = 2 ;
+
+  //console.log('formatTaxonomyForUI'
+  //  + ' taxonomy=' + taxonomyName
+  //  + ' levels=' + hierarchyLevels);
+
+  // render the taxonomy into something more easily used by handlebars
+  itemsBySection = {};
+  var taxonomySet, currSection;
+  taxonomy.forEach(function (item) {
+    
+    // the root item
+    if (!item.parent) {
+      taxonomySet = item.name
+    } 
+
+    // item section
+    if (
+
+      // 1 level hierarchy, 1 section containing all items
+      (hierarchyLevels == 1 && !item.parent) 
+        ||
+      // 2+ level hierarchy, multiple sections
+      (hierarchyLevels > 1 && item.parent == taxonomySet)
+      ) {
+      
+      //console.log(taxonomySet + ' section ' + item.name + ' - ' + item.title);
+      
+      currSection = item.name;
+
+      itemsBySection[currSection] = {
+        name: item.name,
+        title: item.title,
+        parent: item.parent,
+        items: []
+      };
+      //console.log(itemsBySection[item.name]);
+    }
+
+    // item (has parent, parent is current section)
+    if (item.parent && item.parent == currSection) {
+      //console.log('item parent=' + item.parent);
+      //console.log(' > ' + item.name);
+
+      itemsBySection[item.parent].items.push(item);
+
+    }
+
+  }); // END taxonomy.forEach
+
+  return itemsBySection;
+}
+
+// END formatTaxonomyForUI function
+
 
 module.exports = {
 
@@ -34,8 +107,7 @@ module.exports = {
 
   },
 
-
-
+  
   /**
    * getProjects
    * ------------------------------------------------------
@@ -62,12 +134,12 @@ module.exports = {
 
     Projects.
       find({
-        status: { $in: ['mvp', 'live', 'proposed', 'ideation', 'alpha', 'beta', 'production'] }
       }).
       select({ 
         _id: 1, 
         name: 1, 
-        matchingConfig: 1, matchingDescr: 1, 
+        matchingConfig: 1, 
+        matchingDescr: 1, 
         description: 1, 
         team: 1, 
         homepage: 1, 
@@ -77,7 +149,8 @@ module.exports = {
         contact: 1
       }).
       exec(function (err, results) {
-      	
+      	console.log('results ', results.length);
+
         // script returned error
         if (err) {
           output.success = false;
@@ -196,7 +269,7 @@ module.exports = {
         "skills": function(cb) {
           pt.getSkills(function (err, results) {
             var itemsBySection = formatTaxonomyForUI(results, 'skills', 2);
-
+            
             // TODO: fix this ugliness 
             //  (SEE the TODO above in formatTaxonomyForUI)
             cb(err, {
