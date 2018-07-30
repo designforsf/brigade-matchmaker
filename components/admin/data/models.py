@@ -1,10 +1,12 @@
 from django.db import models
+from simple_history.models import HistoricalRecords
 
 class SkillsTaxonomy(models.Model):
     name = models.CharField(max_length=254)
     title = models.CharField(max_length=254)
     parent = models.CharField(max_length=254)
     class_name = models.CharField(max_length=254)
+    history = HistoricalRecords()
 
     def __str__(self):
         return self.name
@@ -14,6 +16,7 @@ class InterestsTaxonomy(models.Model):
     title = models.CharField(max_length=254)
     parent = models.CharField(max_length=254)
     class_name = models.CharField(max_length=254)
+    history = HistoricalRecords()
 
     def __str__(self):
         return self.name
@@ -23,6 +26,7 @@ class GoalsTaxonomy(models.Model):
     title = models.CharField(max_length=254)
     parent = models.CharField(max_length=254)
     class_name = models.CharField(max_length=254)
+    history = HistoricalRecords()
 
     def __str__(self):
         return self.name
@@ -35,6 +39,7 @@ class ProjectLead(models.Model):
     slack_id = models.CharField(max_length=20)
     created = models.DateTimeField(null=True)
     owner = models.ForeignKey('auth.User', related_name='ProjectLeads', on_delete=models.CASCADE)
+    history = HistoricalRecords()
     
     def save(self, *args, **kwargs):
         super(ProjectLead, self).save(*args, **kwargs)   
@@ -60,6 +65,10 @@ class Project(models.Model):
     project_lead = models.ForeignKey(ProjectLead, on_delete=models.CASCADE, null=True)   
     slack_channel = models.CharField(max_length=200)                # the slack channel for the project 
     created = models.DateTimeField(null=True)
+    history = HistoricalRecords()
+
+    def save(self, *args, **kwargs):
+        super(Project, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.title

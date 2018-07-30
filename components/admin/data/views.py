@@ -31,9 +31,9 @@ class InterestsTaxonomyList(generics.ListCreateAPIView):
 	serializer_class = InterestsTaxonomySerializer
 	permissions_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)
 
-class InterestsDetail(generics.RetrieveUpdateDestroyAPIView):
-	queryset = Interests.objects.all()
-	serializer_class = InterestsSerializer
+class InterestsTaxonomyDetail(generics.RetrieveUpdateDestroyAPIView):
+	queryset = InterestsTaxonomy.objects.all()
+	serializer_class = InterestsTaxonomySerializer
 	permissions_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)
 
 class GoalsTaxonomyList(generics.ListCreateAPIView):
@@ -41,7 +41,7 @@ class GoalsTaxonomyList(generics.ListCreateAPIView):
 	serializer_class = GoalsTaxonomySerializer
 	permissions_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)	
 
-class GoalsDetail(generics.RetrieveUpdateDestroyAPIView):
+class GoalsTaxonomyDetail(generics.RetrieveUpdateDestroyAPIView):
 	queryset = GoalsTaxonomy.objects.all()
 	serializer_class = GoalsTaxonomySerializer
 	permissions_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)
