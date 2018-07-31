@@ -92,7 +92,9 @@ The Front-End sends messages from new members to project leads via an API hosted
 
 ## Admin / Project CMS
 
-This component uses Django to update project-related data, including the skills needed, learning opportunities, and civic interests. This component is rendered by EmberJS and interacts with the JSON API.
+This component uses Django to manage project-related data, and the skill and civic interests taxonomies. This component interacts with the JSON API.
+
+This component uses Django, Djongo, Django-REST-framework, and Django-Simple-History.
 
 ---
 
