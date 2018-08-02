@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <title>MinMaximizer Test</title>
+
+  <link rel="stylesheet" href="/common/vendor/bootstrap-3.3.7/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/minmaximizer.css" />
+
+  <script src="/common/js/requirejs/require-2.3.5.js"></script>
+  <script src="/js/minmaximizer.js"></script>
+
+</head>
+
+<body>
+
+  <div id="top-nav">
+
+    <div class="nav navbar navbar-default">
+      <div class="container container-fluid">
+
+        <div class="navbar-header">
+          <strong>
+            <a class="navbar-brand" href="#">Project Match: MinMaximizer</a>
+          </strong>
+        </div>
+
+        <ul class="nav navbar-nav navbar-right" style="padding:10px;">
+
+          <button type="button" class="btn btn-success" id="minmax-test-button"
+          >Click here to test MinMaximize</button>
+        </ul>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container" id="minmaximizer-container">
+
+  </div>
+
+  <div class="minmaxCon"></div>
+
+  <script>
+
+  require.config({
+    baseUrl: '/',
+    paths: {
+      jquery: 'common/js/jquery/jquery-3.2.1',
+      handlebars: 'common/js/handlebars/handlebars-4.0.11',
+      'handlebars.runtime': 'common/js/handlebars/handlebars.runtime-4.0.11',
+      bootstrap: 'common/vendor/bootstrap-3.3.7/js/bootstrap',
+
+      minmax: 'js/minmaximizer',
+      minmaxtemplate: 'templates/minmaximizer'
+    }
+  });
+
+  require(['minmax', 'jquery'],
+    function(MinMaximizer, jQuery) {
+
+      // taxonomy selector component
+      ProjectMatch.MinMaximizer.init({ jQuery: jQuery });
+
+      // to develop / test the component out
+      jQuery("#minmax-test-button").click(function(e){
+        e.preventDefault();
+        ProjectMatch.MinMaximizer.displayModal({
+          event: e,
+          title: 'Test MinMaximizer',
+          body: 'Test body content',
+          footer: 'Test footer content'
+        });
+      });
+
+    }
+  );
+
+  </script>
+
+</body>
+</html>

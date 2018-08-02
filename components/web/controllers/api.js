@@ -1,11 +1,103 @@
-var passport = require('passport')
-var Users = require('../models/Users')
-var UserMatchConfigs = require('../models/UserMatchConfigs')
-var Projects = require('../models/Projects')
-var ProjectTaxonomies = require('../models/ProjectTaxonomies')
-var PyShell = require('python-shell')
+var Async = require('async')
+  , passport = require('passport')
+  , Users = require('../models/Users')
+  , UserMatchConfigs = require('../models/UserMatchConfigs')
+  , Projects = require('../models/Projects')
+  , ProjectTaxonomies = require('../models/ProjectTaxonomies')
+  , PyShell = require('python-shell')
+;
+
+
+/*
+   format taxonomy for UI
+
+   function to convert "Tree Structure with Parent References"
+   to "Tree Structure for UI Rendering"
+
+   SEE: https://github.com/designforsf/brigade-matchmaker/blob/master/docs/taxonomy.md#tree-structure-for-ui-rendering
+
+   TODO: approach this with a recursive function
+   Also: work this into the ProjectTaxonomies model
+
+*/
+
+var formatTaxonomyForUI = function (taxonomy, taxonomyName, hierarchyLevels) {
+
+  // default levels = 2
+  if (typeof hierarchyLevels === 'undefined') hierarchyLevels = 2 ;
+
+  //console.log('formatTaxonomyForUI'
+  //  + ' taxonomy=' + taxonomyName
+  //  + ' levels=' + hierarchyLevels);
+
+  // render the taxonomy into something more easily used by handlebars
+  itemsBySection = {};
+  var taxonomySet, currSection;
+  taxonomy.forEach(function (item) {
+    
+    // the root item
+    if (!item.parent) {
+      taxonomySet = item.name
+    } 
+
+    // item section
+    if (
+
+      // 1 level hierarchy, 1 section containing all items
+      (hierarchyLevels == 1 && !item.parent) 
+        ||
+      // 2+ level hierarchy, multiple sections
+      (hierarchyLevels > 1 && item.parent == taxonomySet)
+      ) {
+      
+      //console.log(taxonomySet + ' section ' + item.name + ' - ' + item.title);
+      
+      currSection = item.name;
+
+      itemsBySection[currSection] = {
+        name: item.name,
+        title: item.title,
+        parent: item.parent,
+        items: []
+      };
+      //console.log(itemsBySection[item.name]);
+    }
+
+    // item (has parent, parent is current section)
+    if (item.parent && item.parent == currSection) {
+      //console.log('item parent=' + item.parent);
+      //console.log(' > ' + item.name);
+
+      itemsBySection[item.parent].items.push(item);
+
+    }
+
+  }); // END taxonomy.forEach
+
+  return itemsBySection;
+}
+
+// END formatTaxonomyForUI function
+
 
 module.exports = {
+
+  /**
+   * system config
+   * ------------------------------------------------------
+    POST /api/system/config
+  */
+  
+  systemConfig: function (req, res, next) {
+    var config = res.locals.config;
+
+    // remove certain sensitive entries
+    delete config.mongodb;
+    delete config.imap;
+    delete config.emailjs;
+
+    res.json(config);
+  },
 
   /**
    * userLogoff
@@ -264,6 +356,7 @@ module.exports = {
     //console.log('pyDir: ', pyDir);
 
     PyShell.run(pyFile, {
+      pythonPath: '/usr/local/bin/python3',
       scriptPath: pyDir,
       args: pyArgs
     }, function (err, pyOutput) {
@@ -644,6 +737,121 @@ module.exports = {
         res.json(results);
         return next();
       })
-    }
+    },
+
+
+    /**
+     * getTaxonomiesForUI
+     * ------------------------------------------------------
+     * Get /api/project/taxonomies-for-ui
+     * Returns a json structure of categorized skills, interests, or goals
+
+     * TEST:
+          http://localhost:5465/api/project/taxonomies-for-ui
+     */
+
+    getTaxonomiesForUI: function (req, res, next) {
+      var pt = new ProjectTaxonomies();
+
+      /* 
+        
+        convert each of the taxonomies
+        then serve that as JSON
+
+      */
+      
+      Async.parallel({
+
+          // get taxonomy arrays
+
+          "skills": function(cb) {
+            pt.getSkills(function (err, results) {
+              var itemsBySection = formatTaxonomyForUI(results, 'skills', 2);
+
+              // TODO: fix this ugliness 
+              //  (SEE the TODO above in formatTaxonomyForUI)
+              cb(err, {
+                  name: 'skills',
+                  title: 'Skills',
+                  itemsBySection: itemsBySection
+              });
+            });
+          },
+
+          "interests": function(cb) {
+            pt.getInterests(function (err, results) {
+              var itemsBySection = formatTaxonomyForUI(results, 'interests', 1);
+              cb(err, itemsBySection['interests']);
+            });
+          },
+
+          /* NOTE: this taxonomy is currently not used
+          "goals": function(cb) {
+            pt.getGoals(function (err, results) {
+              var itemsBySection = formatTaxonomyForUI(results, 'goals', 1);
+              cb(err, itemsBySection['goals']);
+            });
+          },
+          */
+
+      }, // END defining the parallel functions
+
+      // assemble the results
+      function(err, allItemsBySection) {
+        res.json(allItemsBySection);
+        return next();
+      });
+
+
+    },
+
+
+    getTaxonomySkillsForUI: function (req, res, next) {
+      var pt = new ProjectTaxonomies();
+      pt.getSkills(function (err, results) {
+        var itemsBySection = formatTaxonomyForUI(results, 'skills', 2);
+
+        // TODO: fix this ugliness 
+        //  (SEE the TODO above in formatTaxonomyForUI)
+
+        res.json({
+            name: 'skills',
+            title: 'Skills',
+            itemsBySection: itemsBySection
+        });
+        return next();
+
+      });
+    },
+
+    getTaxonomyInterestsForUI: function (req, res, next) {
+      var pt = new ProjectTaxonomies();
+
+      pt.getInterests(function (err, results) {
+
+        var itemsBySection = formatTaxonomyForUI(results, 'interests', 1);
+        //console.log(itemsBySection);
+        //res.json(itemsBySection['civic-interests']);
+
+        res.json({
+            name: 'interests',
+            title: 'Civic Interests',
+            itemsBySection: itemsBySection
+        });
+
+        return next();
+      });
+
+    },
+
+    getTaxonomyGoalsForUI: function (req, res, next) {
+      var pt = new ProjectTaxonomies();
+      pt.getGoals(function (err, results) {
+        var itemsBySection = formatTaxonomyForUI(results, 'goals', 1);
+        res.json(itemsBySection['goals']);
+        return next();
+      });
+    },
+
 
 };

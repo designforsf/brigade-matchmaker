@@ -1,12 +1,47 @@
-@import url('partials/_common.css');
-@import url('partials/_checkinf.css');
-@import url('partials/_interests.css');
-@import url('partials/_projects-table.css');
-@import url('partials/_match-results.css');
-@import url('partials/_buttons.css');
-@import url('partials/_navheader.css');
-@import url('partials/_brigade2_nav.css');
-@import url('partials/_large-hero.css');
-@import url('partials/_mail_form.css');
-@import url('partials/_showBookmarks.css');
-@import url('partials/_selectionForm.css')
+
+/* 
+	bootstrap overloads 
+	---------------------------------------------------------
+*/
+
+.navbar {
+	margin-bottom: 0px;
+}
+
+.jumbotron {
+	margin-bottom: 0px;
+}
+
+
+/* 
+	custom styles 
+	---------------------------------------------------------
+*/
+
+#landing-intro {
+	margin-top: 0px;
+	border-bottom:1px solid #ccc;
+}
+
+#landing-intro h2 {
+	margin:0px;
+}
+
+.nav-close {
+  font-size: 28px;
+  font-weight: bold;
+  line-height: 18px;
+  color: #000000;
+  text-shadow: 0 1px 0 #ffffff;
+  opacity: 0.2;
+  filter: alpha(opacity=20);
+  text-decoration: none;
+}
+
+.nav-close:hover {
+  color: #000000;
+  text-decoration: none;
+  opacity: 0.4;
+  filter: alpha(opacity=40);
+  cursor: pointer;
+}

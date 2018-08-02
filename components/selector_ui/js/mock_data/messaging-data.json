@@ -1,0 +1,30 @@
+{
+  "skills": {
+    "itemsBySection": {
+
+      "non-technical": {
+        "title": "Non Technical",
+        "items": [
+          {"name": "writing", "title": "Writing"}
+        ]
+      },
+
+      "server-dev": {
+        "title": "Server Development",
+        "items": [
+          {"name": "nodejs", "title": "Node.js"},
+          {"name": "python", "title": "Python"}
+        ]
+      },
+
+      "client-dev": {
+        "title": "Client Development",
+        "items": [
+          {"name": "jquery", "title": "JQuery"},
+          {"name": "emberjs", "title": "EmberJS"},
+          {"name": "bootstrap", "title": "Bootstrap"}
+        ]
+      }
+    }
+  }
+}

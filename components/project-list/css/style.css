@@ -3,6 +3,7 @@
 #project-list-container .container {
     border: 1px solid lightgray;
     box-shadow: 2px 3px 2px #ccc;
+    width: 100%;
 }
 
 #project-list-container .project-header {
@@ -97,4 +98,5 @@
     font-family: sans-serif;
     color: white;
     border-radius: 3px;
+    cursor: pointer;
 }

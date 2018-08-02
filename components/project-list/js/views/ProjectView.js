@@ -1,32 +1,61 @@
 
-define(['jquery','underscore','backbone','handlebars','projlistmodel', 'MessageView'],
-   function(jQuery, _, Backbone, handlebars, ProjectModel, MessageView){
+define(['jquery','underscore','backbone','handlebars','projlistmodel'],
+   function(jQuery, _, Backbone, handlebars, ProjectModel){
 
    var ProjectView = Backbone.View.extend({
       // el - stands for element. Every view has a element associate in with HTML content will be rendered.
       el: '#project-list-container',
       events: {
          "click .changeList":"searchProjects",
-         "click .contact-btn":"popUpMessage"
+         "click .contact-btn":"initiateContact"
       },
-      popUpMessage: function(e){
-         console.log(e.currentTarget.id);
-         var arr_num = e.currentTarget.id.replace("contact-btn", "");
-         //Need to pass the email of the project contact lead
-         console.log(this.model.attributes.data[arr_num]);
-         console.log(this.model.skills);
-         new MessagingView({
-            //Use learnedSkills
-            skills: ["java", "react"],
-            interests: ["webDev"],
-            learning: ["node"]
+      initiateContact: function(e){
+         //console.log('target ', e.currentTarget);
+         var recordNo = e.currentTarget.id.replace("contact-btn", "");
+         //console.log(recordNo);
+
+         var project = this.model.attributes.data[recordNo];
+         //console.log('initiateContact projectID=' + project.id);
+
+         this.initiateContactCb({
+            event: e,
+            project: project,
+            recordNo: recordNo,
+            skills: [],
+            interests: [],
+            learnSkills: [],
          });
+
       },
       // It's the first function called when this view it's instantiated.
       template: ProjectList.templates.projects,
+
          // NOTE: template is compiled, SEE the README.md
-      initialize: function(skills){
+
+      /*
+         attrs:
+            
+            initiateContactCb - callback for when the user clicks on the contact button
+
+            config
+
+            NOTE: unsure if these are used any more:
+               skills
+               interests
+               learning
+      */
+
+      initialize: function(attr){
          var projView = this;
+
+         // get the config
+         this.config = attr.config;
+
+         if (typeof attr.initiateContactCb !== 'undefined') {
+            this.initiateContactCb = attr.initiateContactCb;
+         } else {
+            console.error('ProjectView: please pass and initiateContactCb function to the constructor.');
+         }
 
          //Pass in object
          //$.param(obj) --> this is the urlEnding that would get passed to
@@ -34,7 +63,10 @@ define(['jquery','underscore','backbone','handlebars','projlistmodel', 'MessageV
 
          // model gets initialized with all the projects
          this.model = new ProjectModel("/api/projects");
-         this.model.skills = skills;
+         if (!this.config.api.protocol) { console.error('Protocol not found. Please define the protocol in the etc environment-config for "web".'); }
+         this.model.urlRoot = this.config.api.protocol + '://' + this.config.api.host + ':' + this.config.api.port
+         //this.model.skills = skills;
+
          // sync callback
          // on sync: sets data in lockr, renders the template 
          projView.listenTo(projView.model, 'sync', function (model, res, options) {
@@ -84,7 +116,7 @@ define(['jquery','underscore','backbone','handlebars','projlistmodel', 'MessageV
 
       //This will take in a url and find new matches
       searchProjects: function(taxonomyObj) {
-         console.log('ProjectView.searchProjects', taxonomyObj);
+         //console.log('ProjectView.searchProjects', taxonomyObj);
 
          var taxonomyObj = taxonomyObj || {
             "skills":[],
@@ -97,8 +129,8 @@ define(['jquery','underscore','backbone','handlebars','projlistmodel', 'MessageV
          this.model.fetch({ success: function(res){
 
             //Combines cached data with new list order
-            console.log('combineData with attributes');
-            console.log(res.attributes);
+            //console.log('combineData with attributes');
+            //console.log(res.attributes);
             _this.model.combineData(res.attributes);
 
          }});

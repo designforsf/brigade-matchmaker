@@ -1,0 +1,91 @@
+extends layout.pug
+block content
+
+
+  div(id="taxonomy-selector-container")
+    | &nbsp;
+    div.taxonomy-container
+      div.selector-holder
+        #container
+        |         
+        #container2
+        |         
+        #container3
+      |     
+      div.generate-button-container
+        button#submitButton.generate-button(onclick='ProjectMatch.generateMatch()', type='button')
+          | Generate Match
+
+
+  div(id="project-list-container")
+    | &nbsp;
+
+  div(class="container" id="minmaximizer-container")
+    | &nbsp;
+
+  div(class="minmaxCon")
+    | &nbsp;
+
+
+  //link(rel="stylesheet" href="/common/vendor/bootstrap-3.3.7/css/bootstrap.css")
+  link(rel="stylesheet" href="/components/project-list/css/style.css")
+  link(rel="stylesheet" href="/components/messaging/css/style.css")
+  link(rel="stylesheet" href="/components/minmaximizer/css/minmaximizer.css")
+  link(rel="stylesheet" href="/components/selector/css/style.css")
+  link(rel="stylesheet" href="/components/taxonomy-selector/styles/taxonomy-selector.css")
+
+  
+  script(src='/components/project-list/js/lib/handlebars.runtime.js')
+  script(src='/components/project-list/js/lib/require.js')
+  script(src='/components/project-list/js/templates/projects.js')
+  script(src='/components/selector/js/templates/selector.js')
+
+  script(type='text/javascript').
+
+    require.config({
+      baseUrl: '/',
+      paths: {
+        jquery: 'common/js/jquery/jquery-3.2.1',
+        handlebars: 'components/project-list/js/lib/handlebars',
+        'handlebars.runtime': 'components/project-list/js/lib/handlebars.runtime',
+        backbone: 'components/project-list/js/lib/backbone',
+        text: 'components/project-list/js/lib/text',
+        underscore: 'components/project-list/js/lib/underscore',
+        localstorage : 'components/project-list/js/lib/backbone.localStorage',
+        lockr: 'components/project-list/js/lib/lockr',
+        bootstrap: 'common/vendor/bootstrap-3.3.7/js/bootstrap',
+
+        projmatch: 'js/project-match',
+
+        projlistview: 'components/project-list/js/views/ProjectView',
+        projlistmodel:  'components/project-list/js/models/ProjectModel',
+        projlisttemplate: 'components/project-list/js/templates/projects',
+
+        messagingview: 'components/messaging/js/views/MessagingView',
+        messagingmodel:  'components/messaging/js/models/MessagingModel',
+        messagingtemplate: 'components/messaging/js/templates/compiled',
+
+        minmax: 'components/minmaximizer/js/minmaximizer',
+        minmaxtemplate: 'components/minmaximizer/templates/minmaximizer',
+
+        selector: 'components/selector/js/views/SelectorView',
+        selectormodel: 'components/selector/js/models/SelectorModel'
+
+      }
+    });
+    
+    require(['projmatch'], 
+      function(ProjectMatch) { 
+        ProjectMatch.init({
+          config: {
+            api: {
+              host: '#{config.api.host}',
+              port: '#{config.api.port}',
+              protocol: '#{config.api.protocol}',
+            }
+          }
+        });
+      }
+    );
+
+

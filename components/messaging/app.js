@@ -1,6 +1,5 @@
 /*
   Messaging Component: Web App
-
   key environment variables:
     NODE_ENV
 */
@@ -12,12 +11,12 @@ var express = require('express')
   , favicon = require('serve-favicon')
   , methodOverride = require('method-override')
   , errorHandler = require('errorhandler')
-  , WebClient = require('@slack/client').WebClient
+  , { WebClient } = require('@slack/client')
   , credentials = require('./credentials.js')
   , mop = require('./MessageObjectParse.js')
   , mongoose = require('mongoose')
   , Message = require('./models/MessageQueue.js')
-  , CronJob = require('cron').CronJob;
+  , CronJob = require('cron').CronJob
 ;
 
 // access Slack API token
@@ -44,7 +43,7 @@ if (app.get('env') == 'development') {
   app.use(errorHandler());
 }
 
-app.use(express.static(path.join(__dirname)));
+app.use(express.static(path.join(__dirname, 'public'), { }));
 
 // Mongoose connection
 var mongoDB = 'mongodb://localhost/test';
@@ -65,23 +64,38 @@ var sendMessage = new CronJob('0 * * * * *', function() { // runs every minute w
     if (err) return handleError(err);
     if(message !== null) {
       var messageToSend = message.message;
-      /* during testing phase the Slack ID needs to be filled out.
-      In production we will retrieve this with an API call */
-      var slackId = ''; // enter ID here
-      web.chat.postMessage(slackId, messageToSend, function (err, res) {
-        if (err) {
-          console.log('Error: ', err);
-        } else {
-          console.log('Message sent to Slack: ', res);
-          message.messageSent = new Date();
-          message.save(function (err, data) {
-            if (err) console.log(err);
-            else {
-              console.log('Message sent, and entry updated: ', data );
-            }
-          });
-        }
-      });
+      var slackId =  message.slack; // testing channel is '#uxr-projectmatch-test';
+      // color function cycles through colors array
+      var colors = ['#36a64f', '#cf1b41', '#399fd3', '#6D6E71'];
+      function color_cycle(arr) {
+        var color = arr[0];
+        arr.push(color);
+        arr.shift();
+      }
+      color_cycle(colors);
+      // API call to Slack
+      web.chat.postMessage({
+        channel: slackId,
+        text: 'You have received a message from a new user!',
+        as_user: false,
+        username: 'new user bot',
+        icon_url: 'https://avatars.slack-edge.com/2018-02-03/309655411173_c89e1a8aae565b88b419_72.png',
+        attachments: [
+          {
+            "color": colors[0],
+            "text": messageToSend
+          }
+        ]
+      }).then((res) => {
+        console.log('Message sent to Slack: ', res);
+        message.messageSent = new Date();
+        message.save(function (err, data) {
+          if (err) console.log(err);
+          else {
+            console.log('Message sent, and entry updated: ', data );
+          }
+        });
+      }).catch(console.error);
     }
   });
 });
@@ -106,11 +120,11 @@ var clearQueue = new CronJob('0 0 0 * * Sun', function() {
 
 
 // routes
-app.get('/', function (req, res) {
+app.get('/messaging', function (req, res) {
   res.sendFile('index.html', { root: __dirname });
 });
 
-app.post('/', function (req, res) {
+app.post('/messaging/api/message', function (req, res) {
   var messageString = mop.parseObject(req.body);
   var message = new Message({
     message: messageString,

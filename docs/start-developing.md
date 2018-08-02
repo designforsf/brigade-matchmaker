@@ -79,7 +79,7 @@ Please now visit the Notifications component at [http://localhost:5455](http://l
 
 # Client-side Development
 
-Notifications is client-side, and its functionality and UIs are used throughout the main Web App. The structure of this component enables you to develop it independently of the other components and main service.
+Notifications is entirely client-side, and its functionality and UIs are used throughout the main Web App. Even though it is used throughout the Web App, the structure of this component in the system enables you to develop it independently of the other components and main Web App service.
 
 ## Key functionality
 

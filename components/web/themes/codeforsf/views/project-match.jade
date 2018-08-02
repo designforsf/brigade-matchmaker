@@ -1,86 +1,91 @@
 extends layout.jade
 block content
 
-  div.collapse.in#landing-intro
-
-    div.jumbotron
-      
-      row
-        col-md-6.align-top
-          
-        col-md-6.align-top
-          a.nav-close.pull-right(href="javascript:ProjectMatch.uiActivateNavigation();") &times;
-
-      h1 Project Match
-
-      row
-        col-md-12
-          p
-            | Fill out your skills, what you want to learn, and interests.
-          p
-            | Project Match will connect you to civic projects.
-
-
 
   div(id="taxonomy-selector-container")
-    | Taxonomy Selector To Go Here
-  div(id="project-list-container")
+    | &nbsp;
+    div.taxonomy-container
+      div.selector-holder
+        #container
+        |         
+        #container2
+        |         
+        #container3
+      |     
+      div.generate-button-container
+        button#submitButton.generate-button(onclick='ProjectMatch.generateMatch()', type='button')
+          | Generate Match
 
+
+  div(id="project-list-container")
+    | &nbsp;
+
+  div(class="container" id="minmaximizer-container")
+    | &nbsp;
+
+  div(class="minmaxCon")
+    | &nbsp;
+
+
+  //link(rel="stylesheet" href="/common/vendor/bootstrap-3.3.7/css/bootstrap.css")
   link(rel="stylesheet" href="/components/project-list/css/style.css")
+  link(rel="stylesheet" href="/components/messaging/css/style.css")
+  link(rel="stylesheet" href="/components/minmaximizer/css/minmaximizer.css")
+  link(rel="stylesheet" href="/components/selector/css/style.css")
   link(rel="stylesheet" href="/components/taxonomy-selector/styles/taxonomy-selector.css")
 
   
   script(src='/components/project-list/js/lib/handlebars.runtime.js')
   script(src='/components/project-list/js/lib/require.js')
   script(src='/components/project-list/js/templates/projects.js')
+  script(src='/components/selector/js/templates/selector.js')
 
   script(type='text/javascript').
 
     require.config({
-      baseUrl: '/components',
+      baseUrl: '/',
       paths: {
-        jquery: 'project-list/js/lib/jquery',
-        handlebars: 'project-list/js/lib/handlebars',
-        'handlebars.runtime': 'project-list/js/lib/handlebars.runtime',
-        backbone: 'project-list/js/lib/backbone',
-        text: 'project-list/js/lib/text',
-        underscore: 'project-list/js/lib/underscore',
-        localstorage : 'project-list/js/lib/backbone.localStorage',
-        lockr: 'project-list/js/lib/lockr',
-        boostrap: 'project-list/js/lib/bootstrap.min.js',
-        projlistview: 'project-list/js/views/ProjectView',
-        projlistmodel:  'project-list/js/models/ProjectModel',
-        projlisttemplate: 'project-list/js/templates/projects',
+        jquery: 'common/js/jquery/jquery-3.2.1',
+        handlebars: 'components/project-list/js/lib/handlebars',
+        'handlebars.runtime': 'components/project-list/js/lib/handlebars.runtime',
+        backbone: 'components/project-list/js/lib/backbone',
+        text: 'components/project-list/js/lib/text',
+        underscore: 'components/project-list/js/lib/underscore',
+        localstorage : 'components/project-list/js/lib/backbone.localStorage',
+        lockr: 'components/project-list/js/lib/lockr',
+        bootstrap: 'common/vendor/bootstrap-3.3.7/js/bootstrap',
 
-        MessageView: 'slackbot/js/app',
+        projmatch: 'js/project-match',
 
-        masonry: 'taxonomy-selector/js/masonry/masonry-4.2.0.pkgd',
-        taxsel: 'taxonomy-selector/js/project-match/taxonomy-selector',
-        taxselmodel: 'taxonomy-selector/js/project-match/taxonomy-model',
-        taxseltemplate: 'taxonomy-selector/templates/container'
+        projlistview: 'components/project-list/js/views/ProjectView',
+        projlistmodel:  'components/project-list/js/models/ProjectModel',
+        projlisttemplate: 'components/project-list/js/templates/projects',
+
+        messagingview: 'components/messaging/js/views/MessagingView',
+        messagingmodel:  'components/messaging/js/models/MessagingModel',
+        messagingtemplate: 'components/messaging/js/templates/compiled',
+
+        minmax: 'components/minmaximizer/js/minmaximizer',
+        minmaxtemplate: 'components/minmaximizer/templates/minmaximizer',
+
+        selector: 'components/selector/js/views/SelectorView',
+        selectormodel: 'components/selector/js/models/SelectorModel'
+
       }
     });
     
-    require(['projlistview','projlistmodel','taxsel', 'taxselmodel'], 
-      function(ProjectView, ProjectModel, TaxonomySelector, TaxonomyModel) {
-
-      // project list component
-      projView = new ProjectView({ skills:[], learnSkills:[], interests:[] });
-
-      // taxonomy selector component
-      var taxonomySel = ProjectMatch.TaxonomySelector;
-      taxonomySel.init({
-        // callback when the user clicks on the generate match button
-        generateMatchCb: function () {
-
-          // retracts the selector so the user can focus on the results
-          taxonomySel.closeSelector();
-
-          // search with the current user's taxonomy selection
-          projView.searchProjects(taxonomySel.getSelection());
-        }
-      });
-
-    });
+    require(['projmatch'], 
+      function(ProjectMatch) { 
+        ProjectMatch.init({
+          config: {
+            web: {
+              host: '#{config.web.host}',
+              port: '#{config.web.port}',
+              protocol: '#{config.web.protocol}',
+            }
+          }
+        });
+      }
+    );
 
 

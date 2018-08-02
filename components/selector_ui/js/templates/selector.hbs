@@ -1,0 +1,63 @@
+<div id="{{component_name}}-btn" class="selector-btn">
+    <div class="selector-btn-header">
+        <div class="name">{{display-title}}</div>
+        <a data-toggle="modals" class="add-btn">Add Items</a>
+
+    </div>
+    <div class="selector-tag-container"></div>
+</div>
+
+<!-- Modal content-->
+<div id="{{component_name}}_modals" class="modals">
+    <div class="selector-container">
+        <div class="tabs">
+            <div tabName="{{component_name}}-allCategories" class="tab-name tab-name-active">All
+                Categories</div>
+            {{#each itemsBySection}}
+                <div tabName="{{../component_name}}-{{@key}}"
+                     class="tab-name">{{this
+                .title}}</div>
+            {{/each}}
+        </div>
+
+        {{!-- Start creation of tabs --}}
+        {{#each itemsBySection}}
+            <div id="{{../component_name}}-{{@key}}" class="tab-view tab-view-inactive">
+                <div class="category">
+                    <div class="category-title">{{this.title}}</div>
+                    <div class="tag-container">
+                        {{#each this.items}}
+                            <div id="{{../../component_name}}-{{this.name}}"
+                                 class="tag">{{this
+                            .name}}</div>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+        {{/each}}
+        {{!-- End creation of tabs --}}
+
+        {{!-- Create all categories tab--}}
+        <div id="{{component_name}}-allCategories"
+             class="tab-view
+         tab-view-active">
+            {{#each itemsBySection}}
+                <div class="category">
+                    <div class="category-title">{{this.title}}</div>
+                    <div class="tag-container">
+                        {{#each this.items}}
+                            <div id="{{../this.name}}/{{this.name}}"
+                                 class="tag">{{this
+                            .title}}</div>
+                        {{/each}}
+                    </div>
+                </div>
+            {{/each}}
+        </div>
+    </div>
+    <div class="footer">
+        <div class="close-btn">Close</div>
+    </div>
+</div>
+
+

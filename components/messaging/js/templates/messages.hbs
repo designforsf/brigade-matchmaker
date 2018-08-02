@@ -1,5 +1,5 @@
-<div class="container">
-    <div class="contact-header">Contact WeVote Project Lead</div>
+
+    <div class="contact-header">Contact Project Lead</div>
     <form class="form-class">
         <div class="input-container">
             <div class='control-label'>Your Name:</div>
@@ -27,9 +27,9 @@
                     <div class="skills-title">Skills to contribute</div>
                     <div class="tag-container">
                         {{#each
-                        this.skills.interests as
-                        |interest|}}
-                        <div class="tag interest-tag">{{interest}}</div>
+                        this.skills.skills as
+                        |skill|}}
+                        <div class="tag interest-tag">{{skill}}</div>
                         {{/each}}
                     </div>
                 </div>
@@ -47,16 +47,15 @@
                     <div class="skills-title">Civic Interests</div>
                     <div class="tag-container">
                         {{#each
-                        this.skills.skills as
-                        |skill|}}
-                        <div class="tag skills-tag">{{skill}}</div>
+                        this.skills.interests as
+                        |interest|}}
+                        <div class="tag skills-tag">{{interest}}</div>
                         {{/each}}
                     </div>
                 </div>
             </div>
         </div>
         <div class="submit-container">
-            <input class="submit-btn" type="submit" value="Submit">
+            <input class="submit-btn" type="submit" value="Send Message">
         </div>
     </form>
-</div>

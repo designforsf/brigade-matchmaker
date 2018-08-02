@@ -1,0 +1,4 @@
+Django==2.0
+djongo
+djangorestframework
+django-simple-history==2.3.0
