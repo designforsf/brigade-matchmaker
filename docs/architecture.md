@@ -4,12 +4,14 @@
 Project Match is a system consisting of the following components:
 
 * **Data Structures** - MongoDB, Mongoose, project participation taxonomy
-* **Web App** and **REST API** -  Node.js, Express, Pug
+* **REST API** -  Node.js, Express
+* **Main Web App** -  Node.js, Express, Pug
+* **Legacy Web App** - Node.js, Express, Pug (soon to be deprecated) 
+* **Admin** - python, django
 * **Matching Algorithm** - python
 * **UI Components** - RequireJS, Handlebars, jQuery, Backbone, Bootstrap
 * **Messaging Service** - Node.js, Express, Slack API
 * **Admin / Project CMS** - EmberJS, Bootstrap
-* **Test Scripts** - bash and wget
 
 ## Data Structures
 
@@ -31,11 +33,15 @@ The project volunteering taxonomy provides sets of useful keywords which users s
 
 [Taxonomy documentation](https://github.com/designforsf/brigade-matchmaker/tree/master/docs/taxonomy.md).
 
-## Web App and REST API
+## Main Website
 
-The webapp generates the web interface for users, controls how data is updated, and accesses the matchmaking function.
+The website generates the web interface for users, controls how data is updated, and accesses the matchmaking function.
 
-All UIs make use of the REST API, which follows the [JSON API format](http://jsonapi.org/format/).
+All UIs make use of the REST API.
+
+## REST API
+
+All UIs loaded in the main website make use of the REST API, which follows the [JSON API format](http://jsonapi.org/format/).
 
 To learn more, please take a look at the [REST API documentation](https://github.com/designforsf/brigade-matchmaker/tree/master/docs/json-api.md).
 
@@ -80,7 +86,11 @@ This UI component uses RequireJS, Handlebars, jQuery, and Bootstrap.
 
 ### Notifications UI
 
-Notifications is used throughout the Web App
+Notifications will be used throughout the web application.
+
+### MinMaximizer
+
+This UI component enables users to interact with a floating representation of the messaging component and other UIs.
 
 ---
 
@@ -90,14 +100,11 @@ The Front-End sends messages from new members to project leads via an API hosted
 
 ---
 
-## Admin / Project CMS
+## Admin
 
-This component enables project leads to update project-related data, including the skills needed, learning opportunities, and civic interests. This component is rendered by EmberJS and interacts with the JSON API.
+This component enables project leads to update project-related data, including the skills needed, learning opportunities, and civic interests. 
 
----
+It uses python django and interacts directly with the database.
 
-## Test Scripts
-
-These are rudimentary bash scripts which use wget in order to perform basic tasks step-by-step.
 
 ---

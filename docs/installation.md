@@ -86,40 +86,54 @@ nvm use v6.12.2
 node --version
 ```
 
-## 4. Install Node.js dependencies
+## 4. Install Node.js dependencies in the REST API and Main Website
 
 The webapp has many dependencies that can be easily installed with the Node Package Manager. It uses [package.json](https://github.com/designforsf/brigade-matchmaker/blob/master/components/web/package.json) to know what dependencies to install. Remember to make sure to be using node v6.12.2 when installing!
 
 In the command line terminal:
 
 ```
-cd brigade-matchmaker/components/web
+cd brigade-matchmaker/components/api
+nvm use v6.12.2
+npm install
+```
+
+```
+cd brigade-matchmaker/components/main
 nvm use v6.12.2
 npm install
 ```
 
 
-## 5. Configure the New Member Front-End
+## 5. Configure and Start the REST API and Main Website
 
 Once Node.js and the dependencies are installed, the webapp is very close to being runnable. What it needs first is the .env comfiguration file.
 
 In the command line terminal:
 
 ```
-cd brigade-matchmaker/components/web
-cp .env.example .env
+cd brigade-matchmaker/etc
+cp env.js.default .development
 ```
 
-The webapp is now ready to be run. Make sure MongoDB is already running in a different command line terminal.
+The REST API amd Main Website are now ready to be run. Make sure MongoDB is already running in a different command line terminal.
 
 ```
-cd brigade-matchmaker/components/web
+cd brigade-matchmaker/components/api
+nvm use v6.12.2
 node app.js
 ```
 
-Please now visit the new member front-end at [http://localhost:5465](http://localhost:5465). Doing so will now load the test data!
+```
+cd brigade-matchmaker/components/main
+nvm use v6.12.2
+node app.js
+```
+
+Please now visit the new member front-end at [http://localhost:8080](http://localhost:8080). Doing so will now load the test data!
 
 **NOTE: the Project Match front-end won't work until the Matching Algoritm is installed**
+
 
 ## 6. Install the Matching Algorithm
 
@@ -231,6 +245,7 @@ For more info, SEE: [Using Handlebars with Backbone and RequireJS and Precompili
 
 This is a user interface component to enable the user to sort a list of projects according to their personal preferences. The Taxonomy Selector interacts with the REST API, and by extension, the matching algorithm.
 
+
 ### Installing dependencies
 
 This installs, along with basic dependencies for a Node.js express application, the handlebars utility.
@@ -253,37 +268,6 @@ nvm use v6.12.2
 ```
 
 For more info, SEE: [Using Handlebars with Backbone and RequireJS and Precompiling templates](http://www.remwebdevelopment.com/blog/javascript/using-handlebars-with-backbone-and-requirejs-and-precompiling-templates-182.html)
-
-
----
-
-## Installing Admin / Project CMS
-
-This service enables project leaders to manage content stored in MongoDB. The data which project leaders manage here is displayed to new members in the Front-End.
-
-Project Content Management makes use of [EmberJS framework](http://emberjs.com/) and [Ember Bootstrap](http://www.ember-bootstrap.com/#/components) with the JSON API.
-
-### Dependencies
-
-EmberJS 2.14 is tested with Node.js v6.12.2 and requires a global install:
-
-```
-nvm install v6.12.2
-nvm use v6.12.2
-npm install -g ember-cli@2.14
-```
-
-### Run the service
-
-```
-cd brigade-matchmaker/components/ember-client
-ember build
-ember serve
-```
-
-To interact with the Project Content Management UI:
-
-[http://localhost:4200](http://localhost:4200)
 
 ---
 
