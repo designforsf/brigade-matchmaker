@@ -1,3 +1,4 @@
 admin/secrets.json
-__pycache__
-myvenv
+env
+geckodriver.log
+admin/__pycache__

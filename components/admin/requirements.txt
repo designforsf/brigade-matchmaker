@@ -1,4 +1,4 @@
-Django==2.0
-djongo
-djangorestframework
-django-simple-history==2.3.0
+Django==2.1
+djangorestframework==3.8.2
+djangorestframework-jsonapi==2.5.0
+djongo==1.2.29
