@@ -5,8 +5,8 @@ from .models import SkillsTaxonomy, InterestsTaxonomy, GoalsTaxonomy, Project, P
 from .serializers import SkillsTaxonomySerializer, InterestsTaxonomySerializer, GoalsTaxonomySerializer, ProjectSerializer, ProjectLeadSerializer
 from .permissions import IsOwnerOrReadOnly
 
-def index(request):
-	return HttpResponse("This is a placeholder page for the Project Match admin component.")
+#def index(request):
+#	return HttpResponse("This is a placeholder page for the Project Match admin component.")
 
 class SkillsTaxonomyList(generics.ListCreateAPIView):
 	queryset = SkillsTaxonomy.objects.all()
