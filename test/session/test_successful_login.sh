@@ -12,7 +12,7 @@ echo "Using cookies-$EPOCH.txt"
 BINDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $BINDIR
 
-URL="http://localhost:5465/api/user/login"
+URL="http://localhost:5455/api/user/login"
 echo "Calling $URL"
 wget -qO- \
 --save-cookies cookies-$EPOCH-successful-login.txt \
@@ -22,7 +22,7 @@ $URL
 
 echo
 
-URL="http://localhost:5465/api/user/session"
+URL="http://localhost:5455/api/user/session"
 echo "Calling $URL"
 wget -qO- \
 --load-cookies cookies-$EPOCH-successful-login.txt \

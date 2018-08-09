@@ -237,7 +237,7 @@ The matching algorithm can be called at: [http://localhost:5465/api/user/matches
 
 The main website interacts with the JSON API to generate the search criteria and to return the project list.
 
-[http://localhost:5465](http://localhost:8080)
+[http://localhost:8080](http://localhost:8080)
 
 ---
 

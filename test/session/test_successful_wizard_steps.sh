@@ -12,7 +12,7 @@ echo "Using cookies-$EPOCH.txt"
 BINDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $BINDIR
 
-URL="http://localhost:5465/api/user/session"
+URL="http://localhost:5455/api/user/session"
 echo "Calling $URL"
 wget -qO- \
 --load-cookies cookies-$EPOCH-successful-login.txt \
@@ -25,7 +25,7 @@ sleep 1
 
 echo "Test Step 0"
 
-URL="http://localhost:5465/api/user/match_config"
+URL="http://localhost:5455/api/user/match_config"
 echo "Calling $URL"
 wget -qO- \
 --load-cookies cookies-$EPOCH-successful-login.txt \
@@ -40,7 +40,7 @@ sleep 2
 INTERESTS="homelessness,urbanplanning"
 echo "Test Step 1 with INTERESTS=$INTERESTS"
 
-URL="http://localhost:5465/api/user/match_config"
+URL="http://localhost:5455/api/user/match_config"
 echo "Calling $URL"
 wget -qO- \
 --load-cookies cookies-$EPOCH-successful-login.txt \
@@ -56,7 +56,7 @@ sleep 2
 SKILLS="javascript,python"
 echo "Test Step 2 with SKILLS=$SKILLS"
 
-URL="http://localhost:5465/api/user/match_config"
+URL="http://localhost:5455/api/user/match_config"
 echo "Calling $URL"
 wget -qO- \
 --load-cookies cookies-$EPOCH-successful-login.txt \
@@ -72,7 +72,7 @@ sleep 2
 ROLES="learn"
 echo "Test Step 3 with ROLES=$ROLES"
 
-URL="http://localhost:5465/api/user/match_config"
+URL="http://localhost:5455/api/user/match_config"
 echo "Calling $URL"
 wget -qO- \
 --load-cookies cookies-$EPOCH-successful-login.txt \
@@ -88,7 +88,7 @@ sleep 2
 ROLES="javascript,python"
 echo "Test Step 4 (algorithm activate)"
 
-URL="http://localhost:5465/api/user/match_config"
+URL="http://localhost:5455/api/user/match_config"
 echo "Calling $URL"
 wget -qO- \
 --load-cookies cookies-$EPOCH-successful-login.txt \
