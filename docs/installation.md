@@ -231,7 +231,7 @@ The following interacts with the JSON API, querying with three sets of criteria 
 
 ### Browser 1: Test the JSON API
 
-The matching algorithm can be called at: [http://localhost:5465/api/user/matches](http://localhost:5455/api/user/matches?skills=javascript,python&interests=housing&goals=developer,presenter).
+The matching algorithm can be called at: [http://localhost:5455/api/user/matches](http://localhost:5455/api/user/matches?skills=javascript,python&interests=housing&goals=developer,presenter).
 
 ### Browser 2: Test the Main Website
 
