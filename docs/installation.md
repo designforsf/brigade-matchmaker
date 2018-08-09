@@ -152,7 +152,7 @@ cd brigade-matchmaker/components/matching
 python --version
 pip --version
 pip install pymongo==3.4
-python match-algo.py javascript housing developer
+python db-match-algo.py javascript housing developer
 ```
 
 If the database is running and the webapp has been fired up (at least once), you should be able to interact with the matching algorithm using pre-loaded test project data.
