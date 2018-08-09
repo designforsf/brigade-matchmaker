@@ -7,7 +7,8 @@ After Web App is running, the UI components and Messaging component can be insta
 
 **Attention new developers on the project!** - check out [docs/start-developing.md](https://github.com/designforsf/brigade-matchmaker/tree/master/docs/start-developing.md). This explains how components are developed and involves a simpler installation.
 
-# Installing Web App
+
+# Installing the Project Match System
 
 Installing the core Project Match components requires the following installations and configurations:
 
@@ -17,6 +18,7 @@ Installing the core Project Match components requires the following installation
 * Node.js dependencies - via the Node Package Manager
 * Web application configuration
 * Python
+
 
 ## 1. Clone the project files
 
@@ -86,7 +88,7 @@ nvm use v6.12.2
 node --version
 ```
 
-## 4. Install Node.js dependencies in the REST API and Main Website
+## 4. Install Node.js dependencies in the REST API, Main Website, Messaging
 
 The webapp has many dependencies that can be easily installed with the Node Package Manager. It uses [package.json](https://github.com/designforsf/brigade-matchmaker/blob/master/components/web/package.json) to know what dependencies to install. Remember to make sure to be using node v6.12.2 when installing!
 
@@ -104,35 +106,55 @@ nvm use v6.12.2
 npm install
 ```
 
+```
+cd brigade-matchmaker/components/messaging
+nvm use v6.12.2
+npm install
+```
 
-## 5. Configure and Start the REST API and Main Website
 
-Once Node.js and the dependencies are installed, the webapp is very close to being runnable. What it needs first is the .env comfiguration file.
+## 5. Configure and Start the REST API, Main Website, Messaging
+
+Once Node.js and the dependencies are installed, the webapp is very close to being runnable. What it needs first is the development comfiguration file. When an app is run with NODE_ENV set to development, environment configuration will be loaded data from "etc/development.js".
 
 In the command line terminal:
 
 ```
 cd brigade-matchmaker/etc
-cp env.js.default .development
+cp env.js.default development.js
 ```
 
-The REST API amd Main Website are now ready to be run. Make sure MongoDB is already running in a different command line terminal.
+### Configure the Messaging Service
+
+The messaging service relies on the Slack Web API. Therefore testing the messaging service requires a Slack Web API token. You can find more information about those at https://api.slack.com/web
+
+As with all API keys, please make sure that the credential file is listed in your .gitignore file. You can find out more about best practices at https://api.slack.com/docs/oauth-safety
+
+### Run
+
+The REST API, Main Website, and Messaging service are now ready to be run. Run each in its own command line terminal, and make sure MongoDB is already running in a different terminal.
 
 ```
 cd brigade-matchmaker/components/api
 nvm use v6.12.2
-node app.js
+NODE_ENV=development node app.js
 ```
 
 ```
 cd brigade-matchmaker/components/main
 nvm use v6.12.2
-node app.js
+NODE_ENV=development node app.js
+```
+
+```
+cd brigade-matchmaker/components/messaging
+nvm use v6.12.2
+NODE_ENV=development node app.js
 ```
 
 Please now visit the new member front-end at [http://localhost:8080](http://localhost:8080). Doing so will now load the test data!
 
-**NOTE: the Project Match front-end won't work until the Matching Algoritm is installed**
+**NOTE: the Project Match main front-end won't be able to search for projects until the Matching Algoritm is installed**
 
 
 ## 6. Install the Matching Algorithm
@@ -179,17 +201,27 @@ python db-match-algo.py client-dev/javascript null housing null
 python db-match-algo.py data-sci/python data-science/machine-learning null developer
 ```
 
-## 7. Running and testing the Project Match system
+## 7. Running and Basic Testing
 
-### Terminal 1: Start MongoDB
+Project Match uses the microservices approach, and requires the operator to run a number of processes in order to enable users to interact with the main website.
 
-This needs to be running (if it isn't running already).
+### Terminal 1: MongoDB
 
-### Terminal 2: New Member Front-End / JSON API
+MongoDB needs to be running (if it isn't already).
 
-This needs to be running, (if it isn't running already).
+### Terminal 2: REST API
 
-### Terminal 3: Test the matching algorithm
+The api component needs to be running, (if it isn't already).
+
+### Terminal 3: Main Website
+
+The main component needs to be running, (if it isn't already).
+
+### Terminal 4: Messaging
+
+The messaging component needs to be running, (if it isn't already).
+
+### Terminal 5: Test the matching algorithm
 
 The following interacts with the JSON API, querying with three sets of criteria and returning matching projects for each.
 
@@ -199,13 +231,13 @@ The following interacts with the JSON API, querying with three sets of criteria 
 
 ### Browser 1: Test the JSON API
 
-The matching algorithm can be called at: [http://localhost:5465/api/user/matches](http://localhost:5465/api/user/matches?skills=javascript,python&interests=housing&goals=developer,presenter).
+The matching algorithm can be called at: [http://localhost:5465/api/user/matches](http://localhost:5455/api/user/matches?skills=javascript,python&interests=housing&goals=developer,presenter).
 
-### Browser 2: Test the New Member Front-End
+### Browser 2: Test the Main Website
 
-The New Member Front-End interacts with the JSON API to generate the search criteria and to return the project list.
+The main website interacts with the JSON API to generate the search criteria and to return the project list.
 
-[http://localhost:5465](http://localhost:5465)
+[http://localhost:5465](http://localhost:8080)
 
 ---
 
@@ -269,10 +301,4 @@ nvm use v6.12.2
 
 For more info, SEE: [Using Handlebars with Backbone and RequireJS and Precompiling templates](http://www.remwebdevelopment.com/blog/javascript/using-handlebars-with-backbone-and-requirejs-and-precompiling-templates-182.html)
 
----
 
-# Installing Messaging Service
-
-The messaging service relies on the Slack Web API. Therefore testing the messaging service requires a Slack Web API token. You can find more information about those at https://api.slack.com/web
-
-As with all API keys, please make sure that the credential file is listed in your .gitignore file. You can find out more about best practices at https://api.slack.com/docs/oauth-safety
