@@ -49,9 +49,11 @@ git push origin <YOUR GIT USERNAME>
 
 ## 2. Install the database
 
-If you do not want to just download and install the latest mongodb, for OSX systems there is a way to install it in components/mongodb.
+If you do not want to just download and install the latest mongodb, for OSX systems there is a way to install it in components/mongodb. 
 
-In the command line terminal:
+Requires wget and an OSX system. If you do not have wget, you may want to use [brew](https://brew.sh/) to install it. For Linux or Windows developers, please download and install mongodb directly from [MongoDB community downloads](https://www.mongodb.com/download-center#community).
+
+In the USX command line terminal:
 
 ```
 cd brigade-matchmaker/components/mongodb
