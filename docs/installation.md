@@ -115,7 +115,7 @@ npm install
 ```
 
 
-## 5. Configure and Start the REST API, Main Website, Messaging
+## 5. Configure the REST API, Main Website, Messaging
 
 Once Node.js and the dependencies are installed, the webapp is very close to being runnable. What it needs first is the development comfiguration file. When an app is run with NODE_ENV set to development, environment configuration will be loaded data from "etc/development.js".
 
@@ -126,13 +126,20 @@ cd brigade-matchmaker/etc
 cp env.js.default development.js
 ```
 
+For development, now load the required seed data:
+
+```
+cd brigade-matchmaker/components/api
+./scripts/load-seed-data.js
+```
+
 ### Configure the Messaging Service
 
 The messaging service relies on the Slack Web API. Therefore testing the messaging service requires a Slack Web API token. You can find more information about those at https://api.slack.com/web
 
 As with all API keys, please make sure that the credential file is listed in your .gitignore file. You can find out more about best practices at https://api.slack.com/docs/oauth-safety
 
-### Run
+### Run the System
 
 The REST API, Main Website, and Messaging service are now ready to be run. Run each in its own command line terminal, and make sure MongoDB is already running in a different terminal.
 
@@ -154,7 +161,7 @@ nvm use v6.12.2
 NODE_ENV=development node app.js
 ```
 
-Please now visit the new member front-end at [http://localhost:8080](http://localhost:8080). Doing so will now load the test data!
+Please now visit the new member front-end at [http://localhost:8080](http://localhost:8080).
 
 **NOTE: the Project Match main front-end won't be able to search for projects until the Matching Algoritm is installed**
 
