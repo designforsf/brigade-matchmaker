@@ -51,9 +51,17 @@ git push origin <YOUR GIT USERNAME>
 
 If you do not want to just download and install the latest mongodb, for OSX systems there is a way to install it in components/mongodb. 
 
-Requires wget and an OSX system. If you do not have wget, you may want to use [brew](https://brew.sh/) to install it. For Linux or Windows developers, please download and install mongodb directly from [MongoDB community downloads](https://www.mongodb.com/download-center#community).
+For Linux or Windows developers, you will not be able to proceed. Please download and install mongodb directly from [MongoDB community downloads](https://www.mongodb.com/download-center#community).
 
-In the USX command line terminal:
+Installing mongodb requires wget. If you do not have wget, you may want to use [brew](https://brew.sh/) to install it. 
+
+```
+which brew
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+brew install wget
+```
+
+To install mongodb, run the following in the command line terminal:
 
 ```
 cd brigade-matchmaker/components/mongodb
