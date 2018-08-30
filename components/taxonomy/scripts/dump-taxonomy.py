@@ -86,13 +86,17 @@ for root in tax_dict.keys():
 	print('ROOT: ', root)
 
 	for section in tax_dict[root]['itemsBySection'].keys():
-		print('SECTION: ', section)
+		#print('SECTION: ', section)
 
 		for tax_index, tax in enumerate(taxonomies):
 			if tax['parent'] == section:
 
+				# legacy clean up
+				tax.pop('_id', None)
+				tax.pop('className', None)
+
 				tax_dict[root]['itemsBySection'][section]['items'].append(tax)
-				print('ITEM: ', tax['name'])
+				#print('ITEM: ', tax['name'])
 
 
 # save the toml output
