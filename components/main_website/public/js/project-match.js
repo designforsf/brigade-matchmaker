@@ -73,6 +73,10 @@ define([
 			// set the config variable
 			PM.config = attr.config;
 
+			// API URL
+	    var baseUrl = attr.config.api.protocol + '://' + attr.config.api.host + ':' + attr.config.api.port;
+	    console.log('API URL: ' + baseUrl);
+
 			// initialize the minmaximizer
 			ProjectMatch.MinMaximizer.init({ });
 
@@ -82,9 +86,6 @@ define([
 	    	skills:[], learnSkills:[], interests:[],
 	    	initiateContactCb: PM.initiateContact
 	    });
-
-	    var baseUrl = attr.config.api.protocol + '://' + attr.config.api.host + ':' + attr.config.api.port;
-	    console.log(baseUrl);
 	    
 			PM.skillsSelector = new SelectorView({
 				'id': 'skills-selector-view',

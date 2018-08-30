@@ -3,6 +3,7 @@ var pug = require('pug')
   , UserMatchConfigs = 	require('./models/UserMatchConfigs')
   , Projects = 					require('./models/Projects')
   , ProjectTaxonomies = require('./models/ProjectTaxonomies')
+  , PyShell =           require('python-shell')
 ;
 
 
@@ -182,6 +183,165 @@ module.exports = {
       });
 
     }, // END getProjects
+
+
+
+  /**
+   * getUserMatches
+   * ------------------------------------------------------
+   * Get /api/user/match
+   * Interacts with python algorithm to produce json list of sorted projects
+
+   * SEE: https://github.com/extrabacon/python-shell
+
+   * TEST:
+        http://localhost:5465/api/user/matches?skills=data-sci/python&learnSkills=data-science/machine-learning&role=developer
+        http://localhost:5465/api/user/matches?skills=client-dev/javascript,data-sci/python&interests=housing&goals=developer,presenter
+        http://localhost:5465/api/user/matches?skills=data-sci&interests=homelessness&goals=developer
+        http://localhost:5465/api/user/matches?skills=server-dev/ruby&goals=developer,learner
+        http://localhost:5465/api/user/matches?skills=null&goals=leader
+        http://localhost:5465/api/user/matches?skills=server-dev/nodejs
+        http://localhost:5465/api/user/matches?learnSkills=client-dev/javascript
+   */
+   
+  getUserMatches: function (req, res, next) {
+    console.log('getUserMatch');
+    
+    // final output in JSON-API
+    // SEE: http://jsonapi.org/examples/
+    var output = {
+      data: [] // sorted projects
+    };
+
+    // the structure of the python script output
+    matchFields = [
+      "_id",    // mongo id
+      "id",     // BrigadeHub id
+      "score",  // total match score
+
+      // skills
+      "name0",    // user attr 0 field name
+      "score0",   // user attr 0 score
+      "attrs0",   // user attr 0 matching attrs
+
+      // learnSkills
+      "name1",    // user attr 1 field name
+      "score1",   // user attr 1 score
+      "attrs1",   // user attr 1 matching attrs
+
+      // interests
+      "name2",    // user attr 2 field name
+      "score2",   // user attr 2 score
+      "attrs2",   // user attr 2 matching attrs
+
+      // goals
+      "name3",    // user attr 3 field name
+      "score3",   // user attr 3 score
+      "attrs3",   // user attr 3 matching attrs
+
+    ];
+    matchUserAttrs = ["skills", "learnSkills", "interests", "goals"];
+
+    // user input, translated from web params to the python script arguments
+    var pyArgs = [];
+    matchUserAttrs.forEach(function(arg) {
+
+      // clean up the web input
+      var argArr = (typeof req.query[arg] !== 'undefined' ? req.query[arg].split(',') : []);
+
+      // convert back to comma delimited list
+      var argValue = argArr.join(',');
+      if (argValue.length == 0) argValue = 'null'; // TODO: possibly improve this
+      pyArgs.push(argValue);
+
+    });
+
+    //console.log('req.options: ', req.options);
+    //console.log((typeof req.query.interests !== 'undefined'));
+    //console.log(req.query.goals);
+    //console.log(pyArgs);
+
+    // where is the python script?
+    var pyDirArr = process.cwd().split('/');
+    pyDirArr.pop();
+    pyDirArr.push('matching');
+    //
+    // heroku environemnt only
+    //var pyDir = pyDirArr.join('/');
+    var pyDir = '../matching'
+    var pyFile = '/db-match-algo.py';
+    //
+    //console.log('req.MongoStore is ', req);
+    //console.log('run python: ' + pyFile + ' with args=', pyArgs);
+    //console.log('pyDir: ', pyDir);
+
+    PyShell.run(pyFile, {
+      pythonPath: '/usr/local/bin/python3',
+      scriptPath: pyDir,
+      args: pyArgs
+    }, function (err, pyOutput) {
+
+      if (err) { console.error(err); }
+
+      //console.log('pyOutput is: ', pyOutput);
+      pyOutput.forEach(function (line, idx){
+        var lineArr = line.split(',');
+
+        //console.log(lineArr);
+
+        // JSON-API resource object
+        // SEE: http://jsonapi.org/format/#document-resource-objects
+        var resourceObj = {
+          type: "projectMatch",
+          id: lineArr[0],
+          attributes: {} // where the project match data goes
+        };
+        
+        resourceObj.attributes['name'] = lineArr[1];
+        resourceObj.attributes['score'] = parseInt(lineArr[2]);
+
+        // process individual user attributes
+        // NOTE: after general fields, py script outputs
+        //  alternating name + score + matched attrs for each user attribute
+        matchUserAttrs.forEach(function(arg, aidx) {
+          resourceObj.attributes[arg + 'Score'] = parseInt(lineArr[2 + 2 + (aidx*3)]);
+
+          // set up the matched args array
+          var matchedArgs = lineArr[2 + 3 + (aidx*3)];
+          matchedArgs = matchedArgs.replace(/[()]/g, '');
+          if (matchedArgs.length > 0) {
+            resourceObj.attributes[arg + 'Matched'] = matchedArgs.split(' ');
+          }  else {
+            resourceObj.attributes[arg + 'Matched'] = [];
+          }
+
+
+          //console.log(lineArr);
+
+        });
+
+        // push the resurce object into the output data
+        output.data.push(resourceObj);
+
+      })
+
+      // script returned error
+      if (err) {
+        output.success = false;
+        output.error = {message: err};
+        res.json({ success: false });
+        return next();
+
+      } else {
+        output.success = true;
+        res.json(output);
+        return next();
+
+      }
+
+    });
+
+  }, // END getUserMatches
 
 
 
