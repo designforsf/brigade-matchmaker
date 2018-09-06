@@ -190,12 +190,11 @@ define(['underscore','backbone','handlebars', 'jquery','selectormodel'],
          this.addComponentColor($(newTagElement).addClass('selected-tag'), "background-color");
 
          //Add html name to list of chosen tags
-         //this.model.addItem(tagElement.innerHTML);
-         this.model.addItem(tagElement.id);
+         this.model.addItem(tagElement.innerHTML);
 
          //Change tag id so it is unique
          newTagElement[0].id += "-selector";
-         
+
          //Add html of new tag to container
          tagContainerDiv.append(newTagElement[0]);
       },
@@ -205,7 +204,7 @@ define(['underscore','backbone','handlebars', 'jquery','selectormodel'],
          escapedTagIdBase = tagIdBase.replace('/', '\\/'); // forward slash must be escaped
          var selectorTag =  this.findElementById(escapedTagIdBase + "-selector");
          var originalTag = this.findElementById(escapedTagIdBase);
-         
+
          //Remove tag from selector div
          selectorTag.remove();
 

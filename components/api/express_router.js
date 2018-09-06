@@ -82,5 +82,6 @@ function ExpressRouterCfg (attr) {
   router.get('/api/project/taxonomy/interests-for-ui', express_handler.getTaxonomyInterestsForUI)
   router.get('/api/project/taxonomy/goals-for-ui', express_handler.getTaxonomyGoalsForUI)
 
+  router.get('/api/user/matches', express_handler.getUserMatches);
 
 }
