@@ -24,9 +24,13 @@ this["ProjectList"]["templates"]["projects"] = Handlebars.template({"1":function
     + ((stack1 = helpers.each.call(alias3,((stack1 = ((stack1 = ((stack1 = blockParams[0][0]) != null ? stack1.attributes : stack1)) != null ? stack1.matchingConfig : stack1)) != null ? stack1.interests : stack1),{"name":"each","hash":{},"fn":container.program(6, data, 1, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
     + "                    </div>\n                </div>\n            </div>\n        </div>\n\n    \n        <div class=\"details\" id=\"details-"
     + alias2(alias1(((stack1 = ((stack1 = blockParams[0][0]) != null ? stack1.attributes : stack1)) != null ? stack1._id : stack1), depth0))
-    + "\">\n\n            <div class=\"details-flex\">\n                <div class=\"left\">\n                    Pending Tasks\n                    <div class=\"details-container\">\n\n                    </div>\n                </div>\n                <div class=\"divider\"></div>\n                <div class=\"center\">\n                    Progress Made\n                    <div class=\"details-container\">\n                        \n                    </div>\n                </div>\n                <div class=\"divider\"></div>  \n                <div class=\"right\">\n                    Additional Info\n                    <div class=\"details-container\">\n                        \n                    </div>\n                </div>\n            </div>\n\n        </div>\n\n        <div class=\"details-footer\" id=\"details-button-"
+    + "\">\n\n            <div class=\"details-flex\">\n                <div class=\"left\">\n                    Pending Tasks\n                    <div class=\"details-container\">\n"
+    + ((stack1 = helpers["if"].call(alias3,((stack1 = ((stack1 = blockParams[0][0]) != null ? stack1.attributes : stack1)) != null ? stack1.todoItems : stack1),{"name":"if","hash":{},"fn":container.program(8, data, 0, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
+    + "                    </div>\n                </div>\n                <div class=\"divider\"></div>\n                <div class=\"center\">\n                    Progress Made\n                    <div class=\"details-container\">\n"
+    + ((stack1 = helpers["if"].call(alias3,((stack1 = ((stack1 = blockParams[0][0]) != null ? stack1.attributes : stack1)) != null ? stack1.progressItems : stack1),{"name":"if","hash":{},"fn":container.program(11, data, 0, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
+    + "                    </div>\n                </div>\n                <div class=\"divider\"></div>  \n                <div class=\"right\">\n                    Additional Info\n                    <div class=\"details-container\">\n                        \n                    </div>\n                </div>\n            </div>\n\n        </div>\n\n        <div class=\"details-footer\" id=\"details-button-"
     + alias2(alias1(((stack1 = ((stack1 = blockParams[0][0]) != null ? stack1.attributes : stack1)) != null ? stack1._id : stack1), depth0))
-    + "\">\n            See more details...\n        </div>\n\n    </div>\n\n";
+    + "\">\n            Show project details\n        </div>\n\n    </div>\n\n";
 },"2":function(container,depth0,helpers,partials,data,blockParams) {
     return "                        <div class=\"tag skills-tag\">"
     + container.escapeExpression(container.lambda(blockParams[0][0], depth0))
@@ -39,6 +43,22 @@ this["ProjectList"]["templates"]["projects"] = Handlebars.template({"1":function
     return "                        <div class=\"tag interest-tag\">"
     + container.escapeExpression(container.lambda(blockParams[0][0], depth0))
     + "</div>\n";
+},"8":function(container,depth0,helpers,partials,data,blockParams) {
+    var stack1;
+
+  return "                        <ul>\n"
+    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : (container.nullContext || {}),((stack1 = ((stack1 = blockParams[1][0]) != null ? stack1.attributes : stack1)) != null ? stack1.todoItems : stack1),{"name":"each","hash":{},"fn":container.program(9, data, 0, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
+    + "                        </ul>\n";
+},"9":function(container,depth0,helpers,partials,data) {
+    return "                            <li>"
+    + container.escapeExpression(container.lambda(depth0, depth0))
+    + "</li>\n";
+},"11":function(container,depth0,helpers,partials,data,blockParams) {
+    var stack1;
+
+  return "                        <ul>\n"
+    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : (container.nullContext || {}),((stack1 = ((stack1 = blockParams[1][0]) != null ? stack1.attributes : stack1)) != null ? stack1.progressItems : stack1),{"name":"each","hash":{},"fn":container.program(9, data, 0, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
+    + "                        </ul>\n";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data,blockParams) {
     var stack1;
 

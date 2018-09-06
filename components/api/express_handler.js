@@ -145,7 +145,11 @@ module.exports = {
         team: 1, 
         homepage: 1, 
         thumbnailUrl: 1, 
-        repository: 1, 
+        repositoryUrl: 1, 
+        websiteUrl: 1,
+        slackChannel: 1,
+        todoItems: 1,
+        progressItems: 1,
         needs: 1, 
         contact: 1
       }).

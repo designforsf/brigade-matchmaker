@@ -57,14 +57,26 @@
                 <div class="left">
                     Pending Tasks
                     <div class="details-container">
-
+                    {{#if project.attributes.todoItems}}
+                        <ul>
+                        {{#each project.attributes.todoItems}}  
+                            <li>{{this}}</li>
+                        {{/each}}
+                        </ul>
+                    {{/if}}
                     </div>
                 </div>
                 <div class="divider"></div>
                 <div class="center">
                     Progress Made
                     <div class="details-container">
-                        
+                    {{#if project.attributes.progressItems}}
+                        <ul>
+                        {{#each project.attributes.progressItems}}  
+                            <li>{{this}}</li>
+                        {{/each}}
+                        </ul>
+                    {{/if}}
                     </div>
                 </div>
                 <div class="divider"></div>  
@@ -79,7 +91,7 @@
         </div>
 
         <div class="details-footer" id="details-button-{{project.attributes._id}}">
-            See more details...
+            Show project details
         </div>
 
     </div>
