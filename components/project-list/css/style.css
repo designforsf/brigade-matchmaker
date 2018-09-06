@@ -30,12 +30,12 @@
     display: flex;
 }
 
-#project-list-container .left {
+#project-list-container .project-left {
     margin: 25px;
     width: 50%;
 }
 
-#project-list-container .right {
+#project-list-container .project-right {
     margin: 25px;
     width: 50%;
 }
@@ -64,6 +64,7 @@
     font-size: .8em;
     margin: 5px;
     border-radius: 4px;
+    cursor: default;
 }
 
 #project-list-container .skills-tag {
