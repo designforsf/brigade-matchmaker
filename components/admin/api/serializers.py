@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import SkillsTaxonomy, InterestsTaxonomy, GoalsTaxonomy, ProjectLead, Project
+from .models import SkillsTaxonomy, InterestsTaxonomy, GoalsTaxonomy, Project
 
 class SkillsTaxonomySerializer(serializers.ModelSerializer):
 	owner = serializers.ReadOnlyField(source='owner.username')
@@ -18,12 +18,6 @@ class GoalsTaxonomySerializer(serializers.ModelSerializer):
 	class Meta:
 		model = GoalsTaxonomy
 		fields = ('id', 'name', 'title', 'parent')
-
-class ProjectLeadSerializer(serializers.ModelSerializer):
-	owner = serializers.ReadOnlyField(source='owner.username')
-	class Meta:
-		model = ProjectLead
-		fields = ('id', 'name', 'github_user_name', 'email_address', 'slack_name', 'slack_id', 'owner')
 
 class ProjectSerializer(serializers.ModelSerializer):
 	owner = serializers.ReadOnlyField(source='owner.username')

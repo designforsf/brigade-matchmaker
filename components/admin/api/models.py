@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class SkillsTaxonomy(models.Model):
     id = models.AutoField(primary_key=True)
@@ -36,23 +37,16 @@ class GoalsTaxonomy(models.Model):
     def save(self, *args, **kwargs):
         super(GoalsTaxonomy, self).save(*args, **kwargs)  
 
-class ProjectLead(models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=254)
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     github_user_name = models.CharField(max_length=254)
+    name = models.CharField(max_length=254)
     email_address = models.EmailField(max_length=254)
     slack_name = models.CharField(max_length=254)
     slack_id = models.CharField(max_length=20)
-    created = models.DateTimeField(null=True)
-    owner = models.ForeignKey('auth.User', related_name='ProjectLeads', on_delete=models.CASCADE)
-    
-    def save(self, *args, **kwargs):
-        super(ProjectLead, self).save(*args, **kwargs)   
 
     def __str__(self):
         return self.github_user_name
-        return self.name
-
 
 class Project(models.Model):
     id = models.AutoField(primary_key=True)
@@ -68,7 +62,7 @@ class Project(models.Model):
     project_status = models.CharField(max_length=50)                # "active", "prototype", "beta", etc.
     repository = models.CharField(max_length=2000)                  # github repository
     website = models.CharField(max_length=2000)                     # if there is an app or site the url can go here
-    project_lead = models.ForeignKey(ProjectLead, on_delete=models.CASCADE, null=True)   
+    project_lead = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True)   
     slack_channel = models.CharField(max_length=200)                # the slack channel for the project 
     created = models.DateTimeField(null=True)
 

@@ -1,12 +1,12 @@
 from django.test import TestCase
-from .models import SkillsTaxonomy, InterestsTaxonomy, GoalsTaxonomy, ProjectLead, Project
+from .models import SkillsTaxonomy, InterestsTaxonomy, GoalsTaxonomy, Project
 
-class ProjectLeadTest(TestCase):
+class ProjectTest(TestCase):
 
 	@classmethod
 	def set_up_test_data(cls):
-		ProjectLead.objects.create(name="first name")
-		ProjectLead.objects.create(github_user_name="github user name here")
+		Project.objects.create(title="first project title")
+		Project.objects.create(summary="project summary here")
 
 	#def test_name_content(self):
 
