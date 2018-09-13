@@ -190,7 +190,8 @@ define(['underscore','backbone','handlebars', 'jquery','selectormodel'],
          this.addComponentColor($(newTagElement).addClass('selected-tag'), "background-color");
 
          //Add html name to list of chosen tags
-         this.model.addItem(tagElement.innerHTML);
+         //this.model.addItem(tagElement.innerHTML);
+         this.model.addItem(tagElement.id);
 
          //Change tag id so it is unique
          newTagElement[0].id += "-selector";
