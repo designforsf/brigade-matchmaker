@@ -3,7 +3,7 @@ services:
   brigade-matchmaker:
     depends_on:
       - mongo
-    image: brigade-matchmaker:app
+    image: sfbrigade/brigade-matchmaker:app
     deploy:
       replicas: 1
       resources:
@@ -14,6 +14,9 @@ services:
         condition: on-failure
     ports:
       - "80:5465"
+    volumes:
+      - .:/app
+      - /app/components/web/node_modules
     networks:
       - webnet
     environment:
