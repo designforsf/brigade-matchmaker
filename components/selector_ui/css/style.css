@@ -131,6 +131,7 @@
 .selector-holder {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
 }
 
 .footer {
@@ -144,6 +145,7 @@
 .taxonomy-container {
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
     border: .5px solid lightgray;
     padding: 1em;
 }
@@ -174,4 +176,22 @@
     height: 2.5em;
     justify-content: center;
     margin-top: 25px;
+}
+
+#container1 {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+#container2 {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+#container3 {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 }
