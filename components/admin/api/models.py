@@ -52,19 +52,15 @@ class Project(models.Model):
     id = models.AutoField(primary_key=True)
     preview = models.BooleanField(default=True) # project will only appear in Project List when set to False
     title = models.CharField(max_length=454, null=True)
-    summary = models.CharField(max_length=254)              # should be one or two sentences
+    summary = models.CharField(max_length=254)
     skills_needed = models.ManyToManyField(SkillsTaxonomy)
     learning_opportunities = models.ManyToManyField(GoalsTaxonomy)
     civic_interests = models.ManyToManyField(InterestsTaxonomy)
-    # Project Page data
-    image_url = models.CharField(max_length=2000)                   # the image url for the project
-    description = models.TextField()                                # lengthy description
-    project_status = models.CharField(max_length=50)                # "active", "prototype", "beta", etc.
-    repository = models.CharField(max_length=2000)                  # github repository
-    website = models.CharField(max_length=2000)                     # if there is an app or site the url can go here
+    pending_tasks = models.CharField(max_length=454, null=True)
+    progress_made = models.CharField(max_length=454, null=True)
+    additional_info = models.CharField(max_length=454, null=True)
     project_lead = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True)   
-    slack_channel = models.CharField(max_length=200)                # the slack channel for the project 
-    created = models.DateTimeField(null=True)
+    slack_channel = models.CharField(max_length=200)
 
     def save(self, *args, **kwargs):
         super(Project, self).save(*args, **kwargs)
