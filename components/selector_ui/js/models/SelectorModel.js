@@ -21,21 +21,22 @@ define(['underscore', 'backbone', 'jquery', 'lockr'],
          Lockr.set("taxonomy-info", taxonomy_info);
       },
 
-      addItem: function(itemName){
-         this.get('selectedItems').push(itemName);
+      addItem: function(itemID){
+         this.get('selectedItems').push(itemID);
+         console.log('SelectorModel.addItem: ' + itemID);
          this.updateStorage();
       },
 
-      removeItem: function(itemName) {
+      removeItem: function(itemID) {
          var selectedItems = this.get('selectedItems');
-         selectedItems.splice($.inArray(itemName, selectedItems),1);
+         selectedItems.splice($.inArray(itemID, selectedItems),1);
          this.updateStorage();
       },
 
-      inItemsList: function(itemName) {
+      inItemsList: function(itemID) {
          var selectedItems = this.get('selectedItems');
          var inList = false;
-         if ($.inArray(itemName,selectedItems) >= 0){
+         if ($.inArray(itemID,selectedItems) >= 0){
             inList = true;
          }
          return inList;

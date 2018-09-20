@@ -10,6 +10,7 @@
     font-size: .9em;
     font-weight: 100;
     padding: .5em;
+    cursor: pointer;
 }
 
 .tag-container {
@@ -22,7 +23,7 @@
     margin: 1em 1em 0 0;
 }
 
-.tag {
+.tag-container .tag {
     border: 1px solid gray;
     border-radius: .2em;
     font-family: sans-serif;
@@ -30,6 +31,7 @@
     font-weight: 300;
     margin: .5em;
     padding: .3em;
+    cursor: pointer;
 }
 
 .tag::after {content: " +";}
@@ -81,8 +83,10 @@
 }
 
 .selector-btn-header .add-btn {
+    padding-top: 3px;
     font-family: sans-serif;
-    font-size: .7em;
+    font-size: .8em;
+    cursor: pointer;
 }
 
 .selector-tag-container {
@@ -127,6 +131,7 @@
 .selector-holder {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
 }
 
 .footer {
@@ -140,6 +145,7 @@
 .taxonomy-container {
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
     border: .5px solid lightgray;
     padding: 1em;
 }
@@ -170,4 +176,22 @@
     height: 2.5em;
     justify-content: center;
     margin-top: 25px;
+}
+
+#container1 {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+#container2 {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+#container3 {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 }

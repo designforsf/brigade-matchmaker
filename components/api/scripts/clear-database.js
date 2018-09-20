@@ -17,10 +17,8 @@ mongoose.connect(mongodb_uri, function (err) {
 		// drop
   	mongoose.connection.db.dropDatabase();
 
-    console.log('Database dropped!');
-
     // end
-    process.exit();
+    //process.exit();
 
   }
 });

@@ -30,12 +30,12 @@
     display: flex;
 }
 
-#project-list-container .left {
+#project-list-container .project-left {
     margin: 25px;
     width: 50%;
 }
 
-#project-list-container .right {
+#project-list-container .project-right {
     margin: 25px;
     width: 50%;
 }
@@ -64,6 +64,7 @@
     font-size: .8em;
     margin: 5px;
     border-radius: 4px;
+    cursor: default;
 }
 
 #project-list-container .skills-tag {
@@ -139,6 +140,10 @@
 }
 
 #project-list-container .details-container {
+    text-align:left;
+    font-weight:normal;
+    padding: 5px 10px 0px 20px;
+    /*border-top: 1px solid lightgray;*/
 
 }
 
@@ -162,7 +167,7 @@
 #project-list-container .details-footer:hover {
     text-decoration: underline;
     cursor: pointer;
-    font-weight:bold;
+    /*font-weight:bold;*/
 }
 
 

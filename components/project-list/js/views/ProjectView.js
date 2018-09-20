@@ -107,8 +107,20 @@ define(['jquery','underscore','backbone','handlebars','projlistmodel'],
             //console.log(project.id);
 
             jQuery( "#details-button-" + project.id).click(function() {
-               console.log('toggle ' + project.id)
+
+               //console.log('toggle ' + project.id)
                jQuery( "#details-" + project.id).slideToggle(250, function() {
+
+                  // panel hidden
+                  if (jQuery("#details-" + project.id).is(":hidden")) {
+                     jQuery("#details-button-" + project.id).html('Show project details');
+
+                  // panel visible
+                  } else {
+                     jQuery("#details-button-" + project.id).html('Hide project details');
+
+                  }
+                  
 
                });
             });

@@ -13,8 +13,9 @@ module.exports = [
     'name': 'UXR Matching App - Digital Prototype',
     'description': 'Developing a working prototype of a Matching App for new C4SF members.',
     'license': 'MIT',
-    'homepage': 'http://old.codeforsanfrancisco.org/research-group/projects/NewMemberEngagement/3-3_Implementation_ProjectMatchingHat/index.html',
-    'repository': 'https://github.com/designforsf/brigade-matchmaker',
+    'websiteUrl': 'http://old.codeforsanfrancisco.org/research-group/projects/NewMemberEngagement/3-3_Implementation_ProjectMatchingHat/index.html',
+    'repositoryUrl': 'https://github.com/designforsf/brigade-matchmaker',
+    'slackChannel': 'research',
     'links': [],
     'videos': [],
     'matchingConfig': {
@@ -29,11 +30,20 @@ module.exports = [
       'contactEmail': 'designforsf@gmail.com',
       'contactRole': 'Dev Lead',
       'contactThumbnailUrl': 'https://avatars3.githubusercontent.com/u/509756',
-      'tasks': ['Convert front-end UI to EmberJS'],
-      'progress': ['Demo of admin tool in EmberJS'],
-      'repository': 'https://github.com/designforsf/brigade-matchmaker',
-      'link': 'http://old.codeforsanfrancisco.org/research-group/projects/NewMemberEngagement/3-3_Implementation_ProjectMatchingHat/index.html',
     },
+
+    'todoItems': [
+      'Admin tool in python django',
+      'TOML importer and exporter',
+      'Dockerize the component services',
+      'Create API and UX tests'
+    ],
+    'progressItems': [
+      'UX spec finalized',
+      'Web prototype completed',
+      'Deployed prototype to staging server'
+    ],
+
     'keywords': [
       faker.company.bsBuzz(),
       faker.company.bsBuzz(),
@@ -91,8 +101,9 @@ module.exports = [
     'name': 'Roadmap to HTML',
     'description': 'Publishing an essential reentry resource on the web',
     'license': 'MIT',
-    'homepage': 'https://rootandrebound.github.io/roadmap-to-html/',
-    'repository': 'https://github.com/rootandrebound/roadmap-to-html',
+    'websiteUrl': 'https://rootandrebound.github.io/roadmap-to-html/',
+    'repositoryUrl': 'https://github.com/rootandrebound/roadmap-to-html',
+    'slackChannel': 'research',
     'links': [],
     'videos': [],
     'matchingConfig': {
@@ -104,6 +115,19 @@ module.exports = [
     'matchingDescr': {
       'summary':'Publishing an essential reentry resource on the web for governmental use.'
     },
+
+    'todoItems': [
+      'Admin tool in python django',
+      'TOML importer and exporter',
+      'Dockerize the component services',
+      'Create API and UX tests'
+    ],
+    'progressItems': [
+      'UX spec finalized',
+      'Web prototype completed',
+      'Deployed prototype to staging server'
+    ],
+
     'keywords': [
       faker.company.bsBuzz(),
       faker.company.bsBuzz(),
@@ -160,8 +184,9 @@ module.exports = [
     'name': 'ShelterTech',
     'description': "We're building a suite of products and services for SF's homeless and underserved communities.",
     'license': 'MIT',
-    'homepage': 'https://sheltertech.org/',
-    'repository': '',
+    'repositoryUrl': 'https://github.com/designforsf/brigade-matchmaker',
+    'websiteUrl': 'http://old.codeforsanfrancisco.org/research-group/projects/NewMemberEngagement/3-3_Implementation_ProjectMatchingHat/index.html',
+    'slackChannel': 'research',
     'links': [],
     'videos': [],
     'matchingConfig': {
@@ -170,6 +195,19 @@ module.exports = [
       'skillsOffered': ['frontend-development/javascript'],
       'goalsNeeded': ['developer']
     },
+
+    'todoItems': [
+      'Admin tool in python django',
+      'TOML importer and exporter',
+      'Dockerize the component services',
+      'Create API and UX tests'
+    ],
+    'progressItems': [
+      'UX spec finalized',
+      'Web prototype completed',
+      'Deployed prototype to staging server'
+    ],
+
     'keywords': [
       faker.company.bsBuzz(),
       faker.company.bsBuzz(),
@@ -230,8 +268,9 @@ module.exports = [
     'name': 'California OpenJustice',
     'description': 'Equity & equality in the CA criminal justice system',
     'license': 'MIT',
-    'homepage': 'https://getkong.org/install',
-    'repository': 'https://github.com/codeforexample/forked-project-kong',
+    'websiteUrl': 'https://getkong.org/install',
+    'repositoryUrl': 'https://github.com/codeforexample/forked-project-kong',
+    'slackChannel': 'research',
     'links': [],
     'videos': [],
     'matchingConfig': {
@@ -240,6 +279,19 @@ module.exports = [
       'skillsOffered':[],
       'goalsNeeded': ['developer','helper']
     },
+
+    'todoItems': [
+      'Admin tool in python django',
+      'TOML importer and exporter',
+      'Dockerize the component services',
+      'Create API and UX tests'
+    ],
+    'progressItems': [
+      'UX spec finalized',
+      'Web prototype completed',
+      'Deployed prototype to staging server'
+    ],
+
     'keywords': [
       faker.company.bsBuzz(),
       faker.company.bsBuzz(),
@@ -301,8 +353,9 @@ module.exports = [
     'name': 'Adopt-a-Drain',
     'description': 'Claim responsibility for cleaning out a storm drain after it rains.',
     'license': 'MIT',
-    'homepage': 'http://adoptadrain.sfwater.org/',
-    'repository': 'https://github.com/sfbrigade/adopt-a-drain',
+    'websiteUrl': 'http://adoptadrain.sfwater.org/',
+    'repositoryUrl': 'https://github.com/sfbrigade/adopt-a-drain',
+    'slackChannel': 'research',
     'links': [],
     'videos': [],
     'matchingConfig': {
@@ -311,6 +364,19 @@ module.exports = [
       'skillsOffered':['frontend-development/css', 'frontend-development/html'],
       'goalsNeeded': ['developer','bug-testing']
     },
+
+    'todoItems': [
+      'Admin tool in python django',
+      'TOML importer and exporter',
+      'Dockerize the component services',
+      'Create API and UX tests'
+    ],
+    'progressItems': [
+      'UX spec finalized',
+      'Web prototype completed',
+      'Deployed prototype to staging server'
+    ],
+
     'keywords': [
       faker.company.bsBuzz(),
       faker.company.bsBuzz(),
@@ -372,8 +438,9 @@ module.exports = [
     'name': 'Brigadehub',
     'description': 'Data portal and CMS for brigades',
     'license': 'MIT',
-    'homepage': 'https://brigadehub.github.io',
-    'repository': 'https://github.com/brigadehub/brigadehub',
+    'websiteUrl': 'https://brigadehub.github.io',
+    'repositoryUrl': 'https://github.com/brigadehub/brigadehub',
+    'slackChannel': 'research',
     'links': [],
     'videos': [],
     'matchingConfig': {
@@ -382,6 +449,19 @@ module.exports = [
       'skillsOffered': ['marketing/communications'],
       'goalsNeeded': ['developer']
     },
+
+    'todoItems': [
+      'Admin tool in python django',
+      'TOML importer and exporter',
+      'Dockerize the component services',
+      'Create API and UX tests'
+    ],
+    'progressItems': [
+      'UX spec finalized',
+      'Web prototype completed',
+      'Deployed prototype to staging server'
+    ],
+
     'keywords': [
       faker.company.bsBuzz(),
       faker.company.bsBuzz(),
@@ -442,8 +522,9 @@ module.exports = [
     'name': 'The Data Science Working Group',
     'description': faker.hacker.phrase(),
     'license': 'MIT',
-    'homepage': 'http://datascience.codeforsanfrancisco.org/',
-    'repository': 'https://github.com/codeforexample/mirrored-project-mirror',
+    'websiteUrl': 'http://datascience.codeforsanfrancisco.org/',
+    'repositoryUrl': 'https://github.com/codeforexample/mirrored-project-mirror',
+    'slackChannel': 'research',
     'links': [],
     'videos': [],
     'matchingConfig': {
@@ -452,6 +533,19 @@ module.exports = [
       'skillsOffered': ['data-science/python'],
       'goalsNeeded': ['developer','learner']
     },
+
+    'todoItems': [
+      'Admin tool in python django',
+      'TOML importer and exporter',
+      'Dockerize the component services',
+      'Create API and UX tests'
+    ],
+    'progressItems': [
+      'UX spec finalized',
+      'Web prototype completed',
+      'Deployed prototype to staging server'
+    ],
+
     'keywords': [
       faker.company.bsBuzz(),
       faker.company.bsBuzz(),

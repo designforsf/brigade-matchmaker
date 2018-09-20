@@ -7,7 +7,7 @@
 
         <div class="flex-container">
 
-            <div class="left">
+            <div class="project-left">
                 <div class="project-title">{{project.attributes.name}}</div>
                 <div class="description">{{project.attributes.description}}</div>
                 <div id="contact-btn{{@index}}" class="contact-btn">
@@ -15,7 +15,7 @@
                 </div>
             </div>
             <div class="divider"></div>
-            <div class="right">
+            <div class="project-right">
                 <div class="project-info">Project Needs & Interests</div>
                 <div id="skills{{@index}}" class="skills">
                     <div class="tag-title">Skills Needed:</div>
@@ -57,14 +57,26 @@
                 <div class="left">
                     Pending Tasks
                     <div class="details-container">
-
+                    {{#if project.attributes.todoItems}}
+                        <ul>
+                        {{#each project.attributes.todoItems}}  
+                            <li>{{this}}</li>
+                        {{/each}}
+                        </ul>
+                    {{/if}}
                     </div>
                 </div>
                 <div class="divider"></div>
                 <div class="center">
                     Progress Made
                     <div class="details-container">
-                        
+                    {{#if project.attributes.progressItems}}
+                        <ul>
+                        {{#each project.attributes.progressItems}}  
+                            <li>{{this}}</li>
+                        {{/each}}
+                        </ul>
+                    {{/if}}
                     </div>
                 </div>
                 <div class="divider"></div>  
@@ -79,7 +91,7 @@
         </div>
 
         <div class="details-footer" id="details-button-{{project.attributes._id}}">
-            See more details...
+            Show project details
         </div>
 
     </div>
