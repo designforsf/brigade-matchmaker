@@ -2,6 +2,7 @@ from django.http import HttpResponse, Http404
 from django.template import loader
 from django.shortcuts import render
 from django.contrib.auth.models import User
+from django.views.generic import TemplateView
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -11,7 +12,7 @@ from .serializers import SkillsTaxonomySerializer, InterestsTaxonomySerializer, 
 from .permissions import IsOwnerOrReadOnly
 
 def index(request):
-    return HttpResponse("This is a placeholder page for the Code for SF Project Match admin component. Please visit the admin route.")
+    return render(request, 'index.html',)
 
 def create_project(request):
 	return render(request, 'create_project/index.html',)
