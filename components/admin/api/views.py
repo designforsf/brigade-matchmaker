@@ -11,8 +11,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status, mixins, generics, permissions
-from .models import SkillsTaxonomy, InterestsTaxonomy, GoalsTaxonomy, Project, ProjectLead
-from .serializers import SkillsTaxonomySerializer, InterestsTaxonomySerializer, GoalsTaxonomySerializer, ProjectLeadSerializer, ProjectSerializer
+from .models import SkillsTaxonomy, InterestsTaxonomy, GoalsTaxonomy, Project, UserProfile
+from .serializers import SkillsTaxonomySerializer, InterestsTaxonomySerializer, GoalsTaxonomySerializer, ProjectSerializer
 from .permissions import IsOwnerOrReadOnly
 
 def index(request):
