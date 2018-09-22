@@ -5,8 +5,21 @@ from .models import SkillsTaxonomy, InterestsTaxonomy, GoalsTaxonomy, Project
 from .serializers import SkillsTaxonomySerializer, InterestsTaxonomySerializer, GoalsTaxonomySerializer, ProjectSerializer
 from .permissions import IsOwnerOrReadOnly
 
-#def index(request):
-#	return HttpResponse("This is a placeholder page for the Project Match admin component.")
+from django.contrib.auth.models import User
+from django.views.generic import TemplateView
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework import status, mixins, generics, permissions
+from .models import SkillsTaxonomy, InterestsTaxonomy, GoalsTaxonomy, Project, ProjectLead
+from .serializers import SkillsTaxonomySerializer, InterestsTaxonomySerializer, GoalsTaxonomySerializer, ProjectLeadSerializer, ProjectSerializer
+from .permissions import IsOwnerOrReadOnly
+
+def index(request):
+    return render(request, 'index.html',)
+
+def create_project(request):
+	return render(request, 'create_project/index.html',)
 
 class SkillsTaxonomyList(generics.ListCreateAPIView):
 	queryset = SkillsTaxonomy.objects.all()

@@ -47,6 +47,7 @@ For certain taxonomies with many keywords (e.g. skills), keywords can be arrange
 
 These keywords, their sections, keyword synonyms, and other data are all stored in the database as JSON data. The UI and match algorithm can retrieve this data via API calls and make extensive use of it.
 
+
 ## Tree Structure with Parent References
 
 The project participation taxonomies are stored in the database as tree structures with parent references. This allows a particular taxonomy to be organized into a hierarchy.

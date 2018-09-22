@@ -3,25 +3,22 @@
 
 Project Match is a system consisting of the following components:
 
-* **Data Structures** - MongoDB, Mongoose, project participation taxonomy
+* **MongoDb** - MongoDB, Mongoose
+* **Taxonomy** - project participation taxonomy
 * **REST API** -  Node.js, Express
 * **Main Web App** -  Node.js, Express, Pug
-* **Legacy Web App** - Node.js, Express, Pug (soon to be deprecated) 
-* **Admin** - python, django
 * **Matching Algorithm** - python
 * **UI Components** - RequireJS, Handlebars, jQuery, Backbone, Bootstrap
 * **Messaging Service** - Node.js, Express, Slack API
-* **Admin / Project CMS** - EmberJS, Bootstrap
+* **Admin** - python, django
 
 ## Data Structures
 
-### MongoDB Database
+### MongoDB
 
 [MongoDB](https://www.mongodb.com/) is used as the back-end database for all of the other components of the Project Match system.
 
-### Data Models
-
-Defines users, projects, and project taxonomy. Data in MongoDB is queried and updated in the webapp using [Mongoose](http://mongoosejs.com/).
+Data in MongoDB is queried and updated in the webapp using [Mongoose](http://mongoosejs.com/). Defines users, projects, and project taxonomy.
 
 ### Taxonomy
 
@@ -39,6 +36,14 @@ The website generates the web interface for users, controls how data is updated,
 
 All UIs make use of the REST API.
 
+### Key dependencies
+
+* [Express](http://expressjs.com/)
+* [Jade/Pug](https://github.com/brigadehub/brigadehub/releases/tag/v1.0.0-alpha.11)
+* [Bootstrap](https://github.com/brigadehub/brigadehub/releases/tag/v1.0.0-alpha.11)
+* [jQuery](https://github.com/brigadehub/brigadehub/releases/tag/v1.0.0-alpha.11)
+* [RequireJS](http://www.requirejs.org/)
+
 ## REST API
 
 All UIs loaded in the main website make use of the REST API, which follows the [JSON API format](http://jsonapi.org/format/).
@@ -49,16 +54,6 @@ To learn more, please take a look at the [REST API documentation](https://github
 
 * [Express](http://expressjs.com/)
 * [Mongoose](http://mongoosejs.com/)
-* [Jade/Pug](https://github.com/brigadehub/brigadehub/releases/tag/v1.0.0-alpha.11)
-* [Bootstrap](https://github.com/brigadehub/brigadehub/releases/tag/v1.0.0-alpha.11)
-* [jQuery](https://github.com/brigadehub/brigadehub/releases/tag/v1.0.0-alpha.11)
-* [RequireJS](http://www.requirejs.org/)
-
-### Origins of the Web App
-
-The Project Match new member front-end is based on the alpha version of [BrigadeHub](https://github.com/brigadehub/brigadehub/releases/tag/v1.0.0-alpha.11) (before many improvements were made).
-
-As it is only a technical demonstration, Project Match does not track changes to BrigadeHub.
 
 ---
 
@@ -92,6 +87,10 @@ Notifications will be used throughout the web application.
 
 This UI component enables users to interact with a floating representation of the messaging component and other UIs.
 
+### Messaging (defined in the Messaging Service)
+
+This UI component enables users to interact with a floating representation of the messaging component and other UIs.
+
 ---
 
 ## Messaging Service
@@ -105,6 +104,5 @@ The Front-End sends messages from new members to project leads via an API hosted
 This component enables project leads to update project-related data, including the skills needed, learning opportunities, and civic interests. 
 
 It uses python django and interacts directly with the database.
-
 
 ---

@@ -48,8 +48,14 @@ var projectsSchema = new mongoose.Schema({
   content: {type: String, default: ''},
   license: {type: String, default: ''},
   // status: {type:String, default:''}, // represented above
-  homepage: {type: String, default: ''},
-  repository: {type: String, default: ''},
+  websiteUrl: {type: String, default: ''},
+  repositoryUrl: {type: String, default: ''},
+  slackChannel: {type: String, default: ''},
+
+  todoItems: {type: Array, default: []}, // simple strings
+  progressItems: {type: Array, default: []}, // simple strings
+
+
   githubSlug: {type: String, default: ''},
   contact: {type: Array, default: []},
   team: {type: Array, default: []},

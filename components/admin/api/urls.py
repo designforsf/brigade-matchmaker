@@ -4,7 +4,7 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from . import views
 
 urlpatterns = [
-#path('', views.index, name='index'),
+path('', views.index, name='index'),
 url(r'^api/skillstaxonomy/$', views.SkillsTaxonomyList.as_view()),
 url(r'^api/intereststaxonomy/$', views.InterestsTaxonomyList.as_view()),
 url(r'^api/goalstaxonomy/$', views.GoalsTaxonomyList.as_view()),

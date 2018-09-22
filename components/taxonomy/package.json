@@ -21,6 +21,5 @@
     "mongoose": "^4.3.5"
   },
   "keywords": [],
-  "devDependencies": {
-  }
+  "devDependencies": {}
 }

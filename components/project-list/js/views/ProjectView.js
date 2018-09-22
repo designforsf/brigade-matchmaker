@@ -9,6 +9,12 @@ define(['jquery','underscore','backbone','handlebars','projlistmodel'],
          "click .changeList":"searchProjects",
          "click .contact-btn":"initiateContact"
       },
+
+      initialLoad: function (x) {
+         console.log('hello');
+         console.log(x);
+      },
+
       initiateContact: function(e){
          //console.log('target ', e.currentTarget);
          var recordNo = e.currentTarget.id.replace("contact-btn", "");
@@ -65,12 +71,14 @@ define(['jquery','underscore','backbone','handlebars','projlistmodel'],
          this.model = new ProjectModel("/api/projects");
          if (!this.config.api.protocol) { console.error('Protocol not found. Please define the protocol in the etc environment-config for "web".'); }
          this.model.urlRoot = this.config.api.protocol + '://' + this.config.api.host + ':' + this.config.api.port
+         //console.log('ProjectView urlRoot: ' + this.model.urlRoot);
+
          //this.model.skills = skills;
 
          // sync callback
          // on sync: sets data in lockr, renders the template 
          projView.listenTo(projView.model, 'sync', function (model, res, options) {
-            //console.log('ProjectView.initialize: sync callback');
+            console.log('ProjectView.initialize: sync callback');
             //console.log(res.data);
 
             // store the projects data in the lockr
@@ -79,17 +87,45 @@ define(['jquery','underscore','backbone','handlebars','projlistmodel'],
             // render the template
             projView.render();
 
-         });
+         }); 
 
          projView.model.fetch();
          
          projView.render();
       },
+
       render: function(){
          this.$el.html(this.template(this.model.toJSON()));
          this.colorTags("skills", "skillsMatched", "#AA193A");
          this.colorTags("interests", "interestsMatched", "#3DA1D2");
          this.colorTags("goals", "skillsMatched", "#123D51");
+
+         // store the projects data in the lockr
+         var projects = Lockr.get('projects').data;
+
+         projects.forEach(function(project) {
+            //console.log(project.id);
+
+            jQuery( "#details-button-" + project.id).click(function() {
+
+               //console.log('toggle ' + project.id)
+               jQuery( "#details-" + project.id).slideToggle(250, function() {
+
+                  // panel hidden
+                  if (jQuery("#details-" + project.id).is(":hidden")) {
+                     jQuery("#details-button-" + project.id).html('Show project details');
+
+                  // panel visible
+                  } else {
+                     jQuery("#details-button-" + project.id).html('Hide project details');
+
+                  }
+                  
+
+               });
+            });
+
+         });
 
       },
 
@@ -116,7 +152,7 @@ define(['jquery','underscore','backbone','handlebars','projlistmodel'],
 
       //This will take in a url and find new matches
       searchProjects: function(taxonomyObj) {
-         //console.log('ProjectView.searchProjects', taxonomyObj);
+         console.log('ProjectView.searchProjects', taxonomyObj);
 
          var taxonomyObj = taxonomyObj || {
             "skills":[],
@@ -130,7 +166,7 @@ define(['jquery','underscore','backbone','handlebars','projlistmodel'],
 
             //Combines cached data with new list order
             //console.log('combineData with attributes');
-            //console.log(res.attributes);
+            //console.log('attributes ', res.attributes);
             _this.model.combineData(res.attributes);
 
          }});
