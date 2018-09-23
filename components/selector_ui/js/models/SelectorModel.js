@@ -1,7 +1,20 @@
 
+/*
+
+   Selector Model
+   
+   Utilizes the "Tree Structure with Parent References" data structure
+   This renders the taxonomy in a manner which is easier to render in the UI
+
+   SEE: https://github.com/designforsf/brigade-matchmaker/blob/master/docs/taxonomy.md#tree-structure-with-parent-references
+
+*/
+
+
 define(['underscore', 'backbone', 'jquery', 'lockr'],
  function(_, Backbone, $, Lockr){
    var SelectorModel = Backbone.Model.extend({
+      
       initialize: function(opts) {
          this.url = opts.url;
          this.set("component_name", opts.component_name);

@@ -32,16 +32,28 @@ this["ProjectList"]["templates"]["projects"] = Handlebars.template({"1":function
     + alias2(alias1(((stack1 = ((stack1 = blockParams[0][0]) != null ? stack1.attributes : stack1)) != null ? stack1._id : stack1), depth0))
     + "\">\n            Show project details\n        </div>\n\n    </div>\n\n";
 },"2":function(container,depth0,helpers,partials,data,blockParams) {
-    return "                        <div class=\"tag skills-tag\">"
-    + container.escapeExpression(container.lambda(blockParams[0][0], depth0))
+    var alias1=container.lambda, alias2=container.escapeExpression;
+
+  return "                        <div class=\"tag skills-tag\" data-id=\""
+    + alias2(alias1(blockParams[0][0], depth0))
+    + "\">"
+    + alias2(alias1(blockParams[0][0], depth0))
     + "</div>\n";
 },"4":function(container,depth0,helpers,partials,data,blockParams) {
-    return "                        <div class=\"tag opportunities-tag\">"
-    + container.escapeExpression(container.lambda(blockParams[0][0], depth0))
+    var alias1=container.lambda, alias2=container.escapeExpression;
+
+  return "                        <div class=\"tag opportunities-tag\" data-id=\""
+    + alias2(alias1(blockParams[0][0], depth0))
+    + "\">"
+    + alias2(alias1(blockParams[0][0], depth0))
     + "</div>\n";
 },"6":function(container,depth0,helpers,partials,data,blockParams) {
-    return "                        <div class=\"tag interest-tag\">"
-    + container.escapeExpression(container.lambda(blockParams[0][0], depth0))
+    var alias1=container.lambda, alias2=container.escapeExpression;
+
+  return "                        <div class=\"tag interest-tag\" data-id=\""
+    + alias2(alias1(blockParams[0][0], depth0))
+    + "\">"
+    + alias2(alias1(blockParams[0][0], depth0))
     + "</div>\n";
 },"8":function(container,depth0,helpers,partials,data,blockParams) {
     var stack1;
@@ -62,7 +74,7 @@ this["ProjectList"]["templates"]["projects"] = Handlebars.template({"1":function
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data,blockParams) {
     var stack1;
 
-  return "<div class=\"container\">\n    <div class=\"project-header\">Project List</div>\n\n"
-    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.data : depth0),{"name":"each","hash":{},"fn":container.program(1, data, 1, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
+  return "<div class=\"container\">\n    <div class=\"project-header\">Project List</div>\n\n\n"
+    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.projects : depth0),{"name":"each","hash":{},"fn":container.program(1, data, 1, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
     + "    <!--\n    <button class=\"changeList\">Change List</button>\n    //-->\n\n</div>";
 },"useData":true,"useBlockParams":true});

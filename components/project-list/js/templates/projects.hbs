@@ -1,7 +1,7 @@
 <div class="container">
     <div class="project-header">Project List</div>
 
-    {{#each data as |project|}}
+    {{#each projects as |project|}}
 
     <div class="project">
 
@@ -23,7 +23,7 @@
                         {{#each
                         project.attributes.matchingConfig.skillsNeeded as
                         |skill|}}
-                        <div class="tag skills-tag">{{skill}}</div>
+                        <div class="tag skills-tag" data-id="{{skill}}">{{skill}}</div>
                         {{/each}}
                     </div>
                 </div>
@@ -33,7 +33,7 @@
                         {{#each
                         project.attributes.matchingConfig.goalsNeeded as
                         |goal|}}
-                        <div class="tag opportunities-tag">{{goal}}</div>
+                        <div class="tag opportunities-tag" data-id="{{goal}}">{{goal}}</div>
                         {{/each}}
                     </div>
                 </div>
@@ -43,7 +43,7 @@
                         {{#each
                         project.attributes.matchingConfig.interests as
                         |interest|}}
-                        <div class="tag interest-tag">{{interest}}</div>
+                        <div class="tag interest-tag" data-id="{{interest}}">{{interest}}</div>
                         {{/each}}
                     </div>
                 </div>
