@@ -1,6 +1,6 @@
 
 define(['jquery','underscore','backbone','handlebars','projlistmodel', 'selectormodel'],
-   function(jQuery, _, Backbone, handlebars, ProjectModel, SelectorModel){
+   function(jQuery, _, Backbone, Handlebars, ProjectModel, SelectorModel){
 
    var ProjectView = Backbone.View.extend({
       // el - stands for element. Every view has a element associate in with HTML content will be rendered.
@@ -34,7 +34,7 @@ define(['jquery','underscore','backbone','handlebars','projlistmodel', 'selector
       },
 
       template: ProjectList.templates.projects,
-      // NOTE: template is compiled, SEE the README.md
+      // NOTE: template is compiled, SEE the README.md,
 
       /*
 
@@ -85,7 +85,8 @@ define(['jquery','underscore','backbone','handlebars','projlistmodel', 'selector
          //console.log('ProjectView urlRoot: ' + this.model.urlRoot);
 
          // load selector model dependencies
-         var taxes = ["skills","interests","learnSkills"]; 
+         // required for lookups relating to assigned taxonomy items
+         var taxes = ["skills","learnSkills","interests"]; 
          // WTF TODO: forEach was not working here, verify if backbone might interfere
          for (var t=0; t<taxes.length; t++) {
             tax=taxes[t];
@@ -99,6 +100,7 @@ define(['jquery','underscore','backbone','handlebars','projlistmodel', 'selector
             // in order to be available for expression in the template
             projView[tax + 'Selector'] = selectorInstance;
          }
+
 
          //this.model.skills = skills;
 
@@ -147,6 +149,78 @@ define(['jquery','underscore','backbone','handlebars','projlistmodel', 'selector
          // define the template and data
          //projView.$el.html(projView.template(projView.model.toJSON()));
 
+         /* construct a new taxonomy matching config for rendering
+            NOTE: uses "Tree Structure with Parent References" format
+            SEE: https://github.com/designforsf/brigade-matchmaker/blob/dev/docs/taxonomy.md#tree-structure-with-parent-references
+         */
+
+         var taxDomains = [
+            {
+               type:"skills", 
+               legacyType:"skillsNeeded", 
+            }, 
+            {
+               type:"interests", 
+               legacyType:"interests", 
+            },
+            {  
+               type:"learnSkills", 
+               legacyType:"skillsOffered", 
+            }
+         ];
+
+         // matching config is an array of strings (addr)
+         // new matching config is an array of objects
+
+         if (projView.model.attributes.data) {
+
+            for (var p=0; p<projView.model.attributes.data.length; p++) {
+               var proj = projView.model.attributes.data[p];
+               //var config = proj.attributes.matchingConfig;
+               //console.log(proj.attributes.name);
+               //console.log(proj.attributes.matchingConfig);
+
+               // define a new matching config
+               proj.attributes.newMatchingConfig = {};
+
+               // loop over the domains to get to the individual taxonomy assignments
+               // the end goal here is to associate the corresponding taxonomy item
+               for (var td=0; td<taxDomains.length; td++) {
+                  var domain = taxDomains[td];
+                  var newMatchingConfig = [];
+
+                  var selModel = projView[domain.type + 'Selector'].model;
+                  //console.log('domain: ' + domain.type);
+                  //console.log(proj.attributes.matchingConfig);
+                  
+                  // assignments
+                  var assigns = proj.attributes.matchingConfig[domain.legacyType];
+                  for (var a=0; a<assigns.length; a++) {
+                     //console.log('assigns ', assigns[a]);
+
+                     // get the taxonomy item associated with the assignment
+                     var item = selModel.getItemFromAddr(assigns[a]);
+                     //console.log('item ', item);
+
+                     // push the new matching config in
+                     newMatchingConfig.push(item);
+
+                  }
+
+                  // load the new matchining config in
+                  // NOTE: this will eventually be moved into the API output
+                  //console.log('new config ', newMatchingConfig);
+                  proj.attributes.newMatchingConfig[domain.legacyType] = newMatchingConfig;
+
+               }
+
+               //console.log(proj.attributes.newMatchingConfig);
+
+            }
+
+         }
+
+
          // prepare the template
          projView.$el.html(projView.template({
             projects: projView.model.toJSON().data,
@@ -157,7 +231,7 @@ define(['jquery','underscore','backbone','handlebars','projlistmodel', 'selector
 
          projView.colorTags("skills", "skillsMatched", "#AA193A");
          projView.colorTags("interests", "interestsMatched", "#3DA1D2");
-         projView.colorTags("goals", "skillsMatched", "#123D51");
+         projView.colorTags("learnSkills", "learnSkillsMatched", "#123D51");
 
          // store the projects data in the lockr
          var projects = Lockr.get('projects').data;
