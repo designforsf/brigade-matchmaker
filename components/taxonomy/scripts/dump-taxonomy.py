@@ -40,20 +40,29 @@ collection_name = 'brigade-matchmaker'
 client = MongoClient('localhost', 27017)
 db = client[collection_name]
 
-
-# Tree Structure for UI Rendering
+# taxonomy domains
+# 	Tree Structure for UI Rendering
+# 	(dump this out instead of tax_output for reference)
+#
 # SEE: https://github.com/designforsf/brigade-matchmaker/blob/master/docs/taxonomy.md#tree-structure-for-ui-rendering
-tax_dict = {
+
+tax_domains = {
 	"skills": {
-		"itemsBySection": {}
-	},
-	"learnSkills": {
 		"itemsBySection": {}
 	},
 	"interests": {
 		"itemsBySection": {}
 	}
 }
+
+# taxonomy output
+# 	Tree Structure for Human Editing
+# 	(output)
+#
+# SEE: https://github.com/designforsf/brigade-matchmaker/blob/master/docs/taxonomy.md#tree-structure-for-ui-rendering
+
+tax_output = {}
+
 
 # load the taxonomy data from the database
 taxonomies = []
@@ -66,41 +75,61 @@ for tax in db.projecttaxonomies.find({}):
 for tax_index, tax in enumerate(taxonomies):
 	
 	# remove from tax array
-	taxonomies.pop(tax_index)
+	#taxonomies.pop(tax_index)
 
-	for root in tax_dict.keys():
+	for root in tax_domains.keys():
 		if tax['parent'] == root:
-			
-			# legacy clean up
-			tax.pop('_id', None)
-			tax.pop('className', None)
 
-			tax_dict[root]['itemsBySection'][tax['name']] = tax
+			tax_domains[root]['itemsBySection'][tax['name']] = tax
 
 			# array for items under this section
-			tax_dict[root]['itemsBySection'][tax['name']]['items'] = []
+			tax_domains[root]['itemsBySection'][tax['name']]['items'] = []
+
 
 # process level 1 - sections and items
 
-for root in tax_dict.keys():
-	print('ROOT: ', root)
+for root in tax_domains.keys():
+	#print('ROOT: ', root)
 
-	for section in tax_dict[root]['itemsBySection'].keys():
+	# process level 1 - sections and items
+
+	for section in tax_domains[root]['itemsBySection'].keys():
 		#print('SECTION: ', section)
+
+
+		outputTax = tax_domains[root]['itemsBySection'][section].copy()
+
+		# legacy clean up
+		outputTax.pop('_id', None)
+		outputTax.pop('className', None)
+		outputTax.pop('name', None)
+		outputTax.pop('parent', None)
+		outputTax.pop('items', None)
+
+		path = root + '/' + section;
+		tax_output[path] = outputTax;
 
 		for tax_index, tax in enumerate(taxonomies):
 			if tax['parent'] == section:
 
+				outputTax = tax.copy()
+
 				# legacy clean up
-				tax.pop('_id', None)
-				tax.pop('className', None)
+				outputTax.pop('_id', None)
+				outputTax.pop('className', None)
+				outputTax.pop('name', None)
+				outputTax.pop('parent', None)
 
-				tax_dict[root]['itemsBySection'][section]['items'].append(tax)
+				tax_domains[root]['itemsBySection'][section]['items'].append(tax)
 				#print('ITEM: ', tax['name'])
+				
+				path = root + '/' + section + '/' + tax['name'];
+				tax_output[path] = outputTax;
 
 
-# save the toml output
-tax_toml = toml.dumps(tax_dict)
+# output the Tree Structure for UI Rendering
+#print(toml.dumps(tax_domains))
 
-print(tax_toml)
+# output the Tree Structure for Human Editing
+print(toml.dumps(tax_output))
 
