@@ -1,6 +1,6 @@
 
-define(['jquery','underscore','backbone','handlebars','projlistmodel'],
-   function(jQuery, _, Backbone, handlebars, ProjectModel){
+define(['jquery','underscore','backbone','handlebars','projlistmodel', 'selectormodel'],
+   function(jQuery, _, Backbone, Handlebars, ProjectModel, SelectorModel){
 
    var ProjectView = Backbone.View.extend({
       // el - stands for element. Every view has a element associate in with HTML content will be rendered.
@@ -11,8 +11,7 @@ define(['jquery','underscore','backbone','handlebars','projlistmodel'],
       },
 
       initialLoad: function (x) {
-         console.log('hello');
-         console.log(x);
+
       },
 
       initiateContact: function(e){
@@ -33,14 +32,20 @@ define(['jquery','underscore','backbone','handlebars','projlistmodel'],
          });
 
       },
-      // It's the first function called when this view it's instantiated.
-      template: ProjectList.templates.projects,
 
-         // NOTE: template is compiled, SEE the README.md
+      template: ProjectList.templates.projects,
+      // NOTE: template is compiled, SEE the README.md,
 
       /*
+
+         initialize()
+
+            The first function called when this view is instantiated
+
          attrs:
             
+            appContainer - object enabling components to get data from each other
+
             initiateContactCb - callback for when the user clicks on the contact button
 
             config
@@ -54,7 +59,13 @@ define(['jquery','underscore','backbone','handlebars','projlistmodel'],
       initialize: function(attr){
          var projView = this;
 
-         // get the config
+         // validation
+         if (!attr.appContainer) { console.error('ProjectView.initialize ERROR: appContainer instance required.'); }
+         if (!attr.config) { console.error('ProjectView.initialize ERROR: config data required.'); }
+
+
+         // get the config, appContainer
+         this.appContainer = attr.appContainer;
          this.config = attr.config;
 
          if (typeof attr.initiateContactCb !== 'undefined') {
@@ -73,6 +84,24 @@ define(['jquery','underscore','backbone','handlebars','projlistmodel'],
          this.model.urlRoot = this.config.api.protocol + '://' + this.config.api.host + ':' + this.config.api.port
          //console.log('ProjectView urlRoot: ' + this.model.urlRoot);
 
+         // load selector model dependencies
+         // required for lookups relating to assigned taxonomy items
+         var taxes = ["skills","learnSkills","interests"]; 
+         // WTF TODO: forEach was not working here, verify if backbone might interfere
+         for (var t=0; t<taxes.length; t++) {
+            tax=taxes[t];
+            var selectorInstance;
+            if (attr.appContainer[tax + 'Selector']) {
+               //console.log(' ' + tax + 'Selector present in the appContainer');
+               selectorInstance = attr.appContainer[tax + 'Selector'];
+            } else {
+               selectorInstance = projView.initializeSelectorModel(tax);
+            }
+            // in order to be available for expression in the template
+            projView[tax + 'Selector'] = selectorInstance;
+         }
+
+
          //this.model.skills = skills;
 
          // sync callback
@@ -82,7 +111,9 @@ define(['jquery','underscore','backbone','handlebars','projlistmodel'],
             //console.log(res.data);
 
             // store the projects data in the lockr
-            Lockr.set('projects', { data: res.data });
+            Lockr.set('projects', { 
+               data: res.data
+            });
 
             // render the template
             projView.render();
@@ -94,15 +125,117 @@ define(['jquery','underscore','backbone','handlebars','projlistmodel'],
          projView.render();
       },
 
+      /*
+         initializeSelectorModel()
+
+         in case the embedding container fails to pass selector model instance
+      */
+
+      initializeSelectorModel: function (taxonomy) {
+         console.log('ProjectView.initializeSelectorModel ' + taxonomy)
+      },
+
+
+      /*
+         
+         render()
+
+      */
+
       render: function(){
-         this.$el.html(this.template(this.model.toJSON()));
-         this.colorTags("skills", "skillsMatched", "#AA193A");
-         this.colorTags("interests", "interestsMatched", "#3DA1D2");
-         this.colorTags("goals", "skillsMatched", "#123D51");
+         console.log('ProjectView render');
+         var projView = this;
+
+         // define the template and data
+         //projView.$el.html(projView.template(projView.model.toJSON()));
+
+         /* construct a new taxonomy matching config for rendering
+            NOTE: uses "Tree Structure with Parent References" format
+            SEE: https://github.com/designforsf/brigade-matchmaker/blob/dev/docs/taxonomy.md#tree-structure-with-parent-references
+         */
+
+         var taxDomains = [
+            {
+               type:"skills", 
+               legacyType:"skillsNeeded", 
+            }, 
+            {
+               type:"interests", 
+               legacyType:"interests", 
+            },
+            {  
+               type:"learnSkills", 
+               legacyType:"skillsOffered", 
+            }
+         ];
+
+         // matching config is an array of strings (addr)
+         // new matching config is an array of objects
+
+         if (projView.model.attributes.data) {
+
+            for (var p=0; p<projView.model.attributes.data.length; p++) {
+               var proj = projView.model.attributes.data[p];
+               //var config = proj.attributes.matchingConfig;
+               //console.log(proj.attributes.name);
+               //console.log(proj.attributes.matchingConfig);
+
+               // define a new matching config
+               proj.attributes.newMatchingConfig = {};
+
+               // loop over the domains to get to the individual taxonomy assignments
+               // the end goal here is to associate the corresponding taxonomy item
+               for (var td=0; td<taxDomains.length; td++) {
+                  var domain = taxDomains[td];
+                  var newMatchingConfig = [];
+
+                  var selModel = projView[domain.type + 'Selector'].model;
+                  //console.log('domain: ' + domain.type);
+                  //console.log(proj.attributes.matchingConfig);
+                  
+                  // assignments
+                  var assigns = proj.attributes.matchingConfig[domain.legacyType];
+                  for (var a=0; a<assigns.length; a++) {
+                     //console.log('assigns ', assigns[a]);
+
+                     // get the taxonomy item associated with the assignment
+                     var item = selModel.getItemFromAddr(assigns[a]);
+                     //console.log('item ', item);
+
+                     // push the new matching config in
+                     newMatchingConfig.push(item);
+
+                  }
+
+                  // load the new matchining config in
+                  // NOTE: this will eventually be moved into the API output
+                  //console.log('new config ', newMatchingConfig);
+                  proj.attributes.newMatchingConfig[domain.legacyType] = newMatchingConfig;
+
+               }
+
+               //console.log(proj.attributes.newMatchingConfig);
+
+            }
+
+         }
+
+
+         // prepare the template
+         projView.$el.html(projView.template({
+            projects: projView.model.toJSON().data,
+            skills: projView.skillsSelector.model.toJSON(),
+            interests: projView.interestsSelector.model.toJSON(),
+            learnSkills: projView.learnSkillsSelector.model.toJSON()
+         }));
+
+         projView.colorTags("skills", "skillsMatched", "#AA193A");
+         projView.colorTags("interests", "interestsMatched", "#3DA1D2");
+         projView.colorTags("learnSkills", "learnSkillsMatched", "#123D51");
 
          // store the projects data in the lockr
          var projects = Lockr.get('projects').data;
-
+         
          projects.forEach(function(project) {
             //console.log(project.id);
 
@@ -138,6 +271,10 @@ define(['jquery','underscore','backbone','handlebars','projlistmodel'],
                   var id = "#" + idVal + idx;
                   if (val.attributes[attValue]){
                      $.each(val.attributes[attValue], function(idx, matchedWord){
+                        
+                        //console.log('search ' + matchedWord);
+                        //console.log($(($("#project-list-container").find(id)[0].children[1])).find(':contains('+matchedWord +')'));
+                        
                         var div = $(($("#project-list-container").find(id)[0].children[1])).find(':contains('+matchedWord +')')[0];
                         if (div){
                            div.style.backgroundColor = color;
@@ -164,12 +301,12 @@ define(['jquery','underscore','backbone','handlebars','projlistmodel'],
          var _this = this;
          this.model.fetch({ success: function(res){
 
-            //Combines cached data with new list order
             //console.log('combineData with attributes');
             //console.log('attributes ', res.attributes);
             _this.model.combineData(res.attributes);
 
          }});
+
          //Renders the view with the new order of data
          this.render();
       }

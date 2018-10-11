@@ -17,7 +17,8 @@ require.config({
       boostrap: 'lib/bootstrap.min.js',
       projlistview: 'views/ProjectView',
       projlistmodel:  'models/ProjectModel',
-      MessageView: '../../slackbot/js/app'
+      selectormodel:  '../../selector_ui/js/models/SelectorModel',
+      MessageView: '../../messaging/views/MessagingView'
    }
 });
 
@@ -27,9 +28,9 @@ require(['projlistview'], function(ProjectView){
    }).done(function( configData ) {
       new ProjectView({
          config: configData,
-         skills: ["java", "react"],
-         interests: ["webDev"],
-         learning: ["node"],
+         skills: [],
+         interests: [],
+         learning: [],
          initiateContactCb: function (attr) {
             console.log('temporary initiateContactCb defined in app.js');
             var win = window.open('/components/messaging', '_new');

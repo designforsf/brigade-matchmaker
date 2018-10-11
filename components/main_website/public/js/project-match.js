@@ -79,25 +79,20 @@ define([
 
 			// initialize the minmaximizer
 			ProjectMatch.MinMaximizer.init({ });
-
-	    // project list component
-	    PM.projectListView = new ProjectView({
-	    	config: attr.config,
-	    	skills:[], learnSkills:[], interests:[],
-	    	initiateContactCb: PM.initiateContact
-	    });
 	    
 			PM.skillsSelector = new SelectorView({
+				'appContainer': PM,
 				'id': 'skills-selector-view',
-			  'component_name':'Skills',
+			  'component_name':'skills',
 			  'display-title' : 'Skills to Contribute',
 			  'tag-color':'#AA193A',
 			  'url' : baseUrl + '/api/project/taxonomy/skills-for-ui'
 			});
 
 			PM.interestsSelector = new SelectorView({
+				'appContainer': PM,
 				'id': 'interests-selector-view',
-			  'component_name':'Interests',
+			  'component_name':'interests',
 			  'display-title' : 'Civic Interests',
 			  'tag-color':'#3DA1D2',
 			  'url' : baseUrl + '/api/project/taxonomy/interests-for-ui',
@@ -105,13 +100,23 @@ define([
 			});
 
 			PM.learnSkillsSelector = new SelectorView({
+				'appContainer': PM,
 				'id': 'learnSkills-selector-view',
-			  'component_name':'Learnings',
+			  'component_name':'learnSkills',
 			  'display-title' : 'Skills to Learn',
 			  'tag-color':'#123D51',
 			  'url' : baseUrl + '/api/project/taxonomy/skills-for-ui',
 			  'el' : '#container3'
 			});
+
+	    // project list component
+	    PM.projectListView = new ProjectView({
+				appContainer: PM,
+	    	config: attr.config,
+	    	skills:[], learnSkills:[], interests:[],
+	    	initiateContactCb: PM.initiateContact
+	    });
+
 
   	} // END PM.init
 
@@ -143,10 +148,11 @@ define([
 
 		  		// fire up the messaging form
 		      PM.messagingView = new MessagingView({
-		         config: PM.config,
-		         skills: PM.skillsSelector.model.get('selectedItems'),
-		         interests: PM.interestsSelector.model.get('selectedItems'),
-		         learning: PM.learnSkillsSelector.model.get('selectedItems')
+						appContainer: PM,
+		        config: PM.config,
+		        skills: PM.skillsSelector.model.get('selectedItems'),
+		        interests: PM.interestsSelector.model.get('selectedItems'),
+		        learning: PM.learnSkillsSelector.model.get('selectedItems')
 		      });
 
   			}

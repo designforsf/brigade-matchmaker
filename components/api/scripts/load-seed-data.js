@@ -16,7 +16,7 @@ mongoose.connect(mongodb_uri, function (err) {
   /**
    * Check if project taxonomies exist before starting Express server
    */
-
+  
   ProjectTaxonomies.find({}, function (err, results) {
     if (err) throw err
     if (!results.length) {

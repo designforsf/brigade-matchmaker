@@ -14,19 +14,47 @@ define(['underscore','backbone','handlebars', 'jquery','selectormodel'],
          'click .selector-btn' : 'modalHandler',
          'click .close-btn' : 'closeModal'
       },
-      initialize: function(opts){
-         console.log('initialize SelectorView');
+
+      /*
+
+         initialize()
+
+            The first function called when this view is instantiated
+
+         attrs:
+            
+            appContainer - object enabling components to get data from each other
+
+            config
+
+            id             - e.g. 'interests-selector-view'
+            component_name - e.g. 'Interests'
+            display-title  - e.g. 'Civic Interests'
+            tag-color'     - e.g. '#3DA1D2'
+            url            - e.g. baseUrl + '/api/project/taxonomy/interests-for-ui',
+            el             - e.g. '#container2'
+
+
+            NOTE: unsure if these are used any more:
+               skills
+               interests
+               learning
+      */
+
+      initialize: function(attr){
+         console.log('initialize SelectorView id=' + attr.id);
          var _this = this;
          $('body').on("click", function(e){
             _this.closeModal(e);
          });
-         this.model = new SelectorModel(opts);
+         this.model = new SelectorModel(attr);
          var that = this;
          this.model.fetch({ success: function () {
             that.render();
             }
          });
       },
+
       tabHandler: function(e){
          e.stopPropagation();
 
@@ -231,6 +259,15 @@ define(['underscore','backbone','handlebars', 'jquery','selectormodel'],
       removeComponentColor: function(element, attribute){
          element.css(attribute, "");
       },
+
+      /*
+
+         render()
+         
+         NOTE: to understand how the model is used, please see the 
+         documentation in models/SelectorModel.js
+
+      */
 
       render: function(){
          this.$el.html(this.template(this.model.toJSON()));
