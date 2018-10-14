@@ -1,19 +1,15 @@
 from django.http import HttpResponse, Http404
 from django.shortcuts import render
-from rest_framework import generics, permissions
-from .models import SkillsTaxonomy, InterestsTaxonomy, GoalsTaxonomy, Project
-from .serializers import SkillsTaxonomySerializer, InterestsTaxonomySerializer, GoalsTaxonomySerializer, ProjectSerializer
+from rest_framework import generics, permissions, status, mixins
+from .models import Skill, Interest, Goal, Project
+from .serializers import SkillSerializer, InterestSerializer, GoalSerializer, ProjectSerializer
 from .permissions import IsOwnerOrReadOnly
-
 from django.contrib.auth.models import User
 from django.views.generic import TemplateView
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework import status, mixins, generics, permissions
-from .models import SkillsTaxonomy, InterestsTaxonomy, GoalsTaxonomy, Project, UserProfile
-from .serializers import SkillsTaxonomySerializer, InterestsTaxonomySerializer, GoalsTaxonomySerializer, ProjectSerializer
-from .permissions import IsOwnerOrReadOnly
+
 
 def index(request):
     return render(request, 'index.html',)
@@ -21,34 +17,34 @@ def index(request):
 def create_project(request):
 	return render(request, 'create_project/index.html',)
 
-class SkillsTaxonomyList(generics.ListCreateAPIView):
-	queryset = SkillsTaxonomy.objects.all()
-	serializer_class = SkillsTaxonomySerializer
+class SkillList(generics.ListCreateAPIView):
+	queryset = Skill.objects.all()
+	serializer_class = SkillSerializer
 	permissions_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)
 
-class SkillsTaxonomyDetail(generics.RetrieveUpdateDestroyAPIView):
-	queryset = SkillsTaxonomy.objects.all()
-	serializer_class = SkillsTaxonomySerializer
+class SkillDetail(generics.RetrieveUpdateDestroyAPIView):
+	queryset = Skill.objects.all()
+	serializer_class = SkillSerializer
 	permissions_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)
 
-class InterestsTaxonomyList(generics.ListCreateAPIView):
-	queryset = InterestsTaxonomy.objects.all()
-	serializer_class = InterestsTaxonomySerializer
+class InterestList(generics.ListCreateAPIView):
+	queryset = Interest.objects.all()
+	serializer_class = InterestSerializer
 	permissions_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)
 
-class InterestsTaxonomyDetail(generics.RetrieveUpdateDestroyAPIView):
-	queryset = InterestsTaxonomy.objects.all()
-	serializer_class = InterestsTaxonomySerializer
+class InterestDetail(generics.RetrieveUpdateDestroyAPIView):
+	queryset = Interest.objects.all()
+	serializer_class = InterestSerializer
 	permissions_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)
 
-class GoalsTaxonomyList(generics.ListCreateAPIView):
-	queryset = GoalsTaxonomy.objects.all()
-	serializer_class = GoalsTaxonomySerializer
+class GoalList(generics.ListCreateAPIView):
+	queryset = Goal.objects.all()
+	serializer_class = GoalSerializer
 	permissions_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)	
 
-class GoalsTaxonomyDetail(generics.RetrieveUpdateDestroyAPIView):
-	queryset = GoalsTaxonomy.objects.all()
-	serializer_class = GoalsTaxonomySerializer
+class GoalDetail(generics.RetrieveUpdateDestroyAPIView):
+	queryset = Goal.objects.all()
+	serializer_class = GoalSerializer
 	permissions_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)
 
 class ProjectList(generics.ListCreateAPIView):

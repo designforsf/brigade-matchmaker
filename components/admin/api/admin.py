@@ -1,8 +1,8 @@
 from django.contrib import admin
-from .models import SkillsTaxonomy, InterestsTaxonomy, GoalsTaxonomy, Project, UserProfile
+from .models import Skill, Interest, Goal, Project, UserProfile
 # Register your models here.
-admin.site.register(SkillsTaxonomy)
-admin.site.register(InterestsTaxonomy)
-admin.site.register(GoalsTaxonomy)
+admin.site.register(Skill)
+admin.site.register(Interest)
+admin.site.register(Goal)
 admin.site.register(UserProfile)
 admin.site.register(Project)

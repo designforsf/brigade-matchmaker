@@ -1,5 +1,5 @@
 from django.test import TestCase
-from .models import SkillsTaxonomy, InterestsTaxonomy, GoalsTaxonomy, Project
+from .models import Skill, Interest, Goal, Project
 
 class ProjectTest(TestCase):
 
