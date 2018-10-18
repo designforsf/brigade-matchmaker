@@ -13,10 +13,17 @@ services:
       restart_policy:
         condition: on-failure
     ports:
-      - "80:5465"
+      - "8080:8080"
+      - "5455:5455"
+      - "5465:5465"
+      - "5475:5475"
+      - "5495:5495"
     volumes:
       - .:/app
-      - /app/components/web/node_modules
+      - /app/node_modules
+      - /app/components/api/node_modules
+      - /app/components/main_website/node_modules
+      - /app/components/messaging/node_modules
     networks:
       - webnet
     environment:
