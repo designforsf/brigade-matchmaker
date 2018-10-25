@@ -52,6 +52,7 @@ class Project(models.Model):
     id = models.AutoField(primary_key=True)
     project_lead = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True) 
     preview = models.BooleanField(default=True) # project will only appear in Project List when set to False
+    
     # UI properties
     title = models.CharField(max_length=454, null=True)
     summary = models.CharField(max_length=254)
@@ -62,8 +63,11 @@ class Project(models.Model):
     progress_made = models.CharField(max_length=454, null=True)
     additional_info = models.CharField(max_length=454, null=True)  
     slack_channel = models.CharField(max_length=200)
+    
     # Admin properties
     github_repository = models.CharField(max_length=454, null=True)
+    website = models.CharField(max_length=454, null=True)
+    twitter = models.CharField(max_length=454, null=True)
 
     def save(self, *args, **kwargs):
         super(Project, self).save(*args, **kwargs)
