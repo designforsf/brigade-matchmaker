@@ -91,7 +91,7 @@ WSGI_APPLICATION = 'admin.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
-        'NAME': 'admin-db',
+        'NAME': 'admin001',
         'HOST': 'localhost:27017',
         'ENFORCE_SCHEMA': True,
     }

@@ -5,14 +5,14 @@ from . import views
 
 urlpatterns = [
 path('', views.index, name='index'),
-url(r'^api/skillstaxonomy/$', views.SkillsTaxonomyList.as_view()),
-url(r'^api/intereststaxonomy/$', views.InterestsTaxonomyList.as_view()),
-url(r'^api/goalstaxonomy/$', views.GoalsTaxonomyList.as_view()),
-url(r'^api/projects/$', views.ProjectList.as_view()),
-url(r'^api/skillstaxonomy/(?P<pk>[0-9]+)/$', views.SkillsTaxonomyDetail.as_view()),
-url(r'^api/intereststaxonomy/(?P<pk>[0-9]+)/$', views.InterestsTaxonomyDetail.as_view()),
-url(r'^api/goalstaxonomy/(?P<pk>[0-9]+)/$', views.GoalsTaxonomyDetail.as_view()),
-url(r'^api/projects/(?P<pk>[0-9]+)/$', views.ProjectDetail.as_view()),
+url(r'^api/skill/$', views.SkillList.as_view()),
+url(r'^api/interest/$', views.InterestList.as_view()),
+url(r'^api/goal/$', views.GoalList.as_view()),
+url(r'^api/project/$', views.ProjectList.as_view()),
+url(r'^api/skill/(?P<pk>[0-9]+)/$', views.SkillDetail.as_view()),
+url(r'^api/interest/(?P<pk>[0-9]+)/$', views.InterestDetail.as_view()),
+url(r'^api/goal/(?P<pk>[0-9]+)/$', views.GoalDetail.as_view()),
+url(r'^api/project/(?P<pk>[0-9]+)/$', views.ProjectDetail.as_view()),
 url(r'^api-auth/', include('rest_framework.urls')),
 ]
 

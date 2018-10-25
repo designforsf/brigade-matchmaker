@@ -1,31 +1,31 @@
-from django.db import models
+from djongo import models
 from django.contrib.auth.models import User
 
-class SkillsTaxonomy(models.Model):
+class Skill(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=254)
     title = models.CharField(max_length=254)
     parent = models.CharField(max_length=254)
 
     def save(self, *args, **kwargs):
-        super(SkillsTaxonomy, self).save(*args, **kwargs)  
+        super(Skill, self).save(*args, **kwargs)  
 
     def __str__(self):
         return self.name
 
-class InterestsTaxonomy(models.Model):
+class Interest(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=254)
     title = models.CharField(max_length=254)
     parent = models.CharField(max_length=254)
 
     def save(self, *args, **kwargs):
-        super(InterestsTaxonomy, self).save(*args, **kwargs)  
+        super(Interest, self).save(*args, **kwargs)  
 
     def __str__(self):
         return self.name
 
-class GoalsTaxonomy(models.Model):
+class Goal(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=254)
     title = models.CharField(max_length=254)
@@ -35,7 +35,7 @@ class GoalsTaxonomy(models.Model):
         return self.name
 
     def save(self, *args, **kwargs):
-        super(GoalsTaxonomy, self).save(*args, **kwargs)  
+        super(Goal, self).save(*args, **kwargs)  
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -50,17 +50,24 @@ class UserProfile(models.Model):
 
 class Project(models.Model):
     id = models.AutoField(primary_key=True)
+    project_lead = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True) 
     preview = models.BooleanField(default=True) # project will only appear in Project List when set to False
+    
+    # UI properties
     title = models.CharField(max_length=454, null=True)
     summary = models.CharField(max_length=254)
-    skills_needed = models.ManyToManyField(SkillsTaxonomy)
-    learning_opportunities = models.ManyToManyField(GoalsTaxonomy)
-    civic_interests = models.ManyToManyField(InterestsTaxonomy)
+    skills_needed = models.ManyToManyField(Skill)
+    learning_opportunities = models.ManyToManyField(Goal)
+    civic_interests = models.ManyToManyField(Interest)
     pending_tasks = models.CharField(max_length=454, null=True)
     progress_made = models.CharField(max_length=454, null=True)
-    additional_info = models.CharField(max_length=454, null=True)
-    project_lead = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True)   
+    additional_info = models.CharField(max_length=454, null=True)  
     slack_channel = models.CharField(max_length=200)
+    
+    # Admin properties
+    github_repository = models.CharField(max_length=454, null=True)
+    website = models.CharField(max_length=454, null=True)
+    twitter = models.CharField(max_length=454, null=True)
 
     def save(self, *args, **kwargs):
         super(Project, self).save(*args, **kwargs)
