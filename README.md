@@ -38,9 +38,9 @@ See [docs/installation.md](https://github.com/designforsf/brigade-matchmaker/tre
 
 # Project Management and Road Map
 
-Our development effort is organized using [GitHub project management](https://github.com/designforsf/brigade-matchmaker/projects).
+Project Match design and development will be released in phases, following a [Road Map to MVP](https://docs.google.com/document/d/10gnvrPufouX0NxOuWwiX3hubh3asUPxTl-aMxj450tk/edit). 
 
-Project Match design and development will be released in phases, following a road map. See our [Road Map presentation](https://designforsf.github.io/brigade-matchmaker/docs/roadmap/) for details.
+Development tasks are listed out within [milestones in GitHub](https://github.com/designforsf/brigade-matchmaker/milestones?direction=asc&sort=due_date&state=open).
 
 # Architecture
 

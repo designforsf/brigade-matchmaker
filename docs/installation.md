@@ -71,7 +71,7 @@ cd brigade-matchmaker/components/mongodb
 
 To start mongodb:
 ```
-cd brigade-matchmakercomponents/mongodb
+cd brigade-matchmaker/components/mongodb
 ./bin/start-mongodb.sh
 ```
 
