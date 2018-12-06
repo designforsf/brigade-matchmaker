@@ -111,6 +111,7 @@ Returns keywords data under the parent of "goals".
 ```
 wget -qO- http://localhost:5455/api/project/taxonomy/goals
 ```
+## Admin API
 
 ### GET /api/project/taxonomies-for-ui
 
@@ -120,7 +121,25 @@ Returns all keywords data, as a [Tree Structure for UI Rendering](https://github
 wget -qO- http://localhost:5455/api/project/taxonomies-for-ui
 ```
 
+The admin component utilizes the Django REST framework so any modifications made using the admin component will update the API. The following request methods and resources are available:
 
+### GET /api/projectleads
+### GET /api/projectleads/:id
+### POST /api/projectleads/:id
+### GET /api/projects
+### GET /api/projects/:id
+### POST /api/projects/:id
+### GET /api/skillstaxonomy
+### GET /api/skillstaxonomy/:id
+### POST /api/skillstaxonomy/:id
+### GET /api/intereststaxonomy
+### GET /api/intereststaxonomy/:id
+### POST /api/intereststaxonomy/:id
+### GET /api/goalstaxonomy
+### GET /api/goalstaxonomy/:id
+### POST /api/goalstaxonomy/:id
+
+API resources in the admin component have owner attributes. Only a logged in owner or the superadmin have the rights to modify any API resources.
 
 ## Messaging API
 

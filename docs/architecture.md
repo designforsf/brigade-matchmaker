@@ -101,8 +101,8 @@ The Front-End sends messages from new members to project leads via an API hosted
 
 ## Admin
 
-This component enables project leads to update project-related data, including the skills needed, learning opportunities, and civic interests. 
+This component enables project leads to update project-related data, including the skills needed, learning opportunities, and civic interests. Admin interacts with the JSON API.
 
-It uses python django and interacts directly with the database.
+This component uses Django, Djongo, Django-REST-framework, and Django-Simple-History.
 
 ---
