@@ -10,9 +10,9 @@
             <div class="project-left">
                 <div class="project-title">{{project.attributes.name}}</div>
                 <div class="description">{{project.attributes.description}}</div>
-                <div id="contact-btn{{@index}}" class="contact-btn">
+                <!--<div id="contact-btn{{@index}}" class="contact-btn">
                     Contact Project Lead
-                </div>
+                </div> -->
             </div>
             <div class="divider"></div>
             <div class="project-right">
@@ -52,7 +52,7 @@
             </div>
         </div>
 
-    
+
         <div class="details" id="details-{{project.attributes._id}}">
 
             <div class="details-flex">
@@ -61,7 +61,7 @@
                     <div class="details-container">
                     {{#if project.attributes.todoItems}}
                         <ul>
-                        {{#each project.attributes.todoItems}}  
+                        {{#each project.attributes.todoItems}}
                             <li>{{this}}</li>
                         {{/each}}
                         </ul>
@@ -74,18 +74,18 @@
                     <div class="details-container">
                     {{#if project.attributes.progressItems}}
                         <ul>
-                        {{#each project.attributes.progressItems}}  
+                        {{#each project.attributes.progressItems}}
                             <li>{{this}}</li>
                         {{/each}}
                         </ul>
                     {{/if}}
                     </div>
                 </div>
-                <div class="divider"></div>  
+                <div class="divider"></div>
                 <div class="right">
                     Additional Info
                     <div class="details-container">
-                        
+
                     </div>
                 </div>
             </div>

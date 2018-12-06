@@ -2,21 +2,6 @@ extends layout.pug
 block content
 
 
-  div(id="taxonomy-selector-container")
-    | &nbsp;
-    div.taxonomy-container
-      div.selector-holder
-        #container
-        |         
-        #container2
-        |         
-        #container3
-      |     
-      div.generate-button-container
-        button#submitButton.generate-button(onclick='ProjectMatch.generateMatch()', type='button')
-          | Generate Match
-
-
   div(id="project-list-container")
     | &nbsp;
 
@@ -34,7 +19,7 @@ block content
   link(rel="stylesheet" href="/components/selector/css/style.css")
   link(rel="stylesheet" href="/components/taxonomy-selector/styles/taxonomy-selector.css")
 
-  
+
   script(src='/components/project-list/js/lib/handlebars.runtime.js')
   script(src='/components/project-list/js/lib/require.js')
   script(src='/components/project-list/js/templates/projects.js')
@@ -73,9 +58,9 @@ block content
 
       }
     });
-    
-    require(['projmatch'], 
-      function(ProjectMatch) { 
+
+    require(['projmatch'],
+      function(ProjectMatch) {
         ProjectMatch.init({
           config: {
             api: {
@@ -87,5 +72,3 @@ block content
         });
       }
     );
-
-
