@@ -9,5 +9,5 @@ npm rebuild node-sass --force
 
 # Run the system in development mode.
 ( cd components/api ; NODE_ENV=development node app.js ) &
-( cd components/main_website ; NODE_ENV=development node app.js ) &
-( cd components/messaging ; NODE_ENV=development node app.js )
+( cd components/messaging ; NODE_ENV=development node app.js ) &
+( cd components/main_website ; NODE_ENV=development node app.js )

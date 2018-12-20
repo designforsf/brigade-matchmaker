@@ -63,4 +63,4 @@ RUN export NVM_DIR="/root/.nvm" && \
 COPY etc/env.js.default $ROOT_APP_DIR/development.js
 
 WORKDIR $ROOT_APP_DIR
-CMD ["/bin/bash", "-c", "/app/start.sh"]
+CMD ["/bin/bash", "-c", "/app/start-in-docker.sh"]
