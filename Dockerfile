@@ -11,6 +11,9 @@ RUN apt-get update && \
     build-essential python-dev \
     curl git
 
+# Install pymongo
+RUN apt-get install -y python-pymongo
+
 # Install NVM and node.js
 RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | bash
 RUN export NVM_DIR="/root/.nvm" && \
