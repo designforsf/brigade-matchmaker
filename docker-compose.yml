@@ -9,7 +9,7 @@ services:
       resources:
         limits:
           cpus: "1"
-          memory: 256M
+          memory: 512M
       restart_policy:
         condition: on-failure
     ports:
@@ -24,12 +24,19 @@ services:
       - /app/components/api/node_modules
       - /app/components/main_website/node_modules
       - /app/components/messaging/node_modules
+      - /app/components/project-list/node_modules
+      - /app/components/admin/node_modules
+      - /app/components/common/node_modules
+      - /app/components/minmaximizer/node_modules
+      - /app/components/mongodb/node_modules
+      - /app/components/notifications/node_modules
+      - /app/components/system-proxy/node_modules
     networks:
       - webnet
     environment:
       - BRIGADE=codeforexample
-      - MONGODB=mongodb://mongo/brigade-matchmaker
-      - MONGOLAB_URI=mongodb://mongo/brigade-matchmaker
+      - MONGODB=mongodb://mongo:27017/brigade-matchmaker
+      - MONGOLAB_URI=mongodb://mongo:27017/brigade-matchmaker
       - SESSION_SECRET=superSecretSessionId
       - GOOGLE_ID=353616710563-i5sigq3o93qj87ir00scm2f90hev8re6.apps.googleusercontent.com
       - GOOGLE_SECRET=7DJRQluxrOojURpf-3e0FFVf
@@ -50,7 +57,7 @@ services:
       resources:
         limits:
           cpus: "1"
-          memory: 256M
+          memory: 512M
       restart_policy:
         condition: on-failure
     networks:
