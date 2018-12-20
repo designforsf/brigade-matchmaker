@@ -5,12 +5,14 @@ var mongoose = require('mongoose')
   , ProjectTaxonomies = require('../models/ProjectTaxonomies')
 ;
 
+console.log('Loading seed data script running.');
+
 // set up the environment-based config
 var Config = require('../../common/lib/ConfigFile.js');
-var config = (new Config({ env: global.process.env.NODE_ENV })).config;
+var config = (new Config()).config;
 
 // mongoose
-var mongodb_uri = 'mongodb://' + config.mongodb.host + ':' + config.mongodb.port + '/' + config.mongodb.db;
+var mongodb_uri = config.mongodb.uri
 mongoose.connect(mongodb_uri, function (err) {
 
   /**
