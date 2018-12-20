@@ -52,6 +52,8 @@ app.use(allowCrossDomain);
 
 
 // mongoose
+var mongodb_uri = config.mongodb.uri
+mongoose.connect(mongodb_uri, function (err) {
 
 var mongodb_uri = config.mongodb.uri
 var connect_opts = {

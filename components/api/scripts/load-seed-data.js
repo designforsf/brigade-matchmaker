@@ -12,6 +12,14 @@ console.log('Loading seed data script running.');
 var Config = require('../../common/lib/ConfigFile.js');
 var config = (new Config()).config;
 
+// mongoose
+var mongodb_uri = config.mongodb.uri
+mongoose.connect(mongodb_uri, function (err) {
+
+  /**
+   * Check if project taxonomies exist before starting Express server
+   */
+
 
 /**
  * Check if project taxonomies exist; if not, create them.

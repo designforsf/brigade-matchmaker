@@ -28,7 +28,7 @@ var app = express();
 
 // set up the environment-based config
 var Config = require('../common/lib/ConfigFile.js');
-var config = (new Config({ env: global.process.env.NODE_ENV })).config;
+var config = (new Config()).config;
 
 // http configurations
 app.set('port', config.web.port);
