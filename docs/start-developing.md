@@ -35,51 +35,65 @@ git fetch --all
 git branch <YOUR GIT USERNAME>-dev
 git checkout <YOUR GIT USERNAME>-dev
 git status
-git add <SOME CHANGED FILE>
+
+# After making a change...
+git add <CHANGED FILE>
 git commit -m 'I updated some file.'
-git push origin <YOUR GIT USERNAME>
+git push origin <YOUR GIT USERNAME>-dev
 ```
 
-## 2. Install Node.js 
+## 2. Install Docker
 
-Node.js is server-side javascript. We are targeting a particular version and you can use the Node Version Manager to make sure you use v6.12.2. 
+Follow Docker's instructions for installing Docker CE on your machine:
+[Ubuntu](https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-docker-ce)
+[Mac OSX](https://docs.docker.com/docker-for-mac/install/)
+[Windows](https://docs.docker.com/docker-for-windows/install/)
 
-In the command line terminal:
+## 3. Build the Docker container
 
-```
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | bash
-nvm install v6.12.2
-nvm use v6.12.2
-node --version
-```
-
-## 3. Install Node.js dependencies
-
-Notifications has dependencies that can be easily installed with the Node Package Manager. It uses [package.json](https://github.com/designforsf/brigade-matchmaker/blob/master/components/notifications/package.json to know what dependencies to install. Remember to make sure to be using node v6.12.2 when installing!
-
-In the command line terminal:
+Once you've installed Docker, you can run the project's Docker containers locally.
+In your terminal, navigate to the project's root directory and run:
 
 ```
-cd brigade-matchmaker/components/notifications
-nvm use v6.12.2
-npm install
+./build-docker-stack.sh
 ```
 
+This will take several minutes, and may generate warnings about out-of-date packages.
+Do not worry about the warnings for now.
 
-## 3. Run the Notifications dev service
+## 4. Run the project in Docker
 
-The service is now ready to be run.
+Now that you've built the container, you can run it! In the project's root directory, run:
 
 ```
-cd brigade-matchmaker/components/notifications
-node app.js
+./deploy-docker-stack.sh
 ```
 
-Please now visit the Notifications component at [http://localhost:5455](http://localhost:5455).
+This should bring up a local instance of the project on [http://localhost:8080/](http://localhost:8080/).
 
-# Client-side Development
+## 5. Make changes
 
-Notifications is entirely client-side, and its functionality and UIs are used throughout the main Web App. Even though it is used throughout the Web App, the structure of this component in the system enables you to develop it independently of the other components and main Web App service.
+You do *not* need to rebuild or rerun the Docker container every time you change anything.
+Your local source files are *mounted*, not *copied*, inside the container, so any changes
+you make locally on disk will be reflected in the running server.
+
+If you change the code of a long-running process (like any of the app.js files), you *do* need
+to restart the process. We recommend restarting the whole container  with `deploy-docker-stack.sh`,
+it may take a couple tries to correctly destroy and redeploy the container.
+
+## Entering the container environment
+
+It is sometimes necessary to enter the Docker container while it's running and muck around.
+You can use `docker exec` to achieve this:
+
+```
+docker container ls
+# Look for the container named sfbm_brigade-matchmaker and copy its CONTAINER ID
+# Then open a bash terminal inside the container
+docker exec -it <CONTAINER ID> bash
+# ... do stuff ...
+# press ctrl-d to exit
+```
 
 ## Key functionality
 
