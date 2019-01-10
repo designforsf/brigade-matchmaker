@@ -1,13 +1,32 @@
-div#top-nav
 
-  nav.navbar.navbar-default
-    div.container.container-fluid
-      div.navbar-header
-        strong
-          a.navbar-brand(href="#") Project Match
-
-      ul.nav.navbar-nav.navbar-right
-        li
-          a(href="javascript:ProjectMatch.uiActivateLanding();") Introduction
-        li 
-          a(href="#") Log In
+nav.navbar.navbar-expand-md.navbar-light
+  a.navbar-brand(href='/')
+    img.img-fluid(src='/img/logo.png', alt='Code for San Francisco', title='Code for San Francisco')
+  button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarNav', aria-controls='navbarNav', aria-expanded='false', aria-label='Toggle navigation')
+    span.navbar-toggler-icon
+  #navbarNav.navbar-collapse.collapse
+    ul.navbar-nav.ml-auto
+      li.nav-item
+        a.nav-link(href='/')
+          i.fa.fa-home
+          |  Home
+      li.nav-item
+        a.nav-link(href='/events')
+          i.fa.fa-calendar-o
+          |  Events
+      li.nav-item
+        a.nav-link(href='/blog')
+          i.fa.fa-pencil
+          |  Blog
+      li.nav-item
+        a.nav-link(href='/projects')
+          i.fa.fa-rocket
+          |  Projects
+      li.nav-item
+        a.nav-link(href='/donate')
+          i.fa.fa-heart
+          |  Donate
+      li.nav-item
+        a.nav-link(href='/about')
+          i.fa.fa-info-circle
+          |  About
