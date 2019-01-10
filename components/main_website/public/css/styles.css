@@ -1,6 +1,6 @@
 
-/* 
-	bootstrap overloads 
+/*
+	bootstrap overloads
 	---------------------------------------------------------
 */
 
@@ -13,8 +13,8 @@
 }
 
 
-/* 
-	custom styles 
+/*
+	custom styles
 	---------------------------------------------------------
 */
 
@@ -44,4 +44,12 @@
   opacity: 0.4;
   filter: alpha(opacity=40);
   cursor: pointer;
+}
+
+ul.navbar-nav.ml-auto {
+	list-style: none;
+}
+
+li.nav-item {
+	padding: 10px;
 }
