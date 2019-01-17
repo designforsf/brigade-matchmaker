@@ -1,6 +1,26 @@
 extends layout.pug
 block content
 
+  div
+    | Version #{config.version}
+
+  if config.version == '0.9.2'
+
+  else
+    
+    div(id="taxonomy-selector-container")
+      | &nbsp;
+      div.taxonomy-container
+        div.selector-holder
+          #container
+          |         
+          #container2
+          |         
+          #container3
+        |     
+        div.generate-button-container
+          button#submitButton.generate-button(onclick='ProjectMatch.generateMatch()', type='button')
+            | Generate Match
 
   div(id="project-list-container")
     | &nbsp;

@@ -75,7 +75,7 @@ define([
 
 			// API URL
 	    var baseUrl = attr.config.api.protocol + '://' + attr.config.api.host + ':' + attr.config.api.port;
-	    console.log('API URL: ' + baseUrl);
+	    //console.log('API URL: ' + baseUrl);
 
 			// initialize the minmaximizer
 			ProjectMatch.MinMaximizer.init({ });
