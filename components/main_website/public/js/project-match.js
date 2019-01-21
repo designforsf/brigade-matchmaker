@@ -86,7 +86,8 @@ define([
 			  'component_name':'skills',
 			  'display-title' : 'Skills to Contribute',
 			  'tag-color':'#AA193A',
-			  'url' : baseUrl + '/api/project/taxonomy/skills-for-ui'
+			  'url' : baseUrl + '/api/project/taxonomy/skills-for-ui',
+			  'el' : '#selector-container1'
 			});
 
 			PM.interestsSelector = new SelectorView({
@@ -96,7 +97,7 @@ define([
 			  'display-title' : 'Civic Interests',
 			  'tag-color':'#3DA1D2',
 			  'url' : baseUrl + '/api/project/taxonomy/interests-for-ui',
-			  'el' : '#container2'
+			  'el' : '#selector-container2'
 			});
 
 			PM.learnSkillsSelector = new SelectorView({
@@ -106,7 +107,7 @@ define([
 			  'display-title' : 'Skills to Learn',
 			  'tag-color':'#123D51',
 			  'url' : baseUrl + '/api/project/taxonomy/skills-for-ui',
-			  'el' : '#container3'
+			  'el' : '#selector-container3'
 			});
 
 	    // project list component

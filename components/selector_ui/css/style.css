@@ -9,7 +9,6 @@
     font-family: sans-serif;
     font-size: .9em;
     font-weight: 100;
-    padding: .5em;
     cursor: pointer;
 }
 
@@ -83,10 +82,18 @@
 }
 
 .selector-btn-header .add-btn {
-    padding-top: 3px;
+    padding: 4px;
     font-family: sans-serif;
     font-size: .8em;
     cursor: pointer;
+    user-select: none;
+    text-decoration: underline;
+    border: 1px solid gray;
+    border-radius: .2em;
+}
+
+.selector-btn-header .add-btn:hover {
+    background-color:#eee;
 }
 
 .selector-tag-container {
@@ -99,7 +106,7 @@
     border-radius: .2em;
     color: white;
     font-family: sans-serif;
-    font-size: .8em;
+    font-size: .6em;
     font-weight: 300;
     margin: .5em;
     padding: .3em;
@@ -110,7 +117,6 @@
 .modals {
     background: #fff;
     border: 1.5px black solid;
-    border-radius: 10px;
     color: black;
     display: none;
     left: 0;
@@ -178,20 +184,8 @@
     margin-top: 25px;
 }
 
-#container1 {
-  display: flex;
+#selector-container1, #selector-container2, #selector-container3 {
+  /*display: flex;*/
+  /*flex-wrap: wrap;*/
   justify-content: center;
-  flex-wrap: wrap;
-}
-
-#container2 {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-#container3 {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
 }

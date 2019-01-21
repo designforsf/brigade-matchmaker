@@ -11,7 +11,7 @@ define(['underscore','backbone','handlebars', 'jquery','selectormodel'],
       events: {
          'click .tab-name':'tabHandler',
          'click .tag' : 'tagHandler',
-         'click .selector-btn' : 'modalHandler',
+         'click .add-btn' : 'modalHandler',
          'click .close-btn' : 'closeModal'
       },
 
