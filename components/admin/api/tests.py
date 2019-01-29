@@ -1,6 +1,7 @@
 from django.test import TestCase
 from .models import Skill, Interest, Goal, Project
 
+
 class ProjectTest(TestCase):
 
         @classmethod
@@ -8,5 +9,4 @@ class ProjectTest(TestCase):
                 Project.objects.create(title="first project title")
                 Project.objects.create(summary="project summary here")
 
-        #def test_name_content(self):
-
+        # def test_name_content(self):
