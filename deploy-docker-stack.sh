@@ -15,10 +15,11 @@ docker stack down sfbm
 docker stack deploy sfbm -c docker-compose.yml
 
 # Attempt to curl the main page for $max_time seconds.
-echo "Waiting for connection from localhost:8080..."
+HOSTPORT=localhost:8080
+echo "Waiting for connection from $HOSTPORT..."
 time_waited=0
 max_time=120 # seconds
-until $(curl --output /dev/null --silent --head --fail http://localhost:8080); do
+until $(curl --output /dev/null --silent --head --fail http://$HOSTPORT); do
     printf '.'
     sleep 1
     time_waited=$(($time_waited+1))

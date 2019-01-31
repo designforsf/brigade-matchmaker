@@ -1,9 +1,6 @@
 # Use an official Ubuntu image as our base.
 FROM ubuntu:18.04
 
-# Make port 80 available to the world outside this container
-EXPOSE 80
-
 # Install Python
 RUN apt-get update && \
     apt-get install -y \
