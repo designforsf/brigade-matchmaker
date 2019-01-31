@@ -20,7 +20,6 @@ var mongo_address = global.process.env.MONGODB ? global.process.env.MONGODB : 'm
 
 
 exports.config = {
-  version: '0.9.3',
   main_website: {
     title: 'Volunteer Website',
     host: 'localhost',

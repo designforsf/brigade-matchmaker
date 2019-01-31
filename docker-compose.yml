@@ -1,0 +1,68 @@
+version: "3"
+services:
+  brigade-matchmaker:
+    depends_on:
+      - mongo
+    image: sfbrigade/brigade-matchmaker:app
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: "1"
+          memory: 512M
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "8080:8080"
+      - "5455:5455"
+      - "5465:5465"
+      - "5475:5475"
+      - "5495:5495"
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/components/api/node_modules
+      - /app/components/main_website/node_modules
+      - /app/components/messaging/node_modules
+      - /app/components/project-list/node_modules
+      - /app/components/admin/node_modules
+      - /app/components/common/node_modules
+      - /app/components/minmaximizer/node_modules
+      - /app/components/mongodb/node_modules
+      - /app/components/notifications/node_modules
+      - /app/components/system-proxy/node_modules
+    networks:
+      - webnet
+    environment:
+      - BRIGADE=codeforexample
+      - MONGODB=mongodb://mongo:27017/brigade-matchmaker
+      - MONGOLAB_URI=mongodb://mongo:27017/brigade-matchmaker
+      - SESSION_SECRET=superSecretSessionId
+      - GOOGLE_ID=353616710563-i5sigq3o93qj87ir00scm2f90hev8re6.apps.googleusercontent.com
+      - GOOGLE_SECRET=7DJRQluxrOojURpf-3e0FFVf
+      - GITHUB_ID=88f3acf93ea1ace10fd0
+      - GITHUB_SECRET=e55b66d31418dfd278f2629ad3d0d44de30c5249
+      - MEETUP_KEY=4cnsvla9oq24lm7i6q3qjnp2dl
+      - MEETUP_SECRET=2nfedesq0a23b9vo7s4g751s2t
+      - MATCHMAKER_KEY=local
+      - MATCHMAKER_SECRET=secret
+  mongo:
+    image: mongo:3.2.20-jessie
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb-data:/data
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: "1"
+          memory: 512M
+      restart_policy:
+        condition: on-failure
+    networks:
+      - webnet
+networks:
+  webnet:
+volumes:
+  mongodb-data:
