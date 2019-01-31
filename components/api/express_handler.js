@@ -209,7 +209,7 @@ module.exports = {
    */
    
   getUserMatches: function (req, res, next) {
-    console.log('getUserMatch');
+    console.log('getUserMatches');
     
     // final output in JSON-API
     // SEE: http://jsonapi.org/examples/
@@ -261,8 +261,7 @@ module.exports = {
     });
 
     //console.log('req.options: ', req.options);
-    //console.log((typeof req.query.interests !== 'undefined'));
-    //console.log(req.query.goals);
+    //console.log(req.query);
     //console.log(pyArgs);
 
     // where is the python script?

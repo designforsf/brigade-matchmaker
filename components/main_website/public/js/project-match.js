@@ -201,13 +201,23 @@ define([
 
     // called when the user clicks on the generate match button
     PM.generateMatch = function () {
+    	console.log('ProjectMatch.generateMatch()');
     	
+			var searchCriteria = {
+			  skills: PM.skillsSelector.model.get('selectedItems'),
+			  interests: PM.interestsSelector.model.get('selectedItems'),
+			  learnSkills: PM.learnSkillsSelector.model.get('selectedItems')
+			};
+
+			// flatten interests
+			for (i=0; i < searchCriteria.interests.length; i++) {
+				var critElems = searchCriteria.interests[i].split('/');
+				searchCriteria.interests[i] = critElems[1];
+			}
+			// in the selector, interests are given a root level for simplicity
+
     	// run the search
-			PM.projectListView.searchProjects({
-				skills: PM.skillsSelector.model.get('selectedItems'),
-				interests: PM.interestsSelector.model.get('selectedItems'),
-				learnSkills: PM.learnSkillsSelector.model.get('selectedItems')
-			});
+			PM.projectListView.searchProjects(searchCriteria);
 
     }; // END generateMatch
 
