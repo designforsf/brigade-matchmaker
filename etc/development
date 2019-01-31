@@ -32,12 +32,6 @@ exports.config = {
     port: 5455,
     protocol: 'http'
   },
-  web: {
-    title: 'Web and API',
-    host: 'localhost',
-    port: 5465,
-    protocol: 'http'
-  },
   messaging: {
     title: 'Messaging Service',
     host: 'localhost',
