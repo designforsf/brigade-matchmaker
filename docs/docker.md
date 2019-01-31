@@ -1,14 +1,90 @@
+**Attention new developers on the project!** - check out [docs/start-developing.md](https://github.com/designforsf/brigade-matchmaker/tree/master/docs/start-developing.md).
+This explains how components are developed and walks you through the steps to get this project running. You can refer back to this page later to learn about how Docker
+starts the project.
 
-# Project Match: Installation
+# Project Match: What Happens In That Docker Container?
 
-There are many components that come together to create the Project Match service. To run the service, or to develop Project Match, you must first install the Web App and dependencies, including the database.
+There are many components that come together to create the Project Match service.
+There are two stages to running the Docker container:
+  1. Build (build-docker-stack.sh)
+  2. Deploy (deploy-docker-stack.sh)
 
-After Web App is running, the UI components and Messaging component can be installed.
+# What happens during build-docker-stack.sh
+All build-docker-stack.sh does is run this command:
+```
+docker build -t sfbrigade/brigade-matchmaker:app .
+```
+By default, this looks for a file named `Dockerfile` in the current directory.
+The configuration in `Dockerfile` defines how to build our Docker stack. Our
+Dockerfile implements the steps below.
 
-**Attention new developers on the project!** - check out [docs/start-developing.md](https://github.com/designforsf/brigade-matchmaker/tree/master/docs/start-developing.md). This explains how components are developed and involves a simpler installation.
+## 1. Retrieve the base image(s)
 
+We use two base images in `docker-compose.yml`:
+ * Ubuntu (ubuntu:18.04) - this runs our code and is built by `Dockerfile`.
+ * Mongo (mongo:3.2.20-jessie) - this runs MongoDB.
 
-# Installing the Project Match System
+We don't modify the Mongo image at all, we just run MongoDB and interact with it from the Ubuntu image.
+So the rest of these steps are happening in the Ubuntu image.
+
+## 2. Install python, NVM, node.js, and dependencies
+
+We install the following packages with `apt-get install`:
+```
+python
+python-pip
+python-setuptools
+build-essential
+python-dev
+curl
+git
+python-pymongo
+```
+
+We install the [Node Version Manager (NVM)](https://github.com/creationix/nvm) by `curl`ing the installation script and running it. Then we use NVM to install Node.js v6.14.4.
+
+## 3. Mount the code inside the container
+
+These lines:
+```
+# Copy the current directory contents into the container at /app
+ADD . /app
+
+# Set the working directory to /app
+ENV ROOT_APP_DIR /app
+WORKDIR $ROOT_APP_DIR
+```
+mount the root source directory to mountpoint `/app` inside the container and `cd` into `/app`.
+
+## 4. Install python dependencies
+
+This command installs a collection of packages listed in `requirements.txt`:
+```
+RUN pip install -r requirements.txt
+```
+
+## 5. Install node.js dependencies
+
+Now that we have our code mounted in the container, we tell Docker to `cd` into each of the
+component directories and run 
+```
+npm install
+```
+to install the Node.js dependencies of each component.
+
+## 6. Configure the REST API
+
+We copy `./etc/env.js.default` to `/app/development.js`. This file contains a configuration file defining
+ports, addresses, and other settings shared across the entire codebase.
+
+----
+# Old Installation Instructions
+
+```diff
++ Prior to Docker, we had to install and run everything manually.
+- It takes a few hours.
++ The installation instructions are preserved below for posterity.
+```
 
 Installing the core Project Match components requires the following installations and configurations:
 
