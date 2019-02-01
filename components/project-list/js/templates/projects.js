@@ -22,7 +22,7 @@ this["ProjectList"]["templates"]["projects"] = Handlebars.template({"1":function
     + alias2(((helper = (helper = helpers.index || (data && data.index)) != null ? helper : alias4),(typeof helper === alias5 ? helper.call(alias3,{"name":"index","hash":{},"data":data,"blockParams":blockParams}) : helper)))
     + "\" class=\"interests\">\n                    <div class=\"tag-title\">Civic Interests:</div>\n                    <div class=\"tag-container\">\n"
     + ((stack1 = helpers.each.call(alias3,((stack1 = ((stack1 = ((stack1 = blockParams[0][0]) != null ? stack1.attributes : stack1)) != null ? stack1.newMatchingConfig : stack1)) != null ? stack1.interests : stack1),{"name":"each","hash":{},"fn":container.program(6, data, 1, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
-    + "                    </div>\n                </div>\n            </div>\n        </div>\n\n\n        <div class=\"details\" id=\"details-"
+    + "                    </div>\n                </div>\n\n            </div>\n        </div>\n\n\n        <div class=\"details\" id=\"details-"
     + alias2(alias1(((stack1 = ((stack1 = blockParams[0][0]) != null ? stack1.attributes : stack1)) != null ? stack1._id : stack1), depth0))
     + "\">\n\n            <div class=\"details-flex\">\n                <div class=\"left\">\n                    Pending Tasks\n                    <div class=\"details-container\">\n"
     + ((stack1 = helpers["if"].call(alias3,((stack1 = ((stack1 = blockParams[0][0]) != null ? stack1.attributes : stack1)) != null ? stack1.todoItems : stack1),{"name":"if","hash":{},"fn":container.program(8, data, 0, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
@@ -34,29 +34,39 @@ this["ProjectList"]["templates"]["projects"] = Handlebars.template({"1":function
 },"2":function(container,depth0,helpers,partials,data,blockParams) {
     var stack1, alias1=container.lambda, alias2=container.escapeExpression;
 
-  return "                        <div class=\"tag skills-tag\" data-id=\""
+  return "                        <div class=\"tag skills-tag\" \n                            id=\"project-list-"
     + alias2(alias1(((stack1 = blockParams[0][0]) != null ? stack1.parent : stack1), depth0))
     + "/"
     + alias2(alias1(((stack1 = blockParams[0][0]) != null ? stack1.name : stack1), depth0))
-    + "\">\n                            "
+    + "\"\n                            data-id=\""
+    + alias2(alias1(((stack1 = blockParams[0][0]) != null ? stack1.parent : stack1), depth0))
+    + "/"
+    + alias2(alias1(((stack1 = blockParams[0][0]) != null ? stack1.name : stack1), depth0))
+    + "\"\n                        >\n                            "
     + alias2(alias1(((stack1 = blockParams[0][0]) != null ? stack1.title : stack1), depth0))
     + "\n                        </div>\n";
 },"4":function(container,depth0,helpers,partials,data,blockParams) {
     var stack1, alias1=container.lambda, alias2=container.escapeExpression;
 
-  return "                        <div class=\"tag learnSkills-tag\" data-id=\""
+  return "                        <div class=\"tag learnSkills-tag\" \n                            id=\"project-list-"
     + alias2(alias1(((stack1 = blockParams[0][0]) != null ? stack1.parent : stack1), depth0))
     + "/"
     + alias2(alias1(((stack1 = blockParams[0][0]) != null ? stack1.name : stack1), depth0))
-    + "\">"
+    + "\"\n                            data-id=\""
+    + alias2(alias1(((stack1 = blockParams[0][0]) != null ? stack1.parent : stack1), depth0))
+    + "/"
+    + alias2(alias1(((stack1 = blockParams[0][0]) != null ? stack1.name : stack1), depth0))
+    + "\"\n                        >"
     + alias2(alias1(((stack1 = blockParams[0][0]) != null ? stack1.title : stack1), depth0))
     + "</div>\n";
 },"6":function(container,depth0,helpers,partials,data,blockParams) {
     var stack1, alias1=container.lambda, alias2=container.escapeExpression;
 
-  return "                        <div class=\"tag interest-tag\" data-id=\"interests/"
+  return "                        <div class=\"tag interest-tag\" \n                            id=\"project-list-interests/"
     + alias2(alias1(((stack1 = blockParams[0][0]) != null ? stack1.name : stack1), depth0))
-    + "\">"
+    + "\"\n                            data-id=\"interests/"
+    + alias2(alias1(((stack1 = blockParams[0][0]) != null ? stack1.name : stack1), depth0))
+    + "\"\n                        >"
     + alias2(alias1(((stack1 = blockParams[0][0]) != null ? stack1.title : stack1), depth0))
     + "</div>\n";
 },"8":function(container,depth0,helpers,partials,data,blockParams) {
