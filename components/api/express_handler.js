@@ -287,6 +287,7 @@ module.exports = {
       if (err) { console.error(err); }
 
       //console.log('pyOutput is: ', pyOutput);
+      pyOutput = pyOutput || [];
       pyOutput.forEach(function (line, idx){
         var lineArr = line.split(',');
 
