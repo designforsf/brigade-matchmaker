@@ -12,7 +12,22 @@ define(['underscore','backbone','handlebars','messagingmodel'],
          'submit':'submitHandler'
       },
       submitHandler: function(e){
-         var final_obj = this.model.createFinalObj($('form').serializeArray());
+        var final_obj = this.model.createFinalObj($('form').serializeArray());
+        // Fixes a cyclic error that otherwise occurs when final obj is used
+        // by JSON.stringify()
+        const getCircularReplacer = () => {
+          const seen = new WeakSet();
+          return (key, value) => {
+            if (typeof value === "object" && value !== null) {
+              if (seen.has(value)) {
+                return;
+              }
+            seen.add(value);
+            }
+            return value;
+          };
+        };
+
          $.ajax({
             type: "POST",
             //url: 'http://localhost:5475/messaging/api/message',
@@ -23,7 +38,7 @@ define(['underscore','backbone','handlebars','messagingmodel'],
             },
             dataType: 'json',
             contentType: 'application/json; charset=UTF-8',
-            data: JSON.stringify(final_obj)
+            data: JSON.stringify(final_obj, getCircularReplacer()),
           });
          this.remove();
          this.render();
