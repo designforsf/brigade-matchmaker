@@ -71,3 +71,7 @@ li.nav-item {
     margin-top: 10px;
     cursor: pointer;
 }
+
+.form_control {
+  margin: .5em;
+}
