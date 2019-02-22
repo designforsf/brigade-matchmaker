@@ -77,6 +77,34 @@ to install the Node.js dependencies of each component.
 We copy `./etc/env.js.default` to `/app/development.js`. This file contains a configuration file defining
 ports, addresses, and other settings shared across the entire codebase.
 
+## 7. Run everything
+
+We're done building our Docker container now, and we can look at the steps that happen when you run
+`deploy-docker-stack.sh` (or, equivalently, `docker stack deploy sfbm -c docker-compose.yml`).
+
+These lines in the Dockerfile cd to the root directory of our codebase (mounted as `/app` inside
+the container) and run the `start-in-docker.sh` script. The
+[`CMD` keyword](https://docs.docker.com/engine/reference/builder/#cmd) is special - it sets the
+command to be executed whenever Docker runs the container. This is different from the `RUN` commands
+seen above, which only happen during container build time.
+
+```
+WORKDIR $ROOT_APP_DIR
+CMD ["/bin/bash", "-c", "/app/start-in-docker.sh"]
+```
+
+Inside `start-in-docker.sh`, we do the following:
+  1. Load the seed data - this connects to MongoDB and fills our database with projects and their corresponding information.
+  2. Start the `api` component - this layer serves the data used to populate the UI.
+  3. Start the `messaging` component - this serves endpoints used to message project owners.
+  4. Start the `main_website` component - this serves the UI.
+Note that these all run in the same container, so our "microservices" are not as independent as they could be.
+
+## Conclusion
+
+Now you understand what the Dockerfile is doing, and how to build and deploy it locally.
+
+
 ----
 # Old Installation Instructions
 
