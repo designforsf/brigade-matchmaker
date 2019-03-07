@@ -13,7 +13,7 @@ services:
       restart_policy:
         condition: on-failure
     ports:
-      - "8080:8080" # main_website
+      - "80:8080" # main_website
       - "5455:5455" # api
       - "5475:5475" # messaging
       - "5495:5495" # selector UI prototype
