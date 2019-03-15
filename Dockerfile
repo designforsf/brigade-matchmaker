@@ -1,5 +1,5 @@
-# Use an official Ubuntu image as our base.
-FROM ubuntu:18.04
+# Use an official Node image as our base.
+FROM node:6-jessie
 
 # Install Python
 RUN apt-get update && \
@@ -10,13 +10,6 @@ RUN apt-get update && \
 
 # Install pymongo
 RUN apt-get install -y python-pymongo
-
-# Install NVM and node.js
-RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | bash
-RUN export NVM_DIR="/root/.nvm" && \
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && \
-    nvm install v6.14.4 && \
-    nvm use v6.14.4
 
 # Copy the current directory contents into the container at /app
 ADD . /app
@@ -30,34 +23,19 @@ RUN pip install -r requirements.txt
 
 # Install node and npm dependencies
 WORKDIR $ROOT_APP_DIR/components/api
-RUN export NVM_DIR="/root/.nvm" && \
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && \
-    nvm use v6.14.4 && \
-    npm install
+RUN npm install
 
 WORKDIR $ROOT_APP_DIR/components/main_website
-RUN export NVM_DIR="/root/.nvm" && \
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && \
-    nvm use v6.14.4 && \
-    npm install
+RUN npm install
 
 WORKDIR $ROOT_APP_DIR/components/messaging
-RUN export NVM_DIR="/root/.nvm" && \
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && \
-    nvm use v6.14.4 && \
-    npm install
+RUN npm install
 
 WORKDIR $ROOT_APP_DIR/components/taxonomy
-RUN export NVM_DIR="/root/.nvm" && \
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && \
-    nvm use v6.14.4 && \
-    npm install
+RUN npm install
 
 WORKDIR $ROOT_APP_DIR/components/models
-RUN export NVM_DIR="/root/.nvm" && \
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && \
-    nvm use v6.14.4 && \
-    npm install
+RUN npm install
 
 # Configure the REST API
 COPY etc/env.js.default $ROOT_APP_DIR/development.js
