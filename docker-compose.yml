@@ -19,6 +19,12 @@ services:
       - "5495:5495" # selector UI prototype
     volumes:
       - .:/app
+      # Volumes are mounted at runtime, not build time.
+      # So building the image runs "npm install" and creates
+      # these node_modules directories *inside the image*, but then
+      # when the container is run, it mounts .:/app
+      # above and overlays the host's root source directory.
+      # The host doesn't have the node_module directories.
       - /app/node_modules
       - /app/components/api/node_modules
       - /app/components/main_website/node_modules
