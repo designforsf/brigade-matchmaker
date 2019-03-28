@@ -262,23 +262,40 @@ define(['jquery','underscore','backbone','handlebars','projlistmodel', 'selector
 
       },
 
-      colorTags: function(idVal, attValue, color){
+      colorTags: function(tax, attValue, color){
          var obj = this.model.toJSON();
          if (obj.data){
             var _this = this;
             _.bind(function(){
                $.each(obj.data, function(idx, val){
-                  var id = "#" + idVal + idx;
+                  var id = "#" + tax + idx;
+                  //console.log('tax ' + tax);
+
                   if (val.attributes[attValue]){
-                     $.each(val.attributes[attValue], function(idx, matchedWord){
+
+                     $.each(val.attributes[attValue], function(idx, tagIdBase){
                         
-                        //console.log('search ' + matchedWord);
-                        //console.log($(($("#project-list-container").find(id)[0].children[1])).find(':contains('+matchedWord +')'));
+                        // deal with flattened taxonomy
+                        if (tax == 'interests') {
+                           tagIdBase = tax + '/' + tagIdBase;
+                        }
+
+                        //console.log('matched word ' + tagIdBase);
+                        //console.log('colorTags seeking id=' + id + ' tagIdBase=' + tagIdBase);
                         
-                        var div = $(($("#project-list-container").find(id)[0].children[1])).find(':contains('+matchedWord +')')[0];
-                        if (div){
-                           div.style.backgroundColor = color;
-                           div.style.color = "white";
+                        //var div = jQuery(( jQuery("#project-list-container").find(id)[0].children[1] )).find(':contains(' + tagIdBase + ')')[0];
+
+                        var escapedTagIdBase = tagIdBase.replace('/', '\\/'); // forward slash must be escaped
+                        //console.log(escapedTagIdBase);
+                        var div = jQuery('#project-list-' + escapedTagIdBase);
+
+                        if (typeof div !== 'undefined') {
+                           //console.log('div found #' + escapedTagIdBase)
+                           div.css('background-color', color);
+                           div.css('color', '#ffffff');
+
+                           //div.style.backgroundColor = color;
+                           //div.style.color = "white";
                         }
                      });
                   }

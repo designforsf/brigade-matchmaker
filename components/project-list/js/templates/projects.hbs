@@ -23,7 +23,10 @@
                         {{#each
                         project.attributes.newMatchingConfig.skillsNeeded as
                         |skill|}}
-                        <div class="tag skills-tag" data-id="{{skill.parent}}/{{skill.name}}">
+                        <div class="tag skills-tag" 
+                            id="project-list-{{skill.parent}}/{{skill.name}}"
+                            data-id="{{skill.parent}}/{{skill.name}}"
+                        >
                             {{skill.title}}
                         </div>
                         {{/each}}
@@ -35,7 +38,10 @@
                         {{#each
                         project.attributes.newMatchingConfig.skillsOffered as
                         |skill|}}
-                        <div class="tag learnSkills-tag" data-id="{{skill.parent}}/{{skill.name}}">{{skill.title}}</div>
+                        <div class="tag learnSkills-tag" 
+                            id="project-list-{{skill.parent}}/{{skill.name}}"
+                            data-id="{{skill.parent}}/{{skill.name}}"
+                        >{{skill.title}}</div>
                         {{/each}}
                     </div>
                 </div>
@@ -45,10 +51,14 @@
                         {{#each
                         project.attributes.newMatchingConfig.interests as
                         |interest|}}
-                        <div class="tag interest-tag" data-id="interests/{{interest.name}}">{{interest.title}}</div>
+                        <div class="tag interest-tag" 
+                            id="project-list-interests/{{interest.name}}"
+                            data-id="interests/{{interest.name}}"
+                        >{{interest.title}}</div>
                         {{/each}}
                     </div>
                 </div>
+
             </div>
         </div>
 

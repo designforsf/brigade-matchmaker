@@ -4,12 +4,23 @@
 }
 
 .tab-name {
-    border-bottom: 2px solid lightgray;
-    color: lightgray;
+    border-bottom: 1px solid #999;
+    color: #999;
     font-family: sans-serif;
-    font-size: .9em;
+    font-size: .8em;
     font-weight: 100;
     cursor: pointer;
+    padding: 0px 5px;
+}
+
+.tab-name-active {
+    border-bottom: 1px solid black;
+    color: black;
+    font-weight: bold;
+    /*
+    margin-bottom: .1em;
+    padding-bottom: .1em;
+    */
 }
 
 .tag-container {
@@ -33,7 +44,7 @@
     cursor: pointer;
 }
 
-.tag::after {content: " +";}
+.tag::after {content: " ＋";}
 
 .subcategory-title {
     font-family: sans-serif;
@@ -43,14 +54,6 @@
 }
 
 .view-inactive {display: none;}
-
-.tab-name-active {
-    border-bottom: 1px solid black;
-    color: black;
-    font-weight: bold;
-    margin-bottom: .1em;
-    padding-bottom: .1em;
-}
 
 .selector-container {
     padding: 1em;
@@ -108,11 +111,15 @@
     font-family: sans-serif;
     font-size: .6em;
     font-weight: 300;
-    margin: .5em;
-    padding: .3em;
+    margin: 2px;
+    padding: 5px;
+    cursor: pointer;
 }
 
-.selected-tag::after {content: " x";}
+.selected-tag::after {
+    padding: 3px;
+    content: " ✕";
+}
 
 .modals {
     background: #fff;
@@ -166,23 +173,6 @@
 }
 
 .tab-view-inactive {display: none;}
-
-.generate-button-container {
-    display: flex;
-    justify-content: center;
-}
-
-.generate-button {
-    align-items: center;
-    background-color: #17A277;
-    border-radius: 3px;
-    color: white;
-    display: flex;
-    font-family: sans-serif;
-    height: 2.5em;
-    justify-content: center;
-    margin-top: 25px;
-}
 
 #selector-container1, #selector-container2, #selector-container3 {
   /*display: flex;*/

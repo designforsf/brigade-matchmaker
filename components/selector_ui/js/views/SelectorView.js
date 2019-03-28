@@ -207,6 +207,14 @@ define(['underscore','backbone','handlebars', 'jquery','selectormodel'],
       },
 
       addTag: function(tagElement) {
+
+         /* 
+            NOTE: the + and x are defined in the CSS 
+              search for .tag::after and .selected-tag::after
+         */
+
+         console.log('SelectorView.addTag ' + tagElement.id);
+
          var newTagElement = $(tagElement).clone();
          var tagContainerId = this.getElementId("-btn");
          var tagContainerDiv = $(tagContainerId).find('.selector-tag-container');
@@ -225,7 +233,7 @@ define(['underscore','backbone','handlebars', 'jquery','selectormodel'],
          newTagElement[0].id += "-selector";
 
          //Add html of new tag to container
-         tagContainerDiv.append(newTagElement[0]);
+         tagContainerDiv.append(newTagElement[0]); 
       },
 
       removeTag: function(tagElement){

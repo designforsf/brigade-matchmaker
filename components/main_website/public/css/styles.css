@@ -53,3 +53,25 @@ ul.navbar-nav.ml-auto {
 li.nav-item {
 	padding: 10px;
 }
+
+.generate-button-container {
+    display: flex;
+    justify-content: center;
+}
+
+.generate-button {
+    align-items: center;
+    background-color: #17A277;
+    border-radius: 3px;
+    color: white;
+    display: flex;
+    font-family: sans-serif;
+    padding: 10px;
+    justify-content: center;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.form_control {
+  margin: .5em;
+}
