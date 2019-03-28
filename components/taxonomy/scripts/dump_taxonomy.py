@@ -16,18 +16,24 @@ Installation:
                 pip3 install toml
 
 """
+import os
 import pprint
 import toml
 from pymongo import MongoClient
 
 class DumpTaxonomy:
     """ Dumps the Taxonomy from MongoDB """
-    db = MongoClient('localhost', 27017)['brigade-matchmaker']
 
 
 # Tree structure for ui rendering
 # see: https://git.io/fxJGz
     def __init__(self):
+        database_name = 'brigade-matchmaker'
+        if 'MONGODB' in os.environ and os.environ['MONGODB']:
+          client = MongoClient(os.environ['MONGODB'])
+        else:
+          client = MongoClient('mongo', 27017)
+        self.db = client[database_name]
         self.source = [item for item in self.db.projecttaxonomies.find({}) if item['parent']]
         self.tax = {}
 

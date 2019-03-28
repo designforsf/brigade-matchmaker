@@ -9,6 +9,7 @@ Installation:
                 pip3 install pymomgo
                 pip3 install toml
 """
+import os
 import sys
 from pymongo import MongoClient
 import toml
@@ -19,7 +20,10 @@ import toml
 class LoadTaxonomy:
     """ Creates JSON from TOML and loads it into MongoDB """
     database_name = 'brigade-matchmaker'
-    client = MongoClient('localhost', 27017)
+    if 'MONGODB' in os.environ and os.environ['MONGODB']:
+      client = MongoClient(os.environ['MONGODB'])
+    else:
+      client = MongoClient('mongo', 27017)
     db = client[database_name]
 
     def __init__(self, toml_filename='taxonomy.toml'):

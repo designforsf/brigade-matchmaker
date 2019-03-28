@@ -1,14 +1,10 @@
+# Old Installation Instructions
 
-# Project Match: Installation
-
-There are many components that come together to create the Project Match service. To run the service, or to develop Project Match, you must first install the Web App and dependencies, including the database.
-
-After Web App is running, the UI components and Messaging component can be installed.
-
-**Attention new developers on the project!** - check out [docs/start-developing.md](https://github.com/designforsf/brigade-matchmaker/tree/master/docs/start-developing.md). This explains how components are developed and involves a simpler installation.
-
-
-# Installing the Project Match System
+```diff
++ Prior to Docker, we had to install and run everything manually.
+- It takes a few hours.
++ The installation instructions are preserved below for posterity.
+```
 
 Installing the core Project Match components requires the following installations and configurations:
 
