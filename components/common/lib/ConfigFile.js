@@ -15,8 +15,8 @@ function ConfigFile (attr) {
 
   try {
     console.log('ConfigFile: require.resolve ' + 'etc/' + env)
-    require.resolve('../../../etc/' + env);
-    self.config = require('../../../etc/' + env).config;
+    require.resolve('/app/etc/' + env);
+    self.config = require('/app/etc/' + env).config;
 
   } catch (err) {
     if (err) { console.error(err); }
@@ -24,8 +24,8 @@ function ConfigFile (attr) {
 
     // fall back to the default config
     try {
-      require.resolve('../../../etc/env.js.default');
-      self.config = require('../../../etc/env.js.default').config;
+      require.resolve('/app/etc/env.js.default');
+      self.config = require('/app/etc/env.js.default').config;
 
     } catch (defaulterr) {
       if (defaulterr) { console.error(defaulterr); }

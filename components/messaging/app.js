@@ -27,7 +27,7 @@ var web = new WebClient(token);
 var app = express();
 
 // set up the environment-based config
-var Config = require('./lib/Config.js');
+var Config = require('../common/lib/ConfigFile.js');
 var config = (new Config({ env: global.process.env.NODE_ENV })).config;
 
 // http configurations
@@ -46,8 +46,7 @@ if (app.get('env') == 'development') {
 app.use(express.static(path.join(__dirname, 'public'), { }));
 
 // Mongoose connection
-var mongoDB = 'mongodb://localhost/test';
-mongoose.connect(mongoDB, {
+mongoose.connect(config.mongodb.uri, {
   useMongoClient: true
 });
 
