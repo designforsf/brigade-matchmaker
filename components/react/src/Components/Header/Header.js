@@ -1,5 +1,5 @@
 import React from 'react';
-import NavItem from './NavItem';
+import NavItem from '../NavItem';
 import { faCalendar, faHeart, faHome, faInfoCircle, faPen, faRocket } from '@fortawesome/free-solid-svg-icons'
 
 class Header extends React.Component {
@@ -39,8 +39,8 @@ class Header extends React.Component {
   }
   render() {
     return (
-      <nav class="navbar navbar-expand-md navbar-light">
-        <ul class="navbar-collapse collapse">
+      <nav className="navbar navbar-expand-md navbar-light">
+        <ul className="navbar-collapse collapse">
           {this.headerItems().map((item, key) =>
             <NavItem key={key} { ...item } />
           )}

@@ -5,8 +5,8 @@ class NavItem extends React.Component {
   render() {
     let { link, icon, text } = this.props;
     return(
-      <li class="nav-item" style={{listStyle: 'none'}}>
-        <a class="nav-link" href={link}>
+      <li className="nav-item" style={{listStyle: 'none'}}>
+        <a className="nav-link" href={link}>
           <FontAwesomeIcon icon={icon} /> {text}
         </a>
       </li>

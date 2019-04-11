@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Header from './Header';
-import ProjectList from './ProjectList';
+import Header from './Components/Header';
+import ProjectList from './Components/ProjectList';
 
 class App extends Component {
   render() {
