@@ -2,5 +2,7 @@ admin/secrets.json
 env
 geckodriver.log
 admin/__pycache__
+data/__pycache__
+data/migrations/__pycache__
 api/__pycache__
 api/migrations/__pycache__/

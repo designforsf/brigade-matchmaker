@@ -1,6 +1,7 @@
-components/admin/env
 node_modules
+components/admin/env
 components/taxonomy_selector/node_modules
+components/web/env
 # OS metadata
 .DS_Store
 Thumbs.db
