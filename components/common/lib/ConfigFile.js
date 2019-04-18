@@ -13,10 +13,18 @@ function ConfigFile (attr) {
   
   var env = global.process.env.NODE_ENV ? global.process.env.NODE_ENV : 'development';
 
+  var projDir = process.cwd();
+  projDirArr = projDir.split('/');
+  projDirArr.splice(-2,2);
+  projDir = projDirArr.join('/');
+
+  //projDir.replace('components','');
+  //console.log(projDir);
+
   try {
-    console.log('ConfigFile: require.resolve ' + 'etc/' + env)
-    require.resolve('/app/etc/' + env);
-    self.config = require('/app/etc/' + env).config;
+    console.log('ConfigFile: require.resolve ' + projDir + '/etc/' + env)
+    require.resolve(projDir + '/etc/' + env);
+    self.config = require(projDir + '/etc/' + env).config;
 
   } catch (err) {
     if (err) { console.error(err); }
@@ -24,8 +32,8 @@ function ConfigFile (attr) {
 
     // fall back to the default config
     try {
-      require.resolve('/app/etc/env.js.default');
-      self.config = require('/app/etc/env.js.default').config;
+      require.resolve(projDir + '/etc/env.js.default');
+      self.config = require(projDir + '/etc/env.js.default').config;
 
     } catch (defaulterr) {
       if (defaulterr) { console.error(defaulterr); }
