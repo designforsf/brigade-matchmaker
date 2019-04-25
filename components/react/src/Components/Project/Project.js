@@ -16,8 +16,8 @@ class Project extends React.Component {
           <p><strong>Contact Project</strong></p>
           <p><a href="#">#channel</a></p>
         </div>
-        <div className="projectCol2">
-          <h5 style={{marginBottom: 24}}>Project Needs & Interests</h5>
+        <div className="projectCol2" style={{paddingLeft: 16}}>
+          <h5 style={{marginTop: 24, marginBottom: 24, fontSize: "1.2em"}}>Project Needs & Interests</h5>
           <p><strong>Skills Needed:</strong>
           {skillsNeeded.map(skill =>
             <li>{skill}</li>
@@ -41,7 +41,7 @@ class Project extends React.Component {
             <ul style={{borderRight: "2px solid lightgray"}}><strong>Pending Tasks</strong></ul>
             <ul style={{borderRight: "2px solid lightgray"}}><strong>Progress Made</strong></ul>
             <div className="additional-info">
-              <p style={{fontSize: "1em"}}><strong>Additional Info</strong></p>
+              <p style={{fontSize: "1em", paddingLeft: 36}}><strong>Additional Info</strong></p>
             </div>
           </div>
         </details>
