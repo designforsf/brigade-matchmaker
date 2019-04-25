@@ -3,7 +3,7 @@ import React from 'react';
 class Project extends React.Component {
   render() {
     let {
-      attributes: { name, description, todoItems, progressItems,
+      attributes: { name, description, slackChannel, todoItems, progressItems,
         matchingConfig: { interests, skillsNeeded, skillsOffered }
       }
     } = this.props;
@@ -14,7 +14,7 @@ class Project extends React.Component {
           <h5 style={{fontSize: "1.5em", fontWeight: 600}}>{name}</h5>
           <p>{description}</p>
           <p><strong>Contact Project</strong></p>
-          <p><a href="#">#channel</a></p>
+          <p><a href="#">{slackChannel}</a></p>
         </div>
         <div className="projectCol2" style={{paddingLeft: 16}}>
           <h5 style={{marginTop: 24, marginBottom: 24, fontSize: "1.2em"}}>Project Needs & Interests</h5>
