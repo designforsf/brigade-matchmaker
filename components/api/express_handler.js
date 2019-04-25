@@ -154,7 +154,7 @@ module.exports = {
         contact: 1
       }).
       exec(function (err, results) {
-      	console.log('results ', results.length);
+      	//console.log('results ', results.length);
 
         // script returned error
         if (err) {
@@ -187,7 +187,6 @@ module.exports = {
       });
 
     }, // END getProjects
-
 
 
   /**
