@@ -19,21 +19,21 @@ class Project extends React.Component {
         <div className="projectCol2">
           <h5 className="skillsHeader">Project Needs & Interests</h5>
 
-          <p><strong>Skills Needed:</strong></p>
+          <p className="skillsCategory"><strong>Skills Needed:</strong></p>
           <div className="tagContainer">
             {skillsNeeded.map(skill =>
               <div className="tag">{skill}</div>
               )}
           </div>
 
-          <p><strong>Learning Opportunities:</strong></p>
+          <p className="skillsCategory"><strong>Learning Opportunities:</strong></p>
           <div className="tagContainer">
             {skillsOffered.map(skill =>
               <div className="tag">{skill}</div>
             )}
           </div>
 
-          <p><strong>Civic Interests:</strong></p>
+          <p className="skillsCategory"><strong>Civic Interests:</strong></p>
           <div className="tagContainer">
             {interests.map(interest =>
               <div className="tag">{interest}</div>

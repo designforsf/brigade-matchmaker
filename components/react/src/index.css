@@ -21,6 +21,10 @@ h5.skillsHeader {
   font-size: 1.2em;
 }
 
+p.skillsCategory {
+  margin-bottom: 0px;
+}
+
 /* LAYOUT */
 
 div.projectCols {
@@ -33,6 +37,7 @@ div.projectCols {
 div.tagContainer {
   display: flex;
   flex-wrap: wrap;
+  margin-bottom: 4px;
 }
 
 div.detailsGrid {
