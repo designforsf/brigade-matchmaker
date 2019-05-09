@@ -8,40 +8,47 @@ class Project extends React.Component {
       }
     } = this.props;
     return (
-      <div className="project" style={{border: "1px solid lightgray", boxShadow: "2px 3px 2px #ccc", padding: 16, margin: 8, marginBottom: 24}}>
-      <div className="projectCols" style={{display: "grid", gridGap: 10, gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", borderBottom: "1px solid lightgray"}}>
-        <div className="projectCol1" style={{borderRight: "1px solid lightgray"}}>
-          <h5 style={{fontSize: "1.5em", fontWeight: 600}}>{name}</h5>
+      <div className="project"> 
+      <div className="projectCols">
+        <div className="projectCol1">
+          <h5 className="projectTitle">{name}</h5>
           <p>{description}</p>
           <p><strong>Contact Project</strong></p>
           <p><a href="#">{slackChannel}</a></p>
         </div>
-        <div className="projectCol2" style={{paddingLeft: 16}}>
-          <h5 style={{marginTop: 24, marginBottom: 24, fontSize: "1.2em"}}>Project Needs & Interests</h5>
-          <p><strong>Skills Needed:</strong>
-          {skillsNeeded.map(skill =>
-            <li>{skill}</li>
-            )}
-          </p>
-          <p><strong>Learning Opportunities:</strong>
+        <div className="projectCol2">
+          <h5 className="skillsHeader">Project Needs & Interests</h5>
+
+          <p className="skillsCategory"><strong>Skills Needed:</strong></p>
+          <div className="tagContainer">
+            {skillsNeeded.map(skill =>
+              <div className="tag">{skill}</div>
+              )}
+          </div>
+
+          <p className="skillsCategory"><strong>Learning Opportunities:</strong></p>
+          <div className="tagContainer">
             {skillsOffered.map(skill =>
-              <li>{skill}</li>
+              <div className="tag">{skill}</div>
             )}
-          </p>
-          <p><strong>Civic Interests:</strong>
+          </div>
+
+          <p className="skillsCategory"><strong>Civic Interests:</strong></p>
+          <div className="tagContainer">
             {interests.map(interest =>
-              <li>{interest}</li>
+              <div className="tag">{interest}</div>
             )}
-          </p>
+          </div>
+      
         </div>
       </div>
         <details>
-          <summary style={{textDecoration: "underline"}}>Show project details</summary>
-          <div className="details-grid" style={{display: "grid", gridGap: 16, gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", borderBottom: "1px solid lightgray"}}>
-            <ul style={{borderRight: "2px solid lightgray"}}><strong>Pending Tasks</strong></ul>
-            <ul style={{borderRight: "2px solid lightgray"}}><strong>Progress Made</strong></ul>
+          <summary>Show project details</summary>
+          <div className="detailsGrid">
+            <ul className="details"><strong>Pending Tasks</strong></ul>
+            <ul className="details"><strong>Progress Made</strong></ul>
             <div className="additional-info">
-              <p style={{fontSize: "1em", paddingLeft: 36}}><strong>Additional Info</strong></p>
+              <p className="additionalInfo"><strong>Additional Info</strong></p>
             </div>
           </div>
         </details>
