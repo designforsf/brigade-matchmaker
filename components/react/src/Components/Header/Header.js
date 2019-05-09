@@ -1,8 +1,10 @@
 import React from 'react';
+import logo from '../../cfsf_logo.png';
 import NavItem from '../NavItem';
 import { faCalendar, faHeart, faHome, faInfoCircle, faPen, faRocket } from '@fortawesome/free-solid-svg-icons'
 
 class Header extends React.Component {
+  logo: Logo;
   headerItems() {
     return [
       {
@@ -39,7 +41,8 @@ class Header extends React.Component {
   }
   render() {
     return (
-      <nav className="navbar navbar-expand-md navbar-light">
+      <nav className="navbar navbar-expand-md navbar-light"> 
+        <img src={logo} alt={"logo"}/>
         <ul className="navbar-collapse collapse">
           {this.headerItems().map((item, key) =>
             <NavItem key={key} { ...item } />

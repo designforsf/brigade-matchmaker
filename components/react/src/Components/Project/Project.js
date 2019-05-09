@@ -1,4 +1,5 @@
 import React from 'react';
+import Tag from '../Tag';
 
 class Project extends React.Component {
   render() {
@@ -13,8 +14,8 @@ class Project extends React.Component {
         <div className="projectCol1">
           <h5 className="projectTitle">{name}</h5>
           <p>{description}</p>
-          <p><strong>Contact Project</strong></p>
-          <p><a href="#">{slackChannel}</a></p>
+          <p className="contact"><strong>Contact Project</strong></p>
+          <p><a href="#">#{slackChannel}</a></p>
         </div>
         <div className="projectCol2">
           <h5 className="skillsHeader">Project Needs & Interests</h5>
@@ -22,21 +23,21 @@ class Project extends React.Component {
           <p className="skillsCategory"><strong>Skills Needed:</strong></p>
           <div className="tagContainer">
             {skillsNeeded.map(skill =>
-              <div className="tag">{skill}</div>
+              <Tag name={skill} />
               )}
           </div>
 
           <p className="skillsCategory"><strong>Learning Opportunities:</strong></p>
           <div className="tagContainer">
             {skillsOffered.map(skill =>
-              <div className="tag">{skill}</div>
+              <Tag name={skill} />
             )}
           </div>
 
           <p className="skillsCategory"><strong>Civic Interests:</strong></p>
           <div className="tagContainer">
             {interests.map(interest =>
-              <div className="tag">{interest}</div>
+              <Tag name={interest} />
             )}
           </div>
       
