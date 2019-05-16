@@ -9,10 +9,11 @@ handle_error () {
 trap handle_error ERR
 
 # Bring down the existing stack.
-docker stack down sfbm
+docker-compose stop
+yes | docker-compose rm
 
-# Bring up the new stack.
-docker stack deploy sfbm -c docker-compose.yml
+# Bring up the new stack
+docker-compose up -d --remove-orphans
 
 # Attempt to curl the main page for $max_time seconds.
 HOSTPORT=localhost:80
