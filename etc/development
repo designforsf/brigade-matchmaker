@@ -20,6 +20,7 @@ var mongo_address = global.process.env.MONGODB ? global.process.env.MONGODB : 'm
 
 
 exports.config = {
+  version: '0.9.3',
   main_website: {
     title: 'Volunteer Website',
     host: 'localhost',
@@ -30,7 +31,9 @@ exports.config = {
     title: 'API',
     host: 'localhost',
     port: 5455,
-    protocol: 'http'
+    protocol: 'http',
+    exposed_protocol: 'https',
+    exposed_port: 443,
   },
   messaging: {
     title: 'Messaging Service',
