@@ -4,11 +4,9 @@
   object attributes:
     config - common config instance
     app - Express application instance
-    req - supertest request reference
   
 */
 
-const SupertestRequest = require('supertest');
 const Express = require('express');
 
 const Config = require('../common/lib/ConfigFile.js');
@@ -20,7 +18,6 @@ function TestHelper (attr) {
   var self = this;
 	
 	self.app = Express();
-	self.req = SupertestRequest;
 
 	// set up the environment-based config
 	self.config = (new Config({ env: global.process.env.NODE_ENV })).config;

@@ -64,6 +64,7 @@ function ExpressRouterCfg (attr) {
     GET /api/projects
   */
 
+  router.post('/api/project', express_handler.createProject)
   router.get('/api/projects', express_handler.getProjects)
 
   /**

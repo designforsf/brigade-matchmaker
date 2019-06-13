@@ -1,12 +1,13 @@
 
 const testHelper = new ( require('../test-helper.js') );
+const SupertestRequest = require('supertest');
 
-describe('Test the root path', () => {
-  test('It should response the GET method', (done) => {
+describe('Test user matches', () => {
+    test('It should response the GET method', (done) => {
 
-		var url = '/api/user/matches?skills=&interests=&learnSkills=&';
+	   var url = '/api/user/matches?skills=&interests=&learnSkills=&';
 
-    testHelper.req(testHelper.app)
+        SupertestRequest(testHelper.app)
     	.get(url)
     	.set('port', 5455)
     	.set('Accept', 'application/json')
@@ -16,12 +17,12 @@ describe('Test the root path', () => {
     		expect(res.statusCode).toBe(200);
     		
     		// data returned
-        var matches = JSON.parse(res.text);
-        expect(matches).toBeDefined();
-        expect(matches.data).toBeDefined();
-        expect(matches.data.length).toBeGreaterThan(0);
-
-        done();
+            var matches = JSON.parse(res.text);
+            expect(matches).toBeDefined();
+            expect(matches.data).toBeDefined();
+            expect(matches.data.length).toBeGreaterThan(0);
+            
+            done();
+        });
     });
-  });
 });

@@ -108,6 +108,51 @@ module.exports = {
 
   },
 
+
+  /**
+   * createProjects
+   * ------------------------------------------------------
+   * POST /api/project
+   * Returns a json list of available projects
+   * Conforms to JSON-API
+
+   * RESPONSE:
+        https://jsonapi.org/format/#crud-creating-responses
+
+   * TEST:
+        http://localhost:5465/api/projects
+   */
+
+  createProject: function (req, res, next) {
+    console.log('createProject');
+    //console.log(req.body.data);
+
+    var jsonAPIObj = req.body;
+
+    if (typeof jsonAPIObj === 'undefined') {
+      console.error('No data in request body');
+      return next();
+    }
+
+    // form the object
+    var newProject = new Projects(jsonAPIObj.data.attributes);  
+    
+    // save the new project
+    newProject.save(function (err, savedProject) {
+      if (err) { 
+        console.error('Could not save project'); 
+      };
+
+      res.json({ data: {
+        _id: savedProject._id
+      } });
+      
+      return next();
+
+    });
+
+    
+  }, // END createProject
   
   /**
    * getProjects
