@@ -2,6 +2,8 @@ const faker = require('faker');
 const testHelper = new ( require('../test-helper.js') );
 const SupertestRequest = require('supertest');
 
+const testRecords = [];
+
 describe('Test create project', () => {
   test('It should response the POST method', (done) => {
 
@@ -98,8 +100,43 @@ describe('Test create project', () => {
         expect(output).toBeDefined();
         expect(output.data).toBeDefined();
 
+        testRecords.push(output.data);
+
         done();
-    }); // END .end( (err, res) => {
+    }); // END .end of SupertestRequest
 
   }); // END test('It should response the POST method'
+
+
+  afterAll( () => {
+    console.log('afterAll');
+
+    testRecords.forEach(function (rec) {
+      console.log('Call the API to delete project id=' + rec._id);
+
+      var path = '/api/project/' + rec._id;
+      var base_url = 'http://localhost:' + testHelper.app.get('port');
+
+      console.log('Delete with path=' + path);
+
+      SupertestRequest(base_url)
+        .delete(path)
+        .set('port', testHelper.app.get('port')) 
+        .end( (err, res) => {
+          if (err) {
+            //return done(err);
+            console.error(err);
+          }
+
+          //console.log(res);
+          //console.log('successfully deleted id=' + rec._id);
+
+      }); // END .end of SupertestRequest
+
+
+    });
+
+    done();
+  });
+
 }); // END describe('Test create project'
