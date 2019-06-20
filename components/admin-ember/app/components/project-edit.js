@@ -14,12 +14,15 @@ export default Ember.Component.extend({
     queryParams: ['updated'],
     updated: false,
     
-    saveProject() {
+    updateProject() {
       //alert(this.get("project.name"));
       //alert(this.get("project.id"));
+      
       var ember = this;
       ember.get('store').findRecord('project', ember.get('project.id')).then(function(project) {
         
+        console.log(project);
+
         // project fields
         project.set('name', ember.get('project.name'));
         
