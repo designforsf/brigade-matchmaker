@@ -67,6 +67,8 @@ function ExpressRouterCfg (attr) {
   router.post('/api/project', express_handler.createProject)
   router.delete('/api/project/:project_id', express_handler.deleteProject)
   router.get('/api/projects', express_handler.getProjects)
+  router.get('/api/projects/:project_id', express_handler.getProject)
+
 
   /**
    * taxonomy-related routes

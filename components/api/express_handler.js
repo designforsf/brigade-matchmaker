@@ -196,6 +196,85 @@ module.exports = {
   }, // END deleteProject
 
   
+
+  /**
+   * getProject
+   * ------------------------------------------------------
+   * Get /api/projects
+   * Returns a json list of available projects
+   * Conforms to JSON-API
+
+   * TEST:
+        http://localhost:5465/api/project/<MONGO_ID>
+   */
+   
+  getProject: function (req, res, next) {
+    var id = req.params.project_id;
+    console.log('getProject id=' + id);
+    
+    // for the emberjs client
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+
+    // final output
+    var outputData;
+
+    Projects.
+      findOne({
+        _id: mongoose.Types.ObjectId(id)
+      }).
+      select({ 
+        _id: 1, 
+        name: 1, 
+        matchingConfig: 1, 
+        matchingDescr: 1, 
+        description: 1, 
+        team: 1, 
+        homepage: 1, 
+        thumbnailUrl: 1, 
+        repositoryUrl: 1, 
+        websiteUrl: 1,
+        slackChannel: 1,
+        todoItems: 1,
+        progressItems: 1,
+        needs: 1, 
+        contact: 1
+      }).
+      exec(function (err, result) {
+        //console.log('results ', results.length);
+
+        // script returned error
+        if (err) {
+          res.json({
+            success: false,
+            error: {message: err},
+            data: {}
+          });
+          return next();
+          
+        } else {
+          
+          outputData = {
+            type: "project",
+            id: result._id,
+            attributes: result
+          };
+          
+          //output.success = true;
+          res.json({ 
+            success: true,
+            data: outputData 
+          });
+
+          return next();
+          
+        }
+
+      });
+
+    }, // END getProjects
+
+
   /**
    * getProjects
    * ------------------------------------------------------
