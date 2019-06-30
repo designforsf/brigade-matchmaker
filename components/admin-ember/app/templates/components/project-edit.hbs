@@ -81,7 +81,7 @@
             <label for="summary" class="col-md-3 control-label">Summary</label>
             <div class="col-md-9">
               {{textarea 
-                value=project.matching-descr.summary 
+                value=project.matchingDescr.summary 
                 rows=3
                 class="form-control" 
               }}
@@ -94,7 +94,7 @@
             <div class="col-md-9">
               {{input 
                 type="text"
-                value=project.matching-descr.contactName 
+                value=project.matchingDescr.contactName 
                 class="form-control" 
               }}
             </div>
@@ -105,7 +105,7 @@
             <div class="col-md-9">
               {{input 
                 type="text"
-                value=project.matching-descr.contactEmail
+                value=project.matchingDescr.contactEmail
                 class="form-control" 
               }}
             </div>
@@ -116,7 +116,7 @@
             <div class="col-md-9">
               {{input 
                 type="text"
-                value=project.matching-descr.contactRole
+                value=project.matchingDescr.contactRole
                 class="form-control" 
               }}
             </div>
@@ -127,15 +127,15 @@
             <div class="col-md-9">
               {{input 
                 type="text"
-                value=project.matching-descr.contactThumbnailUrl
+                value=project.matchingDescr.contactThumbnailUrl
                 class="form-control" 
               }}
               
-              {{#if project.matching-descr.contactThumbnailUrl}}
+              {{#if project.matchingDescr.contactThumbnailUrl}}
 
                 <figure style="padding-top:10px;">
                   <div style="height:100px; width:100px; overflow:hidden;">
-                    <img class="img-responsive" src="{{project.matching-descr.contactThumbnailUrl}}"/>
+                    <img class="img-responsive" src="{{project.matchingDescr.contactThumbnailUrl}}"/>
                   </div>
                 </figure>
 
@@ -153,7 +153,7 @@
             <div class="col-md-9">
               {{input 
                 type="text"
-                value=project.matching-descr.repository
+                value=project.matchingDescr.repository
                 class="form-control" 
               }}
               <span id="helpBlock" class="help-block">
@@ -167,7 +167,7 @@
             <div class="col-md-9">
               {{input 
                 type="text"
-                value=project.matching-descr.link
+                value=project.matchingDescr.link
                 class="form-control" 
               }}
               <span id="helpBlock" class="help-block">
@@ -180,7 +180,7 @@
             <label for="tasks" class="col-md-3 control-label">Tasks</label>
             <div class="col-md-9">
               {{textarea 
-                value=project.matching-descr.tasks 
+                value=project.matchingDescr.tasks 
                 rows=4
                 class="form-control" 
               }}
@@ -194,7 +194,7 @@
             <label for="progress" class="col-md-3 control-label">Accomplishments</label>
             <div class="col-md-9">
               {{textarea 
-                value=project.matching-descr.progress
+                value=project.matchingDescr.progress
                 rows=4
                 class="form-control" 
               }}

@@ -166,24 +166,23 @@ module.exports = {
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
     Projects.findOne({_id: mongoose.Types.ObjectId(id)}, function (err, project) {
-
+      
       if (err) {
         res.send(err);
         return next();
       }
-
+      
       console.log('Found project id=' + project._id + ' to delete.');
-
-
+      
       Projects.deleteOne({_id: mongoose.Types.ObjectId(id)}, function (err) {
-
+        
         console.log('Deleted project id=' + project._id);
-
+        
         if (err) {
           res.send(err);
           return next();
         }
-
+        
         res.status(202);
         return next();
 
