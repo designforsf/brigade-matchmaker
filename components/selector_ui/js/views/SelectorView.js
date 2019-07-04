@@ -62,6 +62,8 @@ define(['underscore','backbone','handlebars', 'jquery','selectormodel'],
          var tabName = e.currentTarget.getAttribute("tabName");
          var tabContent = document.getElementById(tabName);
 
+         console.log(tabName)
+
          //Remove all active views
          this.replaceAllClasses('tab-view-active', 'tab-view-inactive');
          //Remove bold from all other tabs

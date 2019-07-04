@@ -7,14 +7,15 @@
     border-bottom: 1px solid #999;
     color: #999;
     font-family: sans-serif;
-    font-size: .8em;
+    font-size: .75em;
+    line-height: 1.25em;
     font-weight: 100;
     cursor: pointer;
-    padding: 0px 5px;
+    padding: 0px 6px 10px 6px;
 }
 
 .tab-name-active {
-    border-bottom: 1px solid black;
+    border-bottom: 2px solid black;
     color: black;
     font-weight: bold;
     /*

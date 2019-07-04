@@ -73,8 +73,7 @@ var projectsSchema = new mongoose.Schema({
 */
 
 projectsSchema.statics.prepareResultForJsonAPI = function(result) {
-  var project = result.toObject();
-
+  console.log('prepareResultForJsonAPI');
   var project = result.toObject();
 
   // re-name fields for EmberJS/JSON-API conformance
@@ -94,6 +93,7 @@ projectsSchema.statics.prepareResultForJsonAPI = function(result) {
 };
 
 projectsSchema.statics.prepareResultForJsonAPI = function(results, cb) {
+  console.log('prepareResultForJsonAPI');
   var projects = [];
   results.forEach(function(result) {
     var project = result.toObject();
