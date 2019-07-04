@@ -10,6 +10,7 @@ trap handle_error ERR
 
 # Bring down the existing stack.
 docker-compose stop
+docker-compose down
 yes | docker-compose rm
 
 # Bring up the new stack
