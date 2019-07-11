@@ -25,40 +25,43 @@ export default Ember.Component.extend({
 
       var ember = this;
 
+      //ember.get('controller').get('price');
 
       Ember.Logger.log('updateProject');
       Ember.Logger.log('id=' + ember.get('project.id'));
-      //alert(this.get("project.name"));
-      //alert(this.get("project.id"));
+      Ember.Logger.log('summary=' + ember.get('project.matchingDescr.summary'));
       
       //var project = ember.get('project');
       ember
         .get('store')
         .findRecord('project', ember.get('project.id'))
         .then(function(project) {
-        
-        // project fields
-        project.set('name', ember.get('project.name'));
-        
-        // matching descr fragment
-        //alert('set fragment ' + ember.get('project.matching-descr.summary'));
-        //project.set('matching-descr', {
-        //  summary: ember.get('project.matching-descr.summary')
+          
+          // project fields
+          project.set('name', ember.get('project.name'));
+          
+          // matching descr fragment
+          //alert('set fragment ' + ember.get('project.matching-descr.summary'));
+          project.set('matchingDescr', {
+            summary: ember.get('project.matchingDescr.summary')
+          });
+          
+          project.save(); // NOTE: this appears to be calling PATCH on the API
+          
+          //project.save().then(function() {
+          
+            /*
+            Ember.getOwner(ember).lookup('router:main').transitionTo(
+              'projects.edit',
+              {queryParams: {update: true}}
+            );
+            */
+          
+            //Ember.getOwner(ember).lookup('router:main').transitionTo(
+            //  '/projects/' + project.id + '?update=true'
+            //);
+
         //});
-        
-        project.save().then(function() {
-          
-          /*
-          Ember.getOwner(ember).lookup('router:main').transitionTo(
-            'projects.edit',
-            {queryParams: {update: true}}
-          );
-          */
-          
-          Ember.getOwner(ember).lookup('router:main').transitionTo(
-            '/projects/' + project.id + '?update=true'
-          );
-        });
       });
       
     }
