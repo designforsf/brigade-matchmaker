@@ -44,7 +44,7 @@ Interface:
 
 # database configuration
 collection_name = 'brigade-matchmaker'
-client = MongoClient('localhost', 27017)
+client = MongoClient('mongo', 27017)
 db = client[collection_name]
 
 
