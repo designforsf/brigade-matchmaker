@@ -4,9 +4,9 @@ FROM node:6-jessie
 # Install Python
 RUN apt-get update && \
     apt-get install -y \
-    python python-pip python-setuptools \
-    build-essential python-dev \
-    curl git python-pymongo
+    python python3 python-pip python-setuptools \
+    build-essential python-dev python3-pip \
+    curl git
 
 # Copy the current directory contents into the container at /app
 ADD . /app
@@ -17,6 +17,7 @@ WORKDIR $ROOT_APP_DIR
 
 # Install any needed packages specified in requirements.txt
 RUN pip install -r requirements.txt
+RUN pip3 install -r requirements.txt
 
 # Install node and npm dependencies
 WORKDIR $ROOT_APP_DIR/components/api
