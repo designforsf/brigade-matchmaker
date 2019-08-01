@@ -76,10 +76,10 @@ div.detailsGrid {
 
 /* COMPONENT STYLING */
 
-/* TODO media query to remove border right property on smaller screens */
-
-div.projectCol1 {
-  border-right: 1px solid lightgray;
+@media screen and (min-width: 500px) {
+  div.projectCol1 {
+    border-right: 1px solid lightgray;
+  }
 }
 
 div.projectCol2 {
@@ -103,16 +103,20 @@ button.tag {
   font-size: .8em;
 }
 
+button.contact-button {
+  background-color: lightgreen;
+  padding: 10px;
+  border: 2px solid black;
+  cursor: default;
+  border-radius: 4px;
+}
+
 details {
   margin-top: 8px;
 }
 
 summary {
   text-decoration: underline;
-}
-
-ul.details {
-  border-right: 2px solid lightgray;
 }
 
 p.additionalInfo {
