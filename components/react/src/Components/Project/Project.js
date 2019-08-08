@@ -15,7 +15,7 @@ class Project extends React.Component {
           <h5 className="projectTitle">{name}</h5>
           <p>{description}</p>
           <p><strong>Contact Project</strong></p>
-          <p><a href="#">{slackChannel}</a></p>
+          <p><button className="contact-button" type="button">{slackChannel}</button></p>
         </div>
         <div className="projectCol2">
           <h5 className="skillsHeader">Project Needs & Interests</h5>
@@ -63,4 +63,3 @@ class Project extends React.Component {
 }
 
 export default Project;
-
