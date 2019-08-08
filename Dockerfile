@@ -21,19 +21,19 @@ RUN pip3 install -r requirements.txt
 
 # Install node and npm dependencies
 WORKDIR $ROOT_APP_DIR/components/api
-RUN npm install
+RUN npm install --verbose
 
 WORKDIR $ROOT_APP_DIR/components/main_website
-RUN npm install
+RUN npm install --verbove
 
 WORKDIR $ROOT_APP_DIR/components/messaging
-RUN npm install
+RUN npm install --verbose
 
 WORKDIR $ROOT_APP_DIR/components/taxonomy
-RUN npm install
+RUN npm install --verbose
 
 WORKDIR $ROOT_APP_DIR/components/models
-RUN npm install
+RUN npm install --verbose
 
 # Configure the REST API
 COPY etc/env.js.default $ROOT_APP_DIR/development.js
