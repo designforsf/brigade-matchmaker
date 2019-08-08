@@ -1,18 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
+import _ from 'lodash';
 
-class Tag extends React.Component {
-  
-  render() { 
-    return (
-      <button className="tag" onClick={this.props.onClick} style={{border: this.props.border}}> 
-        {this.props.name}
-      </button>
-    );
+const titleize = text => text.split('-').map(_.capitalize).join(' ');
+
+const Tag = ({ text, click }) => {
+  const [clicked, setClicked] = useState(false);
+
+  const handleClick = text => {
+    click && click(text);
+    setClicked(!clicked);
   }
-}
 
-Tag.defaultProps = {
-  border: '1px solid #AA193A'
-};
+  return (
+    <div className="tag {clicked && 'clicked'}" onClick={() => handleClick(text)}>
+      {titleize(text)}
+    </div>
+  );
+}
 
 export default Tag;

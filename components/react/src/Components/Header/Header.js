@@ -1,7 +1,9 @@
 import React from 'react';
-import logo from '../../cfsf_logo.png';
+
 import NavItem from '../NavItem';
+
 import { faCalendar, faHeart, faHome, faInfoCircle, faPen, faRocket } from '@fortawesome/free-solid-svg-icons'
+import logo from '../../cfsf_logo.png'
 
 class Header extends React.Component {
   logo: Logo;
@@ -41,13 +43,17 @@ class Header extends React.Component {
   }
   render() {
     return (
-      <nav className="navbar navbar-expand-md navbar-light"> 
-        <img src={logo} alt={"logo"}/>
-        <ul className="navbar-collapse collapse">
-          {this.headerItems().map((item, key) =>
+      <nav className="navbar navbar-expand-md navbar-light">
+        <div className="container">
+          <a className="navbar-brand" href="#">
+            <img src={logo} alt="Logo" />
+          </a>
+          <ul className="navbar-collapse collapse">
+            {this.headerItems().map((item, key) =>
             <NavItem key={key} { ...item } />
-          )}
-        </ul>
+            )}
+          </ul>
+        </div>
       </nav>
     );
   }

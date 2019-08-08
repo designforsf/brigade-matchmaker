@@ -42,6 +42,11 @@
     "winston": "^1.0.2"
   },
   "devDependencies": {
+    "babel-cli":"^6.26.0",
+    "jest":"^24.7.1",
+    "@babel/preset-env":"^7.4.3",
+    "supertest":"^4.0.2",
+    "superagent":"^5.0.2",
     "browserify": "^16.2.2",
     "grunt": "^1.0.3",
     "grunt-cli": "^v1.2.0",

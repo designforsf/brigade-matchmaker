@@ -24,6 +24,7 @@ var express = require('express')
 // set up the environment-based config
 var Config = require('../common/lib/ConfigFile.js');
 var config = (new Config({ env: global.process.env.NODE_ENV })).config;
+//console.log(config);
 
 // express app
 var app = express();
@@ -51,9 +52,15 @@ app.use(allowCrossDomain);
 
 
 // mongoose
-var mongodb_uri = config.mongodb.uri
-mongoose.connect(mongodb_uri, function (err) {
 
+var mongodb_uri = config.mongodb.uri
+var connect_opts = {
+  socketTimeoutMS: 5000,
+  connectTimeoutMS: 5000
+};
+
+mongoose.connect(mongodb_uri, connect_opts,
+function (err) {
   if (err) {
     throw new Error(err);
   } else {

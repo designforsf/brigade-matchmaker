@@ -1,4 +1,5 @@
 var pug = require('pug')
+  , mongoose =          require('mongoose')
   , Users = 						require('./models/Users')
   , UserMatchConfigs = 	require('./models/UserMatchConfigs')
   , Projects = 					require('./models/Projects')
@@ -108,7 +109,172 @@ module.exports = {
 
   },
 
+
+  /**
+   * createProjects
+   * ------------------------------------------------------
+   * POST /api/project
+   * Returns a json list of available projects
+   * Conforms to JSON-API
+
+   * RESPONSE:
+        https://jsonapi.org/format/#crud-creating-responses
+
+   * TEST:
+        http://localhost:5465/api/projects
+   */
+
+  createProject: function (req, res, next) {
+    console.log('createProject');
+    //console.log(req.body.data);
+
+    var jsonAPIObj = req.body;
+
+    if (typeof jsonAPIObj === 'undefined') {
+      console.error('No data in request body');
+      return next();
+    }
+
+    // form the object
+    var newProject = new Projects(jsonAPIObj.data.attributes);  
+    
+    // save the new project
+    newProject.save(function (err, savedProject) {
+      if (err) { 
+        console.error('Could not save project'); 
+      };
+
+      res.json({ data: {
+        _id: savedProject._id
+      } });
+      
+      return next();
+
+    });
+
+    
+  }, // END createProject
+
+
+  deleteProject: function (req, res, next) {
+
+    var id = req.params.project_id;
+    console.log('deleteProject id=' + id);
+
+    // for the emberjs client
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+
+    Projects.findOne({_id: mongoose.Types.ObjectId(id)}, function (err, project) {
+
+      if (err) {
+        res.send(err);
+        return next();
+      }
+
+      console.log('Found project id=' + project._id + ' to delete.');
+
+
+      Projects.deleteOne({_id: mongoose.Types.ObjectId(id)}, function (err) {
+
+        console.log('Deleted project id=' + project._id);
+
+        if (err) {
+          res.send(err);
+          return next();
+        }
+
+        res.status(202);
+        return next();
+
+      }); // END deleteOne
+
+
+
+    }); // findOne
+
+  }, // END deleteProject
+
   
+
+  /**
+   * getProject
+   * ------------------------------------------------------
+   * Get /api/projects
+   * Returns a json list of available projects
+   * Conforms to JSON-API
+
+   * TEST:
+        http://localhost:5465/api/project/<MONGO_ID>
+   */
+   
+  getProject: function (req, res, next) {
+    var id = req.params.project_id;
+    console.log('getProject id=' + id);
+    
+    // for the emberjs client
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+
+    // final output
+    var outputData;
+
+    Projects.
+      findOne({
+        _id: mongoose.Types.ObjectId(id)
+      }).
+      select({ 
+        _id: 1, 
+        name: 1, 
+        matchingConfig: 1, 
+        matchingDescr: 1, 
+        description: 1, 
+        team: 1, 
+        homepage: 1, 
+        thumbnailUrl: 1, 
+        repositoryUrl: 1, 
+        websiteUrl: 1,
+        slackChannel: 1,
+        todoItems: 1,
+        progressItems: 1,
+        needs: 1, 
+        contact: 1
+      }).
+      exec(function (err, result) {
+        //console.log('results ', results.length);
+
+        // script returned error
+        if (err) {
+          res.json({
+            success: false,
+            error: {message: err},
+            data: {}
+          });
+          return next();
+          
+        } else {
+          
+          outputData = {
+            type: "project",
+            id: result._id,
+            attributes: result
+          };
+          
+          //output.success = true;
+          res.json({ 
+            success: true,
+            data: outputData 
+          });
+
+          return next();
+          
+        }
+
+      });
+
+    }, // END getProjects
+
+
   /**
    * getProjects
    * ------------------------------------------------------
@@ -154,7 +320,7 @@ module.exports = {
         contact: 1
       }).
       exec(function (err, results) {
-      	console.log('results ', results.length);
+      	//console.log('results ', results.length);
 
         // script returned error
         if (err) {
@@ -187,7 +353,6 @@ module.exports = {
       });
 
     }, // END getProjects
-
 
 
   /**

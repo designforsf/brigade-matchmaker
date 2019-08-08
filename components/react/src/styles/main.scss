@@ -1,3 +1,5 @@
+/* COLORS */
+$tag-red: #AA193A;
 /* GLOBAL */
 
 body {
@@ -94,7 +96,8 @@ div.project {
   margin-bottom: 24px;
 }
 
-button.tag {
+div.tag {
+  border: 1px solid $tag-red;
   border-radius: 4px;
   padding: 4px;
   margin: 4px;
@@ -109,6 +112,15 @@ button.contact-button {
   border: 2px solid black;
   cursor: default;
   border-radius: 4px;
+}
+
+.tag.clicked {
+  background-color: $tag-red;
+  color: #FFFFFF;
+}
+
+summary {
+  text-decoration: underline;
 }
 
 details {
