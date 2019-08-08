@@ -1,5 +1,7 @@
 /* COLORS */
+
 $tag-red: #AA193A;
+
 /* GLOBAL */
 
 body {
@@ -77,7 +79,20 @@ div.detailsGrid {
   border-bottom: 1px solid lightgray;
 }
 
-/* COMPONENT STYLING */
+.row {
+  max-width: 1140px;
+  margin-left: 4px;
+  margin-right: 4px;
+}
+
+/* SELECTOR COMPONENT STYLING */
+
+.card-body {
+  max-width: 350px;
+  margin: 8px;
+}
+
+/* PROJECT COMPONENT STYLING */
 
 @media screen and (min-width: 500px) {
   div.projectCol1 {
@@ -96,27 +111,12 @@ div.project {
   margin-bottom: 24px;
 }
 
-div.tag {
-  border: 1px solid $tag-red;
-  border-radius: 4px;
-  padding: 4px;
-  margin: 4px;
-  cursor: default;
-  font-family: sans-serif;
-  font-size: .8em;
-}
-
 button.contact-button {
   background-color: lightgreen;
   padding: 10px;
   border: 2px solid black;
   cursor: default;
   border-radius: 4px;
-}
-
-.tag.clicked {
-  background-color: $tag-red;
-  color: #FFFFFF;
 }
 
 summary {
@@ -128,12 +128,24 @@ details {
   padding: 8px;
 }
 
-summary {
-  text-decoration: underline;
-}
-
 p.additionalInfo {
   font-size: 1em;
   padding-left: 36px;
   color: #343a40;
+}
+
+/* TAG COMPONENT STYLING */
+div.tag {
+  border: 1px solid $tag-red;
+  border-radius: 4px;
+  padding: 4px;
+  margin: 4px;
+  cursor: default;
+  font-family: sans-serif;
+  font-size: .8em;
+}
+
+.tag.clicked {
+  background-color: $tag-red;
+  color: #FFFFFF;
 }
