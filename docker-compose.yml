@@ -52,13 +52,11 @@ services:
       - "5475:5475" # messaging
       - "5495:5495" # selector UI prototype
     volumes:
-      - ./static-assets:/var/www/html
+      # Nginx config file lives here.
       - ./nginx-conf:/etc/nginx/conf.d
-      - certbot-etc:/etc/letsencrypt
-      - certbot-var:/var/lib/letsencrypt
-      # Keys used by nginx/nginx.conf
-      - ./localhost.key:/etc/letsencrypt/live/localhost/privkey.pem
-      - ./localhost.crt:/etc/letsencrypt/live/localhost/fullchain.pem
+      # Locally-generated and stored SSL keys used by nginx.
+      - ./localhost_keys/localhost.key:/etc/letsencrypt/live/localhost/privkey.pem
+      - ./localhost_keys/localhost.crt:/etc/letsencrypt/live/localhost/fullchain.pem
       - ./dhparam/dhparam-2048.pem:/etc/ssl/certs/dhparam-2048.pem
     restart: unless-stopped
     networks:
