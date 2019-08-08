@@ -1,4 +1,5 @@
 import React from 'react';
+import Tag from '../Tag';
 
 class Project extends React.Component {
   render() {
@@ -8,7 +9,7 @@ class Project extends React.Component {
       }
     } = this.props;
     return (
-      <div className="project"> 
+      <div className="project">
       <div className="projectCols">
         <div className="projectCol1">
           <h5 className="projectTitle">{name}</h5>
@@ -22,31 +23,35 @@ class Project extends React.Component {
           <p className="skillsCategory"><strong>Skills Needed:</strong></p>
           <div className="tagContainer">
             {skillsNeeded.map(skill =>
-              <div className="tag">{skill}</div>
+              <Tag key={skill} text={skill} />
               )}
           </div>
 
           <p className="skillsCategory"><strong>Learning Opportunities:</strong></p>
           <div className="tagContainer">
             {skillsOffered.map(skill =>
-              <div className="tag">{skill}</div>
+              <div className="tag" key={skill}>{skill}</div>
             )}
           </div>
 
           <p className="skillsCategory"><strong>Civic Interests:</strong></p>
           <div className="tagContainer">
             {interests.map(interest =>
-              <div className="tag">{interest}</div>
+              <div className="tag" key={interest}>{interest}</div>
             )}
           </div>
-      
+
         </div>
       </div>
         <details>
           <summary>Show project details</summary>
           <div className="detailsGrid">
-            <ul className="details"><strong>Pending Tasks</strong></ul>
-            <ul className="details"><strong>Progress Made</strong></ul>
+            <ul className="details"><strong>Pending Tasks</strong>
+              {todoItems.map(todoItem => <li key={todoItem}>{todoItem}</li>)}
+            </ul>
+            <ul className="details"><strong>Progress Made</strong>
+              {progressItems.map(progressItem => <li key={progressItem}>{progressItem}</li>)}
+            </ul>
             <div className="additional-info">
               <p className="additionalInfo"><strong>Additional Info</strong></p>
             </div>

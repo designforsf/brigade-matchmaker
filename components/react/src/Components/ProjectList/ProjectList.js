@@ -1,39 +1,15 @@
 import React from 'react';
 import Project from '../Project';
+import _ from 'lodash';
 
 class ProjectList extends React.Component {
-  abortController = new AbortController();
-
   constructor(props) {
     super(props);
     this.state = {
       error: null,
-      isLoaded: false,
-      items: []
+      isLoaded: true,
+      projects: props.projects,
     };
-  }
-  componentDidMount() {
-    fetch('http://localhost:5455/api/projects', { signal: this.abortController.signal })
-      .then(res => res.json())
-      .then(
-        (result) => {
-          this.setState({
-            isLoaded: true,
-            projects: result.data
-          });
-        },
-        (error) => {
-          if(error.name === 'AbortError') return;
-          this.setState({
-            isLoaded: true,
-            error
-          });
-        }
-      );
-  }
-
-  componentWillUnmount() {
-    this.abortController.abort();
   }
 
   render() {
@@ -46,7 +22,7 @@ class ProjectList extends React.Component {
       return (
         <div className="container well">
           <h1>Project List</h1>
-          {projects.map((project, key) =>
+          {_.sortBy(projects, project => project.attributes.name).map((project, key) =>
             <Project key={key} {...project} />
           )}
         </div>

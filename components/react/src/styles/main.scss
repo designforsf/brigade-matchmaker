@@ -1,3 +1,5 @@
+/* COLORS */
+$tag-red: #AA193A;
 /* GLOBAL */
 
 body {
@@ -66,13 +68,18 @@ div.project {
 }
 
 div.tag {
-  border: 1px solid #AA193A;
+  border: 1px solid $tag-red;
   border-radius: 4px;
   padding: 4px;
   margin: 4px;
   cursor: default;
   font-family: sans-serif;
   font-size: .8em;
+}
+
+.tag.clicked {
+  background-color: $tag-red;
+  color: #FFFFFF;
 }
 
 summary {
