@@ -24,6 +24,7 @@ h1 {
 h5.projectTitle {
   font-size: 1.5em;
   font-weight: 600;
+  padding: 8px;
 }
 
 h5.skillsHeader {
@@ -37,7 +38,7 @@ p {
   margin-top: 5px;
   font-size: 1.1em;
   color: #5E5E5E;
-  padding-right: 8px;
+  padding: 8px;
 }
 
 p.skillsCategory {
@@ -91,7 +92,6 @@ div.projectCol2 {
 div.project {
   border: 1px solid lightgray;
   box-shadow: 2px 3px 2px #ccc;
-  padding: 16px;
   margin: 8px;
   margin-bottom: 24px;
 }
@@ -125,6 +125,7 @@ summary {
 
 details {
   margin-top: 8px;
+  padding: 8px;
 }
 
 summary {
