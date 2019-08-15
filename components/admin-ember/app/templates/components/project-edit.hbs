@@ -36,14 +36,13 @@
     </a>
     
     &nbsp;
-    
-    <a href="/projects/list" >
-      <button type="button" class="btn btn-default btn-default pull-left">
-          <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 
-          &nbsp; 
-          Delete
-      </button>
-    </a>
+
+    <button class="btn btn-default btn-default pull-left"
+      {{action 'deleteProject'}}>
+      <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 
+      &nbsp;
+      Delete
+    </button>
     
   </div>
 </div>
@@ -72,7 +71,7 @@
               {{input 
                 type="text" 
                 value=project.name 
-                class="form-control"
+                class="form-control"  
               }}
             </div>
           </div>

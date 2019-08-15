@@ -12,7 +12,7 @@ export default Ember.Component.extend({
     Ember.Logger.log('init project-edit');
 
     Ember.Logger.log('id=' + ember.get('project.id'));
-    Ember.Logger.log('matchingDescr.contactName=' + ember.get('project.matchingDescr.contactName'));
+    //Ember.Logger.log('matchingDescr.contactName=' + ember.get('project.matchingDescr.contactName'));
 
   },
   
@@ -20,6 +20,10 @@ export default Ember.Component.extend({
       
     queryParams: ['updated'],
     updated: false,
+
+    createProject() {
+      Ember.Logger.log('createProject');
+    },
     
     updateProject() {
 
