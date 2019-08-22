@@ -30,4 +30,5 @@ networks:
 volumes:
   certbot-etc:
   certbot-var:
+  web-root:
   mongodb-data:
