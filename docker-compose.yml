@@ -65,6 +65,4 @@ networks:
   app-network:
     driver: bridge
 volumes:
-  certbot-etc:
-  certbot-var:
   mongodb-data:
