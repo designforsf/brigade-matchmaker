@@ -1,6 +1,8 @@
 /* COLORS */
 
 $tag-red: #AA193A;
+$tag-green: #28a745;
+$tag-white: #fff;
 
 /* GLOBAL */
 
@@ -23,13 +25,13 @@ h1 {
   margin: 10px;
 }
 
-h5.projectTitle {
+h5.project-title {
   font-size: 1.5em;
   font-weight: 600;
   padding: 8px;
 }
 
-h5.skillsHeader {
+h5.skills-header {
   margin-top: 24px;
   margin-bottom: 24px;
   font-size: 1.2em;
@@ -43,7 +45,15 @@ p {
   padding: 8px;
 }
 
-p.skillsCategory {
+p.contact {
+  margin-bottom: 0px;
+}
+
+div.contact {
+  margin-left: 8px;
+}
+
+p.skills-category {
   margin-bottom: 0px;
   color: #343a40;
 }
@@ -59,24 +69,23 @@ nav {
   flex-wrap: wrap;
 }
 
-div.projectCols {
+div.project-grid {
   display: grid;
   grid-gap: 10px;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   border-bottom: 1px solid lightgray;
 }
 
-div.tagContainer {
+div.tag-container {
   display: flex;
   flex-wrap: wrap;
   margin-bottom: 8px;
 }
 
-div.detailsGrid {
+div.details-grid {
   display: grid;
   grid-gap: 16px;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  border-bottom: 1px solid lightgray;
 }
 
 .row {
@@ -95,12 +104,12 @@ div.detailsGrid {
 /* PROJECT COMPONENT STYLING */
 
 @media screen and (min-width: 500px) {
-  div.projectCol1 {
+  div.project-column-left {
     border-right: 1px solid lightgray;
   }
 }
 
-div.projectCol2 {
+div.project-column-right {
   padding-left: 16px;
 }
 
@@ -112,11 +121,17 @@ div.project {
 }
 
 button.contact-button {
-  background-color: lightgreen;
-  padding: 10px;
-  border: 2px solid black;
-  cursor: default;
-  border-radius: 4px;
+  background-color: $tag-green;
+  color: $tag-white;
+  padding: .375rem .75rem;
+  cursor: pointer;
+  border: 1px solid transparent;
+  border-radius: .25rem;
+  font-weight: 400;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 1rem;
+  line-height: 1.5;
 }
 
 summary {
@@ -128,7 +143,7 @@ details {
   padding: 8px;
 }
 
-p.additionalInfo {
+p.additional-info {
   font-size: 1em;
   padding-left: 36px;
   color: #343a40;

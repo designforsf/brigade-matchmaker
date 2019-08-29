@@ -10,32 +10,32 @@ class Project extends React.Component {
     } = this.props;
     return (
       <div className="project">
-      <div className="projectCols">
-        <div className="projectCol1">
-          <h5 className="projectTitle">{name}</h5>
+      <div className="project-grid">
+        <div className="project-column-left">
+          <h5 className="project-title">{name}</h5>
           <p>{description}</p>
-          <p><strong>Contact Project</strong></p>
-          <p><button className="contact-button" type="button">{slackChannel}</button></p>
+          <p className="contact"><strong>Contact Project</strong></p>
+          <div className="contact"><button className="contact-button" type="button">{slackChannel}</button></div>
         </div>
-        <div className="projectCol2">
-          <h5 className="skillsHeader">Project Needs & Interests</h5>
+        <div className="project-column-right">
+          <h5 className="skills-header">Project Needs & Interests</h5>
 
-          <p className="skillsCategory"><strong>Skills Needed:</strong></p>
-          <div className="tagContainer">
+          <p className="skills-category"><strong>Skills Needed:</strong></p>
+          <div className="tag-container">
             {skillsNeeded.map(skill =>
               <Tag key={skill} text={skill} />
               )}
           </div>
 
-          <p className="skillsCategory"><strong>Learning Opportunities:</strong></p>
-          <div className="tagContainer">
+          <p className="skills-category"><strong>Learning Opportunities:</strong></p>
+          <div className="tag-container">
             {skillsOffered.map(skill =>
               <div className="tag" key={skill}>{skill}</div>
             )}
           </div>
 
-          <p className="skillsCategory"><strong>Civic Interests:</strong></p>
-          <div className="tagContainer">
+          <p className="skills-category"><strong>Civic Interests:</strong></p>
+          <div className="tag-container">
             {interests.map(interest =>
               <div className="tag" key={interest}>{interest}</div>
             )}
@@ -45,7 +45,7 @@ class Project extends React.Component {
       </div>
         <details>
           <summary>Show project details</summary>
-          <div className="detailsGrid">
+          <div className="details-grid">
             <ul className="details"><strong>Pending Tasks</strong>
               {todoItems.map(todoItem => <li key={todoItem}>{todoItem}</li>)}
             </ul>
@@ -53,7 +53,7 @@ class Project extends React.Component {
               {progressItems.map(progressItem => <li key={progressItem}>{progressItem}</li>)}
             </ul>
             <div className="additional-info">
-              <p className="additionalInfo"><strong>Additional Info</strong></p>
+              <p className="additional-info"><strong>Additional Info</strong></p>
             </div>
           </div>
         </details>
