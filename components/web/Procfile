@@ -1,3 +1,0 @@
-web: NODE_ENV=development node app.js
-start: npm start
-start: npm start

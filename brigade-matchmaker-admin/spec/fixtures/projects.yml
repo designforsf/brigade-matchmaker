@@ -1,0 +1,4 @@
+adopt_a_drain:
+  name: Adopt-a-Drain
+  description: Claim responsibility for cleaning out a storm drain after it rains.
+  slack_channel: adopt-a-drain

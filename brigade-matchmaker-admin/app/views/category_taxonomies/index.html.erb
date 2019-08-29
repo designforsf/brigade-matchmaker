@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Category Taxonomies</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Category</th>
+      <th>Taxonomy</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @category_taxonomies.each do |category_taxonomy| %>
+      <tr>
+        <td><%= category_taxonomy.category_id %></td>
+        <td><%= category_taxonomy.taxonomy_id %></td>
+        <td><%= link_to 'Show', category_taxonomy %></td>
+        <td><%= link_to 'Edit', edit_category_taxonomy_path(category_taxonomy) %></td>
+        <td><%= link_to 'Destroy', category_taxonomy, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Category Taxonomy', new_category_taxonomy_path %>

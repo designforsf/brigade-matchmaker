@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Category:</strong>
+  <%= @category_taxonomy.category_id %>
+</p>
+
+<p>
+  <strong>Taxonomy:</strong>
+  <%= @category_taxonomy.taxonomy_id %>
+</p>
+
+<%= link_to 'Edit', edit_category_taxonomy_path(@category_taxonomy) %> |
+<%= link_to 'Back', category_taxonomies_path %>
