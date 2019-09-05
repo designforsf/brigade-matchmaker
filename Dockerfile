@@ -24,7 +24,7 @@ WORKDIR $ROOT_APP_DIR/components/api
 RUN npm install --verbose
 
 WORKDIR $ROOT_APP_DIR/components/main_website
-RUN npm install --verbove
+RUN npm install --verbose
 
 WORKDIR $ROOT_APP_DIR/components/messaging
 RUN npm install --verbose
