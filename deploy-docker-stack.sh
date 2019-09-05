@@ -8,18 +8,40 @@ handle_error () {
 }
 trap handle_error ERR
 
+assert_output_contains () {
+  cmd=$1
+  expected=$2
+
+  # Run the command.
+  actual=$(eval ${cmd}) || true
+
+  # Output.
+  if (echo "$actual" | grep -q "$expected"); then
+    echo "PASSED"
+    return 0
+  else
+    echo "expected \"$expected\", got \"$actual\";" "$1"
+    echo "FAIL"
+    return 1
+  fi
+}
+
+HTTP_HOSTPORT=localhost:80
+SSL_HOSTPORT=localhost:443
+
 # Bring down the existing stack.
-docker stack down sfbm
+docker-compose stop
+docker-compose down
+yes | docker-compose rm
 
 # Bring up the new stack.
-docker stack deploy sfbm -c docker-compose.yml
+docker-compose up -d --remove-orphans
 
-# Attempt to curl the main page for $max_time seconds.
-HOSTPORT=localhost:80
-echo "Waiting for connection from $HOSTPORT..."
+# Attempt to curl for $max_time seconds.
+echo "Waiting for connection from $HTTP_HOSTPORT..."
 time_waited=0
 max_time=120 # seconds
-until $(curl --output /dev/null --silent --head --fail http://$HOSTPORT); do
+until $(curl --output /dev/null --silent --head --fail http://$HTTP_HOSTPORT); do
     printf '.'
     sleep 1
     time_waited=$(($time_waited+1))
@@ -28,3 +50,12 @@ until $(curl --output /dev/null --silent --head --fail http://$HOSTPORT); do
       exit 1
     fi
 done
+
+
+# Assert that we get errors that indicate HTTPS is working.
+echo "Testing HTTP 301 redirect on ${HTTP_HOSTPORT}..."
+assert_output_contains "curl --silent ${HTTP_HOSTPORT} --stderr -" "301 Moved Permanently"
+echo "Testing that plain HTTP requests receive 400 error on ${SSL_HOSTPORT}..."
+assert_output_contains "curl --silent ${SSL_HOSTPORT} --stderr -" "400 The plain HTTP request was sent to HTTPS port"
+
+echo "Your environment appears to be working."

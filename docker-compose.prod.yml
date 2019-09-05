@@ -1,0 +1,34 @@
+version: "3"
+services:
+  # Override/add mountpoints for nginx configuration and SSL certificates.
+  nginx:
+    volumes:
+      # Mount the directory where CertBot puts its acme-challenge file.
+      - ./static-assets:/var/www/html
+      # Mount the directories where CertBot puts its keys.
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+      # Override local nginx config with production nginx config.
+      - ./prod/nginx-conf:/etc/nginx/conf.d
+      # Mount the locally-generated prod Diffie-Hellman keys.
+      - ./prod/dhparam/dhparam-2048.pem:/etc/ssl/certs/dhparam-2048.pem
+  # Only in production: CertBot creates valid, real-life LetsEncrypt SSL keys.
+  # See https://certbot.eff.org for details.
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+      - web-root:/var/www/html
+    depends_on:
+      - nginx
+    command: certonly --webroot --webroot-path=/var/www/html --agree-tos --no-eff-email --staging -d projects.codeforsanfrancisco.org
+networks:
+  app-network:
+    driver: bridge
+volumes:
+  certbot-etc:
+  certbot-var:
+  web-root:
+  mongodb-data:

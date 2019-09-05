@@ -80,9 +80,9 @@ define(['jquery','underscore','backbone','handlebars','projlistmodel', 'selector
 
          // model gets initialized with all the projects
          this.model = new ProjectModel("/api/projects");
-         if (!this.config.api.protocol) { console.error('Protocol not found. Please define the protocol in the etc environment-config for "web".'); }
-         this.model.urlRoot = this.config.api.protocol + '://' + this.config.api.host + ':' + this.config.api.port
-         //console.log('ProjectView urlRoot: ' + this.model.urlRoot);
+         if (!this.config.api.exposed_protocol) { console.error('Protocol not found. Please define the protocol in the etc environment-config for "api".'); }
+         this.model.urlRoot = this.config.api.exposed_protocol + '://' + this.config.api.host + ':' + this.config.api.exposed_port
+         console.log('ProjectModel urlRoot: ' + this.model.urlRoot);
 
          // load selector model dependencies
          // required for lookups relating to assigned taxonomy items
