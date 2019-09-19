@@ -1,7 +1,5 @@
 /* COLORS */
-
 $tag-red: #AA193A;
-
 /* GLOBAL */
 
 body {
@@ -10,54 +8,26 @@ body {
   font-family: sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  line-height: 1.5;
-  color: #343a40;
-  text-align: left;
 }
 
 /* TEXT RENDERING */
 
-h1 {
-  font-weight: 100;
-  font-size: 1.7em;
-  margin: 10px;
-}
-
 h5.projectTitle {
   font-size: 1.5em;
   font-weight: 600;
-  padding: 8px;
 }
 
 h5.skillsHeader {
   margin-top: 24px;
   margin-bottom: 24px;
   font-size: 1.2em;
-  font-weight: lighter;
-}
-
-p {
-  margin-top: 5px;
-  font-size: 1.1em;
-  color: #5E5E5E;
-  padding: 8px;
 }
 
 p.skillsCategory {
   margin-bottom: 0px;
-  color: #343a40;
-}
-
-p.contact {
-  color: #343a40;
 }
 
 /* LAYOUT */
-
-nav {
-  display: flex;
-  flex-wrap: wrap;
-}
 
 div.projectCols {
   display: grid;
@@ -69,7 +39,7 @@ div.projectCols {
 div.tagContainer {
   display: flex;
   flex-wrap: wrap;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
 }
 
 div.detailsGrid {
@@ -79,25 +49,10 @@ div.detailsGrid {
   border-bottom: 1px solid lightgray;
 }
 
-.row {
-  max-width: 1140px;
-  margin-left: 4px;
-  margin-right: 4px;
-}
+/* COMPONENT STYLING */
 
-/* SELECTOR COMPONENT STYLING */
-
-.card-body {
-  max-width: 350px;
-  margin: 8px;
-}
-
-/* PROJECT COMPONENT STYLING */
-
-@media screen and (min-width: 500px) {
-  div.projectCol1 {
-    border-right: 1px solid lightgray;
-  }
+div.projectCol1 {
+  border-right: 1px solid lightgray;
 }
 
 div.projectCol2 {
@@ -107,6 +62,7 @@ div.projectCol2 {
 div.project {
   border: 1px solid lightgray;
   box-shadow: 2px 3px 2px #ccc;
+  padding: 16px;
   margin: 8px;
   margin-bottom: 24px;
 }
@@ -123,9 +79,8 @@ summary {
   text-decoration: underline;
 }
 
-details {
-  margin-top: 8px;
-  padding: 8px;
+ul.details {
+  border-right: 2px solid lightgray;
 }
 
 p.additionalInfo {
