@@ -1,8 +1,6 @@
 import React from 'react';
-import Tag from '../Tag';
-const _ = require('lodash');
 
-const SelectorModal = ({ tags, name, taxonomyId }) => {
+const SelectorModal = ({ categories, name, taxonomyId }) => {
   return (
     <div className="modal fade" role="dialog" id={'selector-modal-' + taxonomyId} tabIndex="-1" aria-labelledby={'title_' + taxonomyId}>
       <div className="modal-dialog" role="document">
@@ -14,7 +12,7 @@ const SelectorModal = ({ tags, name, taxonomyId }) => {
             </button>
           </div>
           <div className="modal-body">
-            {tags}
+            {categories}
           </div>
           <div className="modal-footer">
             <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>

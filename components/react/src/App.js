@@ -15,10 +15,9 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.request('http://localhost:5455/projects.json', 'projects').then(
-      () => this.request('http://localhost:5455/taxonomies.json', 'taxonomies').then(
-        () => this.setState(Object.assign({}, this.state, { isLoaded: true }))
-    ))
+    this.request('http://localhost:5455/projects.json', 'projects')
+      .then(() => this.request('http://localhost:5455/taxonomies.json', 'taxonomies'))
+      .then(() => this.setState(Object.assign({}, this.state, { isLoaded: true })));
   }
 
   request(url, stateVariable) {
