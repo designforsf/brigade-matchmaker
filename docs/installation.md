@@ -202,10 +202,10 @@ Now you are ready to install pymongo. In the command line terminal:
 
 ```
 cd brigade-matchmaker/components/matching
-python3 --version
-pip3 --version
-pip3 install pymongo==3.4
-python3 match-algo.py javascript housing developer
+python --version
+pip --version
+pip install pymongo==3.4
+python db-match-algo.py javascript housing developer
 ```
 
 If the database is running and the webapp has been fired up (at least once), you should be able to interact with the matching algorithm using pre-loaded test project data.
