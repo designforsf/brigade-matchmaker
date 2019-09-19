@@ -1,2 +1,2 @@
 #!/bin/bash
-docker build -t sfbrigade/brigade-matchmaker:app .
+docker build -t sfbrigade/project-match:app .
