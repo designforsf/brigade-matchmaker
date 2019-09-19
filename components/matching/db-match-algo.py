@@ -113,6 +113,7 @@ for project in db.projects.find({}):
     #print 'load ' + project['name']
     #print project['_id']
     #pp.pprint(project['matchingConfig'])
+    #pp.pprint(project['todoItems'])
 
 
     # NOTE: the algo will add the following data to project:
@@ -330,9 +331,10 @@ def matchmaking (
             'goals',
             str(project['goals_total']),
             "(" + " ".join(project['goals_matched']) + ")",
-        )
-        print ",".join(seq)
 
+        )
+        #pp.pprint(seq)
+        print(",".join(seq))
 
 # if called from command line
 

@@ -22,7 +22,7 @@ In the case of "skills" and "learnSkills", the keywords reflect a hierarchy unde
 Example API usage:
 
 ```
-wget -qO- http://localhost:5465/api/user/matches?skills=client-dev/javascript,data-sci/python&learnSkills=client-dev/css&interests=housing
+wget -qO- http://localhost:5455/api/user/matches?skills=client-dev/javascript,data-sci/python&learnSkills=client-dev/css&interests=housing
 ```
 
  
@@ -50,7 +50,7 @@ Returns the default list of projects, contains each project's attributes, includ
 Example API usage:
 
 ```
-wget -qO- http://localhost:5465/api/projects
+wget -qO- http://localhost:5455/api/projects
 ```
 
 
@@ -93,7 +93,7 @@ Updates a project record. According to the [JSON API spec for "resource objects"
 Returns keywords data under the parent of "skills". This taxonomy has a hierarchy of two levels in which skills are organized by category.
 
 ```
-wget -qO- http://localhost:5465/api/project/taxonomy/skills
+wget -qO- http://localhost:5455/api/project/taxonomy/skills
 ```
 
 ### GET /api/project/taxonomy/interests
@@ -101,7 +101,7 @@ wget -qO- http://localhost:5465/api/project/taxonomy/skills
 Returns keywords data under the parent of "interests".
 
 ```
-wget -qO- http://localhost:5465/api/project/taxonomy/interests
+wget -qO- http://localhost:5455/api/project/taxonomy/interests
 ```
 
 ### GET /api/project/taxonomy/goals
@@ -109,9 +109,17 @@ wget -qO- http://localhost:5465/api/project/taxonomy/interests
 Returns keywords data under the parent of "goals".
 
 ```
-wget -qO- http://localhost:5465/api/project/taxonomy/goals
+wget -qO- http://localhost:5455/api/project/taxonomy/goals
 ```
 ## Admin API
+
+### GET /api/project/taxonomies-for-ui
+
+Returns all keywords data, as a [Tree Structure for UI Rendering](https://github.com/designforsf/brigade-matchmaker/blob/master/docs/taxonomy.md#tree-structure-for-ui-rendering).
+
+```
+wget -qO- http://localhost:5455/api/project/taxonomies-for-ui
+```
 
 The admin component utilizes the Django REST framework so any modifications made using the admin component will update the API. The following request methods and resources are available:
 

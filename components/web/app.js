@@ -36,6 +36,18 @@ require('colors')
  * Default path: .env
  */
 require('./dotenv.js')()
+
+/**
+
+ * New configuration file approach : common/ConfigFile
+ * Allows for more complex data in environment-based configration.
+
+**/
+
+var ConfigFile = require('../common/lib/ConfigFile');
+var config = new ConfigFile().config;
+
+
 /**
  * Controllers (route handlers).
  */
@@ -53,19 +65,23 @@ var helpers = requireDir('./helpers')
 var brigadeDetails
 
 /**
- * API keys and Passport configuration.
+ * API keys and Passport
  */
-var passportConf = require('./config/passport')
+var passportAuth = require('./lib/passport')
 
 /**
  * Create Express server.
  */
-var app = express()
+var app = express();
+
+// express global variables
+app.set('config',config);
+
 
 /**
  * Connect to MongoDB.
  */
-mongoose.connect(process.env.MONGODB || process.env.MONGOLAB_URI, function (err) {
+mongoose.connect(process.env.MONGODB || process.env.MONGOLAB_URI, {useMongoClient: true}, function (err) {
   if (err) throw new Error(err)
 });
 mongoose.connection.on('disconnected', function () {
@@ -130,7 +146,7 @@ var ProjectTaxonomies = require('./models/ProjectTaxonomies')
  app.use(allowCrossDomain);
  
  
-app.set('port', process.env.PORT || 5465)
+app.set('port', config.web.port || 5465)
 app.set('views', path.join(__dirname, 'themes'))
 app.locals.capitalize = function (value) {
   return value.charAt(0).toUpperCase() + value.slice(1)
@@ -245,12 +261,12 @@ app.get('/',homeCtrl.projectList)
 app.get('/login', usersCtrl.getLogin)
 app.post('/login', usersCtrl.postLogin)
 app.get('/login/edit',
-  passportConf.isAuthenticated,
-  passportConf.checkRoles(['core', 'superAdmin']),
+  passportAuth.isAuthenticated,
+  passportAuth.checkRoles(['core', 'superAdmin']),
   usersCtrl.getLoginEdit)
 app.post('/login/edit',
-  passportConf.isAuthenticated,
-  passportConf.checkRoles(['core', 'superAdmin']),
+  passportAuth.isAuthenticated,
+  passportAuth.checkRoles(['core', 'superAdmin']),
   usersCtrl.postLoginEdit)
 app.get('/logout', usersCtrl.getLogout)
 
@@ -258,6 +274,15 @@ app.get('/logout', usersCtrl.getLogout)
 /**
  * API routes
  */
+
+ app.get('/api/system/config', 
+   function (req, res, next) {
+     res.locals = res.locals || {};
+     res.locals.config = config;
+     next();
+   },
+   apiCtrl.systemConfig
+ );
 
  app.post('/api/user/create_and_login', apiCtrl.createUserAndLogin)
  app.post('/api/user/login', apiCtrl.userLogin)
@@ -271,10 +296,16 @@ app.get('/logout', usersCtrl.getLogout)
  app.get('/api/projects/:id', apiCtrl.getProject)
  app.patch('/api/projects/:id', apiCtrl.updateProject)
  app.post('/api/projects/:id', apiCtrl.updateProject)
+
  app.get('/api/project/taxonomy/skills', apiCtrl.getTaxonomySkills)
  app.get('/api/project/taxonomy/interests', apiCtrl.getTaxonomyInterests)
  app.get('/api/project/taxonomy/goals', apiCtrl.getTaxonomyGoals)
- 
+
+ app.get('/api/project/taxonomies-for-ui', apiCtrl.getTaxonomiesForUI)
+ app.get('/api/project/taxonomy/skills-for-ui', apiCtrl.getTaxonomySkillsForUI)
+ app.get('/api/project/taxonomy/interests-for-ui', apiCtrl.getTaxonomyInterestsForUI)
+ app.get('/api/project/taxonomy/goals-for-ui', apiCtrl.getTaxonomyGoalsForUI)
+
  app.get('/test/api/projects', apiCtrl.testProjects)
  app.get('/test/api/taxonomy-selector', 
    function (req, res, next) {
@@ -317,54 +348,54 @@ helpers.messagingConfigurator({
  * Meta Routes
  */
 
-app.get('/account', passportConf.isAuthenticated, usersCtrl.getAccount)
-app.post('/account/profile', passportConf.isAuthenticated, usersCtrl.postUpdateProfile)
-app.post('/account/delete', passportConf.isAuthenticated, usersCtrl.postDeleteAccount)
+app.get('/account', passportAuth.isAuthenticated, usersCtrl.getAccount)
+app.post('/account/profile', passportAuth.isAuthenticated, usersCtrl.postUpdateProfile)
+app.post('/account/delete', passportAuth.isAuthenticated, usersCtrl.postDeleteAccount)
 
 /**
  * Users routes.
  */
 app.get('/users', usersCtrl.getUsers)
 app.get('/users/manage',
-  passportConf.isAuthenticated,
-  passportConf.checkRoles(['core', 'superAdmin']),
-  passportConf.checkScopes(['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook']),
+  passportAuth.isAuthenticated,
+  passportAuth.checkRoles(['core', 'superAdmin']),
+  passportAuth.checkScopes(['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook']),
   usersCtrl.getUsersManage)
 app.post('/users/manage',
-  passportConf.isAuthenticated,
-  passportConf.checkRoles(['core', 'superAdmin']),
-  passportConf.checkScopes(['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook']),
+  passportAuth.isAuthenticated,
+  passportAuth.checkRoles(['core', 'superAdmin']),
+  passportAuth.checkScopes(['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook']),
   usersCtrl.postUsersManage)
 app.post('/users/sync',
-  passportConf.isAuthenticated,
-  passportConf.checkRoles(['core', 'superAdmin']),
-  passportConf.checkScopes(['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook']),
+  passportAuth.isAuthenticated,
+  passportAuth.checkRoles(['core', 'superAdmin']),
+  passportAuth.checkScopes(['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook']),
   usersCtrl.postUsersSync)
 app.get('/users/new',
-  passportConf.isAuthenticated,
-  passportConf.checkRoles(['core', 'superAdmin']),
-  passportConf.checkScopes(['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook']),
+  passportAuth.isAuthenticated,
+  passportAuth.checkRoles(['core', 'superAdmin']),
+  passportAuth.checkScopes(['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook']),
   usersCtrl.getUsersNew)
 app.post('/users/new',
-  passportConf.isAuthenticated,
-  passportConf.checkRoles(['core', 'superAdmin']),
-  passportConf.checkScopes(['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook']),
+  passportAuth.isAuthenticated,
+  passportAuth.checkRoles(['core', 'superAdmin']),
+  passportAuth.checkScopes(['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook']),
   usersCtrl.postUsersNew)
 app.get('/users/:userId', usersCtrl.getUsersID)
 app.post('/users/:userId',
-  passportConf.isAuthenticated,
-  passportConf.checkRoles(['core', 'superAdmin']),
-  passportConf.checkScopes(['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook']),
+  passportAuth.isAuthenticated,
+  passportAuth.checkRoles(['core', 'superAdmin']),
+  passportAuth.checkScopes(['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook']),
   usersCtrl.postUsersIDSettings)
 app.get('/users/:userId/settings',
-  passportConf.isAuthenticated,
-  passportConf.checkRoles(['core', 'superAdmin']),
-  passportConf.checkScopes(['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook']),
+  passportAuth.isAuthenticated,
+  passportAuth.checkRoles(['core', 'superAdmin']),
+  passportAuth.checkScopes(['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook']),
   usersCtrl.getUsersIDSettings)
 app.post('/users/:userId/sync',
-  passportConf.isAuthenticated,
-  passportConf.checkRoles(['core', 'superAdmin']),
-  passportConf.checkScopes(['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook']),
+  passportAuth.isAuthenticated,
+  passportAuth.checkRoles(['core', 'superAdmin']),
+  passportAuth.checkScopes(['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook']),
   usersCtrl.postUsersIDSync)
 
 /**
@@ -379,7 +410,7 @@ app.get('/auth/google', passport.authenticate('google', {
     'profile'
   ]
 }))
-app.get('/auth/google/elevate', passportConf.elevateScope)
+app.get('/auth/google/elevate', passportAuth.elevateScope)
 app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), function (req, res) {
   console.log('new google callback!', req.user.postAuthLink)
   req.user.postAuthLink = req.user.postAuthLink || ''
@@ -393,7 +424,7 @@ app.get('/auth/github', passport.authenticate('github', {
     'public_repo'
   ]
 }))
-app.get('/auth/github/elevate', passportConf.elevateScope)
+app.get('/auth/github/elevate', passportAuth.elevateScope)
 app.get('/auth/github/callback', passport.authenticate('github', { failureRedirect: '/login' }), function (req, res) {
   console.log('new github callback!', req.user.postAuthLink)
   req.user.postAuthLink = req.user.postAuthLink || ''
@@ -406,11 +437,44 @@ app.get('/auth/meetup/callback', passport.authenticate('meetup', { failureRedire
   res.redirect(req.session.returnTo || '/account')
 })
 
-app.get('/auth/disconnect/:service', passportConf.isAuthenticated, usersCtrl.disconnectService)
+app.get('/auth/disconnect/:service', passportAuth.isAuthenticated, usersCtrl.disconnectService)
 /**
  * Error Handler.
  */
 app.use(errorHandler())
+
+
+/**
+ * Check if project taxonomies exist before starting Express server
+ */
+ProjectTaxonomies.find({}, function (err, results) {
+  if (err) throw err
+  if (!results.length) {
+    //console.log('No project taxonomies found!');
+
+    // load the seed class
+    var defaultPTAttributes = require('./seeds/development/ProjectTaxonomies');
+    
+    // ProjectTaxonomies is different from the other seeds: 
+    //    this class exports a function!
+    
+    defaultPTAttributes(function (err, attributes) {
+      
+      // insert all attributes of all taxonomies... all at once
+      ProjectTaxonomies.collection.insert(attributes, function (err, output) {
+        if (err) throw err;
+        //console.log(output);
+        console.log('Inserted ' + output.insertedCount + ' attributes from the ProjectTaxonomies');
+      });
+    
+    });
+
+  } else {
+    console.log(results.length + ' attributes found for ProjectTaxonomies.')
+
+  }
+});
+
 
 /**
  * Check if project taxonomies exist before starting Express server
@@ -458,7 +522,7 @@ Projects.find({}, function (err, results) {
       console.log('load project id=' + project.id);
       console.log('load matching config ', project.matchingConfig);
       newProj = new Projects(project);
-
+      
       // save project
       newProj.save(function (err) {
         if (err) throw err;
@@ -528,8 +592,12 @@ function startServer () {
     express.static(path.resolve(__dirname, '../project-list')));
   app.use("/components/slackbot", 
     express.static(path.resolve(__dirname, '../slackbot')));
-  app.use("/components/taxonomy-selector", 
-    express.static(path.resolve(__dirname, '../taxonomy-selector/public')));
+  app.use("/components/minmaximizer", 
+    express.static(path.resolve(__dirname, '../minmaximizer/public')));
+  app.use("/components/selector", 
+    express.static(path.resolve(__dirname, '../selector_ui/public')));
+  app.use("/components/messaging", 
+    express.static(path.resolve(__dirname, '../messaging/public/messaging')));
 
   // for development
   app.locals.pretty = true; // sets jade/pug HTML to render pretty

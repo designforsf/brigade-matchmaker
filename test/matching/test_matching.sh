@@ -2,7 +2,7 @@
 
 echo "Test basic matching"
 
-BASEURL="http://localhost:5465/api/user/matches"
+BASEURL="http://localhost:5455/api/user/matches"
 
 echo
 SKILLS="javascript,ruby", GOALS="", INTERESTS=""

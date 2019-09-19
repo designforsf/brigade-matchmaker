@@ -1,0 +1,66 @@
+#minmaximizer-container .modal-header .btnGrp{
+  position: absolute;
+  top: 8px;
+  right: 10px;
+}
+
+.min {
+    width: 300px;
+    height: 35px;
+    overflow: hidden !important;
+    padding: 0px !important;
+    margin: 0px;
+
+    float: left;
+    position: static !important;
+  }
+
+.min .modal-dialog, .min .modal-content {
+    height: 100%;
+    width: 100%;
+    margin: 0px !important;
+    padding: 0px !important;
+  }
+
+.min .modal-header {
+    height: 100%;
+    width: 100%;
+    margin: 0px !important;
+    padding: 3px 5px !important;
+  }
+
+.display-none {
+  display: none;
+}
+
+#minmaximizer-button-close button, #minmaximizer-button-toggle button {
+  font-size: 16px;
+  margin-left: 2px;
+  padding:2px;
+}
+
+.min .glyphicon {
+  font-size: 14px;
+}
+
+.min .menuTab{
+  display: absolute;
+}
+
+#minmaximizer-button-close button:focus, #minmaximizer-button-toggle button:focus {
+  outline: none;
+}
+
+.minmaxCon {
+  height: 35px;
+  bottom: 1px;
+  position: fixed;
+  right: 1px;
+  z-index: 9999;
+}
+
+.modal-dialog {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
