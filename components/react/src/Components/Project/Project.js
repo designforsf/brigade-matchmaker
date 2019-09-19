@@ -3,11 +3,12 @@ import Tag from '../Tag';
 
 class Project extends React.Component {
   render() {
-    let {
-      attributes: { name, description, slackChannel, todoItems, progressItems,
-        matchingConfig: { interests, skillsNeeded, skillsOffered }
-      }
-    } = this.props;
+    let { name, description, slack_channel } = this.props;
+    let skillsNeeded = [];
+    let skillsOffered = [];
+    let interests = [];
+    let todoItems = [];
+    let progressItems = [];
     return (
       <div className="project">
       <div className="projectCols">
@@ -15,7 +16,7 @@ class Project extends React.Component {
           <h5 className="projectTitle">{name}</h5>
           <p>{description}</p>
           <p><strong>Contact Project</strong></p>
-          <p><button className="contact-button" type="button">{slackChannel}</button></p>
+          <p><button className="contact-button" type="button">{slack_channel}</button></p>
         </div>
         <div className="projectCol2">
           <h5 className="skillsHeader">Project Needs & Interests</h5>
@@ -24,20 +25,20 @@ class Project extends React.Component {
           <div className="tagContainer">
             {skillsNeeded.map(skill =>
               <Tag key={skill} text={skill} />
-              )}
+            )}
           </div>
 
           <p className="skillsCategory"><strong>Learning Opportunities:</strong></p>
           <div className="tagContainer">
             {skillsOffered.map(skill =>
-              <div className="tag" key={skill}>{skill}</div>
+              <Tag key={skill} text={skill} />
             )}
           </div>
 
           <p className="skillsCategory"><strong>Civic Interests:</strong></p>
           <div className="tagContainer">
             {interests.map(interest =>
-              <div className="tag" key={interest}>{interest}</div>
+              <Tag key={interest} text={interest} />
             )}
           </div>
 
