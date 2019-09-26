@@ -11,7 +11,7 @@ class Seeder
 
   def initialize
     self.projects = JSON.parse(
-      File.read(Rails.root.join('db', 'projects.json'))
+      File.read(Rails.root.join('db', 'projects.json')),
     ).map(&:deep_symbolize_keys)
   end
 
@@ -26,7 +26,7 @@ class Seeder
   def create_root_user!
     self.root_user = User.first || User.create!(
       email: 'admin@codeforsanfrancisco.org',
-      password: '9th&Minna'
+      password: '9th&Minna',
     )
   end
 
@@ -36,8 +36,9 @@ class Seeder
       'Skills to Learn',
       'Skills Needed',
     ].map(&:to_sym)
-    taxonomy_names.each do |taxonomy_name|
-      Taxonomy.find_or_create_by!(name: taxonomy_name)
+    taxonomy_weights = [1, 2, 2]
+    taxonomy_names.zip(taxonomy_weights).each do |taxonomy_name, weight|
+      Taxonomy.find_or_create_by!(name: taxonomy_name, weight: weight)
     end
   end
 
@@ -63,7 +64,7 @@ class Seeder
 
   def find_or_create_project!(project_attributes)
     Project.find_or_create_by!(
-      user: root_user, **project_attributes.slice(*required_project_attributes)
+      user: root_user, **project_attributes.slice(*required_project_attributes),
     )
   end
 
