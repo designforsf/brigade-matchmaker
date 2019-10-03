@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react';
+import React  from 'react';
 import Project from '../Project';
 import _ from 'lodash';
 
 const ProjectList = ({ projects, matchScores }) => {
   const sortBy = project => [-(matchScores[project.id] || 0), project.name];
-  //useEffect(() => console.log(sortBy));
   return (
     <div className="container well">
       <h1>Project List</h1>

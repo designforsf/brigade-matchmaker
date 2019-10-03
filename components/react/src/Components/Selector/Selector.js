@@ -30,12 +30,16 @@ const Selector = ({ categories, name, taxonomyId, addToMediator }) => {
   }
 
   return (
-    <div className="col-sm card card-body bg-light">
-      {selected}
-      <button type="button" className="btn btn-primary" data-toggle="modal" data-target={'#selector-modal-' + taxonomyId}>
-        Add {name}
-      </button>
-      <SelectorModal categories={categories.map(modalCategory)} name={name} key={taxonomyId} taxonomyId={taxonomyId} />
+    <div className="card">
+      <div className="card-header text-center">
+        <button type="button" className="btn btn-secondary" data-toggle="modal" data-target={'#selector-modal-' + taxonomyId}>
+          Add {name}
+        </button>
+      </div>
+      <div className="card-body">
+        {selected}
+        <SelectorModal categories={categories.map(modalCategory)} name={name} key={taxonomyId} taxonomyId={taxonomyId} />
+      </div>
     </div>
   );
 };

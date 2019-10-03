@@ -27,8 +27,7 @@ class Match
       weight = Taxonomy.find(key).weight
       matched_categories = project.categories.where(id: category_ids)
       matched_tags = project.tags.where(id: tag_ids)
-      sum = (matched_categories.count + matched_tags.count) * weight
-      sum
+      (matched_categories.count + matched_tags.count) * weight
     end
   end
 end

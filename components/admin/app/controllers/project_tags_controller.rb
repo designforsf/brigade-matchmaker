@@ -1,5 +1,6 @@
 class ProjectTagsController < ApplicationController
-  before_action :set_project_tag, only: [:show, :edit, :update, :destroy]
+  before_action :set_project
+  before_action :set_project_tag, only: %i[show edit update destroy]
 
   # GET /project_tags
   # GET /project_tags.json
@@ -62,13 +63,17 @@ class ProjectTagsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_project_tag
-      @project_tag = ProjectTag.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_project
+    @project = Project.find(params[:project_id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def project_tag_params
-      params.fetch(:project_tag, {})
-    end
+  def set_project_tag
+    @project_tag = @project.project_tags.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def project_tag_params
+    params.fetch(:project_tag, {})
+  end
 end

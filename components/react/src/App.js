@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import Header from './Components/Header';
 import ProjectList from './Components/ProjectList';
-import SelectorMediator from './Components/SelectorMediator';
+import SelectorList from './Components/SelectorList';
 
 const App = () => {
   const abortController = new AbortController();
+  const ApiUrl = process.env.API_URL || 'http://localhost:5455';
   const [isLoaded, setIsLoaded] = useState(false);
   const [projects, setProjects] = useState([]);
   const [taxonomies, setTaxonomies] = useState([]);
@@ -16,10 +17,15 @@ const App = () => {
     () => request('projects', setProjects).then(() => request('taxonomies', setTaxonomies)).then(() => setIsLoaded(true)),
     [],
   );
-  const request = (endpoint, setter) => {
-    return fetch(`http://localhost:5455/${endpoint}.json`, { signal: abortController.signal })
-      .then(result => result.json())
-      .then(setter, handleFetchError);
+
+  const request = async (endpoint, setter) => {
+    try {
+      const response = await fetch(`${ApiUrl}/${endpoint}.json`, { signal: abortController.signal })
+      const json = await response.json();
+      setter(json)
+    } catch (fetchError) {
+      handleFetchError(fetchError);
+    }
   };
 
   const handleFetchError = error => {
@@ -29,7 +35,7 @@ const App = () => {
   }
 
   const generateMatch = () => fetch(
-    'http://localhost:5455/matches.json',
+    `${ApiUrl}/matches.json`,
     {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
@@ -42,8 +48,14 @@ const App = () => {
   return (
     <div className="App">
       <Header />
-      <SelectorMediator taxonomies={taxonomies} setSelected={setSelected} />
-      <button onClick={generateMatch}>Generate Match!</button>
+      <SelectorList taxonomies={taxonomies} setSelected={setSelected} />
+      <div className="container">
+        <div className="card text-center">
+          <div className="card-body">
+            <button type="button" className="btn btn-danger" onClick={generateMatch}>Generate Match!</button>
+          </div>
+        </div>
+      </div>
       <ProjectList projects={projects} matchScores={matchScores} />
     </div>
   );

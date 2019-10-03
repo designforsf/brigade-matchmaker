@@ -1,4 +1,4 @@
-import React, { useState }  from 'react';
+import React  from 'react';
 import Selector from '../Selector';
 
 const SelectorMediator = ({ setSelected, taxonomies }) => {
@@ -13,7 +13,7 @@ const SelectorMediator = ({ setSelected, taxonomies }) => {
   return (
     <div className="container">
       <h1>Selector</h1>
-      <div className="row">
+      <div className="card-deck">
         {taxonomies.map(taxonomy =>
           <Selector
             key={taxonomy.id}
