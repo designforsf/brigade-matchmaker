@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Category Projects</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @category_projects.each do |category_project| %>
+      <tr>
+        <td><%= link_to 'Show', category_project %></td>
+        <td><%= link_to 'Edit', edit_category_project_path(category_project) %></td>
+        <td><%= link_to 'Destroy', category_project, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Category Project', new_category_project_path %>

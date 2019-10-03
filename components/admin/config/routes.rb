@@ -1,9 +1,12 @@
 Rails.application.routes.draw do
-  resources :category_tags
   resources :tasks
   resources :tags
   resources :categories
-  resources :projects
+  resources :category_tags
+  resources :projects do
+    resources :category_projects
+    resources :project_tags
+  end
   resources :taxonomies
   resources :matches, only: :create
   devise_for :users

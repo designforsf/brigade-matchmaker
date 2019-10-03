@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Header from './Components/Header';
 import ProjectList from './Components/ProjectList';
-import SelectorMediator from './Components/SelectorMediator';
+import SelectorList from './Components/SelectorList';
 
 const App = () => {
   const abortController = new AbortController();
@@ -42,8 +42,14 @@ const App = () => {
   return (
     <div className="App">
       <Header />
-      <SelectorMediator taxonomies={taxonomies} setSelected={setSelected} />
-      <button onClick={generateMatch}>Generate Match!</button>
+      <SelectorList taxonomies={taxonomies} setSelected={setSelected} />
+      <div className="container">
+        <div className="card text-center">
+          <div className="card-body">
+            <button type="button" className="btn btn-danger" onClick={generateMatch}>Generate Match!</button>
+          </div>
+        </div>
+      </div>
       <ProjectList projects={projects} matchScores={matchScores} />
     </div>
   );
