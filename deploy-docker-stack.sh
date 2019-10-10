@@ -1,4 +1,10 @@
 #!/bin/bash
+echo "Usage:"
+echo "Deploy locally (use self-signed, pregenerated SSL certs):"
+echo "  ./deploy-docker-stack.sh"
+echo "Deploy in production (use certbot to obtain SSL certs):"
+echo "  ./deploy-docker-stack.sh ./docker-compose.yml ./docker-compose.prod.yml"
+
 handle_error () {
     errcode=$? # save the exit code of the failed command
     echo "error $errcode during $BASH_COMMAND"
@@ -35,7 +41,14 @@ docker-compose down
 yes | docker-compose rm
 
 # Bring up the new stack.
-docker-compose up -d --remove-orphans
+COMPOSE_FILES=""
+if [ $# -gt 0 ]; then
+  while [ "$1" != "" ]; do
+    COMPOSE_FILES="$COMPOSE_FILES -f $1"
+    shift
+  done
+fi
+docker-compose $COMPOSE_FILES up -d --remove-orphans
 
 # Attempt to curl for $max_time seconds.
 echo "Waiting for connection from $HTTP_HOSTPORT..."
