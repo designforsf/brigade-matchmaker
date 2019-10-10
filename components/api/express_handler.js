@@ -111,7 +111,7 @@ module.exports = {
 
 
   /**
-   * createProjects
+   * createProject
    * ------------------------------------------------------
    * POST /api/project
    * Returns a json list of available projects
@@ -156,6 +156,20 @@ module.exports = {
   }, // END createProject
 
 
+  /**
+   * deleteProject
+   * ------------------------------------------------------
+   * DELETE /api/project/<MONGO_ID>
+   * Returns No Content
+   * Conforms to JSON-API
+
+   * RESPONSE:
+        https://jsonapi.org/format/#crud-deleting
+
+   * TEST:
+        http://localhost:5465/api/projects
+   */
+
   deleteProject: function (req, res, next) {
 
     var id = req.params.project_id;
@@ -166,24 +180,23 @@ module.exports = {
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
     Projects.findOne({_id: mongoose.Types.ObjectId(id)}, function (err, project) {
-
+      
       if (err) {
         res.send(err);
         return next();
       }
-
+      
       console.log('Found project id=' + project._id + ' to delete.');
-
-
+      
       Projects.deleteOne({_id: mongoose.Types.ObjectId(id)}, function (err) {
-
+        
         console.log('Deleted project id=' + project._id);
-
+        
         if (err) {
           res.send(err);
           return next();
         }
-
+        
         res.status(202);
         return next();
 
@@ -354,6 +367,41 @@ module.exports = {
 
     }, // END getProjects
 
+
+  /**
+   * updateProject
+   * ------------------------------------------------------
+   * PATCH /api/project/<MONGO_ID>
+   * Returns data and attributes
+   * Conforms to JSON-API
+
+   * RESPONSE:
+        https://jsonapi.org/format/#crud-updating
+
+   * TEST:
+        http://localhost:5465/api/projects
+   */
+
+  deleteProject: function (req, res, next) {
+
+    var updateObject = req.body; // {last_name : "smith", age: 44}
+    var id = req.params.id;
+    
+    /*
+    {
+      "data": {
+        "type": "projects",
+        "id": "...",
+        "attributes": {
+          ...
+        }
+      }
+    }
+    */
+    
+    db.users.update({_id  : ObjectId(id)}, {$set: updateObject});
+
+   }, // END deleteProject
 
   /**
    * getUserMatches

@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @taxonomy.name %>
+</p>
+<div>
+  <strong>Categories:</strong>
+  <% @taxonomy.categories.each do |category| %>
+    <%= render category %>
+  <% end %>
+</div>
+
+<%= link_to 'Edit', edit_taxonomy_path(@taxonomy) %> |
+<%= link_to 'Back', taxonomies_path %>
