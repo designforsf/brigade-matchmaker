@@ -6,3 +6,36 @@ components/web/env
 .DS_Store
 Thumbs.db
 coverage
+
+
+# Admin tool ignores
+
+# Ignore bundler config.
+/components/admin/.bundle
+
+# Ignore the default SQLite database.
+/components/admin/db/*.sqlite3
+/components/admin/db/*.sqlite3-journal
+
+# Ignore all logfiles and tempfiles.
+/components/admin/log/*
+/components/admin/tmp/*
+!/components/admin/log/.keep
+!/components/admin/tmp/.keep
+
+# Ignore uploaded files in development.
+/components/admin/storage/*
+!/components/admin/storage/.keep
+
+/components/admin/public/assets
+/components/admin/.byebug_history
+
+# Ignore master key for decrypting credentials and more.
+/components/admin/config/master.key
+
+/components/admin/public/packs
+/components/admin/public/packs-test
+/components/admin/node_modules
+/components/admin/yarn-error.log
+/components/admin/yarn-debug.log*
+/components/admin/.yarn-integrity

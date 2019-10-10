@@ -1,0 +1,232 @@
+[
+  {
+    "Civic Interests": [
+      "All"
+    ],
+    "Skills Needed": {
+      "Backend Development": [
+        "Node"
+      ],
+      "Frontend Development": [
+        "CSS",
+        "HTML",
+        "JavaScript"
+      ]
+    },
+    "Skills to Learn": {
+      "Backend Development": ["MongoDB"]
+    },
+    "additional_info": "Developing a working prototype of a Matching App for new C4SF members.",
+    "contact_name": "Jamie Pitts",
+    "contact_email": "designforsf@gmail.com",
+    "thumbnail_url": "https://cloud.githubusercontent.com/assets/451510/23977184/d371c3ba-09a9-11e7-971c-f8dc705f0f5a.png",
+    "name": "UXR Matching App - Digital Prototype",
+    "description": "Developing a working prototype of a Matching App for new C4SF members.",
+    "website_url": "http://old.codeforsanfrancisco.org/research-group/projects/NewMemberEngagement/3-3_Implementation_ProjectMatchingHat/index.html",
+    "repository_url": "https://github.com/designforsf/brigade-matchmaker",
+    "slack_channel": "research",
+    "todo_items": [
+      "Admin tool in python django",
+      "TOML importer and exporter",
+      "Dockerize the component services",
+      "Create API and UX tests"
+    ],
+    "progress_items": [
+      "UX spec finalized",
+      "Web prototype completed",
+      "Deployed prototype to staging server"
+    ]
+  },
+  {
+    "Civic Interests": [
+      "All"
+    ],
+    "Skills Needed": {
+      "Frontend Development": [
+        "CSS",
+        "HTML"
+      ]
+    },
+    "Skills to Learn": {
+      "Frontend Development": [
+        "CSS"
+      ]
+    },
+    "additional_info": "Publishing an essential reentry resource on the web for governmental use.",
+    "thumbnail_url": "https://cloud.githubusercontent.com/assets/451510/23977184/d371c3ba-09a9-11e7-971c-f8dc705f0f5a.png",
+    "name": "Roadmap to HTML",
+    "description": "Publishing an essential reentry resource on the web",
+    "website_url": "https://rootandrebound.github.io/roadmap-to-html/",
+    "repository_url": "https://github.com/rootandrebound/roadmap-to-html",
+    "slack_channel": "research",
+    "todo_items": [
+      "Admin tool in python django",
+      "TOML importer and exporter",
+      "Dockerize the component services",
+      "Create API and UX tests"
+    ],
+    "progress_items": [
+      "UX spec finalized",
+      "Web prototype completed",
+      "Deployed prototype to staging server"
+    ]
+  },
+  {
+    "Civic Interests": [
+      "Homelessness"
+    ],
+    "Skills Needed": {
+      "Mobile Development": ["iOS"]
+    },
+    "Skills to Learn": {
+      "Frontend Development": ["JavaScript"]
+    },
+    "thumbnail_url": "https://www.google.com/a/sheltertech.org/images/logo.gif?alpha=1&service=google_default",
+    "name": "ShelterTech",
+    "description": "We're building a suite of products and services for SF's homeless and underserved communities.",
+    "website_url": "http://old.codeforsanfrancisco.org/research-group/projects/NewMemberEngagement/3-3_Implementation_ProjectMatchingHat/index.html",
+    "repository_url": "https://github.com/designforsf/brigade-matchmaker",
+    "slack_channel": "research",
+    "todo_items": [
+      "Admin tool in python django",
+      "TOML importer and exporter",
+      "Dockerize the component services",
+      "Create API and UX tests"
+    ],
+    "progress_items": [
+      "UX spec finalized",
+      "Web prototype completed",
+      "Deployed prototype to staging server"
+    ]
+  },
+  {
+    "Civic Interests": [
+      "Criminal Justice"
+    ],
+    "Skills Needed": {
+      "Data Science": [
+        "Data Modeling",
+        "Predictive Modeling",
+        "Data Analysis"
+      ]
+    },
+    "thumbnail_url": "http://datascience.codeforsanfrancisco.org/wp-content/uploads/2017/03/doj-screenshot.png",
+    "name": "California OpenJustice",
+    "description": "Equity & equality in the CA criminal justice system",
+    "website_url": "https://getkong.org/install",
+    "repository_url": "https://github.com/codeforexample/forked-project-kong",
+    "slack_channel": "research",
+    "todo_items": [
+      "Admin tool in python django",
+      "TOML importer and exporter",
+      "Dockerize the component services",
+      "Create API and UX tests"
+    ],
+    "progress_items": [
+      "UX spec finalized",
+      "Web prototype completed",
+      "Deployed prototype to staging server"
+    ]
+  },
+  {
+    "Civic Interests": [
+      "Housing"
+    ],
+    "Skills Needed": {
+      "Backend Development": [
+        "Rails",
+        "Ruby"
+      ],
+      "Frontend Development": [
+        "JavaScript"
+      ]
+    },
+    "Skills to Learn": {
+      "Frontend Development": [
+        "CSS",
+        "HTML"
+      ]
+    },
+    "thumbnail_url": "http://i.imgur.com/JUmCJ5L.png",
+    "name": "Adopt-a-Drain",
+    "description": "Claim responsibility for cleaning out a storm drain after it rains.",
+    "website_url": "http://adoptadrain.sfwater.org/",
+    "repository_url": "https://github.com/sfbrigade/adopt-a-drain",
+    "slack_channel": "adopt-a-drain",
+    "todo_items": [
+      "Admin tool in python django",
+      "TOML importer and exporter",
+      "Dockerize the component services",
+      "Create API and UX tests"
+    ],
+    "progress_items": [
+      "UX spec finalized",
+      "Web prototype completed",
+      "Deployed prototype to staging server"
+    ]
+  },
+  {
+    "Civic Interests": [
+      "Community Issues"
+    ],
+    "Skills Needed": {
+      "Backend Development": [
+        "NodeJS",
+        "MongoDB"
+      ]
+    },
+    "Skills to Learn": {
+      "Marketing": ["Communications"]
+    },
+    "thumbnail_url": "https://cdn.rawgit.com/brigadehub/brigadehub/cc51c9ad/assets/rasterized/logo-square-white-blue.png",
+    "name": "Brigadehub",
+    "description": "Data portal and CMS for brigades",
+    "website_url": "https://brigadehub.github.io",
+    "repository_url": "https://github.com/brigadehub/brigadehub",
+    "slack_channel": "brigadehub",
+    "todo_items": [
+      "Admin tool in python django",
+      "TOML importer and exporter",
+      "Dockerize the component services",
+      "Create API and UX tests"
+    ],
+    "progress_items": [
+      "UX spec finalized",
+      "Web prototype completed",
+      "Deployed prototype to staging server"
+    ]
+  },
+  {
+    "Skills Needed": {
+      "Data Science": [
+        "Python",
+        "Machine Learning"
+      ],
+      "Frontend Development": [
+        "Visualization"
+      ]
+    },
+    "Skills to Learn": {
+      "Data Science": [
+        "Python"
+        ]
+    },
+    "thumbnail_url": "https://github.com/sfbrigade/data-scienceence-wg/raw/master/datascience-wg_header.jpg",
+    "name": "The Data Science Working Group",
+    "description": "I'll compress the cross-platform SMTP panel, that should program the SCSI monitor!",
+    "website_url": "http://datascience.codeforsanfrancisco.org/",
+    "repository_url": "https://github.com/codeforexample/mirrored-project-mirror",
+    "slack_channel": "research",
+    "todo_items": [
+      "Admin tool in python django",
+      "TOML importer and exporter",
+      "Dockerize the component services",
+      "Create API and UX tests"
+    ],
+    "progress_items": [
+      "UX spec finalized",
+      "Web prototype completed",
+      "Deployed prototype to staging server"
+    ]
+  }
+]
