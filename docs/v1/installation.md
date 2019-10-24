@@ -96,7 +96,7 @@ node --version
 
 ## 4. Install Node.js dependencies in the REST API, Main Website, Messaging
 
-The webapp has many dependencies that can be easily installed with the Node Package Manager. It uses [package.json](https://github.com/designforsf/brigade-matchmaker/blob/master/components/web/package.json) to know what dependencies to install. Remember to make sure to be using node v6.12.2 when installing!
+The webapp has many dependencies that can be easily installed with the Node Package Manager. It uses [package.json](https://github.com/designforsf/brigade-matchmaker/blob/master/components/main_website/package.json) to know what dependencies to install. Remember to make sure to be using node v6.12.2 when installing!
 
 In the command line terminal:
 

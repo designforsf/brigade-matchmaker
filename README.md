@@ -55,7 +55,3 @@ All interaction with the database, including CRUD operations on projects, can be
 See [docs/json-api.md](https://github.com/designforsf/brigade-matchmaker/tree/master/docs/json-api.md) for details.
 
 
-
-
-
-

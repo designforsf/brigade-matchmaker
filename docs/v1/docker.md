@@ -1,6 +1,8 @@
-**Attention new developers on the project!** - check out [docs/start-developing.md](https://github.com/designforsf/brigade-matchmaker/tree/master/docs/start-developing.md).
+**Attention new developers on the project!** - check out [docs/start-developing.md](https://github.com/designforsf/brigade-matchmaker/tree/master/docs/v1/start-developing.md).
 This explains how components are developed and walks you through the steps to get this project running. You can refer back to this page later to learn about how Docker
 starts the project.
+
+How to run the project w/o Docker? See [docs/installation.md](https://github.com/designforsf/brigade-matchmaker/tree/master/docs/v1/installation.md) for the non-docker installation instructions.
 
 # Project Match: What Happens In That Docker Container?
 
