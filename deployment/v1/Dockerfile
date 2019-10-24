@@ -8,7 +8,9 @@ RUN apt-get update && \
     build-essential python-dev python3-pip \
     curl git
 
-# Copy the current directory contents into the container at /app
+# Copy the root directory contents into the container at /app
+# This "." is evaluated within the build context, which should
+# always be the root directory of our git repo.
 ADD . /app
 
 # Set the working directory to /app
