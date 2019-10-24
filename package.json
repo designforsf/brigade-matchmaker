@@ -45,7 +45,7 @@
     "minimatch": "^3.0.4",
     "moment": "^2.11.1",
     "moment-timezone": "^0.5.3",
-    "mongoose": "^4.3.5",
+    "mongoose": "^5.7.5",
     "morgan": "^1.6.1",
     "node-sass-middleware": "^0.9.7",
     "node-uuid": "^1.4.7",
