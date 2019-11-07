@@ -1,36 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SelectorModal from '../SelectorModal';
 import Category from '../Category';
 import Tag from '../Tag';
 import _ from 'lodash';
 
-const Selector = ({ categories, name, taxonomyId }) => {
+const Selector = ({ categories, name, taxonomyId, addToMediator }) => {
   const [selected, setSelected] = useState([]);
+  useEffect(() => addToMediator(selected.map(getTagId)));
 
   const selectorCategory = (categoryName, id) =>
-    <Category categoryId={id} name={categoryName} click={() => removeCategoryFromSelected(id)} key={'category' + id} />;
+    <Category categoryId={id} name={categoryName} click={() => removeCategoryFromSelected(id)} key={`category${id}`} />;
   const selectorTag = (tagName, id) =>
-    <Tag tagId={id} name={tagName} click={() => removeTagFromSelected(id)} key={'tag' + id} />;
+    <Tag tagId={id} name={tagName} click={() => removeTagFromSelected(id)} key={`tag${id}`} />;
   const modalCategory = category =>
     <Category categoryId={category.id} name={category.name} tags={category.tags} click={addToSelected} key={`category${category.id}`} />;
 
-  const getTagId = tag => JSON.stringify(_.pick(tag.props, ['tagId', 'categoryId']));
+  const getTagId = tag => _.pick(tag.props, ['tagId', 'categoryId']);
 
   const addToSelected = (type, name, id) => {
     const tagToAdd = type === 'tag' ? selectorTag(name, id) : selectorCategory(name, id);
-    setSelected(_.uniqBy([tagToAdd, ...selected], getTagId));
+    setSelected(_.uniqBy([tagToAdd, ...selected], selectedItem => JSON.stringify(getTagId(selectedItem))));
   };
 
-  const removeTagFromSelected = id => setSelected(selected.filter(tag => tag.props.tagId !== id));
-  const removeCategoryFromSelected = id => setSelected(selected.filter(category => category.props.categoryId !== id));
+  const removeTagFromSelected = id => {
+    setSelected(selected => selected.filter(tag => tag.props.tagId !== id));
+  }
+  const removeCategoryFromSelected = id => {
+    setSelected(selected => selected.filter(category => category.props.categoryId !== id));
+  }
 
   return (
-    <div className="col-sm card card-body bg-light">
-      {selected}
-      <button type="button" className="btn btn-primary" data-toggle="modal" data-target={'#selector-modal-' + taxonomyId}>
-        Add {name}
-      </button>
-      <SelectorModal categories={categories.map(modalCategory)} name={name} key={taxonomyId} taxonomyId={taxonomyId} />
+    <div className="card">
+      <div className="card-header text-center">
+        <button type="button" className="btn btn-secondary" data-toggle="modal" data-target={'#selector-modal-' + taxonomyId}>
+          Add {name}
+        </button>
+      </div>
+      <div className="card-body">
+        {selected}
+        <SelectorModal categories={categories.map(modalCategory)} name={name} key={taxonomyId} taxonomyId={taxonomyId} />
+      </div>
     </div>
   );
 };
