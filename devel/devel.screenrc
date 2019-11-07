@@ -1,0 +1,13 @@
+sessionname project-match-v1
+
+screen -t bash bash
+screen -t git bash
+screen -t mongodb bash
+screen -t proxy bash
+screen -t api bash
+screen -t website bash
+screen -t messaging bash
+screen -t bash bash
+
+select 0
+

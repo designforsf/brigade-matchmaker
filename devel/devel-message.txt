@@ -1,0 +1,30 @@
+
+Welcome to the project-match-v1 screen session!
+
+You are now in the screen session. Try this command to navigate:
+ctrl-a "
+
+Screens that have been set up for you:
+
+screen 0 bash
+screen 1 git
+screen 2 mongodb
+screen 3 proxy
+screen 3 api
+screen 4 website
+screen 5 messaging
+screen 6 bash
+
+
+For help navigating screen, look under "Window Management" in:
+http://aperiodic.net/screen/quick_reference
+
+
+To move around these screens, try the following:
+ctrl-a 0 (ctrl-a and then the screen number)
+ctrl-a " (yep, that's a double quote)
+
+To end the session, run the following script:
+./devel/bin/stop_dev_screens.sh
+
+
