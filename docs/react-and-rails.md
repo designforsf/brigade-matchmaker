@@ -2,7 +2,7 @@
 
 The most active development of the project is currently being done using React to handle the view layer, and Ruby on Rails to manage the datatbase and provide an admin layer.
 
-The React site can be run in `components/react` with the `npm start` command onon localhost:3000.
+The React site can be run in `components/react` with the `npm start` command on localhost:3000.
 
 For the React site to load it needs to communicate with the Rails server. The first time you run Rails you should run the following from `components/admin`:
 
