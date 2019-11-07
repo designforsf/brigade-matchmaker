@@ -7,7 +7,7 @@ ENV=""
 # directory
 BINDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $BINDIR
-cd ../
+cd ../../
 DIR=`pwd`
 
 echo "Stop developing project-match-v1!"

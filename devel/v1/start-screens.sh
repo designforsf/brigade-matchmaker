@@ -7,16 +7,16 @@ ENV=""
 # directory
 BINDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $BINDIR
-cd ../
+cd ../../
 DIR=`pwd`
-
+echo $DIR
 cd $DIR
 
 echo "Start developing project match v1!"
 
 # start screen
 echo "Start a screen session"
-CMD="bash -c 'sleep 2; screen -d $SCREENID' & screen -c $DIR/devel/devel.screenrc -m"
+CMD="bash -c 'sleep 2; screen -d $SCREENID' & screen -c $DIR/devel/v1/devel.screenrc -m"
 eval $CMD
 
 # configure individual screens
@@ -65,7 +65,7 @@ eval $CMD
 # wrap up
 
 # leave a message in screen 0
-CMD="screen -S $SCREENID -p0 -X stuff \$'\03 cat $DIR/devel/devel-message.txt \015'"
+CMD="screen -S $SCREENID -p0 -X stuff \$'\03 cat $DIR/devel/v1/devel-message.txt \015'"
 eval $CMD
 
 echo "Done."

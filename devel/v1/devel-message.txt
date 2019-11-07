@@ -25,6 +25,6 @@ ctrl-a 0 (ctrl-a and then the screen number)
 ctrl-a " (yep, that's a double quote)
 
 To end the session, run the following script:
-./devel/bin/stop_dev_screens.sh
+./devel/v1/stop_dev_screens.sh
 
 
