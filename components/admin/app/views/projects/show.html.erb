@@ -1,18 +1,10 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>User:</strong>
-  <%= @project.user_id %>
-</p>
+<h3><%= @project.name %></h3>
 
 <p>
-  <strong>Name:</strong>
-  <%= @project.name %>
-</p>
-
-<p>
-  <strong>Slack channel:</strong>
-  <%= @project.slack_channel %>
+  <strong>Slack Channel:</strong>
+  #<%= @project.slack_channel %>
 </p>
 
 <p>
@@ -21,14 +13,40 @@
 </p>
 
 <p>
-  <strong>Website url:</strong>
+  <strong>Website URL:</strong>
   <%= @project.website_url %>
 </p>
 
 <p>
-  <strong>Additional info:</strong>
+  <strong>Additional Info:</strong>
   <%= @project.additional_info %>
 </p>
+
+<div class="card-deck">
+  <% Taxonomy.all.each do |taxonomy| %>
+    <div class="card">
+      <div class="card-header"><%= taxonomy.name %></div>
+      <div class="card-body">
+        <div class="card">
+          <div class="card-header">Tags</div>
+          <div class="card-body">
+            <% @project.project_tags.where(taxonomy: taxonomy).each do |project_tag| %>
+              <div class="badge badge-danger"><%= project_tag.tag.name %></div>
+            <% end %>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">Categories</div>
+          <div class="card-body">
+            <% @project.category_projects.where(taxonomy: taxonomy).each do |category_project| %>
+              <div class="badge badge-success"><%= category_project.category.name %></div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
 
 <%= link_to 'Edit', edit_project_path(@project) %> |
 <%= link_to 'Back', projects_path %>

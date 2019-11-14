@@ -1,0 +1,9 @@
+<tr>
+  <td><%= project.user&.email %></td>
+  <td><%= project.name %></td>
+  <td><%= project.slack_channel %></td>
+  <td><%= project.website_url %></td>
+  <td><%= link_to 'Show', project, class: 'badge badge-secondary' %></td>
+  <td><%= link_to 'Edit', edit_project_path(project), class: 'badge badge-primary' %></td>
+  <td><%= link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' }, class: 'badge badge-danger' %></td>
+</tr>
