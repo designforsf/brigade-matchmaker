@@ -50,9 +50,9 @@ services:
       # Nginx config file lives here.
       - ./nginx-conf:/etc/nginx/conf.d
       # Locally-generated and stored SSL keys used by nginx.
-      - ./deployment/ssl/localhost_keys/localhost.key:/etc/letsencrypt/live/localhost/privkey.pem
-      - ./deployment/ssl/localhost_keys/localhost.crt:/etc/letsencrypt/live/localhost/fullchain.pem
-      - ./deployment/ssl/dhparam/dhparam-2048.pem:/etc/ssl/certs/dhparam-2048.pem
+      - ../ssl/localhost_keys/localhost.key:/etc/letsencrypt/live/localhost/privkey.pem
+      - ../ssl/localhost_keys/localhost.crt:/etc/letsencrypt/live/localhost/fullchain.pem
+      - ../ssl/dhparam/dhparam-2048.pem:/etc/ssl/certs/dhparam-2048.pem
     restart: unless-stopped
     networks:
       - app-network
