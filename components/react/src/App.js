@@ -52,7 +52,7 @@ const App = () => {
       <div className="container">
         <div className="card text-center">
           <div className="card-body">
-            <button type="button" className="btn btn-danger" onClick={generateMatch}>Generate Match!</button>
+            <button type="button" className="btn btn-primary" onClick={generateMatch}>Generate Match!</button>
           </div>
         </div>
       </div>

@@ -1,5 +1,8 @@
 /* COLORS */
 $tag-red: #AA193A;
+$tag-green: #28a745;
+$tag-white: #fff;
+
 /* GLOBAL */
 
 body {
@@ -12,81 +15,121 @@ body {
 
 /* TEXT RENDERING */
 
-h5.projectTitle {
+h5.project-title {
   font-size: 1.5em;
   font-weight: 600;
 }
 
-h5.skillsHeader {
-  margin-top: 24px;
-  margin-bottom: 24px;
-  font-size: 1.2em;
+p.contact {
+  margin-bottom: 0px;
 }
 
-p.skillsCategory {
+div.contact {
+  margin-left: 8px;
+}
+
+p.skills-category {
   margin-bottom: 0px;
 }
 
 /* LAYOUT */
 
-div.projectCols {
+div.project-columns {
   display: grid;
   grid-gap: 10px;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   border-bottom: 1px solid lightgray;
 }
 
-div.tagContainer {
+div.tag-container {
   display: flex;
   flex-wrap: wrap;
   margin-bottom: 4px;
 }
 
-div.detailsGrid {
+div.details-grid {
   display: grid;
   grid-gap: 16px;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  border-bottom: 1px solid lightgray;
 }
 
 /* COMPONENT STYLING */
 
-div.projectCol1 {
+div.project-column-1 {
   border-right: 1px solid lightgray;
+  padding-top: 16px;
+  padding-left: 16px;
 }
 
-div.projectCol2 {
+div.project-column-2 {
+  padding-top: 16px;
+  padding-right: 16px;
+}
+
+div.project-column-right {
   padding-left: 16px;
 }
 
 div.project {
   border: 1px solid lightgray;
   box-shadow: 2px 3px 2px #ccc;
-  padding: 16px;
   margin: 8px;
   margin-bottom: 24px;
 }
 
+.tag-container {
+  padding-bottom: 4px;
+}
+
 button.contact-button {
-  background-color: lightgreen;
-  padding: 10px;
-  border: 2px solid black;
-  cursor: default;
-  border-radius: 4px;
+  background-color: $tag-green;
+  color: $tag-white;
+  padding: .375rem .75rem;
+  cursor: pointer;
+  border: 1px solid transparent;
+  border-radius: .25rem;
+  font-weight: 400;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 1rem;
+  line-height: 1.5;
 }
 
 summary {
+  padding-top: 8px;
   text-decoration: underline;
+  padding-bottom: 8px;
+  padding-left: 16px;
 }
 
 ul.details {
   border-right: 2px solid lightgray;
+  padding-right: 8px;
 }
 
-p.additionalInfo {
+
+.detailsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+
+.additional-info {
   font-size: 1em;
   padding-left: 36px;
   color: #343a40;
+}
+
+.card {
+  border: none;
+}
+
+.card-header {
+  background-color: white;
+  border-bottom: none;
+}
+
+.card-deck {
+  border-bottom: 1px solid lightgray;
 }
 
 /* TAG COMPONENT STYLING */
@@ -98,6 +141,7 @@ div.tag {
   cursor: default;
   font-family: sans-serif;
   font-size: .8em;
+  min-width: 35px;
 }
 
 .tag.clicked {

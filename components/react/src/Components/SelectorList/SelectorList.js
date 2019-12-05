@@ -12,7 +12,6 @@ const SelectorMediator = ({ setSelected, taxonomies }) => {
 
   return (
     <div className="container">
-      <h1>Selector</h1>
       <div className="card-deck">
         {taxonomies.map(taxonomy =>
           <Selector
