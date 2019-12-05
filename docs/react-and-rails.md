@@ -2,21 +2,8 @@
 
 The most active development of the project is currently being done using React to handle the view layer, and Ruby on Rails to manage the datatbase and provide an admin layer.
 
-The React site can be run in `components/react` with the `npm start` command on localhost:3000.
+The Rails/React stack uses Docker to build and deploy the application. To build the app you can run the `./build` script from the `v2_deploy` directory which will run the necessary Docker commands to build the stack.
 
-For the React site to load it needs to communicate with the Rails server. The first time you run Rails you should run the following from `components/admin`:
+After you have built the app you can use `docker-compose up` to run the app, and `docker-compose stop` to halt the process.
 
-```
-$ bundle
-$ rails db:migrate
-$ rails db:seed
-$ rails server
-```
-
-After that first time you can just run `rails server`
-
-## Versioning
-
-We are using v6.0.0 of Rails, which requires at least v2.4 of Ruby (preferably something more recent).
-
-You can install React and its dependencies with `npm install`. To take advantage of recent ESCMAScript syntax it is recommended you run at least version Node 10.16.0.
+The main page is located on `localhost:3000`, and the admin tool can be found on `localhost:5455/api`.
