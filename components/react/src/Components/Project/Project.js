@@ -49,5 +49,6 @@ const Project = ({ name, search, description, slack_channel, tasks, taxonomies, 
       </details>
     </div>
   );
+}
 
 export default Project;

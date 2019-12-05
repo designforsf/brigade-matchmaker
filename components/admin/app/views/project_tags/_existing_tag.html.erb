@@ -1,0 +1,4 @@
+<div class="badge badge-danger" id="project-tag-<%= project_tag.id %>">
+  <%= project_tag.tag.name %>
+  <%= link_to raw('&times;'), project_project_tag_path(@project, project_tag), method: :delete, remote: true, class: 'text-white' %>
+</div>

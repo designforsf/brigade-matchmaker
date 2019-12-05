@@ -1,0 +1,5 @@
+document.getElementById('project-tag-<%= "#{@project_tag.taxonomy_id}-#{@project_tag.tag_id}" %>').remove();
+document.getElementById('taxonomy-<%= @project_tag.taxonomy_id %>-tags').insertAdjacentHTML(
+  'beforeEnd',
+  `<%= render 'project_tags/existing_tag', project_tag: @project_tag %>`
+);

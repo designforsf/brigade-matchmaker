@@ -25,18 +25,26 @@
 <div class="card-deck">
   <% Taxonomy.all.each do |taxonomy| %>
     <div class="card">
-      <div class="card-header"><%= taxonomy.name %></div>
+      <div class="card-header">
+        <%= taxonomy.name %>
+      </div>
       <div class="card-body">
         <div class="card">
-          <div class="card-header">Tags</div>
-          <div class="card-body">
+          <div class="card-header">
+            Tags
+            <button class="btn btn-sm btn-primary float-right" data-toggle="modal" data-target="#tagModal_<%= taxonomy.id %>">Add</button>
+          </div>
+          <div class="card-body" id="taxonomy-<%= taxonomy.id %>-tags">
             <% @project.project_tags.where(taxonomy: taxonomy).each do |project_tag| %>
-              <div class="badge badge-danger"><%= project_tag.tag.name %></div>
+              <%= render 'project_tags/existing_tag', project_tag: project_tag %>
             <% end %>
           </div>
         </div>
         <div class="card">
-          <div class="card-header">Categories</div>
+          <div class="card-header">
+            Categories
+            <button class="btn btn-sm btn-primary float-right">Add</button>
+          </div>
           <div class="card-body">
             <% @project.category_projects.where(taxonomy: taxonomy).each do |category_project| %>
               <div class="badge badge-success"><%= category_project.category.name %></div>
@@ -45,6 +53,7 @@
         </div>
       </div>
     </div>
+    <%= render 'tag_modal', taxonomy: taxonomy %>
   <% end %>
 </div>
 
