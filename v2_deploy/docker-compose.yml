@@ -1,0 +1,28 @@
+version: '3.7'
+
+services:
+  react:
+    build:
+      context: ../components/react
+    volumes:
+      - '../components/react/:/app'
+      - '/app/node_modules'
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=development
+
+  admin:
+    build:
+      context: ../components/admin
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 5455 -b '0.0.0.0'"
+    ports:
+      - "5455:5455"
+    volumes:
+      - ../components/admin/:/usr/src/app
+      - gems:/usr/local/bundle
+      - node-modules:/usr/src/app/node_modules
+
+volumes:
+  gems:
+  node-modules:

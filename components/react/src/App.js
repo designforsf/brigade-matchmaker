@@ -5,7 +5,7 @@ import SelectorList from './Components/SelectorList';
 
 const App = () => {
   const abortController = new AbortController();
-  const ApiUrl = process.env.API_URL || 'http://localhost:5455';
+  const ApiUrl = process.env.API_URL || 'http://localhost:5455/api';
   const [isLoaded, setIsLoaded] = useState(false);
   const [projects, setProjects] = useState([]);
   const [taxonomies, setTaxonomies] = useState([]);
