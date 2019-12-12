@@ -148,3 +148,17 @@ div.tag {
   background-color: $tag-red;
   color: #FFFFFF;
 }
+
+/* FORMS */
+@media (min-width: 400px) {
+  .search-form {
+    margin-left: 30px;
+  }
+}
+
+.search {
+  margin: 8px;
+  border-radius: 8px;
+  border-width: .75px;
+  padding: 8px;
+}

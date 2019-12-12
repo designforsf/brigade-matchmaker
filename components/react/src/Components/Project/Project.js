@@ -1,7 +1,9 @@
 import React from 'react';
 import Tag from '../Tag';
 
-const Project = ({ name, description, slack_channel, tasks, taxonomies, additional_info }) => {
+const Project = ({ name, search, description, slack_channel, tasks, taxonomies, additional_info }) => {
+  if (name.toLowerCase().match(search.toLowerCase()) !== null) {
+  
   return (
     <div className="project">
       <div className="project-columns">
@@ -46,6 +48,10 @@ const Project = ({ name, description, slack_channel, tasks, taxonomies, addition
       </details>
     </div>
   );
+    {/* Very important to keep this empty div as an else statement, otherwise React will crash when it discovers there is nothing to render. */}
+  } else {
+    return <div></div>;
+  }
 }
 
 export default Project;
