@@ -45,20 +45,26 @@ eval $CMD
 
 # api
 echo "Start api"
-START_API="cd brigade-matchmaker/components/api \015
+START_API="cd $DIR/components/api \015
 nvm use v6.12.2 \015
 NODE_ENV=development node app.js \015"
-CMD="screen -S $SCREENID -p4 -X stuff \$'\03 cd $DIR/components/api \015 $START_API'"
+CMD="screen -S $SCREENID -p4 -X stuff \$'\03 $START_API'"
 eval $CMD
 
 # website
 echo "Start website"
-CMD="screen -S $SCREENID -p5 -X stuff \$'\03 cd $DIR/components/main_website \015'"
+START_WEBSITE="cd $DIR/components/main_website \015
+nvm use v6.12.2 \015
+NODE_ENV=development node app.js \015"
+CMD="screen -S $SCREENID -p5 -X stuff \$'\03 $START_WEBSITE'"
 eval $CMD
 
 # messaging
 echo "Start messaging"
-CMD="screen -S $SCREENID -p5 -X stuff \$'\03 cd $DIR/components/messaging \015'"
+START_MESSAGING="cd $DIR/components/messaging \015
+nvm use v6.12.2 \015
+NODE_ENV=development node app.js \015"
+CMD="screen -S $SCREENID -p6 -X stuff \$'\03 $START_MESSAGING'"
 eval $CMD
 
 

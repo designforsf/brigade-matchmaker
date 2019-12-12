@@ -4,14 +4,16 @@ echo "Download mongodb for developers."
 
 # defaults
 
-VERSION="3.2.3"
+VERSION="3.4.20"
 SYSTEM=""
+TARGET=""
 
 # set the system for the binaries
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
 	echo "Error: Cannot install mongodb for windows"
 elif [[ "$OSTYPE" == "darwin"* ]]; then
-	SYSTEM="osx-x86_64"
+	SYSTEM="osx"
+    TARGET="x86_64"
 elif [[ "$OSTYPE" == "win32" ]]; then
 	echo "Error: Cannot install mongodb for windows."
 else
@@ -36,6 +38,6 @@ cd $BINDIR
 cd ../
 DIR=`pwd`
 
-wget https://fastdl.mongodb.org/osx/mongodb-$SYSTEM-$VERSION.tgz
-mv mongodb-$SYSTEM-$VERSION.tgz downloads/
+wget https://fastdl.mongodb.org/osx/mongodb-$SYSTEM-ssl-$TARGET-$VERSION.tgz
+mv mongodb-$SYSTEM-ssl-$TARGET-$VERSION.tgz downloads/
 

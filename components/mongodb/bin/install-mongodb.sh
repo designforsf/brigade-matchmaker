@@ -5,14 +5,16 @@ echo "Install mongodb for developers."
 
 # defaults
 
-VERSION="3.2.3"
+VERSION="3.4.20"
 SYSTEM=""
+TARGET=""
 
 # set the system for the binaries
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
 	echo "Error: Cannot install mongodb for windows"
 elif [[ "$OSTYPE" == "darwin"* ]]; then
-	SYSTEM="osx-x86_64"
+	SYSTEM="osx"
+    TARGET="x86_64"
 elif [[ "$OSTYPE" == "win32" ]]; then
 	echo "Error: Cannot install mongodb for windows."
 else
@@ -33,11 +35,11 @@ DIR=`pwd`
 
 echo "Installing mongodb in $DIR"
 
-cp downloads/mongodb-$SYSTEM-$VERSION.tgz install/
+cp downloads/mongodb-$SYSTEM-ssl-$TARGET-$VERSION.tgz install/
 cd install
-tar -zxvf mongodb-$SYSTEM-$VERSION.tgz
+tar -zxvf mongodb-$SYSTEM-ssl-$TARGET-$VERSION.tgz
 
-mv mongodb-$SYSTEM-$VERSION ../mongodb-$VERSION
+mv mongodb-$SYSTEM-$TARGET-$VERSION ../mongodb-$VERSION
 
 cd $DIR
 

@@ -16,6 +16,7 @@ screen -S $SCREENID -X -p2 stuff $'\003'
 screen -S $SCREENID -X -p3 stuff $'\003'
 screen -S $SCREENID -X -p4 stuff $'\003'
 screen -S $SCREENID -X -p5 stuff $'\003'
+screen -S $SCREENID -X -p6 stuff $'\003'
 
 sleep 1
 
