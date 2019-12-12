@@ -2,7 +2,8 @@ import React from 'react';
 import Tag from '../Tag';
 
 const Project = ({ name, search, description, slack_channel, tasks, taxonomies, additional_info }) => {
-  if (name.toLowerCase().match(search.toLowerCase()) !== null) {
+  { /* Empty div returned if no search match */ }
+  if (name.toLowerCase().match(search.toLowerCase()) === null) return <></>;
   
   return (
     <div className="project">
@@ -48,10 +49,5 @@ const Project = ({ name, search, description, slack_channel, tasks, taxonomies, 
       </details>
     </div>
   );
-    {/* Very important to keep this empty div as an else statement, otherwise React will crash when it discovers there is nothing to render. */}
-  } else {
-    return <div></div>;
-  }
-}
 
 export default Project;

@@ -55,11 +55,7 @@ const App = () => {
           <div className="card-body">
             <button type="button" className="btn btn-primary" onClick={generateMatch}>Generate Match!</button>
           </div>
-          <form className="search-form">
-            <label>
-              <input className="search" type="text" placeholder="Search" value={searchValue} onChange={e => setSearch(e.target.value)}/>
-            </label>
-          </form> 
+          <input className="search" type="text" placeholder="Search" value={searchValue} onChange={e => setSearch(e.target.value)}/>
         </div>
       </div>
       <ProjectList projects={projects} matchScores={matchScores} search={searchValue}/>

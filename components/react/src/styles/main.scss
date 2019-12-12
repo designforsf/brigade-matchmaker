@@ -121,6 +121,7 @@ ul.details {
 
 .card {
   border: none;
+  align-items: center;
 }
 
 .card-header {
@@ -157,6 +158,7 @@ div.tag {
 }
 
 .search {
+  width: 150px;
   margin: 8px;
   border-radius: 8px;
   border-width: .75px;
