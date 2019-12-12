@@ -121,6 +121,7 @@ ul.details {
 
 .card {
   border: none;
+  align-items: center;
 }
 
 .card-header {
@@ -147,4 +148,19 @@ div.tag {
 .tag.clicked {
   background-color: $tag-red;
   color: #FFFFFF;
+}
+
+/* FORMS */
+@media (min-width: 400px) {
+  .search-form {
+    margin-left: 30px;
+  }
+}
+
+.search {
+  width: 150px;
+  margin: 8px;
+  border-radius: 8px;
+  border-width: .75px;
+  padding: 8px;
 }

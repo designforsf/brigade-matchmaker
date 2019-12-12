@@ -12,6 +12,7 @@ const App = () => {
   const [error, setError] = useState();
   const [selected, setSelected] = useState({});
   const [matchScores, setMatchScores] = useState({});
+  const [searchValue, setSearch] = useState('');
 
   useEffect(
     () => request('projects', setProjects).then(() => request('taxonomies', setTaxonomies)).then(() => setIsLoaded(true)),
@@ -54,9 +55,10 @@ const App = () => {
           <div className="card-body">
             <button type="button" className="btn btn-primary" onClick={generateMatch}>Generate Match!</button>
           </div>
+          <input className="search" type="text" placeholder="Search" value={searchValue} onChange={e => setSearch(e.target.value)}/>
         </div>
       </div>
-      <ProjectList projects={projects} matchScores={matchScores} />
+      <ProjectList projects={projects} matchScores={matchScores} search={searchValue}/>
     </div>
   );
 }
