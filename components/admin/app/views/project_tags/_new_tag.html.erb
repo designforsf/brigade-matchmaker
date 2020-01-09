@@ -1,0 +1,7 @@
+<div class="badge badge-danger" id="project-tag-<%= "#{taxonomy.id}-#{tag.id}" %>">
+  <%= tag.name %>
+  <%= link_to raw('&plus;'),
+    project_project_tags_path(@project, project_tag: { tag_id: tag.id, taxonomy_id: taxonomy.id }),
+    method: :post, remote: true, class: 'text-white'
+  %>
+</div>

@@ -91,5 +91,5 @@ class Seeder
 end
 
 ApplicationRecord.transaction do
-  Seeder.new.run!
+  Seeder.new.run! unless Taxonomy.any?
 end

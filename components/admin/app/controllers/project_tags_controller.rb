@@ -25,12 +25,13 @@ class ProjectTagsController < ApplicationController
   # POST /project_tags
   # POST /project_tags.json
   def create
-    @project_tag = ProjectTag.new(project_tag_params)
+    @project_tag = @project.project_tags.new(project_tag_params)
 
     respond_to do |format|
       if @project_tag.save
-        format.html { redirect_to @project_tag, notice: 'Project tag was successfully created.' }
-        format.json { render :show, status: :created, location: @project_tag }
+        format.html { redirect_to [@project, @project_tag], notice: 'Project tag was successfully created.' }
+        format.json { render :show, status: :created, location: [@project, @project_tag] }
+        format.js
       else
         format.html { render :new }
         format.json { render json: @project_tag.errors, status: :unprocessable_entity }
@@ -57,8 +58,9 @@ class ProjectTagsController < ApplicationController
   def destroy
     @project_tag.destroy
     respond_to do |format|
-      format.html { redirect_to project_tags_url, notice: 'Project tag was successfully destroyed.' }
+      format.html { redirect_to project_project_tags_url(@project), notice: 'Project tag was successfully destroyed.' }
       format.json { head :no_content }
+      format.js { render :delete }
     end
   end
 
@@ -74,6 +76,6 @@ class ProjectTagsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def project_tag_params
-    params.fetch(:project_tag, {})
+    params.require(:project_tag).permit(:tag_id, :taxonomy_id)
   end
 end
