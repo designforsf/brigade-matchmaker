@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_26_034423) do
+ActiveRecord::Schema.define(version: 2019_12_19_052914) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -50,15 +50,6 @@ ActiveRecord::Schema.define(version: 2019_09_26_034423) do
     t.index ["taxonomy_id"], name: "index_category_projects_on_taxonomy_id"
   end
 
-  create_table "category_tags", force: :cascade do |t|
-    t.integer "category_id", null: false
-    t.integer "tag_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["category_id"], name: "index_category_tags_on_category_id"
-    t.index ["tag_id"], name: "index_category_tags_on_tag_id"
-  end
-
   create_table "project_tags", force: :cascade do |t|
     t.integer "project_id", null: false
     t.integer "tag_id", null: false
@@ -86,6 +77,8 @@ ActiveRecord::Schema.define(version: 2019_09_26_034423) do
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "category_id", null: false
+    t.index ["category_id"], name: "index_tags_on_category_id"
   end
 
   create_table "tasks", force: :cascade do |t|
@@ -120,11 +113,10 @@ ActiveRecord::Schema.define(version: 2019_09_26_034423) do
   add_foreign_key "category_projects", "categories"
   add_foreign_key "category_projects", "projects"
   add_foreign_key "category_projects", "taxonomies"
-  add_foreign_key "category_tags", "categories"
-  add_foreign_key "category_tags", "tags"
   add_foreign_key "project_tags", "projects"
   add_foreign_key "project_tags", "tags"
   add_foreign_key "project_tags", "taxonomies"
   add_foreign_key "projects", "users"
+  add_foreign_key "tags", "categories"
   add_foreign_key "tasks", "projects"
 end

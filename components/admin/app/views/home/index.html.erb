@@ -1,0 +1,20 @@
+<h1>Brigade Matchmaker Admin</h1>
+<div class="card-deck">
+  <% unless current_user %>
+    <div class="card">
+      <div class="card-body">
+        <%= link_to 'Sign In', new_user_session_path %>
+      </div>
+    </div>
+  <% end %>
+  <div class="card">
+    <div class="card-body">
+      <%= link_to 'Manage Projects', projects_path %>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <%= link_to 'Create Categories and Tags', categories_path %>
+    </div>
+  </div>
+</div>

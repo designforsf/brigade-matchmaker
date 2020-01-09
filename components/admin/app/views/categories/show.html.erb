@@ -1,19 +1,28 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Taxonomy:</strong>
-  <%= @category.taxonomy_id %>
-</p>
+<h3><%= @category.name %></h3>
 
-<p>
-  <strong>Project:</strong>
-  <%= @category.project_id %>
-</p>
+<div class="card">
+  <div class="card-header">
+    Tags
+    <button class="btn btn-sm btn-primary float-right" data-toggle="modal" data-target="#tagModal">Add</button>
+  </div>
+  <div class="card-body">
+    <% @category.tags.each do |tag| %>
+      <div class="badge badge-danger" id="tag-<%= tag.id %>">
+        <%= tag.name %>
+        <%= link_to raw('&times;'),
+            category_tag_path(@category, tag),
+            method: :delete, remote: true, class: 'text-white'
+        %>
 
-<p>
-  <strong>Name:</strong>
-  <%= @category.name %>
-</p>
-
-<%= link_to 'Edit', edit_category_path(@category) %> |
-<%= link_to 'Back', categories_path %>
+      </div>
+    <% end %>
+  </div>
+</div>
+<hr>
+<div class="btn-group" role="group">
+  <%= link_to 'Edit', edit_category_path(@category), class: 'btn btn-warning' %>
+  <%= link_to 'Back', categories_path, class: 'btn btn-secondary' %>
+</div>
+<%= render 'tag_modal' %>
