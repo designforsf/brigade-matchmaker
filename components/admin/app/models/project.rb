@@ -25,7 +25,7 @@ class Project < ApplicationRecord
     project_tags.group_by { |project_tag| project_tag.taxonomy.name }
   end
 
-  def taxonomies
+  def taxonomies # TODO - this is sorting in reverse name order. Use a sensible ranking instead.
     grouped_categories.merge(grouped_tags).sort.reverse.to_h
   end
 end

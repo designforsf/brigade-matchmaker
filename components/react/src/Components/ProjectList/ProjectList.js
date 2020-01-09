@@ -1,13 +1,13 @@
-import React from 'react';
+import React  from 'react';
 import Project from '../Project';
 import _ from 'lodash';
 
-const ProjectList = ({ projects }) => {
+const ProjectList = ({ projects, matchScores, search }) => {
+  const sortBy = project => [-(matchScores[project.id] || 0), project.name];
   return (
     <div className="container well">
-      <h1>Project List</h1>
-      {_.sortBy(projects, project => project.name).map((project, key) =>
-        <Project key={key} {...project} />
+      {_.sortBy(projects, sortBy).map((project, key) =>
+        <Project key={key} search={search} {...project} />
       )}
     </div>
   );

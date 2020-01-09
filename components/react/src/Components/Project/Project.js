@@ -1,23 +1,26 @@
 import React from 'react';
 import Tag from '../Tag';
 
-const Project = ({ name, description, slack_channel, tasks, taxonomies, additional_info }) => {
+const Project = ({ name, search, description, slack_channel, tasks, taxonomies, additional_info }) => {
+  { /* Empty div returned if no search match */ }
+  if (name.toLowerCase().match(search.toLowerCase()) === null) return <></>;
+  
   return (
     <div className="project">
-      <div className="projectCols">
-        <div className="projectCol1">
-          <h5 className="projectTitle">{name}</h5>
+      <div className="project-columns">
+        <div className="project-column-1">
+          <h5 className="project-title">{name}</h5>
           <p>{description}</p>
           <p><strong>Contact Project</strong></p>
           <p><button className="contact-button" type="button">#{slack_channel}</button></p>
         </div>
-        <div className="projectCol2">
-          <h5 className="skillsHeader">Project Needs &amp; Interests</h5>
+        <div className="project-column-2">
+          <h5 className="skills-header">Project Needs &amp; Interests</h5>
 
           {taxonomies.map(taxonomy =>
             <div key={taxonomy.name}>
-              <p className="skillsCategory"><strong>{taxonomy.name}:</strong></p>
-              <div className="tagContainer">
+              <p className="skills-category"><strong>{taxonomy.name}:</strong></p>
+              <div className="tag-container">
                 {taxonomy.tags.map(tag =>
                   <Tag tagId={tag.id} key={'tag' + tag.id} name={tag.name} />
                 )}
@@ -40,6 +43,7 @@ const Project = ({ name, description, slack_channel, tasks, taxonomies, addition
           <div className="additional-info">
             <strong>Additional Info</strong><br />
             <p>{additional_info}</p>
+
           </div>
         </div>
       </details>

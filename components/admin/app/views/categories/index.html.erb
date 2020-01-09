@@ -15,8 +15,6 @@
   <tbody>
     <% @categories.each do |category| %>
       <tr>
-        <td><%= category.taxonomy_id %></td>
-        <td><%= category.project_id %></td>
         <td><%= category.name %></td>
         <td><%= link_to 'Show', category %></td>
         <td><%= link_to 'Edit', edit_category_path(category) %></td>
