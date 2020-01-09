@@ -35,6 +35,10 @@ const App = () => {
     setError(error);
   }
 
+  const resetSearch = () => {
+    setSearch('');
+  }
+
   const generateMatch = () => fetch(
     `${ApiUrl}/matches.json`,
     {
@@ -55,7 +59,10 @@ const App = () => {
           <div className="card-body">
             <button type="button" className="btn btn-primary" onClick={generateMatch}>Generate Match!</button>
           </div>
-          <input className="search" type="text" placeholder="Search" value={searchValue} onChange={e => setSearch(e.target.value)}/>
+          <div className="container">
+            <input className="search" type="text" placeholder="Search Projects" value={searchValue} onChange={e => setSearch(e.target.value)}/>
+            <button className="btn btn-secondary clear" onClick={resetSearch} type="button">Clear</button>
+          </div>
         </div>
       </div>
       <ProjectList projects={projects} matchScores={matchScores} search={searchValue}/>
