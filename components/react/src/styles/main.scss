@@ -164,3 +164,45 @@ div.tag {
   border-width: .75px;
   padding: 8px;
 }
+
+/* EXPERIMENT */
+.experimental-selector {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.skills-to-contribute-box {
+  border: 1px solid darkgray;
+  padding: 8px;
+  margin: 8px;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.civic-interests-box {
+  border: 1px solid darkgray;
+  padding: 8px;
+  margin: 8px;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.skills-to-learn-box {
+  border: 1px solid darkgray;
+  padding: 8px;
+  margin: 8px;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+button.add-items {
+  padding-left: 16px;
+  font-size: .8rem;
+  font-weight: 400;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #0069d9;
+}

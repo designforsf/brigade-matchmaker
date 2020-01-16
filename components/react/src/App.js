@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Header from './Components/Header';
 import ProjectList from './Components/ProjectList';
 import SelectorList from './Components/SelectorList';
+import Experiment from './Components/Experiment';
 
 const App = () => {
   const abortController = new AbortController();
@@ -53,6 +54,7 @@ const App = () => {
   return (
     <div className="App">
       <Header />
+      <Experiment />
       <SelectorList taxonomies={taxonomies} setSelected={setSelected} />
       <div className="container">
         <div className="card text-center">
