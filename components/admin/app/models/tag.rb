@@ -1,5 +1,5 @@
 class Tag < ApplicationRecord
-  has_many :category_tags
+  belongs_to :category
   has_many :project_tags
   has_many :categories, through: :category_tags
   scope :outside_project_taxonomy, ->(project, taxonomy) do

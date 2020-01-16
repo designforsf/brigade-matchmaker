@@ -84,12 +84,9 @@ class Seeder
   end
 
   def create_and_link_tag!(tag_name, category, project, taxonomy)
-    tag = Tag.find_or_create_by!(name: tag_name)
-    CategoryTag.find_or_create_by!(category: category, tag: tag)
+    tag = Tag.find_or_create_by!(name: tag_name, category: category)
     ProjectTag.find_or_create_by!(project: project, tag: tag, taxonomy: taxonomy)
   end
 end
 
-ApplicationRecord.transaction do
-  Seeder.new.run! unless Taxonomy.any?
-end
+ApplicationRecord.transaction { Seeder.new.run! } if Taxonomy.none?
