@@ -1,0 +1,5 @@
+document.getElementById('project-tag-<%= @project_tag.id %>').remove();
+document.getElementById('modal-body-<%= @project_tag.taxonomy_id %>').insertAdjacentHTML(
+  'beforeEnd',
+  `<%= render 'project_tags/new_tag', tag: @project_tag.tag, taxonomy: @project_tag.taxonomy %>`
+);

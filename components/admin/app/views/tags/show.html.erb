@@ -2,7 +2,7 @@
 
 <p>
   <strong>Category:</strong>
-  <%= @tag.category_id %>
+  <%= @tag.category&.name %>
 </p>
 
 <p>
@@ -10,5 +10,5 @@
   <%= @tag.name %>
 </p>
 
-<%= link_to 'Edit', edit_tag_path(@tag) %> |
-<%= link_to 'Back', tags_path %>
+<%= link_to 'Edit', edit_category_tag_path(@category, @tag) %> |
+<%= link_to 'Back', category_tags_path(@category) %>
