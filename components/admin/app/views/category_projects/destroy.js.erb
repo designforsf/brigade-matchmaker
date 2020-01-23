@@ -1,0 +1,9 @@
+document.getElementById('category-project-<%= @category_project.id %>').remove();
+document.getElementById('modal-body-<%= @category_project.taxonomy_id %>').insertAdjacentHTML(
+  'beforeEnd',
+  `<%=
+     render 'category_projects/new_category',
+     category: @category_project.category,
+     taxonomy: @category_project.taxonomy
+  %>`
+);
