@@ -1,0 +1,7 @@
+<div class="badge badge-success" id="category-project-<%= "#{taxonomy.id}-#{category.id}" %>">
+  <%= category.name %>
+  <%= link_to raw('&plus;'),
+    project_category_projects_path(@project, category_project: { category_id: category.id, taxonomy_id: taxonomy.id }),
+    method: :post, remote: true, class: 'text-white'
+  %>
+</div>

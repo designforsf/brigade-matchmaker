@@ -1,0 +1,5 @@
+document.getElementById('category-project-<%= "#{@category_project.taxonomy_id}-#{@category_project.category_id}" %>').remove();
+document.getElementById('taxonomy-<%= @category_project.taxonomy_id %>-categories').insertAdjacentHTML(
+  'beforeEnd',
+  `<%= render 'category_projects/existing_category', category_project: @category_project %>`
+);

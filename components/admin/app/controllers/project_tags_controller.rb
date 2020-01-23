@@ -60,7 +60,7 @@ class ProjectTagsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to project_project_tags_url(@project), notice: 'Project tag was successfully destroyed.' }
       format.json { head :no_content }
-      format.js { render :delete }
+      format.js
     end
   end
 

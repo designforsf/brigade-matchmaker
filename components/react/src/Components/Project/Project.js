@@ -2,9 +2,9 @@ import React from 'react';
 import Tag from '../Tag';
 
 const Project = ({ name, search, description, slack_channel, tasks, taxonomies, additional_info }) => {
-  { /* Empty div returned if no search match */ }
+  /* Empty div returned if no search match */
   if (name.toLowerCase().match(search.toLowerCase()) === null) return <></>;
-  
+
   return (
     <div className="project">
       <div className="project-columns">

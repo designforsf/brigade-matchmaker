@@ -1,0 +1,11 @@
+<div class="badge badge-success" id="category-project-<%= category_project.id %>">
+  <%= category_project.category.name %>
+  <%= link_to(
+        raw('&times;'),
+        project_category_project_path(@project, category_project),
+        method: :delete,
+        remote: true,
+        class: 'text-white'
+      )
+  %>
+</div>
