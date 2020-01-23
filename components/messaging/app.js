@@ -21,6 +21,7 @@ var express = require('express')
 
 // access Slack API token
 var token = process.env.SLACK_API_TOKEN || credentials.token;
+console.log('Got Slack token: ' + token);
 var web = new WebClient(token);
 
 // express app
@@ -31,7 +32,7 @@ var Config = require('../common/lib/ConfigFile.js');
 var config = (new Config({ env: global.process.env.NODE_ENV })).config;
 
 // http configurations
-app.set('port', config.web.port);
+app.set('port', config.messaging.port);
 app.use(methodOverride());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -141,7 +142,7 @@ app.post('/messaging/api/message', function (req, res) {
 
 });
 
-var server = app.listen(process.env.NODE_PORT || config.web.port, function() {
+var server = app.listen(process.env.NODE_PORT || config.messaging.port, function() {
   var host = server.address().address
   var port = server.address().port
   console.log('Express 4 server listening at http://%s:%s', host, port);

@@ -6,7 +6,7 @@ services:
       - mongo
     restart: unless-stopped
     volumes:
-      - .:/app
+      - ../../:/app
       # We exclude all the node_modules directories in our .dockerignore file, so that we don't
       # clobber local node_modules for developers who have been running this locally.
       # And, volumes are mounted at runtime, not build time.
@@ -19,13 +19,8 @@ services:
       - /app/components/api/node_modules
       - /app/components/main_website/node_modules
       - /app/components/messaging/node_modules
-      - /app/components/project-list/node_modules
-      - /app/components/admin/node_modules
-      - /app/components/common/node_modules
-      - /app/components/minmaximizer/node_modules
-      - /app/components/mongodb/node_modules
-      - /app/components/notifications/node_modules
-      - /app/components/system-proxy/node_modules
+      - /app/components/taxonomy/node_modules
+      - /app/components/models/node_modules
     networks:
       - app-network
     environment:
@@ -55,9 +50,9 @@ services:
       # Nginx config file lives here.
       - ./nginx-conf:/etc/nginx/conf.d
       # Locally-generated and stored SSL keys used by nginx.
-      - ./localhost_keys/localhost.key:/etc/letsencrypt/live/localhost/privkey.pem
-      - ./localhost_keys/localhost.crt:/etc/letsencrypt/live/localhost/fullchain.pem
-      - ./dhparam/dhparam-2048.pem:/etc/ssl/certs/dhparam-2048.pem
+      - ../ssl/localhost_keys/localhost.key:/etc/letsencrypt/live/localhost/privkey.pem
+      - ../ssl/localhost_keys/localhost.crt:/etc/letsencrypt/live/localhost/fullchain.pem
+      - ../ssl/dhparam/dhparam-2048.pem:/etc/ssl/certs/dhparam-2048.pem
     restart: unless-stopped
     networks:
       - app-network
