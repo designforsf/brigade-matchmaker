@@ -32,9 +32,9 @@ const Selector = ({ categories, name, taxonomyId, addToMediator }) => {
   return (
     <div className="card">
       <div className="card-header text-center">
-        <button type="button" className="btn btn-primary" data-toggle="modal" data-target={'#selector-modal-' + taxonomyId}>
-          Add {name}
-        </button>
+        <div className="selector-box">
+          {name} <button data-toggle="modal" className="add-items" data-target={`#selector-modal-${taxonomyId}`}>Add Item</button>
+        </div>
       </div>
       <div className="card-body">
         {selected}
