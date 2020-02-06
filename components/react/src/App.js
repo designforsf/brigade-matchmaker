@@ -52,7 +52,7 @@ const App = () => {
   if (!isLoaded) { return <div className="App"><Header />Loading...</div>; }
   return (
     <div className="App">
-      <Header />   
+      <Header />
       <SelectorList taxonomies={taxonomies} setSelected={setSelected} />
       <div className="container">
         <div className="card text-center">
