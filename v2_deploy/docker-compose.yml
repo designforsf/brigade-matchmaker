@@ -5,8 +5,8 @@ services:
     build:
       context: ../components/react
     volumes:
-      - '../components/react/:/app'
-      - '/app/node_modules'
+      - ../components/react/:/app
+      - /app/node_modules
     ports:
       - '3000:3000'
     environment:
