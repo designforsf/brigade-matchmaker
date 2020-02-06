@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import Header from './Components/Header';
 import ProjectList from './Components/ProjectList';
 import SelectorList from './Components/SelectorList';
@@ -15,7 +16,9 @@ const App = () => {
   const [searchValue, setSearch] = useState('');
 
   useEffect(
-    () => request('projects', setProjects).then(() => request('taxonomies', setTaxonomies)).then(() => setIsLoaded(true)),
+    () => request('projects', setProjects)
+      .then(() => request('taxonomies', setTaxonomies))
+      .then(() => setIsLoaded(true)),
     [],
   );
 
@@ -51,23 +54,33 @@ const App = () => {
   if (error) { return <div className="App"><Header />Error: {error.message}</div>; }
   if (!isLoaded) { return <div className="App"><Header />Loading...</div>; }
   return (
-    <div className="App">
-      <Header />
-      <SelectorList taxonomies={taxonomies} setSelected={setSelected} />
-      <div className="container">
-        <div className="card text-center">
-          <div className="card-body">
-            <button type="button" className="btn btn-primary" onClick={generateMatch}>Generate Match!</button>
+    <Router><Switch>
+        <Route exact path ="/">
+          <div className="App">
+            <Header />
+            <SelectorList taxonomies={taxonomies} setSelected={setSelected} />
+            <div className="container">
+              <div className="card text-center">
+                <div className="card-body">
+                  <button type="button" className="btn btn-primary" onClick={generateMatch}>Generate Match!</button>
+                </div>
+                <div className="container">
+                  <input
+                    className="search"
+                    type="text"
+                    placeholder="Search Projects"
+                    value={searchValue}
+                    onChange={e => setSearch(e.target.value)}
+                  />
+                  <button className="btn btn-secondary clear" onClick={resetSearch} type="button">Clear</button>
+                </div>
+              </div>
+            </div>
+            <ProjectList projects={projects} matchScores={matchScores} search={searchValue}/>
           </div>
-          <div className="container">
-            <input className="search" type="text" placeholder="Search Projects" value={searchValue} onChange={e => setSearch(e.target.value)}/>
-            <button className="btn btn-secondary clear" onClick={resetSearch} type="button">Clear</button>
-          </div>
-        </div>
-      </div>
-      <ProjectList projects={projects} matchScores={matchScores} search={searchValue}/>
-    </div>
-  );
+        </Route>
+    </Switch></Router>
+    );
 }
 
 export default App;
