@@ -12,7 +12,7 @@ const Category = ({ categoryId, name, tags, click }) => {
   return (
     <div>
       <div className="tag {clicked && 'clicked'}">
-        <h4 onClick={handleClick}>{name}</h4>
+        <div onClick={handleClick}>{name}</div>
         {tags && tags.map(tag => <Tag tagId={tag.id} name={tag.name} click={click} key={'tag' + tag.id} />)}
       </div>
     </div>

@@ -38,7 +38,6 @@ div.project-columns {
   display: grid;
   grid-gap: 10px;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  border-bottom: 1px solid lightgray;
 }
 
 div.tag-container {
@@ -53,10 +52,38 @@ div.details-grid {
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }
 
-/* COMPONENT STYLING */
+/* SELECTOR COMPONENT STYLING */
+
+.modal-body {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.modal-dialog {
+  margin-top: 45vh;
+}
+
+.selector-modal-1 {
+  padding-right: 16px;
+  padding-left: 16px;
+}
+
+.selector-modal-2 {
+  padding-right: 16px;
+  padding-left: 16px;
+}
+
+.selector-modal-3 {
+  padding-right: 16px;
+  padding-left: 16px;
+}
+
+/* PROJECT COMPONENT STYLING */
 
 div.project-column-1 {
-  border-right: 1px solid lightgray;
   padding-top: 16px;
   padding-left: 16px;
 }
@@ -103,10 +130,8 @@ summary {
 }
 
 ul.details {
-  border-right: 2px solid lightgray;
   padding-right: 8px;
 }
-
 
 .detailsGrid {
   display: grid;
@@ -124,6 +149,13 @@ ul.details {
   align-items: center;
 }
 
+.card-body {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
 .card-header {
   background-color: white;
   border-bottom: none;
@@ -134,7 +166,7 @@ ul.details {
 }
 
 /* TAG COMPONENT STYLING */
-div.tag {
+.tag {
   border: 1px solid $tag-red;
   border-radius: 4px;
   padding: 4px;
@@ -142,7 +174,8 @@ div.tag {
   cursor: default;
   font-family: sans-serif;
   font-size: .8em;
-  min-width: 35px;
+  min-width: 80px;
+  text-align: center;
 }
 
 .tag.clicked {
@@ -163,4 +196,24 @@ div.tag {
   border-radius: 8px;
   border-width: .75px;
   padding: 8px;
+}
+
+/* ADD ITEM COMPONENTS */
+
+.selector-box {
+  border: 1px solid darkgray;
+  padding: 8px;
+  margin: 8px;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+button.add-items {
+  padding-left: 16px;
+  font-size: .8rem;
+  font-weight: 400;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #0069d9;
 }
