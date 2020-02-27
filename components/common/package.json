@@ -21,7 +21,7 @@
     "dependencies": {
         "bcrypt-nodejs": "^0.0.3",
         "link-header-parser": "0.0.2",
-        "mongoose": "^5.1.7"
+        "mongoose": "^5.7.5"
     },
     "devDependencies": {
         "grunt": "^1.0.3",
