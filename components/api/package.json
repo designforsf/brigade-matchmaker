@@ -27,7 +27,7 @@
     "express": "^4.13.4",
     "express-session": "^1.11.3",
     "faker": "^3.1.0",
-    "handlebars": "^4.0.11",
+    "handlebars": "^4.3.0",
     "link-header-parser": "0.0.2",
     "method-override": "^2.3.7",
     "moment": "^2.11.1",
