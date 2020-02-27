@@ -4,14 +4,14 @@ services:
   nginx:
     volumes:
       # Mount the directory where CertBot puts its acme-challenge file.
-      - ./static-assets:/var/www/html
+      - ../ssl/certbot-acme-challenge:/var/www/html
       # Mount the directories where CertBot puts its keys.
       - certbot-etc:/etc/letsencrypt
       - certbot-var:/var/lib/letsencrypt
       # Override local nginx config with production nginx config.
       - ./prod/nginx-conf:/etc/nginx/conf.d
       # Mount the locally-generated prod Diffie-Hellman keys.
-      - ./prod/dhparam/dhparam-2048.pem:/etc/ssl/certs/dhparam-2048.pem
+      - ../ssl/prod/dhparam-2048.pem:/etc/ssl/certs/dhparam-2048.pem
   # Only in production: CertBot creates valid, real-life LetsEncrypt SSL keys.
   # See https://certbot.eff.org for details.
   certbot:

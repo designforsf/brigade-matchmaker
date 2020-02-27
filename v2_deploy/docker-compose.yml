@@ -4,13 +4,15 @@ services:
   react:
     build:
       context: ../components/react
-    volumes:
-      - '../components/react/:/app'
-      - '/app/node_modules'
+    command: sh -c "npm install; npm start"
     ports:
       - '3000:3000'
+    volumes:
+      - ../components/react/:/app
+      - /app/node_modules
     environment:
       - NODE_ENV=development
+      - SKIP_PREFLIGHT_CHECK=true
 
   admin:
     build:

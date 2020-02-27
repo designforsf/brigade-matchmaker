@@ -1,7 +1,9 @@
 /* COLORS */
-$tag-red: #AA193A;
-$tag-green: #28a745;
-$tag-white: #fff;
+:root {
+  --tag-red: #AA193A;
+  --tag-green: #28a745;
+  --tag-white: #fff;
+}
 
 /* GLOBAL */
 
@@ -109,8 +111,8 @@ div.project {
 }
 
 button.contact-button {
-  background-color: $tag-green;
-  color: $tag-white;
+  background-color: var(--tag-green);
+  color: var(--tag-white);
   padding: .375rem .75rem;
   cursor: pointer;
   border: 1px solid transparent;
@@ -167,7 +169,7 @@ ul.details {
 
 /* TAG COMPONENT STYLING */
 .tag {
-  border: 1px solid $tag-red;
+  border: 1px solid var(--tag-red);
   border-radius: 4px;
   padding: 4px;
   margin: 4px;
@@ -179,7 +181,7 @@ ul.details {
 }
 
 .tag.clicked {
-  background-color: $tag-red;
+  background-color: var(--tag-red);
   color: #FFFFFF;
 }
 

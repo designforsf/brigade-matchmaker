@@ -43,17 +43,18 @@
         <div class="card">
           <div class="card-header">
             Categories
-            <button class="btn btn-sm btn-primary float-right">Add</button>
+            <button class="btn btn-sm btn-primary float-right" data-toggle="modal" data-target="#categoryModal_<%= taxonomy.id %>">Add</button>
           </div>
-          <div class="card-body">
+          <div class="card-body" id="taxonomy-<%= taxonomy.id %>-categories">
             <% @project.category_projects.where(taxonomy: taxonomy).each do |category_project| %>
-              <div class="badge badge-success"><%= category_project.category.name %></div>
+              <%= render 'category_projects/existing_category', category_project: category_project %>
             <% end %>
           </div>
         </div>
       </div>
     </div>
     <%= render 'tag_modal', taxonomy: taxonomy %>
+    <%= render 'category_modal', taxonomy: taxonomy %>
   <% end %>
 </div>
 

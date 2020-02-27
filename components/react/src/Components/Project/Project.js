@@ -1,5 +1,5 @@
-import React from "react";
-import Tag from "../Tag";
+import React from 'react';
+import Tag from '../Tag';
 
 const Project = ({
   name,
@@ -8,11 +8,9 @@ const Project = ({
   slack_channel,
   tasks,
   taxonomies,
-  additional_info
+  additional_info,
 }) => {
-  {
-    /* Empty div returned if no search match */
-  }
+  /* Empty div returned if no search match */
   if (name.toLowerCase().match(search.toLowerCase()) === null) return <></>;
 
   return (
@@ -40,7 +38,7 @@ const Project = ({
               </p>
               <div className="tag-container">
                 {taxonomy.tags.map(tag => (
-                  <Tag tagId={tag.id} key={"tag" + tag.id} name={tag.name} />
+                  <Tag tagId={tag.id} key={'tag' + tag.id} name={tag.name} />
                 ))}
               </div>
             </div>

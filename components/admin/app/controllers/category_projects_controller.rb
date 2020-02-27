@@ -25,12 +25,13 @@ class CategoryProjectsController < ApplicationController
   # POST /category_projects
   # POST /category_projects.json
   def create
-    @category_project = CategoryProject.new(category_project_params)
+    @category_project = @project.category_projects.new(category_project_params)
 
     respond_to do |format|
       if @category_project.save
-        format.html { redirect_to @category_project, notice: 'Category project was successfully created.' }
+        format.html { redirect_to [@project, @category_project], notice: 'Category project was successfully created.' }
         format.json { render :show, status: :created, location: @category_project }
+        format.js
       else
         format.html { render :new }
         format.json { render json: @category_project.errors, status: :unprocessable_entity }
@@ -59,6 +60,7 @@ class CategoryProjectsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to category_projects_url, notice: 'Category project was successfully destroyed.' }
       format.json { head :no_content }
+      format.js
     end
   end
 
@@ -74,6 +76,6 @@ class CategoryProjectsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def category_project_params
-    params.fetch(:category_project, {})
+    params.require(:category_project).permit(:category_id, :taxonomy_id)
   end
 end
