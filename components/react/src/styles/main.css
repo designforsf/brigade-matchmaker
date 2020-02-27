@@ -66,6 +66,7 @@ div.details-grid {
 
 .modal-dialog {
   margin-top: 45vh;
+  max-width: 66%;
 }
 
 .selector-modal-1 {
@@ -164,7 +165,7 @@ ul.details {
 }
 
 .card-deck {
-  border-bottom: 1px solid lightgray;
+
 }
 
 /* TAG COMPONENT STYLING */
@@ -190,6 +191,11 @@ ul.details {
   .search-form {
     margin-left: 30px;
   }
+}
+
+.searchContainer {
+  margin-left: auto;
+  padding-right: 8px;
 }
 
 .search {
