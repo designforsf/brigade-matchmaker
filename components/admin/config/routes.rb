@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     resources :categories do
       resources :tags
     end
-      resources :projects do
+    resources :projects do
       resources :category_projects
       resources :project_tags
     end

@@ -6,7 +6,7 @@ RSpec.describe MatchesController, type: :controller do
 
   describe 'POST #create' do
     it 'creates a new Match' do
-      pending 'Need to seed the test db'
+      post :create, params: valid_attributes, session: {}
     end
   end
 end
