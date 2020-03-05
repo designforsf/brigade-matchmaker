@@ -164,10 +164,6 @@ ul.details {
   border-bottom: none;
 }
 
-.card-deck {
-
-}
-
 /* TAG COMPONENT STYLING */
 .tag {
   border: 1px solid var(--tag-red);
