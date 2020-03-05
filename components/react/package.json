@@ -21,8 +21,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "jest",
-    "lint": "eslint .",
-    "eject": "react-scripts eject"
+    "format": "prettier --write \"**/*.{js,jsx,json}\"",
+    "eject": "react-scripts eject" 
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -40,6 +40,7 @@
     "eslint-plugin-react": "^7.12.4",
     "jest-fetch-mock": "^2.1.2",
     "lodash": "^4.17.15",
+    "prettier": "^1.19.1",
     "react-test-renderer": "^16.8.4"
   }
 }

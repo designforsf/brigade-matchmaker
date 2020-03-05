@@ -1,1 +1,1 @@
-export { default } from './SelectorModal';
+export { default } from "./SelectorModal";
