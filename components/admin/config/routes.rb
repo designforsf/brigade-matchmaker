@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     end
     resources :projects do
       resources :category_projects
-      resources :project_tags
+      resources :project_tags, only: %i[index create destroy]
     end
     resources :taxonomies
     resources :matches, only: :create
