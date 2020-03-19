@@ -1,11 +1,11 @@
 require 'rails_helper'
 
-RSpec.describe ProjectTagsController, type: :controller do
+describe ProjectTagsController, type: :controller do
 
   let(:valid_attributes) { { project_id: project.id, tag_id: 1, taxonomy_id: 1 } }
   let(:project) { Project.first }
 
-  let(:invalid_attributes) { {} }
+  let(:invalid_attributes) { { project_id: 0, tag_id: 0, taxonomy_id: 0 } }
 
   let(:valid_session) { {} }
 
@@ -22,20 +22,35 @@ RSpec.describe ProjectTagsController, type: :controller do
     context 'with valid params' do
       it 'creates a new ProjectTag' do
         expect do
-          post :create, params: { project_id: project.id, project_tag: valid_attributes }, session: valid_session
+          post(
+            :create,
+            format: :json,
+            params: { project_id: project.id, project_tag: valid_attributes },
+            session: valid_session,
+          )
         end.to change(ProjectTag, :count).by(1)
       end
 
-      it 'redirects to the created project_tag' do
-        post :create, params: { project_id: project.id, project_tag: valid_attributes }, session: valid_session
-        expect(response).to redirect_to([Project.first, ProjectTag.last])
+      it 'returns a created response' do
+        post(
+          :create, 
+          format: :json, 
+          params: { project_id: project.id, project_tag: valid_attributes }, 
+          session: valid_session,
+        )
+        expect(response).to be_created
       end
     end
 
     context 'with invalid params' do
       it 'returns unprocessable entity' do
-        post :create, params: { project_id: project.id, project_tag: invalid_attributes }, session: valid_session
-        expect(response).to be_unprocessable_entity
+        post(
+          :create, 
+          format: :json,
+          params: { project_id: project.id, project_tag: invalid_attributes },
+          session: valid_session,
+        )
+        expect(response).to be_unprocessable
       end
     end
   end

@@ -2,6 +2,7 @@ class Tag < ApplicationRecord
   belongs_to :category
   has_many :project_tags
   has_many :categories, through: :category_tags
+  validates :name, presence: true
   scope :outside_project_taxonomy, ->(project, taxonomy) do
     joins(<<-SQL,
       LEFT JOIN project_tags

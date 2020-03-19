@@ -3,19 +3,15 @@ require 'rails_helper'
 describe CategoryProjectsController, type: :controller do
   login_user
 
-  let(:valid_attributes) { {} }
-
-  let(:invalid_attributes) { {} }
-
-  # This should return the minimal set of values that should be in the session
-  # in order to pass any filters (e.g. authentication) defined in
-  # CategoryProjectsController. Be sure to keep this updated too.
+  let(:project) { Project.first }
+  let(:valid_attributes) { { project_id: project.id, category_id: 1, taxonomy_id: 1 } }
+  let(:invalid_attributes) { { project_id: 0, category_id: 0, taxonomy_id: 0 } }
   let(:valid_session) { {} }
 
   describe 'GET #index' do
     it 'returns a success response' do
       CategoryProject.create! valid_attributes
-      get :index, params: {}, session: valid_session
+      get :index, params: { project_id: project.id }, session: valid_session
       expect(response).to be_successful
     end
   end
@@ -23,14 +19,14 @@ describe CategoryProjectsController, type: :controller do
   describe 'GET #show' do
     it 'returns a success response' do
       category_project = CategoryProject.create! valid_attributes
-      get :show, params: {id: category_project.to_param}, session: valid_session
+      get :show, params: { project_id: project.id, id: category_project.to_param }, session: valid_session
       expect(response).to be_successful
     end
   end
 
   describe 'GET #new' do
     it 'returns a success response' do
-      get :new, params: { project_id: 1 }, session: valid_session
+      get :new, params: { project_id: project.id }, session: valid_session
       expect(response).to be_successful
     end
   end
@@ -38,7 +34,7 @@ describe CategoryProjectsController, type: :controller do
   describe 'GET #edit' do
     it 'returns a success response' do
       category_project = CategoryProject.create! valid_attributes
-      get :edit, params: {id: category_project.to_param}, session: valid_session
+      get :edit, params: { project_id: project.id, id: category_project.to_param }, session: valid_session
       expect(response).to be_successful
     end
   end
@@ -47,46 +43,51 @@ describe CategoryProjectsController, type: :controller do
     context 'with valid params' do
       it 'creates a new CategoryProject' do
         expect {
-          post :create, params: {category_project: valid_attributes}, session: valid_session
+          post :create, params: { project_id: project.id, category_project: valid_attributes }, session: valid_session
         }.to change(CategoryProject, :count).by(1)
       end
 
       it 'redirects to the created category_project' do
-        post :create, params: {category_project: valid_attributes}, session: valid_session
-        expect(response).to redirect_to(CategoryProject.last)
+        post :create, params: { project_id: project.id, category_project: valid_attributes }, session: valid_session
+        expect(response).to redirect_to([project, CategoryProject.last])
       end
     end
 
     context 'with invalid params' do
       it 'returns a success response' do
-        post :create, params: {category_project: invalid_attributes}, session: valid_session
-        expect(response).to be_successful
+        post(
+          :create,
+          format: :json,
+          params: { project_id: project.id, category_project: invalid_attributes },
+          session: valid_session,
+        )
+        expect(response).to be_unprocessable
       end
     end
   end
 
   describe 'PUT #update' do
     context 'with valid params' do
-      let(:new_attributes) { {} }
+      let(:new_attributes) { valid_attributes }
 
       it 'updates the requested category_project' do
         category_project = CategoryProject.create! valid_attributes
-        put :update, params: {id: category_project.to_param, category_project: new_attributes}, session: valid_session
+        put :update, params: { project_id: project.id, id: category_project.to_param, category_project: new_attributes }, session: valid_session
         category_project.reload
-        expect(response).to eq({})
+        expect(category_project.project).to eq(project)
       end
 
       it 'redirects to the category_project' do
         category_project = CategoryProject.create! valid_attributes
-        put :update, params: {id: category_project.to_param, category_project: valid_attributes}, session: valid_session
-        expect(response).to redirect_to(category_project)
+        put :update, params: { project_id: project.id, id: category_project.to_param, category_project: valid_attributes }, session: valid_session
+        expect(response).to redirect_to([project, category_project])
       end
     end
 
     context 'with invalid params' do
       it 'returns a success response' do
         category_project = CategoryProject.create! valid_attributes
-        put :update, params: {id: category_project.to_param, category_project: invalid_attributes}, session: valid_session
+        put :update, params: { project_id: project.id, id: category_project.to_param, category_project: invalid_attributes }, session: valid_session
         expect(response).to be_successful
       end
     end
@@ -96,15 +97,14 @@ describe CategoryProjectsController, type: :controller do
     it 'destroys the requested category_project' do
       category_project = CategoryProject.create! valid_attributes
       expect {
-        delete :destroy, params: {id: category_project.to_param}, session: valid_session
+        delete :destroy, params: { project_id: project.id, id: category_project.to_param }, session: valid_session
       }.to change(CategoryProject, :count).by(-1)
     end
 
     it 'redirects to the category_projects list' do
       category_project = CategoryProject.create! valid_attributes
-      delete :destroy, params: {id: category_project.to_param}, session: valid_session
-      expect(response).to redirect_to(category_projects_url)
+      delete :destroy, params: { project_id: project.id, id: category_project.to_param }, session: valid_session
+      expect(response).to redirect_to(project_category_projects_url(project))
     end
   end
-
 end

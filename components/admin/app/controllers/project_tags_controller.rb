@@ -15,7 +15,7 @@ class ProjectTagsController < ApplicationController
 
     respond_to do |format|
       if @project_tag.save
-        format.json { render :show, status: :created, location: [@project, @project_tag] }
+        format.json { render :show, status: :created }
         format.js
       else
         format.json { render json: @project_tag.errors, status: :unprocessable_entity }

@@ -1,14 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe TasksController, type: :controller do
-
-  let(:valid_attributes) { {} }
-
-  let(:invalid_attributes) { {} }
-
-  # This should return the minimal set of values that should be in the session
-  # in order to pass any filters (e.g. authentication) defined in
-  # TasksController. Be sure to keep this updated too.
+describe TasksController, type: :controller do
+  login_user
+  let(:valid_attributes) { { project_id: 1 } }
+  let(:invalid_attributes) { { project_id: 0 } }
   let(:valid_session) { {} }
 
   describe 'GET #index' do
@@ -66,13 +61,13 @@ RSpec.describe TasksController, type: :controller do
 
   describe 'PUT #update' do
     context 'with valid params' do
-      let(:new_attributes) { {} }
+      let(:new_attributes) { { description: 'A new description.' } }
 
       it 'updates the requested task' do
         task = Task.create! valid_attributes
         put :update, params: {id: task.to_param, task: new_attributes}, session: valid_session
         task.reload
-        expect(response).to eq({})
+        expect(task.description).to eq('A new description.')
       end
 
       it 'redirects to the task' do
