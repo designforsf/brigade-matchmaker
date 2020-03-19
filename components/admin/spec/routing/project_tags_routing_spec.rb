@@ -3,36 +3,15 @@ require 'rails_helper'
 RSpec.describe ProjectTagsController, type: :routing do
   describe 'routing' do
     it 'routes to #index' do
-      expect(get: '/taxonomies/1/project_tags').to route_to('project_tags#index')
+      expect(get: '/api/projects/1/project_tags').to route_to('project_tags#index', project_id: '1')
     end
-
-    it 'routes to #new' do
-      expect(get: '/taxonomies/1/project_tags/new').to route_to('project_tags#new')
-    end
-
-    it 'routes to #show' do
-      expect(get: '/taxonomies/1/project_tags/1').to route_to('project_tags#show', id: '1')
-    end
-
-    it 'routes to #edit' do
-      expect(get: '/taxonomies/1/project_tags/1/edit').to route_to('project_tags#edit', id: '1')
-    end
-
 
     it 'routes to #create' do
-      expect(post: '/taxonomies/1/project_tags').to route_to('project_tags#create')
-    end
-
-    it 'routes to #update via PUT' do
-      expect(put: '/taxonomies/1/project_tags/1').to route_to('project_tags#update', id: '1')
-    end
-
-    it 'routes to #update via PATCH' do
-      expect(patch: '/taxonomies/1/project_tags/1').to route_to('project_tags#update', id: '1')
+      expect(post: '/api/projects/1/project_tags').to route_to('project_tags#create', project_id: '1')
     end
 
     it 'routes to #destroy' do
-      expect(delete: '/taxonomies/1/project_tags/1').to route_to('project_tags#destroy', id: '1')
+      expect(delete: '/api/projects/1/project_tags/1').to route_to('project_tags#destroy', project_id: '1', id: '1')
     end
   end
 end

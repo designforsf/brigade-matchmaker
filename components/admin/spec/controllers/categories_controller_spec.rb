@@ -8,7 +8,7 @@ describe CategoriesController, type: :controller do
   # adjust the attributes here as well.
   let(:valid_attributes) { { name: 'Yet another category' } }
 
-  let(:invalid_attributes) { skip('Add a hash of attributes invalid for your model') }
+  let(:invalid_attributes) { {} }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
@@ -70,15 +70,13 @@ describe CategoriesController, type: :controller do
 
   describe 'PUT #update' do
     context 'with valid params' do
-      let(:new_attributes) {
-        skip('Add a hash of attributes valid for your model')
-      }
+      let(:new_attributes) { { name: 'New Name' } }
 
       it 'updates the requested category' do
         category = Category.create! valid_attributes
         put :update, params: {id: category.to_param, category: new_attributes}, session: valid_session
         category.reload
-        skip('Add assertions for updated state')
+        expect(category.name).to eq('New Name')
       end
 
       it 'redirects to the category' do
