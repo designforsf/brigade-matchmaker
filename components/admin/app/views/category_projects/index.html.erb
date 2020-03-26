@@ -12,9 +12,9 @@
   <tbody>
     <% @category_projects.each do |category_project| %>
       <tr>
-        <td><%= link_to 'Show', category_project %></td>
-        <td><%= link_to 'Edit', edit_category_project_path(category_project) %></td>
-        <td><%= link_to 'Destroy', category_project, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show', project_category_project_path(@project, category_project) %></td>
+        <td><%= link_to 'Edit', edit_project_category_project_path(@project, category_project) %></td>
+        <td><%= link_to 'Destroy', project_category_project_path(@project, category_project), method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -22,4 +22,4 @@
 
 <br>
 
-<%= link_to 'New Category Project', new_category_project_path %>
+<%= link_to 'New Category Project', new_project_category_project_path(@project) %>

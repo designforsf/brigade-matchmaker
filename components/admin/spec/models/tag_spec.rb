@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe Tag, type: :model do
+describe Tag, type: :model do
   describe '.outside_project_taxonomy' do
-    let(:project) { Project.create!(user: User.first) }
+    let(:project) { Project.create!(user: User.first, name: 'Test Project') }
     let(:taxonomy) { Taxonomy.find_by(name: 'Skills to Learn') }
     let(:tag) { Tag.find_by(name: 'CSS') }
     before { ProjectTag.create!(taxonomy: taxonomy, project: project, tag: tag) }

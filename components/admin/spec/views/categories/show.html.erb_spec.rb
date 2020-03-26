@@ -1,18 +1,21 @@
 require 'rails_helper'
 
-RSpec.describe "categories/show", type: :view do
+describe 'categories/show', type: :view do
   before(:each) do
-    @category = assign(:category, Category.create!(
-      :taxonomy => nil,
-      :project => nil,
-      :name => "Name"
-    ))
+    @category = assign(:category, Category.create!(name: 'Category 1'))
+    @category.tags.create!(name: 'Tag 1')
+    render
   end
 
-  it "renders attributes in <p>" do
-    render
-    expect(rendered).to match(//)
-    expect(rendered).to match(//)
-    expect(rendered).to match(/Name/)
+  it 'renders an Add button to create a new tag' do
+    assert_select '.card-header>button', text: 'Add'
+  end
+
+  it 'renders a badge for each tag' do
+    assert_select '.badge-danger', text: /Tag 1/, count: 1
+  end
+
+  it 'renders a link to delete the tags' do
+    assert_select '.badge-danger>a', text: '×', count: 1
   end
 end
