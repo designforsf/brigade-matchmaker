@@ -1,6 +1,6 @@
-FROM ruby:2.6.5-alpine
+FROM ruby:2.7-alpine
 RUN apk add --update --no-cache bash build-base nodejs sqlite-dev tzdata postgresql-dev yarn less
-RUN gem install bundler:2
+RUN gem install bundler:2.1.4
 WORKDIR /usr/src/app
 COPY Gemfile Gemfile.lock package.json yarn.lock ./
 RUN yarn install --check-files

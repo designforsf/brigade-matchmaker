@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe "ProjectTags", type: :request do
-  describe "GET /project_tags" do
-    it "works! (now write some real specs)" do
-      get project_tags_path
+describe 'ProjectTags', type: :request do
+  describe 'GET /api/project/:project_id/project_tags' do
+    it 'works!' do
+      get project_project_tags_path(Project.first)
       expect(response).to have_http_status(200)
     end
   end

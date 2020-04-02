@@ -1,7 +1,0 @@
-echo "WARNING: This docker-compose config is using relative paths"
-docker-compose build
-docker-compose run admin yarn install
-docker-compose run admin bundle exec rails db:create
-docker-compose run admin bundle exec rails db:migrate
-docker-compose run admin bundle exec rails db:seed
-docker-compose up

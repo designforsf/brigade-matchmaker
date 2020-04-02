@@ -5,7 +5,7 @@ class CategoryProjectsController < ApplicationController
   # GET /category_projects
   # GET /category_projects.json
   def index
-    @category_projects = CategoryProject.all
+    @category_projects = @project.category_projects.all
   end
 
   # GET /category_projects/1
@@ -15,7 +15,7 @@ class CategoryProjectsController < ApplicationController
 
   # GET /category_projects/new
   def new
-    @category_project = CategoryProject.new
+    @category_project = @project.category_projects.new
   end
 
   # GET /category_projects/1/edit
@@ -30,7 +30,7 @@ class CategoryProjectsController < ApplicationController
     respond_to do |format|
       if @category_project.save
         format.html { redirect_to [@project, @category_project], notice: 'Category project was successfully created.' }
-        format.json { render :show, status: :created, location: @category_project }
+        format.json { render :show, status: :created, location: [@project, @category_project] }
         format.js
       else
         format.html { render :new }
@@ -44,8 +44,8 @@ class CategoryProjectsController < ApplicationController
   def update
     respond_to do |format|
       if @category_project.update(category_project_params)
-        format.html { redirect_to @category_project, notice: 'Category project was successfully updated.' }
-        format.json { render :show, status: :ok, location: @category_project }
+        format.html { redirect_to [@project, @category_project], notice: 'Category project was successfully updated.' }
+        format.json { render :show, status: :ok, location: [@project, @category_project] }
       else
         format.html { render :edit }
         format.json { render json: @category_project.errors, status: :unprocessable_entity }
@@ -58,7 +58,9 @@ class CategoryProjectsController < ApplicationController
   def destroy
     @category_project.destroy
     respond_to do |format|
-      format.html { redirect_to category_projects_url, notice: 'Category project was successfully destroyed.' }
+      format.html do
+        redirect_to project_category_projects_url(@project), notice: 'Category project was successfully destroyed.'
+      end
       format.json { head :no_content }
       format.js
     end

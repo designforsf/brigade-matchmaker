@@ -6,6 +6,7 @@ class Project < ApplicationRecord
   has_many :categories, through: :category_projects
   has_many :category_tags, through: :categories
   has_many :tags, through: :project_tags
+  validates :name, presence: true
   scope :for_json, -> do
     includes(
       :tasks,

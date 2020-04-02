@@ -1,4 +1,4 @@
-<%= form_with(model: category_project, local: true) do |form| %>
+<%= form_with(model: [@category, category_project], local: true) do |form| %>
   <% if category_project.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(category_project.errors.count, "error") %> prohibited this category_project from being saved:</h2>

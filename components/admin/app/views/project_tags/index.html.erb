@@ -12,14 +12,8 @@
   <tbody>
     <% @project_tags.each do |project_tag| %>
       <tr>
-        <td><%= link_to 'Show', project_tag %></td>
-        <td><%= link_to 'Edit', edit_project_tag_path(project_tag) %></td>
-        <td><%= link_to 'Destroy', project_tag, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Destroy', project_project_tag_path(@project, project_tag), method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<br>
-
-<%= link_to 'New Project Tag', new_project_tag_path %>

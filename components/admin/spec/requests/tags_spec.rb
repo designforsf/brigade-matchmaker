@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe "Tags", type: :request do
-  describe "GET /tags" do
-    it "works! (now write some real specs)" do
-      get tags_path
+describe 'Tags', type: :request do
+  describe 'GET /api/categories/:category_id/tags' do
+    it 'works' do
+      get category_tags_path(Category.first)
       expect(response).to have_http_status(200)
     end
   end

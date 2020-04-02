@@ -3,6 +3,7 @@ class Category < ApplicationRecord
   has_many :taxonomies, through: :category_projects
   has_many :tags
   before_destroy :check_if_destroyable!
+  validates :name, presence: true
   scope :outside_project_taxonomy, ->(project, taxonomy) do
     joins(<<-SQL,
       LEFT JOIN category_projects

@@ -5,7 +5,6 @@
 <table>
   <thead>
     <tr>
-      <th>User</th>
       <th>Project</th>
       <th>Description</th>
       <th>Completed</th>
@@ -16,7 +15,6 @@
   <tbody>
     <% @tasks.each do |task| %>
       <tr>
-        <td><%= task.user_id %></td>
         <td><%= task.project_id %></td>
         <td><%= task.description %></td>
         <td><%= task.completed %></td>
