@@ -30,7 +30,7 @@
     "handlebars": "^4.3.0",
     "link-header-parser": "0.0.2",
     "method-override": "^2.3.7",
-    "moment": "^2.11.1",
+    "moment": "^2.29.2",
     "mongoose": "^5.7.5",
     "multer": "^0.1.8",
     "path": "^0.11.14",
