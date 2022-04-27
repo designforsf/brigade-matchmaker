@@ -35,7 +35,7 @@
     },
     "keywords": [],
     "devDependencies": {
-        "grunt": "^1.0.3",
+        "grunt": "^1.5.2",
         "grunt-cli": "~v1.2.0",
         "grunt-contrib-handlebars": "^1.0.0",
         "grunt-contrib-jshint": "^1.1.0",
