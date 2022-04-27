@@ -71,7 +71,7 @@
     "chai": "^3.4.1",
     "cz-conventional-changelog": "^1.1.6",
     "ghooks": "^1.2.1",
-    "grunt": "^1.0.3",
+    "grunt": "^1.5.2",
     "grunt-contrib-jshint": "^1.1.0",
     "grunt-contrib-uglify": "^4.0.0",
     "mocha": "^5.2.0",
